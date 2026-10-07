@@ -161,6 +161,35 @@
       color: #dc3545;
       border-color: #ffffff;
     }
+    .nav-profile-btn {
+      background: #ffffff;
+      color: #0d6efd;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      padding: 7px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-profile-btn:hover {
+      background: #eef5ff;
+      color: #0867e8;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .user-pill-link {
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .user-pill-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(13, 110, 253, 0.15);
+    }
   </style>
 </head>
 <body>
@@ -175,7 +204,8 @@
           <div class="mt-brand-subtitle">Care • Support • Progress • Together</div>
         </div>
       </a>
-      <div class="d-flex align-items-center gap-3">
+      <div class="d-flex align-items-center gap-2">
+        <a href="./profile.html" class="nav-profile-btn">👤 Profile</a>
         <button id="logoutBtn" class="logout-btn">Log Out</button>
       </div>
     </div>
@@ -188,10 +218,10 @@
         <h2 id="greetingText">Welcome, User! 👋</h2>
         <p>Online Hospital & Multi Therapy Administration Portal</p>
       </div>
-      <div class="user-pill">
+      <a href="./profile.html" class="user-pill user-pill-link" title="Click to view and edit Profile">
         <span id="navUsername" class="fw-bold">User</span>
         <span id="navRole" class="user-role-badge">Admin</span>
-      </div>
+      </a>
     </div>
 
     <!-- Statistics Grid -->
