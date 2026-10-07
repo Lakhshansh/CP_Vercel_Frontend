@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Multi Therapy Management System</title>
+  <link rel="icon" href="./images/logo.png" type="image/png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <style>
+    .dashboard-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+    .welcome-banner {
+      background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+      border: 1px solid #dbeafe;
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 16px rgba(13, 110, 253, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .welcome-text h2 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0 0 6px 0;
+    }
+    .welcome-text p {
+      color: #64748b;
+      margin: 0;
+      font-size: 15px;
+    }
+    .user-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffffff;
+      padding: 8px 16px;
+      border-radius: 30px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .user-role-badge {
+      background: #0d6efd;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .stat-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 22px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(13, 110, 253, 0.12);
+      border-color: #bfdbfe;
+    }
+    .stat-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .stat-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    .stat-value {
+      font-size: 34px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.1;
+    }
+    .content-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .content-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .table thead th {
+      background: #f8fafc;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #475569;
+      border-bottom: 2px solid #e2e8f0;
+      padding: 12px 14px;
+    }
+    .table tbody td {
+      padding: 14px;
+      vertical-align: middle;
+      font-size: 14px;
+      color: #1e293b;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .status-badge.scheduled {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    .status-badge.completed {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .status-badge.cancelled {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .logout-btn {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 7px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .logout-btn:hover {
+      background: #ffffff;
+      color: #dc3545;
+      border-color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Brand Navbar -->
+  <header class="mt-navbar">
+    <div class="mt-navbar-inner d-flex justify-content-between align-items-center">
+      <a href="./dashboard.html" class="mt-brand">
+        <img src="./images/logo.png" alt="Multi Therapy Management System Logo" class="mt-logo">
+        <div class="mt-brand-text">
+          <div class="mt-brand-title">Multi Therapy Management System</div>
+          <div class="mt-brand-subtitle">Care • Support • Progress • Together</div>
+        </div>
+      </a>
+      <div class="d-flex align-items-center gap-3">
+        <button id="logoutBtn" class="logout-btn">Log Out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-container">
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+      <div class="welcome-text">
+        <h2 id="greetingText">Welcome, User! 👋</h2>
+        <p>Online Hospital & Multi Therapy Administration Portal</p>
+      </div>
+      <div class="user-pill">
+        <span id="navUsername" class="fw-bold">User</span>
+        <span id="navRole" class="user-role-badge">Admin</span>
+      </div>
+    </div>
+
+    <!-- Statistics Grid -->
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="stat-card">
+          <div>
+            <div class="stat-icon">👤</div>
+            <div class="stat-label">Patients</div>
+          </div>
+          <div class="stat-value" id="statPatients">-</div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="stat-card">
+          <div>
+            <div class="stat-icon">👨‍⚕️</div>
+            <div class="stat-label">Doctors</div>
+          </div>
+          <div class="stat-value" id="statDoctors">-</div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="stat-card">
+          <div>
+            <div class="stat-icon">🧑‍⚕️</div>
+            <div class="stat-label">Therapists</div>
+          </div>
+          <div class="stat-value" id="statTherapists">-</div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="stat-card">
+          <div>
+            <div class="stat-icon">📅</div>
+            <div class="stat-label">Appointments</div>
+          </div>
+          <div class="stat-value" id="statAppointments">-</div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="stat-card">
+          <div>
+            <div class="stat-icon">💪</div>
+            <div class="stat-label">Therapy Sessions</div>
+          </div>
+          <div class="stat-value" id="statSessions">-</div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="stat-card">
+          <div>
+            <div class="stat-icon">🎯</div>
+            <div class="stat-label">Exercise Assignments</div>
+          </div>
+          <div class="stat-value" id="statAssignments">-</div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="stat-card">
+          <div>
+            <div class="stat-icon">📊</div>
+            <div class="stat-label">Progress Reports</div>
+          </div>
+          <div class="stat-value" id="statReports">-</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Appointments -->
+    <div class="content-card">
+      <h3>📅 Recent Appointments</h3>
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Patient</th>
+              <th>Doctor</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="recentAppointmentsBody">
+            <tr>
+              <td colspan="5" class="text-center text-muted py-4">Loading appointments...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="./js/api.js"></script>
+  <script src="./js/dashboard.js"></script>
+</body>
+</html>
