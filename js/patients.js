@@ -134,9 +134,9 @@ async function loadPatients() {
             ? '<span class="verified-pill">✓ Verified</span>'
             : '<span class="not-verified-pill">Pending</span>'}
         </td>
-        <td>
-          <button type="button" class="btn-delete-patient" onclick="deletePatient(${p.patient_id})">
-            Delete
+        <td class="sticky-action">
+          <button type="button" class="btn-delete-patient" onclick="deletePatient(${p.patient_id})" title="Delete Patient Record">
+            🗑️ Delete
           </button>
         </td>
       </tr>

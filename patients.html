@@ -241,6 +241,7 @@
     /* Table */
     .table-wrap {
       overflow-x: auto;
+      position: relative;
     }
     .table thead th {
       background: #f8fafc;
@@ -248,16 +249,28 @@
       font-weight: 700;
       color: #475569;
       border-bottom: 2px solid #e2e8f0;
-      padding: 12px 14px;
+      padding: 11px 12px;
       white-space: nowrap;
     }
     .table tbody td {
-      padding: 14px;
+      padding: 12px 12px;
       vertical-align: middle;
       font-size: 14px;
       color: #1e293b;
       border-bottom: 1px solid #f1f5f9;
       white-space: nowrap;
+    }
+    .sticky-action {
+      position: sticky;
+      right: 0;
+      background: #ffffff;
+      box-shadow: -4px 0 10px rgba(0, 0, 0, 0.08);
+      z-index: 5;
+      text-align: center;
+      min-width: 105px;
+    }
+    thead th.sticky-action {
+      background: #f1f5f9 !important;
     }
     .verified-pill {
       display: inline-flex;
@@ -282,19 +295,26 @@
       font-weight: 600;
     }
     .btn-delete-patient {
-      border: 1px solid #fca5a5;
-      background: #ffffff;
-      color: #ef4444;
-      border-radius: 6px;
-      padding: 5px 12px;
-      font-size: 12px;
-      font-weight: 600;
+      border: 1px solid #dc3545;
+      background: #dc3545;
+      color: #ffffff;
+      border-radius: 8px;
+      padding: 7px 16px;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(220, 53, 69, 0.25);
     }
     .btn-delete-patient:hover {
-      background: #fee2e2;
-      border-color: #ef4444;
+      background: #b02a37;
+      border-color: #b02a37;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+      transform: translateY(-1px);
     }
 
     @media (max-width: 1200px) {
@@ -458,7 +478,7 @@
                   <th>Registration Date</th>
                   <th>Email</th>
                   <th>OTP Verified</th>
-                  <th>Action</th>
+                  <th class="sticky-action">Action</th>
                 </tr>
               </thead>
               <tbody id="patientsTableBody">
