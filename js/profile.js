@@ -121,9 +121,16 @@ function populateProfileUI(user) {
   document.getElementById("headerEmail").textContent = email;
   document.getElementById("headerRole").textContent = role;
 
+  const navUserEl = document.getElementById("navUsername");
+  if (navUserEl) navUserEl.textContent = uname;
+  const navRoleEl = document.getElementById("navRole");
+  if (navRoleEl) navRoleEl.textContent = role;
+
   const initial = (uname.charAt(0) || "U").toUpperCase();
   const avatarEl = document.getElementById("avatarInitial");
   if (avatarEl) avatarEl.textContent = initial;
+  const navAvatarEl = document.getElementById("navAvatar");
+  if (navAvatarEl) navAvatarEl.textContent = initial;
 
   setFieldText("valUsername", uname);
   setFieldText("valEmail", user.email);

@@ -28,6 +28,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (greetingEl) greetingEl.textContent = `Welcome, ${displayName}! 👋`;
   if (navUsernameEl) navUsernameEl.textContent = displayName;
   if (navRoleEl) navRoleEl.textContent = displayRole;
+  const navAvatarEl = document.getElementById("navAvatar");
+  if (navAvatarEl) {
+    navAvatarEl.textContent = (displayName.charAt(0) || "👤").toUpperCase();
+  }
 
   // Handle Logout
   const logoutBtn = document.getElementById("logoutBtn");
