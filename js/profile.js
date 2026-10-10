@@ -86,6 +86,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           previewImg.src = e.target.result;
           previewImg.style.display = "block";
         }
+        const placeholder = document.getElementById("profilePlaceholder");
+        if (placeholder) placeholder.style.display = "none";
       };
       reader.readAsDataURL(file);
     });
@@ -229,15 +231,29 @@ function populateProfileUI(user) {
 
   // Profile photo handling
   const previewImg = document.getElementById("profilePreview");
+  const placeholder = document.getElementById("profilePlaceholder");
+  const initialEl = document.getElementById("profileInitial");
   const navAvatarImg = document.getElementById("navAvatarImg");
   const navAvatar = document.getElementById("navAvatar");
+
+  const initialChar = (uname.charAt(0) || "U").toUpperCase();
+  if (initialEl) initialEl.textContent = initialChar;
 
   if (user.profile_photo) {
     const photoSrc = user.profile_photo.startsWith("http") || user.profile_photo.startsWith("data:")
       ? user.profile_photo
       : `${API_BASE_URL}/static/profile_photos/${user.profile_photo}`;
 
-    if (previewImg) previewImg.src = photoSrc;
+    if (previewImg) {
+      previewImg.src = photoSrc;
+      previewImg.style.display = "block";
+      previewImg.onerror = function () {
+        this.style.display = "none";
+        if (placeholder) placeholder.style.display = "flex";
+      };
+    }
+    if (placeholder) placeholder.style.display = "none";
+
     if (navAvatarImg) {
       navAvatarImg.src = photoSrc;
       navAvatarImg.style.display = "block";
@@ -245,16 +261,18 @@ function populateProfileUI(user) {
         this.style.display = "none";
         if (navAvatar) {
           navAvatar.style.display = "flex";
-          navAvatar.textContent = (uname.charAt(0) || "👤").toUpperCase();
+          navAvatar.textContent = initialChar;
         }
       };
       if (navAvatar) navAvatar.style.display = "none";
     }
   } else {
-    if (previewImg) previewImg.src = "./images/logo.png";
+    if (previewImg) previewImg.style.display = "none";
+    if (placeholder) placeholder.style.display = "flex";
+
     if (navAvatar) {
       navAvatar.style.display = "flex";
-      navAvatar.textContent = (uname.charAt(0) || "👤").toUpperCase();
+      navAvatar.textContent = initialChar;
     }
     if (navAvatarImg) navAvatarImg.style.display = "none";
   }

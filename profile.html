@@ -241,41 +241,82 @@
       text-align: center;
       margin: 0 auto;
     }
+    .avatar-wrapper {
+      position: relative;
+      width: 135px;
+      height: 135px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      box-shadow: 0 8px 24px rgba(13, 110, 253, 0.22);
+      border: 4px solid #ffffff;
+      background: #e9f1ff;
+    }
     .profile-photo-preview {
-      width: 130px;
-      height: 130px;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid #ffffff;
-      box-shadow: 0 8px 22px rgba(13, 110, 253, 0.22);
-      background: #e9f1ff;
       display: block;
-      margin: 0 auto 14px;
     }
-    .photo-upload-label {
-      display: block;
+    .profile-avatar-fallback {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0d6efd 0%, #0867e8 100%);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      user-select: none;
+    }
+    .avatar-camera-badge {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #0d6efd;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+      border: 3px solid #ffffff;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s ease;
+      z-index: 3;
+    }
+    .avatar-camera-badge:hover {
+      background: #0b5ed7;
+      transform: scale(1.08);
+    }
+    .photo-upload-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       width: 100%;
       background: #0d6efd;
       color: #ffffff;
       border-radius: 10px;
-      padding: 10px 12px;
-      font-weight: 700;
+      padding: 11px 16px;
+      font-weight: 600;
       cursor: pointer;
-      text-align: center;
-      font-size: 13px;
-      transition: background 0.2s ease;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      border: none;
+      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
     }
-    .photo-upload-label:hover {
+    .photo-upload-btn:hover {
       background: #0b5ed7;
-    }
-    .photo-upload-label input[type="file"] {
-      display: block;
-      width: 100%;
-      margin-top: 6px;
+      box-shadow: 0 6px 16px rgba(13, 110, 253, 0.3);
       color: #ffffff;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 11px;
     }
     .save-photo-btn {
       width: 100%;
@@ -285,23 +326,33 @@
       color: #ffffff;
       border: none;
       border-radius: 10px;
-      padding: 8px 14px;
+      padding: 10px 16px;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 14px;
       cursor: pointer;
-      display: block;
-      transition: opacity 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(25, 135, 84, 0.2);
+    }
+    .save-photo-btn:hover:not(:disabled) {
+      background: #157347;
+      box-shadow: 0 6px 16px rgba(25, 135, 84, 0.3);
     }
     .save-photo-btn:disabled {
       opacity: 0.55;
       cursor: not-allowed;
+      box-shadow: none;
     }
     .photo-file-name {
       display: block;
-      margin-top: 6px;
+      margin-top: 8px;
       font-size: 12px;
-      color: #6c757d;
+      color: #64748b;
       word-break: break-word;
+      font-style: italic;
     }
     .profile-name {
       min-width: 0;
@@ -517,32 +568,40 @@
           <!-- Profile Top -->
           <div class="profile-top">
             <div class="profile-photo-form">
-              <img
-                id="profilePreview"
-                class="profile-photo-preview"
-                src="./images/logo.png"
-                alt="Profile Photo Preview"
-              >
-              <div id="profilePlaceholder" class="profile-avatar" style="display:none;">
-                👤
+              <div class="avatar-wrapper">
+                <img
+                  id="profilePreview"
+                  class="profile-photo-preview"
+                  src=""
+                  alt=""
+                  style="display: none;"
+                >
+                <div id="profilePlaceholder" class="profile-avatar-fallback">
+                  <span id="profileInitial">U</span>
+                </div>
+                <label for="profilePhotoInput" class="avatar-camera-badge" title="Change Profile Photo">
+                  📷
+                </label>
               </div>
 
               <form id="uploadPhotoForm" enctype="multipart/form-data">
-                <label class="photo-upload-label">
-                  📸 Select Profile Photo
-                  <input
-                    type="file"
-                    id="profilePhotoInput"
-                    name="profile_photo"
-                    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
-                    required
-                  >
+                <input
+                  type="file"
+                  id="profilePhotoInput"
+                  name="profile_photo"
+                  accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                  style="display: none;"
+                  required
+                >
+
+                <label for="profilePhotoInput" class="photo-upload-btn">
+                  <span>📸</span> Select Profile Photo
                 </label>
 
                 <span id="photoFileName" class="photo-file-name">No photo selected</span>
 
                 <button type="submit" id="savePhotoBtn" class="save-photo-btn" disabled>
-                  ✅ Upload & Save Photo
+                  <span>✅</span> Upload &amp; Save Photo
                 </button>
               </form>
             </div>
