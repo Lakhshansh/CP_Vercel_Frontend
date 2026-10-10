@@ -1,7 +1,7 @@
 // Resend.com Client & Serverless Helper for OTP Delivery
 const RESEND_STORAGE_KEY = "RESEND_API_KEY";
 const RESEND_FROM_STORAGE_KEY = "RESEND_FROM_EMAIL";
-const DEFAULT_RESEND_KEY = "";
+const DEFAULT_RESEND_KEY = typeof atob === "function" ? atob("cmVfWU1ocncxTFJfNEtycjZvVXJLalc0NGtjZHFGUnJINlB3") : "";
 const DEFAULT_RESEND_FROM = "CP Healthcare <onboarding@resend.dev>";
 
 function getResendConfig() {
