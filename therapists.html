@@ -209,7 +209,8 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
     }
-    .therapist-form-grid .form-control {
+    .therapist-form-grid .form-control,
+    .therapist-form-grid .form-select {
       border: 1px solid #cbd5e1;
       border-radius: 8px;
       padding: 10px 14px;
@@ -217,7 +218,8 @@
       height: 44px;
       color: #1e293b;
     }
-    .therapist-form-grid .form-control:focus {
+    .therapist-form-grid .form-control:focus,
+    .therapist-form-grid .form-select:focus {
       border-color: #0d6efd;
       box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
     }
@@ -405,15 +407,19 @@
               </div>
 
               <div>
-                <input type="text" id="tSpecialization" class="form-control" placeholder="Specialization" list="specializationList" required>
-                <datalist id="specializationList">
-                  <option value="Physical Therapy"></option>
-                  <option value="Occupational Therapy"></option>
-                  <option value="Speech Therapy"></option>
-                  <option value="Sensory Integration"></option>
-                  <option value="Behavioral Therapy"></option>
-                  <option value="Aquatic Therapy"></option>
-                </datalist>
+                <select id="tSpecialization" class="form-select" required>
+                  <option value="" disabled selected>Select Specialization</option>
+                  <option value="Physical Therapy">Physical Therapy</option>
+                  <option value="Occupational Therapy">Occupational Therapy</option>
+                  <option value="Speech Therapy">Speech Therapy</option>
+                  <option value="Sensory Integration">Sensory Integration</option>
+                  <option value="Behavioral Therapy">Behavioral Therapy</option>
+                  <option value="Aquatic Therapy">Aquatic Therapy</option>
+                  <option value="Pediatric Physical Therapy">Pediatric Physical Therapy</option>
+                  <option value="Orthopedic Therapy">Orthopedic Therapy</option>
+                  <option value="Neurodevelopmental Therapy (NDT)">Neurodevelopmental Therapy (NDT)</option>
+                  <option value="Other">Other</option>
+                </select>
               </div>
 
               <div>
