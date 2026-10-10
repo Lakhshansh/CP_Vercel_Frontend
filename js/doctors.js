@@ -63,9 +63,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       pendingDoctorData = { name, gender, specialization, contact, email, user_id: user.user_id };
 
       sendBtn.disabled = true;
-      sendBtn.innerHTML = `<span>⏳</span> Sending OTP...`;
+      sendBtn.innerHTML = `<span>⏳</span> Generating OTP...`;
 
       try {
+        // Step 1: Request OTP from backend API
         const res = await apiRequest("/api/doctors/send-otp", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -73,24 +74,53 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         pendingDoctorToken = res.doctor_token;
+        const otpCode = res.demo_otp || res.otp;
+
+        // Step 2: Send OTP to doctor's email using Resend.com APIs
+        let resendResult = null;
+        if (otpCode && typeof sendDoctorOtpViaResend === "function") {
+          sendBtn.innerHTML = `<span>📨</span> Sending OTP via Resend...`;
+          resendResult = await sendDoctorOtpViaResend({
+            email,
+            name,
+            otp: otpCode
+          });
+        }
 
         // Populate Modal
         document.getElementById("modalTargetEmail").textContent = email;
         const noticeEl = document.getElementById("modalNoticeAlert");
         const errorEl = document.getElementById("modalErrorAlert");
+        const resendSuccessEl = document.getElementById("modalResendSuccessAlert");
         const inputEl = document.getElementById("doctorOtpInput");
 
         if (errorEl) errorEl.hidden = true;
         if (inputEl) inputEl.value = "";
 
-        if (res.demo_otp && noticeEl) {
+        if (resendResult && resendResult.success) {
+          if (resendSuccessEl) {
+            resendSuccessEl.hidden = false;
+            resendSuccessEl.innerHTML = `✅ <strong>Sent via Resend:</strong> Verification OTP delivered to <strong>${escapeHtml(email)}</strong>. Please check inbox/spam.`;
+          }
+          if (noticeEl) noticeEl.hidden = true;
+        } else if (resendResult && !resendResult.success) {
+          if (resendSuccessEl) resendSuccessEl.hidden = true;
+          if (noticeEl) {
+            noticeEl.hidden = false;
+            noticeEl.innerHTML = `⚠️ <strong>Resend Notice:</strong> ${escapeHtml(resendResult.error || "Could not dispatch via Resend.")} ${res.demo_otp ? "<br>Test verification OTP: <strong>" + res.demo_otp + "</strong>" : ""}`;
+          }
+        } else if (res.demo_otp && noticeEl) {
+          if (resendSuccessEl) resendSuccessEl.hidden = true;
           noticeEl.hidden = false;
-          noticeEl.innerHTML = `<strong>Note:</strong> SMTP delivery restricted. Your OTP is: <strong>${res.demo_otp}</strong>`;
+          noticeEl.innerHTML = `<strong>Note:</strong> Verification OTP is: <strong>${res.demo_otp}</strong>`;
         } else if (noticeEl) {
           noticeEl.hidden = true;
         }
 
-        if (otpModal) otpModal.show();
+        if (otpModal) {
+          otpModal.show();
+          setTimeout(() => { if (inputEl) inputEl.focus(); }, 400);
+        }
       } catch (err) {
         showPageAlert(err.message || "Failed to send doctor OTP.", "danger");
       } finally {
@@ -160,7 +190,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     resendBtn.addEventListener("click", async () => {
       if (!pendingDoctorData) return;
       resendBtn.disabled = true;
-      resendBtn.textContent = "Resending...";
+      resendBtn.textContent = "Resending via Resend...";
 
       try {
         const res = await apiRequest("/api/doctors/send-otp", {
@@ -170,11 +200,36 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         pendingDoctorToken = res.doctor_token;
+        const otpCode = res.demo_otp || res.otp;
+
         const noticeEl = document.getElementById("modalNoticeAlert");
         const errorEl = document.getElementById("modalErrorAlert");
+        const resendSuccessEl = document.getElementById("modalResendSuccessAlert");
         if (errorEl) errorEl.hidden = true;
 
-        if (res.demo_otp && noticeEl) {
+        let resendResult = null;
+        if (otpCode && typeof sendDoctorOtpViaResend === "function") {
+          resendResult = await sendDoctorOtpViaResend({
+            email: pendingDoctorData.email,
+            name: pendingDoctorData.name,
+            otp: otpCode
+          });
+        }
+
+        if (resendResult && resendResult.success) {
+          if (resendSuccessEl) {
+            resendSuccessEl.hidden = false;
+            resendSuccessEl.innerHTML = `✅ <strong>Sent via Resend:</strong> New OTP delivered to <strong>${escapeHtml(pendingDoctorData.email)}</strong>.`;
+          }
+          if (noticeEl) noticeEl.hidden = true;
+        } else if (resendResult && !resendResult.success) {
+          if (resendSuccessEl) resendSuccessEl.hidden = true;
+          if (noticeEl) {
+            noticeEl.hidden = false;
+            noticeEl.innerHTML = `⚠️ <strong>Resend Notice:</strong> ${escapeHtml(resendResult.error || "Email delivery failed.")} ${res.demo_otp ? "<br>New OTP: <strong>" + res.demo_otp + "</strong>" : ""}`;
+          }
+        } else if (res.demo_otp && noticeEl) {
+          if (resendSuccessEl) resendSuccessEl.hidden = true;
           noticeEl.hidden = false;
           noticeEl.innerHTML = `<strong>Note:</strong> New OTP is: <strong>${res.demo_otp}</strong>`;
         }
@@ -189,6 +244,50 @@ document.addEventListener("DOMContentLoaded", async () => {
         resendBtn.textContent = "🔄 Resend OTP";
       }
     });
+  }
+
+  // Handle Resend Settings Modal
+  const resendConfigModalEl = document.getElementById("resendConfigModal");
+  if (resendConfigModalEl && typeof getResendConfig === "function") {
+    const inputApiKey = document.getElementById("inputResendApiKey");
+    const inputFromEmail = document.getElementById("inputResendFromEmail");
+    const btnSaveResend = document.getElementById("btnSaveResendConfig");
+    const btnToggleKey = document.getElementById("btnToggleResendKey");
+    const resendAlert = document.getElementById("resendConfigAlert");
+
+    resendConfigModalEl.addEventListener("show.bs.modal", () => {
+      const cfg = getResendConfig();
+      if (inputApiKey) inputApiKey.value = cfg.apiKey || "";
+      if (inputFromEmail) inputFromEmail.value = cfg.fromEmail || "";
+      if (resendAlert) resendAlert.hidden = true;
+    });
+
+    if (btnToggleKey && inputApiKey) {
+      btnToggleKey.addEventListener("click", () => {
+        if (inputApiKey.type === "password") {
+          inputApiKey.type = "text";
+          btnToggleKey.textContent = "🔒";
+        } else {
+          inputApiKey.type = "password";
+          btnToggleKey.textContent = "👁️";
+        }
+      });
+    }
+
+    if (btnSaveResend) {
+      btnSaveResend.addEventListener("click", () => {
+        const apiKey = inputApiKey ? inputApiKey.value.trim() : "";
+        const fromEmail = inputFromEmail ? inputFromEmail.value.trim() : "";
+        saveResendConfig(apiKey, fromEmail);
+
+        if (resendAlert) {
+          resendAlert.hidden = false;
+          resendAlert.className = "alert alert-success py-2 small mb-3";
+          resendAlert.textContent = "✓ Resend settings saved successfully!";
+          setTimeout(() => { resendAlert.hidden = true; }, 3000);
+        }
+      });
+    }
   }
 
   function showPageAlert(message, type = "success") {

@@ -424,8 +424,11 @@
 
       <!-- Main Content Area -->
       <main class="col-12 col-md-9 col-lg-10 main-page">
-        <div class="page-header">
+        <div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-2">
           <h1>Doctors</h1>
+          <button type="button" class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-1 shadow-sm" data-bs-toggle="modal" data-bs-target="#resendConfigModal" title="Configure Resend.com API Key">
+            <span>⚡</span> <span>Resend API Settings</span>
+          </button>
         </div>
 
         <div id="doctorAlert" class="alert alert-success mb-3" hidden></div>
@@ -477,8 +480,11 @@
             <button type="submit" id="btnSendDoctorOtp" class="btn-send-otp">
               <span>📧</span> Send OTP &amp; Add Doctor
             </button>
-            <div class="form-note">
-              Doctor details are saved only after email OTP verification. OTP is valid for 10 minutes.
+            <div class="form-note d-flex justify-content-between align-items-center flex-wrap gap-2">
+              <span>Doctor details are saved only after email OTP verification. OTP is valid for 10 minutes.</span>
+              <span class="badge bg-light text-primary border" style="font-weight: 500;">
+                ⚡ Sent via Resend.com API
+              </span>
             </div>
           </form>
         </div>
@@ -525,6 +531,7 @@
             <strong id="modalTargetEmail" class="text-primary fs-6"></strong>
           </p>
 
+          <div id="modalResendSuccessAlert" class="alert alert-success py-2 small mb-3" hidden></div>
           <div id="modalNoticeAlert" class="alert alert-info py-2 small mb-3" hidden></div>
           <div id="modalErrorAlert" class="alert alert-danger py-2 small mb-3" hidden></div>
 
@@ -550,8 +557,53 @@
     </div>
   </div>
 
+  <!-- Resend Configuration Modal -->
+  <div class="modal fade" id="resendConfigModal" tabindex="-1" aria-labelledby="resendConfigModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title fw-bold" id="resendConfigModalLabel">⚡ Resend.com Email Settings</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <p class="text-secondary small mb-3">
+            Configure your Resend.com credentials to deliver doctor verification OTP codes directly to their email address.
+          </p>
+
+          <div id="resendConfigAlert" class="alert alert-success py-2 small mb-3" hidden></div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-secondary">Resend API Key</label>
+            <div class="input-group">
+              <input type="password" id="inputResendApiKey" class="form-control font-monospace" placeholder="re_123456789...">
+              <button class="btn btn-outline-secondary" type="button" id="btnToggleResendKey" title="Toggle visibility">👁️</button>
+            </div>
+            <div class="form-text small text-muted">
+              Get an API key from <a href="https://resend.com/api-keys" target="_blank" rel="noopener" class="text-decoration-none">resend.com/api-keys</a>. On Vercel deployments, this is loaded from the <code>RESEND_API_KEY</code> environment variable.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-secondary">Sender "From" Email</label>
+            <input type="text" id="inputResendFromEmail" class="form-control" placeholder="CP Healthcare <onboarding@resend.dev>">
+            <div class="form-text small text-muted">
+              Defaults to <code>CP Healthcare &lt;onboarding@resend.dev&gt;</code>. If you verified a domain in Resend, you can use your domain address (e.g. <code>no-reply@yourdomain.com</code>).
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" id="btnSaveResendConfig" class="btn btn-primary px-4 fw-semibold">
+            Save Settings
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./js/api.js"></script>
+  <script src="./js/resend.js"></script>
   <script src="./js/doctors.js"></script>
 </body>
 </html>
