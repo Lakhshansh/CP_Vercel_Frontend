@@ -1,0 +1,1151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patient Login - Multi Therapy Management System</title>
+  <meta name="description" content="Access your Multi Therapy Management System patient account to book appointments, view personalized therapy sessions, track clinical milestones, and connect with caring doctors.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Landing Design System -->
+  <link rel="stylesheet" href="./css/landing.css?v=2.0">
+
+  <style>
+    /* ==========================================================================
+       PATIENT LOGIN PAGE DEDICATED STYLING
+       ========================================================================== */
+    :root {
+      --pt-blue-primary: #0d6efd;
+      --pt-blue-dark: #0b5ed7;
+      --pt-blue-light: #e0f2fe;
+      --pt-blue-soft: #f0f7ff;
+      --pt-navy: #103463;
+      --pt-text-main: #1e293b;
+      --pt-text-muted: #64748b;
+      --pt-border: #e2e8f0;
+      --pt-card-bg: #ffffff;
+      --pt-radius-lg: 26px;
+      --pt-radius-md: 14px;
+      --pt-radius-sm: 8px;
+    }
+
+    body {
+      background-color: #f7fbfe;
+      color: var(--pt-text-main);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Outer Wrapper */
+    .patient-page-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+      position: relative;
+      background: radial-gradient(circle at 10% 20%, rgba(13, 110, 253, 0.06) 0%, transparent 45%),
+                  radial-gradient(circle at 90% 80%, rgba(2, 132, 199, 0.07) 0%, transparent 45%),
+                  #f7fbfe;
+    }
+
+    /* Ambient Background Subtle Blobs */
+    .patient-ambient-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .patient-blob-1 {
+      width: 420px;
+      height: 420px;
+      background: rgba(13, 110, 253, 0.05);
+      top: -60px;
+      left: -80px;
+    }
+    .patient-blob-2 {
+      width: 480px;
+      height: 480px;
+      background: rgba(56, 189, 248, 0.06);
+      bottom: -80px;
+      right: -80px;
+    }
+
+    /* Two-Column Responsive Layout Container */
+    .patient-layout-container {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 52px;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* --------------------------------------------------------------------------
+       LEFT INFORMATION COLUMN
+       -------------------------------------------------------------------------- */
+    .patient-info-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Welcome Pill */
+    .patient-welcome-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--pt-blue-light);
+      color: #0284c7;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      width: fit-content;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.08);
+    }
+
+    .patient-welcome-badge svg {
+      color: #0284c7;
+    }
+
+    /* Main Title */
+    .patient-hero-title {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--pt-navy);
+      line-height: 1.15;
+      letter-spacing: -0.6px;
+      margin: 0 0 12px 0;
+    }
+
+    .patient-hero-title span {
+      color: var(--pt-blue-primary);
+    }
+
+    /* Subtitle Description */
+    .patient-hero-subtitle {
+      font-size: 16px;
+      color: var(--pt-text-muted);
+      line-height: 1.6;
+      margin: 0 0 24px 0;
+      max-width: 490px;
+    }
+
+    /* Handwritten Slogan Box */
+    .patient-slogan-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Caveat', cursive;
+      font-size: 27px;
+      font-weight: 700;
+      color: #0284c7;
+      margin-bottom: 24px;
+    }
+
+    .patient-slogan-heart {
+      color: #e11d48;
+      display: inline-block;
+      animation: heartbeat 2s infinite ease-in-out;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.22); }
+    }
+
+    /* Healthcare Illustration / Patient Session Badge */
+    .patient-illustration-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: 18px;
+      padding: 14px 18px;
+      margin-bottom: 26px;
+      box-shadow: 0 8px 24px rgba(16, 52, 99, 0.05);
+      max-width: 490px;
+    }
+
+    .patient-avatar-thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 3px solid #ffffff;
+      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+    }
+
+    .patient-thumb-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .patient-thumb-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--pt-navy);
+      margin-bottom: 2px;
+    }
+
+    .patient-thumb-desc {
+      font-size: 13px;
+      color: var(--pt-text-muted);
+      line-height: 1.4;
+    }
+
+    /* 4 Healthcare Features Grid */
+    .patient-features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      max-width: 500px;
+    }
+
+    .patient-feature-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      border: 1px solid #edf2f7;
+      border-radius: var(--pt-radius-md);
+      padding: 12px 14px;
+      box-shadow: 0 2px 8px rgba(16, 52, 99, 0.03);
+      transition: all 0.25s ease;
+    }
+
+    .patient-feature-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(13, 110, 253, 0.08);
+      border-color: #bfdbfe;
+    }
+
+    .patient-feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--pt-blue-soft);
+      color: var(--pt-blue-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .patient-feature-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .patient-feature-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--pt-navy);
+      line-height: 1.25;
+    }
+
+    .patient-feature-sub {
+      font-size: 11.5px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    /* --------------------------------------------------------------------------
+       RIGHT LOGIN CARD COLUMN
+       -------------------------------------------------------------------------- */
+    .patient-card-col {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .patient-login-card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--pt-card-bg);
+      border-radius: var(--pt-radius-lg);
+      box-shadow: 0 20px 60px rgba(16, 52, 99, 0.09), 0 4px 16px rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      padding: 38px 36px 32px;
+      position: relative;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    /* Top Blue Accent Stripe */
+    .patient-login-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #0d6efd 0%, #0284c7 50%, #38bdf8 100%);
+    }
+
+    /* Card Header: Centered Logo & Title */
+    .patient-card-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .patient-card-logo-wrap {
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      background: #ffffff;
+      padding: 3px;
+      box-shadow: 0 6px 18px rgba(13, 110, 253, 0.16);
+      border: 2px solid #e0f2fe;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .patient-card-logo {
+      width: 58px !important;
+      height: 58px !important;
+      max-width: 58px !important;
+      max-height: 58px !important;
+      border-radius: 50% !important;
+      object-fit: contain !important;
+      display: block !important;
+    }
+
+    .patient-card-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--pt-navy);
+      letter-spacing: -0.3px;
+      margin: 0 0 6px 0;
+    }
+
+    .patient-card-sub {
+      font-size: 14px;
+      color: var(--pt-text-muted);
+      margin: 0;
+    }
+
+    /* Form Elements */
+    .patient-form-group {
+      margin-bottom: 18px;
+    }
+
+    .patient-form-label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 7px;
+    }
+
+    .patient-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .patient-input-icon {
+      position: absolute;
+      left: 14px;
+      width: 19px;
+      height: 19px;
+      color: #94a3b8;
+      pointer-events: none;
+      transition: color 0.2s ease;
+    }
+
+    .patient-input {
+      width: 100%;
+      height: 48px;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 0 16px 0 44px;
+      font-size: 14.5px;
+      font-family: inherit;
+      color: #0f172a;
+      transition: all 0.2s ease;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .patient-input:focus {
+      background: #ffffff;
+      border-color: var(--pt-blue-primary);
+      box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.12);
+    }
+
+    .patient-input:focus + .patient-input-icon,
+    .patient-input-wrap:focus-within .patient-input-icon {
+      color: var(--pt-blue-primary);
+    }
+
+    /* Password Toggle Button */
+    .patient-pw-toggle {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px 8px;
+      font-size: 16px;
+      color: #64748b;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .patient-pw-toggle:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    /* Security Check / CAPTCHA Box */
+    .patient-captcha-section {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+    }
+
+    .patient-captcha-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .patient-captcha-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .patient-captcha-display {
+      flex: 1;
+      background: #ffffff;
+      border: 1.5px dashed #94a3b8;
+      border-radius: 8px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 5px;
+      color: #1e293b;
+      text-align: center;
+      padding: 6px 10px;
+      user-select: none;
+      min-width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .patient-captcha-refresh {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #475569;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .patient-captcha-refresh:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+      transform: rotate(45deg);
+    }
+
+    .patient-captcha-input {
+      flex: 1.2;
+      height: 40px;
+      padding: 0 12px !important;
+      font-size: 14px;
+      text-align: center;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Options Row: Remember Me & Forgot Password */
+    .patient-form-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      font-size: 13.5px;
+    }
+
+    .patient-remember-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #475569;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 500;
+    }
+
+    .patient-remember-label input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      accent-color: var(--pt-blue-primary);
+      cursor: pointer;
+    }
+
+    .patient-forgot-link {
+      color: var(--pt-blue-primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .patient-forgot-link:hover {
+      color: var(--pt-blue-dark);
+      text-decoration: underline;
+    }
+
+    /* Feedback Alert Message */
+    .patient-alert {
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      margin-bottom: 16px;
+      display: none;
+      line-height: 1.45;
+    }
+
+    .patient-alert:not([hidden]) {
+      display: block;
+    }
+
+    .alert-danger {
+      background-color: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .alert-success {
+      background-color: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    /* Primary Submit Button: Login as Patient */
+    .patient-btn-primary {
+      width: 100%;
+      height: 50px;
+      background: var(--pt-blue-primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      font-size: 15.5px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 18px rgba(13, 110, 253, 0.28);
+      transition: all 0.25s ease;
+    }
+
+    .patient-btn-primary:hover {
+      background: var(--pt-blue-dark);
+      transform: translateY(-1.5px);
+      box-shadow: 0 8px 22px rgba(13, 110, 253, 0.38);
+    }
+
+    .patient-btn-primary:active {
+      transform: translateY(0);
+    }
+
+    /* OR Divider */
+    .patient-divider {
+      position: relative;
+      text-align: center;
+      margin: 22px 0;
+    }
+
+    .patient-divider::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    .patient-divider span {
+      position: relative;
+      background: #ffffff;
+      padding: 0 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* Sign Up Secondary Action */
+    .patient-signup-btn {
+      width: 100%;
+      height: 48px;
+      background: #ffffff;
+      color: var(--pt-blue-primary);
+      border: 1.5px solid var(--pt-blue-primary);
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      box-sizing: border-box;
+    }
+
+    .patient-signup-btn:hover {
+      background: #f0f7ff;
+      border-color: var(--pt-blue-dark);
+      color: var(--pt-blue-dark);
+      transform: translateY(-1px);
+    }
+
+    .patient-signup-btn strong {
+      font-weight: 800;
+      text-decoration: underline;
+    }
+
+    /* Switch to Doctor Login Link */
+    .patient-doctor-switch {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid #f1f5f9;
+      text-align: center;
+      font-size: 13px;
+      color: var(--pt-text-muted);
+    }
+
+    .patient-doctor-switch a {
+      color: #087f5b;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 4px;
+      transition: color 0.2s ease;
+    }
+
+    .patient-doctor-switch a:hover {
+      color: #065f46;
+      text-decoration: underline;
+    }
+
+    /* Verification Micro Badges */
+    .patient-trust-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 16px;
+      font-size: 11.5px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .patient-trust-bar span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* --------------------------------------------------------------------------
+       RESPONSIVE ADJUSTMENTS
+       -------------------------------------------------------------------------- */
+    @media (max-width: 1024px) {
+      .patient-layout-container {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .patient-info-col {
+        align-items: center;
+        text-align: center;
+      }
+      .patient-hero-subtitle {
+        max-width: 580px;
+      }
+      .patient-illustration-card {
+        max-width: 480px;
+        text-align: left;
+      }
+      .patient-features-grid {
+        max-width: 480px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .patient-page-wrapper {
+        padding: 24px 16px;
+      }
+      .patient-hero-title {
+        font-size: 32px;
+      }
+      .patient-hero-subtitle {
+        font-size: 14.5px;
+      }
+      .patient-slogan-wrap {
+        font-size: 23px;
+      }
+      .patient-login-card {
+        padding: 28px 20px 24px;
+        border-radius: 20px;
+      }
+      .patient-features-grid {
+        grid-template-columns: 1fr;
+        width: 100%;
+      }
+      .patient-captcha-row {
+        flex-wrap: wrap;
+      }
+      .patient-captcha-display {
+        flex: 1 1 100px;
+      }
+      .patient-captcha-input {
+        flex: 1 1 100%;
+        margin-top: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======================================================================
+       HEADER / NAVBAR (Consistent 90px height, 60px logo, single-row links)
+       ====================================================================== -->
+  <header>
+    <nav class="cp-navbar" aria-label="Main Navigation">
+      <div class="cp-navbar-inner">
+        
+        <!-- Brand Logo & Name (Together on the left) -->
+        <a class="cp-brand" href="./index.html" title="Multi Therapy Management System Home">
+          <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="cp-brand-logo-img" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; flex-shrink: 0 !important; display: block !important;">
+          <div class="cp-brand-text">
+            <span class="cp-brand-title">Multi Therapy</span>
+            <span class="cp-brand-subtitle">Management System</span>
+          </div>
+        </a>
+
+        <!-- Mobile Navigation Hamburger Toggle -->
+        <button class="cp-nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+          ☰
+        </button>
+
+        <!-- Center Navigation Links (Patient Login Highlighted as Active) -->
+        <ul class="cp-nav-menu" id="navMenu">
+          <li><a href="./index.html" class="cp-nav-link">Home</a></li>
+          <li><a href="./index.html#about" class="cp-nav-link" id="navAbout">About</a></li>
+          <li><a href="./index.html#services" class="cp-nav-link" id="navServices">Services</a></li>
+          <li><a href="./login.html" class="cp-nav-link active" id="navPatientLogin" style="border-bottom: 2px solid #0d6efd; color: #0d6efd; font-weight: 700;">Patient Login</a></li>
+          <li><a href="./doctor-login.html" class="cp-nav-link" id="navDoctorLogin">Doctor Login</a></li>
+          <li><a href="./index.html#contact" class="cp-nav-link" id="navContact">Contact</a></li>
+        </ul>
+
+        <!-- Right Action Buttons (Exactly ONE Contact & ONE Sign Up) -->
+        <div class="cp-nav-actions">
+          <a href="./index.html#contact" class="cp-btn-contact" id="btnHeaderContact">Contact</a>
+          <a href="./signup.html" class="cp-btn-signup" id="btnHeaderSignup">Sign Up</a>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+
+  <!-- ======================================================================
+       MAIN CONTENT: PATIENT LOGIN TWO-COLUMN LAYOUT
+       ====================================================================== -->
+  <main class="patient-page-wrapper">
+    <!-- Ambient Blur Accents -->
+    <div class="patient-ambient-blob patient-blob-1" aria-hidden="true"></div>
+    <div class="patient-ambient-blob patient-blob-2" aria-hidden="true"></div>
+
+    <div class="patient-layout-container">
+
+      <!-- ==================================================================
+           LEFT COLUMN: PATIENT PORTAL INFORMATION
+           ================================================================== -->
+      <section class="patient-info-col" aria-labelledby="patientWelcomeHeading">
+        <!-- Top Pill Badge -->
+        <div class="patient-welcome-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span>WELCOME BACK</span>
+        </div>
+
+        <!-- Main Title -->
+        <h1 class="patient-hero-title" id="patientWelcomeHeading">
+          Patient <span>Login</span>
+        </h1>
+
+        <!-- Subtitle Description -->
+        <p class="patient-hero-subtitle">
+          Access your account to book appointments, view therapy sessions, and track your progress with dedicated clinical care and support.
+        </p>
+
+        <!-- Slogan -->
+        <div class="patient-slogan-wrap" aria-label="Slogan">
+          <span>Every Step Matters</span>
+          <span class="patient-slogan-heart" aria-hidden="true">♥</span>
+        </div>
+
+        <!-- Healthcare Patient Session Illustration Card -->
+        <div class="patient-illustration-card">
+          <img src="./images/patient-avatar.jpg" alt="Caring therapy session with patient" class="patient-avatar-thumb">
+          <div class="patient-thumb-info">
+            <span class="patient-thumb-title">Personalized Therapy &amp; Care</span>
+            <span class="patient-thumb-desc">Direct access to your physiotherapists, speech specialists, and occupational therapists.</span>
+          </div>
+        </div>
+
+        <!-- Four Feature Items Grid -->
+        <div class="patient-features-grid">
+          <!-- 1. Book Appointments -->
+          <div class="patient-feature-card">
+            <div class="patient-feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <div class="patient-feature-text">
+              <span class="patient-feature-title">Book Appointments</span>
+              <span class="patient-feature-sub">Schedule therapy with ease</span>
+            </div>
+          </div>
+
+          <!-- 2. Track Progress -->
+          <div class="patient-feature-card">
+            <div class="patient-feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+            </div>
+            <div class="patient-feature-text">
+              <span class="patient-feature-title">Track Progress</span>
+              <span class="patient-feature-sub">Monitor recovery milestones</span>
+            </div>
+          </div>
+
+          <!-- 3. View Therapy Plans -->
+          <div class="patient-feature-card">
+            <div class="patient-feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+            <div class="patient-feature-text">
+              <span class="patient-feature-title">View Therapy Plans</span>
+              <span class="patient-feature-sub">Custom exercise assignments</span>
+            </div>
+          </div>
+
+          <!-- 4. Better Support -->
+          <div class="patient-feature-card">
+            <div class="patient-feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="M9 12l2 2 4-4"></path>
+              </svg>
+            </div>
+            <div class="patient-feature-text">
+              <span class="patient-feature-title">Better Support</span>
+              <span class="patient-feature-sub">Direct clinical assistance</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           RIGHT COLUMN: PATIENT LOGIN CARD
+           ================================================================== -->
+      <section class="patient-card-col" aria-label="Patient Sign In Form">
+        <div class="patient-login-card">
+
+          <!-- Card Header -->
+          <div class="patient-card-header">
+            <div class="patient-card-logo-wrap">
+              <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="patient-card-logo" width="58" height="58">
+            </div>
+            <h2 class="patient-card-title">Patient Login</h2>
+            <p class="patient-card-sub">Sign in to continue to your account.</p>
+          </div>
+
+          <!-- Login Form (Exact IDs preserved for js/login.js) -->
+          <form id="loginForm" autocomplete="on">
+
+            <!-- Email Address / Username Field -->
+            <div class="patient-form-group">
+              <label class="patient-form-label" for="username">Email Address</label>
+              <div class="patient-input-wrap">
+                <svg class="patient-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <input class="patient-input" type="text" id="username" placeholder="Enter your email or username" autocomplete="username" required>
+              </div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="patient-form-group">
+              <label class="patient-form-label" for="loginPassword">Password</label>
+              <div class="patient-input-wrap">
+                <svg class="patient-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <input class="patient-input" type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password" required>
+                <button type="button" id="togglePassword" class="patient-pw-toggle" aria-label="Show or hide password">
+                  👁️
+                </button>
+              </div>
+            </div>
+
+            <!-- Security Check (CAPTCHA Required by js/login.js) -->
+            <div class="patient-captcha-section">
+              <div class="patient-captcha-header">
+                <span>🔐 Security Verification</span>
+                <span style="font-weight: 500; font-size: 11px; color: #64748b;">Case-insensitive</span>
+              </div>
+              <div class="patient-captcha-row">
+                <div id="captchaText" class="patient-captcha-display" aria-live="polite">Loading...</div>
+                <button type="button" id="refreshCaptcha" class="patient-captcha-refresh" title="Refresh CAPTCHA code" aria-label="Refresh code">
+                  ↻
+                </button>
+                <input id="captchaInput" class="patient-input patient-captcha-input" type="text" placeholder="Enter code" autocomplete="off" maxlength="5" required>
+              </div>
+            </div>
+
+            <!-- Options: Remember Me & Forgot Password -->
+            <div class="patient-form-options">
+              <label class="patient-remember-label">
+                <input type="checkbox" id="remember" checked>
+                <span>Remember Me</span>
+              </label>
+              <a href="./forgot.html" id="forgotLink" class="patient-forgot-link">Forgot Password?</a>
+            </div>
+
+            <!-- Alert Message for Login Results / Errors -->
+            <div id="loginMessage" class="patient-alert" hidden aria-live="assertive"></div>
+
+            <!-- Primary Action Button -->
+            <button type="submit" id="btnPatientSubmit" class="patient-btn-primary">
+              <span>Login as Patient</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </form>
+
+          <!-- OR Divider -->
+          <div class="patient-divider">
+            <span>OR</span>
+          </div>
+
+          <!-- Sign Up Secondary Action -->
+          <a href="./signup.html" class="patient-signup-btn" id="btnPatientSignupLink">
+            <span>Don't have an account? <strong>Sign Up</strong></span>
+          </a>
+
+          <!-- Switch to Doctor Login -->
+          <div class="patient-doctor-switch">
+            <span>Are you a Healthcare Practitioner?</span>
+            <a href="./doctor-login.html" title="Access Physician &amp; Therapist Portal">
+              <span>🩺 Doctor Login →</span>
+            </a>
+          </div>
+
+          <!-- Micro Trust Badges -->
+          <div class="patient-trust-bar">
+            <span>🔒 256-Bit SSL Encrypted</span>
+            <span>•</span>
+            <span>🏥 HIPAA Compliant</span>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ======================================================================
+       INFORMATIONAL MODAL (About, Services, Contact Details)
+       ====================================================================== -->
+  <div class="cp-modal-backdrop" id="infoModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="cp-modal-card">
+      <div class="cp-modal-header">
+        <h3 class="cp-modal-title" id="infoModalTitle">Multi Therapy Care</h3>
+        <button class="cp-modal-close" id="infoModalCloseBtn" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="cp-modal-body" id="infoModalBody">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Core JavaScript Handlers -->
+  <script src="./js/api.js"></script>
+  <script src="./js/login.js"></script>
+
+  <script>
+    // Mobile navigation toggle
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("navMenu");
+    if (navToggle && navMenu) {
+      navToggle.addEventListener("click", () => {
+        navMenu.classList.toggle("open");
+      });
+    }
+
+    // Modal dialog controller for About, Services, and Contact
+    const infoModal = document.getElementById("infoModal");
+    const infoModalTitle = document.getElementById("infoModalTitle");
+    const infoModalBody = document.getElementById("infoModalBody");
+    const infoModalCloseBtn = document.getElementById("infoModalCloseBtn");
+
+    function openInfoModal(title, content) {
+      if (!infoModal) return;
+      infoModalTitle.textContent = title;
+      infoModalBody.innerHTML = content;
+      infoModal.classList.add("open");
+      infoModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeInfoModal() {
+      if (!infoModal) return;
+      infoModal.classList.remove("open");
+      infoModal.setAttribute("aria-hidden", "true");
+    }
+
+    if (infoModalCloseBtn) {
+      infoModalCloseBtn.addEventListener("click", closeInfoModal);
+    }
+    if (infoModal) {
+      infoModal.addEventListener("click", (e) => {
+        if (e.target === infoModal) closeInfoModal();
+      });
+    }
+
+    // Contact modal
+    function showContactDialog() {
+      openInfoModal("Contact Multi Therapy Support", `
+        <p style="margin-bottom: 12px;">Our clinical care team is here to support patients, families, and therapists.</p>
+        <div style="background: #f0f7ff; padding: 14px 18px; border-radius: 10px; margin: 16px 0; border-left: 4px solid #0d6efd; font-size: 14px; line-height: 1.8;">
+          <div>📞 <strong>Toll-Free Patient Care Helpline:</strong> +1 (800) 555-CP-CARE</div>
+          <div>✉️ <strong>General Inquiries:</strong> info@cpmanagementsystem.org</div>
+          <div>🏥 <strong>Clinical Emergency:</strong> Available 24/7 via Healthcare Portal</div>
+        </div>
+        <p style="font-size: 13px; color: #64748b;">For existing therapy session changes or doctor notes, please log in or reach out directly to your attending clinician.</p>
+      `);
+    }
+
+    const btnHeaderContact = document.getElementById("btnHeaderContact");
+    if (btnHeaderContact) {
+      btnHeaderContact.addEventListener("click", (e) => {
+        e.preventDefault();
+        showContactDialog();
+      });
+    }
+
+    const navContact = document.getElementById("navContact");
+    if (navContact) {
+      navContact.addEventListener("click", (e) => {
+        e.preventDefault();
+        showContactDialog();
+      });
+    }
+
+    // About modal
+    const navAbout = document.getElementById("navAbout");
+    if (navAbout) {
+      navAbout.addEventListener("click", (e) => {
+        e.preventDefault();
+        openInfoModal("About Multi Therapy Care", `
+          <p><strong>Multi Therapy Management System</strong> is a comprehensive clinical management platform uniting patients, therapists, doctors, and family caregivers.</p>
+          <p style="margin-top: 12px;">We simplify therapy scheduling, track motor and communication milestones, and empower patients through every phase of neuromuscular rehabilitation.</p>
+          <div style="background: #f0f7ff; padding: 12px 16px; border-radius: 8px; margin-top: 14px; border-left: 4px solid #0284c7;">
+            💡 <em>"Better Care, Brighter Tomorrow — Every Step Matters."</em>
+          </div>
+        `);
+      });
+    }
+
+    // Services modal
+    const navServices = document.getElementById("navServices");
+    if (navServices) {
+      navServices.addEventListener("click", (e) => {
+        e.preventDefault();
+        openInfoModal("Specialized Patient Therapy Services", `
+          <ul style="padding-left: 20px; margin: 10px 0; line-height: 1.8;">
+            <li><strong>Physiotherapy &amp; Mobility:</strong> Gait training, posture correction, and range-of-motion assessments.</li>
+            <li><strong>Occupational Therapy:</strong> Daily functional independence and adaptive device assistance.</li>
+            <li><strong>Speech &amp; Communication Therapy:</strong> Oral-motor rehabilitation and speech development.</li>
+            <li><strong>Rehabilitation Analytics:</strong> Quantitative milestone tracking and physician progress reports.</li>
+          </ul>
+        `);
+      });
+    }
+  </script>
+</body>
+</html>

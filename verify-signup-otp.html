@@ -47,7 +47,7 @@
     .otp-subtitle {
       text-align: center;
       color: #6b7280;
-      margin-bottom: 25px;
+      margin-bottom: 22px;
       font-size: 15px;
     }
 
@@ -158,15 +158,12 @@
   </style>
 </head>
 <body>
-  <!-- Top Flash Notification Banner -->
-  <div id="topFlashBanner" class="top-flash-banner" hidden>
-    OTP sent to your email.
-  </div>
+  <!-- Navbar -->
 
   <nav class="mt-navbar">
     <div class="container-fluid mt-navbar-inner">
       <a class="mt-brand" href="./index.html">
-        <img src="./images/logo.png" alt="Multi Therapy Management System Logo" class="mt-logo">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="mt-logo" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; flex-shrink: 0 !important; display: block !important;">
         <div>
           <div class="mt-brand-title">Multi Therapy Management System</div>
           <div class="mt-brand-subtitle">Care • Support • Progress • Together</div>
@@ -183,8 +180,8 @@
         A 6-digit OTP has been sent to your email address.
       </p>
 
+      <!-- Alert Message Box -->
       <div id="otpAlert" class="alert mb-3" hidden></div>
-      <div id="demoOtpBanner" class="alert alert-warning mb-3" style="font-size: 13.5px;" hidden></div>
 
       <form id="verifyOtpForm">
         <div class="otp-section">
@@ -211,7 +208,7 @@
       </form>
 
       <button type="button" id="btnResend" class="btn-resend">
-        🔄 Resend OTP
+        📧 Send OTP to Email
       </button>
 
       <p class="otp-note">
@@ -225,6 +222,8 @@
   </div>
 
   <script src="./js/api.js"></script>
+  <script src="./js/resend.js"></script>
+  <script src="./js/otp-auth.js"></script>
   <script src="./js/verify-signup-otp.js"></script>
 </body>
 </html>

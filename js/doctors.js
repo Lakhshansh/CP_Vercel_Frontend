@@ -107,12 +107,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           if (resendSuccessEl) resendSuccessEl.hidden = true;
           if (noticeEl) {
             noticeEl.hidden = false;
-            noticeEl.innerHTML = `⚠️ <strong>Resend Notice:</strong> ${escapeHtml(resendResult.error || "Could not dispatch via Resend.")} ${res.demo_otp ? "<br>Test verification OTP: <strong>" + res.demo_otp + "</strong>" : ""}`;
+            noticeEl.innerHTML = `⚠️ <strong>Resend Notice:</strong> ${escapeHtml(resendResult.error || "Could not dispatch via Resend.")}`;
           }
-        } else if (res.demo_otp && noticeEl) {
-          if (resendSuccessEl) resendSuccessEl.hidden = true;
-          noticeEl.hidden = false;
-          noticeEl.innerHTML = `<strong>Note:</strong> Verification OTP is: <strong>${res.demo_otp}</strong>`;
         } else if (noticeEl) {
           noticeEl.hidden = true;
         }
@@ -226,12 +222,10 @@ document.addEventListener("DOMContentLoaded", async () => {
           if (resendSuccessEl) resendSuccessEl.hidden = true;
           if (noticeEl) {
             noticeEl.hidden = false;
-            noticeEl.innerHTML = `⚠️ <strong>Resend Notice:</strong> ${escapeHtml(resendResult.error || "Email delivery failed.")} ${res.demo_otp ? "<br>New OTP: <strong>" + res.demo_otp + "</strong>" : ""}`;
+            noticeEl.innerHTML = `⚠️ <strong>Resend Notice:</strong> ${escapeHtml(resendResult.error || "Email delivery failed.")}`;
           }
-        } else if (res.demo_otp && noticeEl) {
-          if (resendSuccessEl) resendSuccessEl.hidden = true;
-          noticeEl.hidden = false;
-          noticeEl.innerHTML = `<strong>Note:</strong> New OTP is: <strong>${res.demo_otp}</strong>`;
+        } else if (noticeEl) {
+          noticeEl.hidden = true;
         }
       } catch (err) {
         const errorEl = document.getElementById("modalErrorAlert");

@@ -3,70 +3,414 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Multi Therapy Management System - Login</title>
-  <link rel="stylesheet" href="./css/style.css">
+  <title>Multi Therapy Management System - Patient Therapy &amp; Progress Management</title>
+  <meta name="description" content="A comprehensive healthcare platform designed to manage patient records, appointments, therapy sessions, and progress tracking with dedicated clinical care and support.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Landing Stylesheet -->
+  <link rel="stylesheet" href="./css/landing.css?v=2.0">
+
 </head>
 <body>
-  <nav class="mt-navbar">
-    <div class="container-fluid mt-navbar-inner">
-      <a class="mt-brand" href="./index.html">
-        <img src="./images/logo.png" alt="Multi Therapy Management System Logo" class="mt-logo">
-        <div>
-          <div class="mt-brand-title">Multi Therapy Management System</div>
-          <div class="mt-brand-subtitle">Care • Support • Progress • Together</div>
-        </div>
-      </a>
-    </div>
-  </nav>
 
-  <main class="container-fluid">
-    <div class="login-card">
-      <div class="logo-box">
-        <img src="./images/logo.png" alt="Multi Therapy Management System Logo" class="login-logo">
-      </div>
-      <h2>Multi Therapy Management System</h2>
-      <p class="text-muted">Online Administration Portal</p>
-
-      <form id="loginForm">
-        <input class="form-control mb-3" type="text" id="username"
-               placeholder="Username or Email" autocomplete="username" required>
-
-        <div class="password-wrapper">
-          <input id="loginPassword" class="form-control mb-3" type="password"
-                 placeholder="Password" autocomplete="current-password" required>
-          <button type="button" id="togglePassword" class="password-toggle"
-                  aria-label="Show password">👁️</button>
-        </div>
-
-        <div class="captcha-section">
-          <label class="captcha-label">🔐 Security Check</label>
-          <div class="captcha-box">
-            <div id="captchaText" class="captcha-image" aria-live="polite">Loading...</div>
-            <button type="button" id="refreshCaptcha" class="captcha-refresh"
-                    title="Refresh CAPTCHA">↻</button>
+  <!-- ======================================================================
+       HEADER / NAVBAR
+       ====================================================================== -->
+  <header>
+    <nav class="cp-navbar" aria-label="Main Navigation">
+      <div class="cp-navbar-inner">
+        
+        <!-- Brand Logo & Name -->
+        <a class="cp-brand" href="./index.html" title="Multi Therapy Management System Home">
+          <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="cp-brand-logo-img" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; flex-shrink: 0 !important; display: block !important;">
+          <div class="cp-brand-text">
+            <span class="cp-brand-title">Multi Therapy</span>
+            <span class="cp-brand-subtitle">Management System</span>
           </div>
-          <input id="captchaInput" class="form-control mt-2" type="text"
-                 placeholder="Enter CAPTCHA code" autocomplete="off"
-                 maxlength="5" required>
+        </a>
+
+        <!-- Mobile Navigation Hamburger Toggle -->
+        <button class="cp-nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+          ☰
+        </button>
+
+        <!-- Center Navigation Links -->
+        <ul class="cp-nav-menu" id="navMenu">
+          <li><a href="./index.html" class="cp-nav-link active">Home</a></li>
+          <li><a href="#about" class="cp-nav-link" id="navAbout">About</a></li>
+          <li><a href="#services" class="cp-nav-link" id="navServices">Services</a></li>
+          <li><a href="./login.html" class="cp-nav-link" id="navPatientLogin">Patient Login</a></li>
+          <li><a href="./doctor-login.html" class="cp-nav-link" id="navDoctorLogin" style="border-bottom: 2px solid #0284c7; color: #0284c7;">Doctor Login</a></li>
+          <li><a href="#contact" class="cp-nav-link" id="navContact">Contact</a></li>
+        </ul>
+
+        <!-- Right Action Buttons (Exactly ONE Contact and ONE Sign Up) -->
+        <div class="cp-nav-actions">
+          <a href="#contact" class="cp-btn-contact" id="btnHeaderContact">Contact</a>
+          <a href="./signup.html" class="cp-btn-signup" id="btnHeaderSignup">Sign Up</a>
         </div>
 
-        <div class="login-options">
-          <label class="remember-me">
-            <input type="checkbox" id="remember" checked>
-            <span>Remember Me</span>
-          </label>
-          <a href="./forgot.html" id="forgotLink" class="forgot-password">Forgot Password?</a>
-        </div>
+      </div>
+    </nav>
+  </header>
 
-        <div id="loginMessage" class="alert" hidden></div>
-
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-      </form>
-
-      <a href="./signup.html" class="btn btn-outline-success w-100 mt-2">Sign Up</a>
+  <!-- ======================================================================
+       HERO SECTION
+       ====================================================================== -->
+  <main class="cp-hero-section">
+    <!-- Hero Clinic Photography Backdrop -->
+    <div class="cp-hero-backdrop" aria-hidden="true">
+      <img src="./images/cp-hero-bg.jpg" alt="Child therapy session with caring doctor" class="cp-hero-bg-img">
     </div>
+
+    <!-- Handwritten floating script on top right -->
+    <div class="cp-script-matters" aria-hidden="true">
+      <span>Every Step Matters</span>
+      <span class="cp-script-heart">♥</span>
+    </div>
+
+    <!-- Decorative Curved Ambient Waves -->
+    <div class="cp-hero-waves" aria-hidden="true"></div>
+
+    <!-- Hero Content Container (Two Columns) -->
+    <div class="cp-hero-container">
+      
+      <!-- Left Column: Title, Subtitle, Description & Quick Features -->
+      <section class="cp-hero-left" aria-labelledby="heroMainHeading">
+        <div class="cp-hero-welcome">WELCOME TO</div>
+        
+        <h1 class="cp-hero-title" id="heroMainHeading">
+          <span class="cp-title-navy">Multi Therapy</span><br>
+          <span class="cp-title-blue">Management System</span>
+        </h1>
+
+        <div class="cp-hero-subtitle">
+          Patient Therapy &amp; Progress Management
+        </div>
+
+        <p class="cp-hero-desc">
+          A complete platform to manage patient records, appointments, therapy sessions, and progress tracking with dedicated care and support.
+        </p>
+
+        <!-- 4 Quick-Feature Badges -->
+        <div class="cp-feature-badges">
+          <!-- 1. Book Appointments -->
+          <div class="cp-feature-item">
+            <div class="cp-feature-icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <div class="cp-feature-label">Book<br>Appointments</div>
+          </div>
+
+          <!-- 2. Track Therapy -->
+          <div class="cp-feature-item">
+            <div class="cp-feature-icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l.77.78L12 20.67l7.65-7.66.77-.78a5.4 5.4 0 0 0 0-7.65z"></path>
+                <polyline points="7 12 10 12 11.5 9 13.5 15 15 12 17 12"></polyline>
+              </svg>
+            </div>
+            <div class="cp-feature-label">Track<br>Therapy</div>
+          </div>
+
+          <!-- 3. Progress Reports -->
+          <div class="cp-feature-item">
+            <div class="cp-feature-icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+            </div>
+            <div class="cp-feature-label">Progress<br>Reports</div>
+          </div>
+
+          <!-- 4. Better Care -->
+          <div class="cp-feature-item">
+            <div class="cp-feature-icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div class="cp-feature-label">Better<br>Care</div>
+          </div>
+        </div>
+
+        <!-- Handwritten Quote: "Better Care Brighter Tomorrow" -->
+        <div class="cp-script-quote" aria-hidden="true">
+          <span>"Better Care<br>Brighter Tomorrow"</span>
+          <svg class="cp-quote-swoosh" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12C45 4 120 2 195 18" stroke="#103463" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M130 18C150 16 175 18 190 22" stroke="#0284c7" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+      </section>
+
+      <!-- Right Column: Two Large Attractive Login Cards -->
+      <section class="cp-hero-right" aria-label="Portal Access">
+        <div class="cp-cards-grid">
+          
+          <!-- Card 1: Patient Login (Links directly to existing login.html) -->
+          <article class="cp-auth-card">
+            <div class="cp-card-avatar-wrap cp-card-avatar-patient">
+              <img src="./images/patient-avatar.jpg" alt="Patient profile avatar">
+            </div>
+            <h2 class="cp-card-title">Patient Login</h2>
+            <p class="cp-card-desc">
+              Manage appointments, therapy sessions, and progress.
+            </p>
+            <a href="./login.html" class="cp-card-btn btn-patient-login" id="linkPatientLogin">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>Login as Patient</span>
+              <span class="btn-arrow" aria-hidden="true">→</span>
+            </a>
+          </article>
+
+          <!-- Card 2: Doctor Login (Links directly to existing doctor-login.html) -->
+          <article class="cp-auth-card">
+            <div class="cp-card-avatar-wrap cp-card-avatar-doctor">
+              <img src="./images/doctor-avatar.jpg" alt="Doctor profile avatar">
+            </div>
+            <h2 class="cp-card-title">Doctor Login</h2>
+            <p class="cp-card-desc">
+              Access your account to manage patients, appointments and therapy progress.
+            </p>
+            <a href="./doctor-login.html" class="cp-card-btn btn-doctor-login" id="linkDoctorLogin">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"></path>
+                <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"></path>
+                <circle cx="20" cy="10" r="2"></circle>
+              </svg>
+              <span>Login as Doctor</span>
+              <span class="btn-arrow" aria-hidden="true">→</span>
+            </a>
+          </article>
+
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ======================================================================
+         BOTTOM TRUST / FEATURE HIGHLIGHT BAR
+         ====================================================================== -->
+    <section class="cp-trust-bar" aria-label="Key Benefits">
+      <div class="cp-trust-container">
+        
+        <!-- 1. Safe & Secure -->
+        <div class="cp-trust-item">
+          <div class="cp-trust-icon icon-blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <polyline points="9 12 11 14 15 10"></polyline>
+            </svg>
+          </div>
+          <div class="cp-trust-content">
+            <div class="cp-trust-title">Safe &amp; Secure</div>
+            <div class="cp-trust-sub">Your data is protected</div>
+          </div>
+        </div>
+
+        <!-- 2. Easy Access -->
+        <div class="cp-trust-item">
+          <div class="cp-trust-icon icon-sky">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="cp-trust-content">
+            <div class="cp-trust-title">Easy Access</div>
+            <div class="cp-trust-sub">Manage everything in one place</div>
+          </div>
+        </div>
+
+        <!-- 3. Better Support -->
+        <div class="cp-trust-item">
+          <div class="cp-trust-icon icon-pink">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          </div>
+          <div class="cp-trust-content">
+            <div class="cp-trust-title">Better Support</div>
+            <div class="cp-trust-sub">Connect with healthcare professionals</div>
+          </div>
+        </div>
+
+        <!-- 4. Track Progress -->
+        <div class="cp-trust-item">
+          <div class="cp-trust-icon icon-green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+          </div>
+          <div class="cp-trust-content">
+            <div class="cp-trust-title">Track Progress</div>
+            <div class="cp-trust-sub">See your improvement journey</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
   </main>
+
+  <!-- ======================================================================
+       FOOTER
+       ====================================================================== -->
+  <footer class="cp-footer">
+    <div class="cp-footer-inner">
+      <div>
+        &copy; 2026 Multi Therapy Management System. All rights reserved.
+      </div>
+      <ul class="cp-footer-links">
+        <li><a href="#privacy" id="linkPrivacy">Privacy Policy</a></li>
+        <li class="cp-footer-divider" aria-hidden="true">|</li>
+        <li><a href="#terms" id="linkTerms">Terms of Service</a></li>
+        <li class="cp-footer-divider" aria-hidden="true">|</li>
+        <li><a href="#help" id="linkHelp">Help</a></li>
+        <li class="cp-footer-divider" aria-hidden="true">|</li>
+        <li><a href="#contact" id="linkContact">Contact Us</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- ======================================================================
+       MODAL DIALOG (ABOUT / SERVICES / CONTACT / HELP / POLICIES)
+       ====================================================================== -->
+  <div class="cp-modal-backdrop" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+    <div class="cp-modal-dialog" style="max-width: 520px;">
+      <div class="cp-modal-header">
+        <h3 class="cp-modal-title" id="infoModalTitle">Information</h3>
+        <button type="button" class="cp-modal-close" id="infoModalCloseBtn" aria-label="Close modal dialog">&times;</button>
+      </div>
+      <div class="cp-modal-body" id="infoModalBody" style="line-height: 1.6; font-size: 14.5px; color: #334155;">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script src="./js/api.js"></script>
-  <script src="./js/login.js"></script>
+  <script>
+    // Elements
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("navMenu");
+    const infoModal = document.getElementById("infoModal");
+    const infoModalCloseBtn = document.getElementById("infoModalCloseBtn");
+
+    // Modal helpers
+    function openInfoModal(title, content) {
+      document.getElementById("infoModalTitle").textContent = title;
+      document.getElementById("infoModalBody").innerHTML = content;
+      infoModal.classList.add("open");
+    }
+
+    function closeInfoModal() {
+      infoModal.classList.remove("open");
+    }
+
+    infoModalCloseBtn.addEventListener("click", closeInfoModal);
+    infoModal.addEventListener("click", (e) => {
+      if (e.target === infoModal) closeInfoModal();
+    });
+
+    // Mobile nav toggle
+    navToggle.addEventListener("click", () => {
+      navMenu.classList.toggle("open");
+    });
+
+    // Contact modal trigger
+    function showContactDialog() {
+      openInfoModal("Contact CP Support Team", `
+        <p>We are here to support patients, families, and healthcare professionals.</p>
+        <div style="background: #f0f7ff; padding: 14px 18px; border-radius: 10px; margin: 16px 0; border-left: 4px solid #0284c7; font-size: 14px; line-height: 1.8;">
+          <div>📞 <strong>Toll-Free Helpline:</strong> +1 (800) 555-CP-CARE</div>
+          <div>✉️ <strong>General Inquiries:</strong> info@cpmanagementsystem.org</div>
+          <div>🏥 <strong>Clinical Emergency:</strong> Available 24/7 on Doctor Portal</div>
+        </div>
+        <p style="font-size: 13px; color: #64748b;">For existing appointments or prescription queries, please sign in to your Patient or Doctor portal.</p>
+      `);
+    }
+
+    document.getElementById("btnHeaderContact").addEventListener("click", showContactDialog);
+    document.getElementById("navContact").addEventListener("click", (e) => {
+      e.preventDefault();
+      showContactDialog();
+    });
+    document.getElementById("linkContact").addEventListener("click", (e) => {
+      e.preventDefault();
+      showContactDialog();
+    });
+
+    // About modal
+    document.getElementById("navAbout").addEventListener("click", (e) => {
+      e.preventDefault();
+      openInfoModal("About Multi Therapy Care", `
+        <p><strong>Multi Therapy Management System</strong> is a specialized clinical platform connecting patients, caregivers, physiotherapists, and medical practitioners.</p>
+        <p style="margin-top: 12px;">We streamline clinical scheduling, monitor neuromuscular rehabilitation milestones, and track personalized therapy assignments in real time.</p>
+        <div style="background: #f0f7ff; padding: 12px 16px; border-radius: 8px; margin-top: 14px; border-left: 4px solid #0284c7;">
+          💡 <em>"Better Care, Brighter Tomorrow — Every Step Matters."</em>
+        </div>
+      `);
+    });
+
+    // Services modal
+    document.getElementById("navServices").addEventListener("click", (e) => {
+      e.preventDefault();
+      openInfoModal("Specialized Healthcare Services", `
+        <ul style="padding-left: 20px; margin: 10px 0;">
+          <li style="margin-bottom: 8px;"><strong>Physiotherapy & Mobility:</strong> Gait training, posture correction, and range-of-motion assessments.</li>
+          <li style="margin-bottom: 8px;"><strong>Occupational Therapy:</strong> Daily functional independence and adaptive device assistance.</li>
+          <li style="margin-bottom: 8px;"><strong>Speech & Communication Therapy:</strong> Oral-motor rehabilitation and speech development.</li>
+          <li style="margin-bottom: 8px;"><strong>Rehabilitation Analytics:</strong> Quantitative progress tracking and medical reporting.</li>
+        </ul>
+      `);
+    });
+
+    // Footer Links
+    document.getElementById("linkPrivacy").addEventListener("click", (e) => {
+      e.preventDefault();
+      openInfoModal("Privacy Policy", "<p>Patient health records and therapeutic evaluations are encrypted under HIPAA and GDPR healthcare data standards. Data is strictly confidential and shared only between authorized physicians and patients.</p>");
+    });
+
+    document.getElementById("linkTerms").addEventListener("click", (e) => {
+      e.preventDefault();
+      openInfoModal("Terms of Service", "<p>Use of the Multi Therapy Management System requires adherence to medical confidentiality guidelines and verified credentials for healthcare professionals.</p>");
+    });
+
+    document.getElementById("linkHelp").addEventListener("click", (e) => {
+      e.preventDefault();
+      openInfoModal("Help & Portal Guidance", `
+        <p><strong>How to access your portal:</strong></p>
+        <ul style="padding-left: 20px; margin: 10px 0;">
+          <li><strong>Patients & Families:</strong> Click <em>'Login as Patient'</em> to manage appointments and sessions.</li>
+          <li><strong>Physicians & Therapists:</strong> Click <em>'Login as Doctor'</em> to access your clinical dashboard.</li>
+          <li><strong>New Doctors:</strong> Click <em>'Sign Up'</em> to register your medical practice.</li>
+        </ul>
+      `);
+    });
+  </script>
 </body>
 </html>

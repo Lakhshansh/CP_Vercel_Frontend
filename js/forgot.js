@@ -47,13 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
       savedResetToken = res.reset_token || "";
       showForgotMessage(res.message || "Recovery code sent!", "info");
 
-      if (res.demo_otp) {
-        demoOtpBox.hidden = false;
-        demoOtpBox.textContent = `Cloud Notice: Your verification code is: ${res.demo_otp}`;
-        // Automatically prefill the OTP input for convenience
-        const otpInput = document.getElementById("otpInput");
-        if (otpInput) otpInput.value = res.demo_otp;
-      } else {
+      if (demoOtpBox) {
         demoOtpBox.hidden = true;
       }
 
@@ -124,11 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       savedResetToken = res.reset_token || "";
       showForgotMessage("A new recovery code has been sent.", "info");
-      if (res.demo_otp) {
-        demoOtpBox.hidden = false;
-        demoOtpBox.textContent = `Cloud Notice: Your verification code is: ${res.demo_otp}`;
-        const otpInput = document.getElementById("otpInput");
-        if (otpInput) otpInput.value = res.demo_otp;
+      if (demoOtpBox) {
+        demoOtpBox.hidden = true;
       }
     } catch (err) {
       showForgotMessage(err.message || "Failed to resend code.");

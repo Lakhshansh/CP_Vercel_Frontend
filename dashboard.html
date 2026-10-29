@@ -34,15 +34,18 @@
       color: #ffffff;
     }
     .mt-logo {
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      object-fit: cover;
+      width: 60px !important;
+      height: 60px !important;
+      max-width: 60px !important;
+      max-height: 60px !important;
+      border-radius: 50% !important;
+      object-fit: contain !important;
       background: #ffffff;
-      padding: 3px;
-      border: 2px solid rgba(255, 255, 255, 0.85);
+      padding: 2px;
+      border: 2px solid rgba(255, 255, 255, 0.95);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
       flex-shrink: 0;
+      display: block;
     }
     .mt-brand-title {
       font-size: 26px;
@@ -297,7 +300,7 @@
   <header class="mt-navbar">
     <div class="mt-navbar-inner">
       <a href="./dashboard.html" class="mt-brand">
-        <img src="./images/logo.png" alt="Multi Therapy Management System Logo" class="mt-logo">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="mt-logo" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; flex-shrink: 0 !important; display: block !important;">
         <div>
           <div class="mt-brand-title">Multi Therapy Management System</div>
           <div class="mt-brand-subtitle">Care • Support • Progress • Together</div>
