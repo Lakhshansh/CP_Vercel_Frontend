@@ -1451,70 +1451,88 @@ html, body {
 }
 
 /* --------------------------------------------------------------------------
-   FOOTER (COMPREHENSIVE MULTI-COLUMN)
+   FOOTER (PROFESSIONAL MODERN HEALTHCARE FOOTER)
    -------------------------------------------------------------------------- */
 .cp-footer {
-  background-color: var(--cp-navy-dark);
+  background-color: #0B2038;
   color: #cbd5e1;
-  padding: 60px 0 24px;
-  font-size: 14px;
+  padding: 45px 30px;
+  font-size: 15px;
   position: relative;
   z-index: 5;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .cp-footer-container {
-  max-width: 1360px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 28px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .cp-footer-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  grid-template-columns: 1.35fr 1fr 1fr 1.25fr;
   gap: 40px;
-  margin-bottom: 48px;
+  margin-bottom: 36px;
+}
+
+.cp-footer-col {
+  display: flex;
+  flex-direction: column;
 }
 
 .cp-footer-brand-wrap {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   margin-bottom: 14px;
 }
 
 .cp-footer-logo {
   width: 52px;
   height: 52px;
+  min-width: 52px;
+  min-height: 52px;
+  max-width: 52px;
+  max-height: 52px;
   border-radius: 50%;
   background: #ffffff;
   padding: 2px;
+  object-fit: contain;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .cp-footer-brand-title {
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 800;
   color: #ffffff;
   line-height: 1.15;
+  letter-spacing: -0.2px;
 }
 
 .cp-footer-brand-tagline {
   font-size: 12px;
   color: #38bdf8;
   font-weight: 700;
+  letter-spacing: 0.2px;
+  margin-top: 2px;
 }
 
 .cp-footer-desc {
-  font-size: 13.5px;
+  font-size: 14.5px;
   color: #94a3b8;
-  line-height: 1.6;
-  margin-top: 10px;
+  line-height: 1.65;
+  margin-top: 8px;
+  max-width: 380px;
 }
 
 .cp-footer-col-title {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 800;
   color: #ffffff;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   letter-spacing: -0.2px;
 }
 
@@ -1524,78 +1542,114 @@ html, body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .cp-footer-links-list a {
   color: #94a3b8;
   text-decoration: none;
-  font-size: 13.5px;
+  font-size: 14.5px;
+  font-weight: 500;
   transition: color 0.2s ease, transform 0.2s ease;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
 }
 
 .cp-footer-links-list a:hover {
-  color: #ffffff;
-  transform: translateX(3px);
+  color: #38bdf8;
+  transform: translateX(4px);
+}
+
+.cp-footer-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
 }
 
 .cp-footer-contact-item {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  margin-bottom: 14px;
-  font-size: 13px;
+  font-size: 14.5px;
   color: #94a3b8;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .cp-footer-contact-item svg {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
   color: #38bdf8;
   flex-shrink: 0;
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
-.cp-footer-contact-item svg.whatsapp-icon,
-.ph-footer-contact-item svg.whatsapp-icon {
+.cp-footer-contact-item svg.whatsapp-icon {
   color: #25D366 !important;
 }
 
-.cp-whatsapp-link {
+.cp-footer-label {
+  font-size: 13px;
+  color: #cbd5e1;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.cp-footer-link {
   color: #ffffff;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 600;
+  font-size: 14.5px;
   transition: color 0.2s ease;
 }
 
-.cp-whatsapp-link:hover {
-  color: #25D366;
+.cp-footer-link:hover {
+  color: #38bdf8;
   text-decoration: underline;
 }
 
+.cp-footer-link.cp-footer-wa-link:hover {
+  color: #25D366;
+}
+
+.cp-footer-text {
+  color: #cbd5e1;
+  font-size: 14.5px;
+}
+
 .cp-footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding-top: 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 14px;
-  font-size: 13px;
-  color: #64748b;
+  gap: 16px;
+  font-size: 14px;
+  color: #94a3b8;
 }
 
-.cp-footer-bottom a {
+.cp-footer-copyright {
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.cp-footer-legal-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cp-footer-legal-links a {
   color: #94a3b8;
   text-decoration: none;
-  margin-left: 16px;
-  transition: color 0.2s;
+  font-size: 13.5px;
+  transition: color 0.2s ease;
 }
 
-.cp-footer-bottom a:hover {
-  color: #ffffff;
+.cp-footer-legal-links a:hover {
+  color: #38bdf8;
 }
 
 /* --------------------------------------------------------------------------
@@ -1887,9 +1941,13 @@ html, body {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .cp-footer {
+    padding: 42px 24px;
+  }
+
   .cp-footer-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
   }
 
   .cp-nav-actions .cp-btn-contact {
@@ -1927,6 +1985,11 @@ html, body {
 
   .cp-hero-pill-badge {
     display: none;
+  }
+
+  .cp-footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
   }
 }
 
@@ -1982,49 +2045,27 @@ html, body {
     grid-template-columns: 1fr;
   }
 
+  .cp-footer {
+    padding: 38px 20px;
+  }
+
   .cp-footer-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 30px;
   }
 
-  .cp-about-card {
-    padding: 26px 20px;
+  .cp-footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 
-  .cp-contact-section {
-    padding: 60px 0 70px;
-  }
-
-  .cp-contact-title {
-    font-size: 28px;
-  }
-
-  .cp-contact-mini-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .cp-form-row {
-    grid-template-columns: 1fr;
+  .cp-footer-legal-links {
     gap: 14px;
   }
 
-  .cp-form-card {
-    padding: 24px 18px;
-  }
-}
-
-  .cp-footer-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
   .cp-about-card {
     padding: 26px 20px;
-  }
-
-  .cp-btn-signup {
-    padding: 6px 14px;
-    font-size: 12.5px;
   }
 
   .cp-contact-section {
