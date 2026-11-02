@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Verify Your Email | Multi Therapy</title>
+  <meta name="description" content="Verify your email address to activate your Multi Therapy patient or healthcare practitioner account.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Verification Page Styles -->
+  <link rel="stylesheet" href="./css/verify-email.css">
+</head>
+<body>
+
+  <!-- ======================================================================
+       1. WEBSITE HEADER NAVIGATION (MATCHING MULTI THERAPY BRANDING)
+       ====================================================================== -->
+  <header>
+    <nav class="ve-navbar" aria-label="Main Navigation">
+      <div class="ve-navbar-inner">
+        
+        <!-- Brand Logo & Name -->
+        <a class="ve-brand" href="./index.html" title="Multi Therapy Home">
+          <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="ve-brand-logo-img" width="60" height="60">
+          <div class="ve-brand-text">
+            <span class="ve-brand-title">Multi Therapy</span>
+            <span class="ve-brand-tagline">Care • Support • Progress • Together</span>
+          </div>
+        </a>
+
+        <!-- Mobile Navigation Hamburger Toggle -->
+        <button class="ve-nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+          ☰
+        </button>
+
+        <!-- Center Navigation Links in a Single Horizontal Row -->
+        <ul class="ve-nav-menu" id="navMenu">
+          <li><a href="./index.html" class="ve-nav-link" id="navHome">Home</a></li>
+          <li><a href="./index.html#about" class="ve-nav-link" id="navAbout">About</a></li>
+          <li><a href="./index.html#services" class="ve-nav-link" id="navServices">Services</a></li>
+          <li><a href="./login.html" class="ve-nav-link" id="navPatientLogin">Patient Login</a></li>
+          <li><a href="./doctor-login.html" class="ve-nav-link" id="navDoctorLogin">Doctor Login</a></li>
+          <li><a href="./index.html#contact" class="ve-nav-link" id="navContact">Contact</a></li>
+        </ul>
+
+        <!-- Right Action Buttons: Contact & Sign Up -->
+        <div class="ve-nav-actions">
+          <a href="./index.html#contact" class="ve-btn-contact" id="btnHeaderContact" title="Contact Multi Therapy Support">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span>Contact</span>
+          </a>
+
+          <a href="./signup.html" class="ve-btn-signup" id="btnHeaderSignup" title="Create your patient account">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Sign Up</span>
+          </a>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+
+  <!-- ======================================================================
+       2. MAIN VERIFICATION SECTION (TWO-COLUMN HEALTHCARE CARD)
+       ====================================================================== -->
+  <main class="ve-main-wrapper">
+    <div class="ve-container">
+      <div class="ve-card">
+
+        <!-- ==============================================================
+             LEFT SECTION: CAREGIVER HELPING CHILD IN WHEELCHAIR + HEART
+             ============================================================== -->
+        <section class="ve-card-left" aria-label="Healthcare Mission">
+          
+          <!-- Category Pill -->
+          <div class="ve-left-top-badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <polyline points="9 12 11 14 15 10"/>
+            </svg>
+            <span>Trusted Healthcare Portal</span>
+          </div>
+
+          <!-- Professional Healthcare Illustration (Caregiver + Child in Wheelchair) -->
+          <div class="ve-illustration-wrap">
+            <svg class="ve-illustration-svg" viewBox="0 0 360 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Caregiver helping child in wheelchair illustration">
+              <defs>
+                <linearGradient id="veBgGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.9"/>
+                  <stop offset="50%" stop-color="#ecfdf5" stop-opacity="0.8"/>
+                  <stop offset="100%" stop-color="#ffffff" stop-opacity="0.6"/>
+                </linearGradient>
+                <filter id="veSoftShadow" x="-10%" y="-10%" width="120%" height="120%">
+                  <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#0c233c" flood-opacity="0.08"/>
+                </filter>
+              </defs>
+
+              <!-- Soft Backdrop Glow Circle -->
+              <ellipse cx="180" cy="155" rx="145" ry="125" fill="url(#veBgGlow)"/>
+              
+              <!-- Subtle Background Health Cross Accent -->
+              <g opacity="0.15">
+                <rect x="50" y="70" width="8" height="24" rx="4" fill="#078B69"/>
+                <rect x="42" y="78" width="24" height="8" rx="4" fill="#078B69"/>
+                <rect x="300" y="90" width="8" height="24" rx="4" fill="#0875F9"/>
+                <rect x="292" y="98" width="24" height="8" rx="4" fill="#0875F9"/>
+              </g>
+
+              <!-- --------------------------------------------------------
+                   1. CAREGIVER (STANDING GENTLY BEHIND WHEELCHAIR)
+                   -------------------------------------------------------- -->
+              <g id="caregiver" filter="url(#veSoftShadow)">
+                <!-- Caregiver Body / Coat (White & Teal Healthcare Uniform) -->
+                <path d="M110 240 C110 168 135 150 168 150 C201 150 226 168 226 240 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2.5"/>
+                
+                <!-- Inner Medical Scrubs (Teal Green #078B69) -->
+                <path d="M152 150 L168 174 L184 150 Z" fill="#078B69"/>
+                
+                <!-- Medical Cross Badge on Caregiver Pocket -->
+                <rect x="194" y="172" width="3.5" height="11" rx="1.5" fill="#078B69"/>
+                <rect x="190.25" y="175.75" width="11" height="3.5" rx="1.5" fill="#078B69"/>
+                
+                <!-- Stethoscope draped on shoulders -->
+                <path d="M148 152 C148 172 156 182 168 182 C180 182 188 172 188 152" stroke="#1e293b" stroke-width="3" stroke-linecap="round" fill="none"/>
+                <circle cx="168" cy="186" r="4.5" fill="#94a3b8" stroke="#1e293b" stroke-width="1.8"/>
+
+                <!-- Caregiver Gentle Arms Resting on Push Handle -->
+                <path d="M130 185 Q115 205 106 218" stroke="#cbd5e1" stroke-width="10" stroke-linecap="round"/>
+                <circle cx="104" cy="220" r="7" fill="#fed7aa"/>
+                
+                <path d="M206 185 Q220 205 228 218" stroke="#cbd5e1" stroke-width="10" stroke-linecap="round"/>
+                <circle cx="230" cy="220" r="7" fill="#fed7aa"/>
+
+                <!-- Caregiver Head & Warm Smiling Face -->
+                <circle cx="168" cy="116" r="22" fill="#fed7aa"/>
+                
+                <!-- Professional Hair (Soft Dark Brown Styled) -->
+                <path d="M146 112 C146 90 158 84 168 84 C178 84 190 90 190 112 C184 102 176 98 168 98 C160 98 152 102 146 112 Z" fill="#334155"/>
+                <!-- Side Tresses -->
+                <path d="M146 108 L144 122 C147 122 148 118 148 112 Z" fill="#334155"/>
+                <path d="M190 108 L192 122 C189 122 188 118 188 112 Z" fill="#334155"/>
+
+                <!-- Facial Features -->
+                <circle cx="160" cy="116" r="2.2" fill="#1e293b"/>
+                <circle cx="176" cy="116" r="2.2" fill="#1e293b"/>
+                <path d="M162 125 Q168 131 174 125" stroke="#b45309" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                <!-- Eyebrows -->
+                <path d="M156 109 Q160 107 164 109" stroke="#334155" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                <path d="M172 109 Q176 107 180 109" stroke="#334155" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              </g>
+
+              <!-- --------------------------------------------------------
+                   2. CLINICAL WHEELCHAIR & HAPPY SMILING CHILD
+                   -------------------------------------------------------- -->
+              <g id="childInWheelchair" filter="url(#veSoftShadow)">
+                <!-- Wheelchair Push Handles -->
+                <path d="M96 220 L108 220 L108 245" stroke="#64748b" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M226 220 L238 220 L226 245" stroke="#64748b" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- Wheelchair Backrest & Seat Cushion -->
+                <rect x="115" y="215" width="85" height="40" rx="8" fill="#103463"/>
+                <rect x="110" y="248" width="95" height="14" rx="5" fill="#0875F9"/>
+
+                <!-- Child Legs & Blue Pants -->
+                <rect x="135" y="258" width="16" height="30" rx="6" fill="#0c4a6e"/>
+                <rect x="160" y="258" width="16" height="30" rx="6" fill="#0c4a6e"/>
+                <!-- Shoes -->
+                <ellipse cx="143" cy="290" rx="10" ry="6" fill="#103463"/>
+                <ellipse cx="168" cy="290" rx="10" ry="6" fill="#103463"/>
+                <!-- Footrest Bar -->
+                <path d="M130 288 L180 288" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+
+                <!-- Child Torso (Bright Sky-Blue Healthcare Shirt) -->
+                <path d="M125 210 C125 186 140 180 156 180 C172 180 187 186 187 210 Z" fill="#0875F9"/>
+
+                <!-- Child Head & Cheerful Face -->
+                <circle cx="156" cy="162" r="17" fill="#fed7aa"/>
+                <!-- Child Hair (Warm Chestnut Brown) -->
+                <path d="M139 160 C139 144 148 140 156 140 C166 140 173 145 173 160 C168 152 162 150 156 150 C150 150 144 153 139 160 Z" fill="#78350f"/>
+                <!-- Child Smile & Sparkle Eyes -->
+                <circle cx="150.5" cy="162" r="2" fill="#451a03"/>
+                <circle cx="163.5" cy="162" r="2" fill="#451a03"/>
+                <path d="M150 170 Q156 176 163 170" stroke="#b45309" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                <!-- Rosy Cheeks -->
+                <circle cx="146" cy="167" r="3" fill="#fca5a5" opacity="0.6"/>
+                <circle cx="167" cy="167" r="3" fill="#fca5a5" opacity="0.6"/>
+
+                <!-- Child Friendly Waving Arm -->
+                <path d="M178 195 Q196 185 204 170" stroke="#fed7aa" stroke-width="6.5" stroke-linecap="round"/>
+                <circle cx="206" cy="167" r="4.5" fill="#fed7aa"/>
+
+                <!-- Left Arm Resting Comfortably on Armrest -->
+                <path d="M132 195 Q122 205 116 215" stroke="#fed7aa" stroke-width="6" stroke-linecap="round"/>
+
+                <!-- Large Main Wheel (Multi Therapy Blue & Spokes) -->
+                <g id="mainWheel">
+                  <!-- Ground Shadow -->
+                  <ellipse cx="118" cy="285" rx="36" ry="7" fill="#cbd5e1" opacity="0.5"/>
+                  <!-- Rim -->
+                  <circle cx="118" cy="254" r="34" stroke="#0875F9" stroke-width="5" fill="#ffffff" fill-opacity="0.9"/>
+                  <!-- Inner Handrim -->
+                  <circle cx="118" cy="254" r="27" stroke="#38bdf8" stroke-width="2.5" fill="none"/>
+                  <!-- Spokes -->
+                  <line x1="118" y1="220" x2="118" y2="288" stroke="#93c5fd" stroke-width="1.8"/>
+                  <line x1="84" y1="254" x2="152" y2="254" stroke="#93c5fd" stroke-width="1.8"/>
+                  <line x1="94" y1="230" x2="142" y2="278" stroke="#93c5fd" stroke-width="1.8"/>
+                  <line x1="94" y1="278" x2="142" y2="230" stroke="#93c5fd" stroke-width="1.8"/>
+                  <!-- Wheel Hub -->
+                  <circle cx="118" cy="254" r="6" fill="#103463"/>
+                </g>
+
+                <!-- Front Caster Wheel -->
+                <g id="casterWheel">
+                  <path d="M185 258 L192 278" stroke="#103463" stroke-width="3.5" stroke-linecap="round"/>
+                  <circle cx="194" cy="282" r="8" stroke="#103463" stroke-width="3" fill="#ffffff"/>
+                  <circle cx="194" cy="282" r="2.5" fill="#0875F9"/>
+                </g>
+              </g>
+
+              <!-- Heart Accent Inside SVG -->
+              <g transform="translate(245, 65)">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#10b981" stroke="#059669" stroke-width="1.2"/>
+              </g>
+            </svg>
+
+            <!-- Floating Heart Icon Badge -->
+            <div class="ve-floating-heart" title="Compassionate Care">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#ef4444" stroke="#dc2626" stroke-width="1.5">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Slogan: "Better Care, Brighter Futures" with Cursive Handwritten Accent -->
+          <div class="ve-slogan-wrap">
+            <span class="ve-slogan-quote">Better Care, Brighter Futures</span>
+            <svg class="ve-slogan-swoosh" viewBox="0 0 210 14" fill="none" aria-hidden="true">
+              <path d="M3 11C60 3 150 2 207 9" stroke="#0875F9" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <p class="ve-slogan-desc">
+              Dedicated therapy schedules, clinical progress tracking, and supportive care for patients, specialists, and families.
+            </p>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="ve-trust-badges">
+            <span class="ve-trust-pill">✓ Verified Healthcare</span>
+            <span class="ve-trust-pill">🔒 256-Bit SSL Secured</span>
+            <span class="ve-trust-pill">🌟 Multidisciplinary Team</span>
+          </div>
+
+        </section>
+
+        <!-- ==============================================================
+             RIGHT SECTION: VERIFICATION DETAILS & ACTION BUTTONS
+             ============================================================== -->
+        <section class="ve-card-right" aria-label="Email Verification Form">
+
+          <!-- Email Icon Badge with Pulse Indicator -->
+          <div class="ve-icon-circle">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <div class="ve-icon-ping" title="Verification Pending"></div>
+          </div>
+
+          <!-- Main Heading & Subtitle -->
+          <h1 class="ve-title">Verify Your Email</h1>
+          <p class="ve-subtitle">
+            We've sent a verification link to your email address. Please check your inbox and click the link to verify your account.
+          </p>
+
+          <!-- Alert Notification Container -->
+          <div id="verifyAlert" class="ve-alert" hidden aria-live="polite"></div>
+
+          <!-- Display User's Actual Registered Email Address Dynamically -->
+          <div class="ve-email-card" title="Registered Email Address">
+            <div class="ve-email-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div class="ve-email-details">
+              <span class="ve-email-label">Registered Email</span>
+              <span class="ve-email-value" id="userEmailDisplay">Loading email...</span>
+            </div>
+          </div>
+
+          <!-- Blue Button: Check Your Email -->
+          <button type="button" id="btnCheckEmail" class="ve-btn-check-email">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            <span>Check Your Email</span>
+          </button>
+
+          <!-- Resend Verification Email Link with Countdown Timer -->
+          <div class="ve-resend-row">
+            <span>Didn't receive an email?</span>
+            <button type="button" id="btnResendEmail" class="ve-btn-resend">
+              Resend Verification Email
+            </button>
+            <span id="resendCountdown" class="ve-countdown-text" style="display: none;"></span>
+          </div>
+
+          <!-- Information Box: Spam / Junk Folder Callout -->
+          <div class="ve-info-box" role="note">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <div>
+              <strong>Pro Tip:</strong> Check your Spam or Junk folder if you don't see the email within a couple of minutes.
+            </div>
+          </div>
+
+          <!-- Direct Code Verification Accordion (For OTP / Code Entry Fallback) -->
+          <details class="ve-code-card">
+            <summary>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span>Received a 6-digit verification code? Enter it here</span>
+            </summary>
+            <form id="verifyCodeForm" class="ve-code-form">
+              <div class="ve-code-input-row">
+                <input
+                  type="text"
+                  id="otpCodeInput"
+                  name="otp_code"
+                  class="ve-otp-input"
+                  inputmode="numeric"
+                  maxlength="6"
+                  placeholder="• • • • • •"
+                  pattern="[0-9]{6}"
+                  autocomplete="one-time-code"
+                >
+                <button type="submit" id="btnSubmitCode" class="ve-btn-verify-code">
+                  Verify &amp; Continue →
+                </button>
+              </div>
+              <small style="display: block; margin-top: 6px; font-size: 11.5px; color: #64748b;">
+                Enter the code sent to your email to verify instantly without leaving this tab.
+              </small>
+            </form>
+          </details>
+
+          <!-- Secondary Navigation / Support Link -->
+          <div class="ve-footer-links">
+            <a href="./login.html" id="backToLoginLink" class="ve-footer-link">
+              ← Back to Login
+            </a>
+            <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="ve-footer-link" style="color: #078B69;">
+              <span>💬 WhatsApp Support</span>
+            </a>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ======================================================================
+       3. WEBSITE FOOTER (MATCHING MULTI THERAPY BRANDING)
+       ====================================================================== -->
+  <footer class="ve-footer">
+    <div class="ve-footer-inner">
+      <div class="ve-footer-brand">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="ve-footer-logo">
+        <div>
+          <div class="ve-footer-name">Multi Therapy</div>
+          <div class="ve-footer-tagline">Care • Support • Progress • Together</div>
+        </div>
+      </div>
+      <div class="ve-footer-right">
+        <div>&copy; 2026 Multi Therapy. All rights reserved.</div>
+        <div style="font-size: 12px; margin-top: 4px; color: #cbd5e1;">
+          Dedicated Neuromuscular &amp; Multi-Specialty Clinical Platform
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+  </a>
+
+  <!-- Core Scripts -->
+  <script src="./js/api.js"></script>
+  <script src="./js/cdn.js"></script>
+  <script src="./js/resend.js"></script>
+  <script src="./js/otp-auth.js"></script>
+  <script src="./js/verify-email.js"></script>
+</body>
+</html>
+

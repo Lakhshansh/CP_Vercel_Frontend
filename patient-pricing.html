@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient &amp; Family Subscription Plans | Multi Therapy</title>
+  <meta name="description" content="Multi Therapy Patient Subscription Plans - Access 50+ guided therapy video regimens, milestone progress tracking, and family caregiver accounts for ₹99/month.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/subscriptions.css">
+</head>
+<body>
+
+  <!-- Top Announcement -->
+  <div style="background: #e0f2fe; border-bottom: 1px solid #bae6fd; padding: 8px 20px; font-size: 13px; text-align: center; color: #0369a1; font-weight: 700;">
+    🌟 Affordable Home Therapy: Patient Premium is just ₹99/month (or ₹990/year with 2 Months Free)!
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="mt-sub-header">
+    <div class="container-xl d-flex align-items-center justify-content-between py-2">
+      <a href="./patient-home.html" class="mt-brand-wrap">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="mt-brand-logo">
+        <div>
+          <div class="mt-brand-title">Multi Therapy</div>
+          <div class="mt-brand-tagline">Patient &amp; Family Care</div>
+        </div>
+      </a>
+
+      <nav class="d-none d-lg-flex align-items-center gap-1">
+        <a href="./patient-home.html" class="mt-nav-link">Home</a>
+        <a href="./exercises.html" class="mt-nav-link">Exercises</a>
+        <a href="./patient-appointments.html" class="mt-nav-link">Appointments</a>
+        <a href="./patient-profile.html" class="mt-nav-link">My Profile</a>
+        <a href="./my-subscription.html" class="mt-nav-link">My Plan</a>
+      </nav>
+
+      <div class="d-flex align-items-center gap-2">
+        <a href="./patient-profile.html" class="mt-user-pill">
+          <div class="mt-user-avatar" style="background: #0284c7;">👤</div>
+          <div>
+            <div style="line-height: 1.1;">Patient Account</div>
+            <div style="font-size: 11px; color: #0284c7; font-weight: 600;">Active</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="mt-hero-banner patient-theme">
+    <div class="container-xl">
+      <div class="mt-hero-badge">
+        <span>👤</span> Family &amp; Patient Care Plans
+      </div>
+      <h1 class="mt-hero-title">Patient &amp; Family Subscription Plans</h1>
+      <p class="mt-hero-subtitle">
+        Accelerate rehabilitation with personalized therapy videos, daily mobility tracking, milestone achievements, and shared caregiver accounts.
+      </p>
+
+      <!-- Monthly / Yearly Billing Toggle -->
+      <div class="mt-billing-toggle-wrap">
+        <span class="mt-toggle-label active text-white" id="labelMonthly">Monthly Billing</span>
+        <label class="mt-switch">
+          <input type="checkbox" id="billingCycleToggle">
+          <span class="mt-slider"></span>
+        </label>
+        <span class="mt-toggle-label text-white" id="labelYearly">Yearly Billing</span>
+        <span class="mt-save-badge">Save ₹198 + 2 Months Free</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container-xl" style="max-width: 980px;">
+    
+    <!-- Two Patient Plans -->
+    <div class="mt-pricing-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+      
+      <!-- Free Plan: ₹0 -->
+      <div class="mt-plan-card">
+        <div class="mt-plan-header">
+          <h3 class="mt-plan-name">Patient Free</h3>
+          <p class="mt-plan-desc">Starter access for patients scheduling consultations and reviewing medical profile.</p>
+        </div>
+
+        <div class="mt-plan-price-wrap">
+          <span class="mt-price-currency">₹</span>
+          <span class="mt-price-amount">0</span>
+          <span class="mt-price-cycle">forever</span>
+        </div>
+
+        <ul class="mt-features-list">
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>Complete Profile &amp; Medical History Record</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>Book In-Clinic Appointments with Specialists</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>10 Starter Physical &amp; Speech Exercises</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>Email Appointment Confirmations</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-cross-icon">✕</span>
+            <span class="text-muted">Full 50+ HD Exercise Video Library</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-cross-icon">✕</span>
+            <span class="text-muted">Multiple Family Caregiver Accounts</span>
+          </li>
+        </ul>
+
+        <a href="./patient-home.html" class="mt-btn-subscribe">
+          <span>Current Default</span> <span>&rarr;</span>
+        </a>
+      </div>
+
+      <!-- Premium Plan: ₹99 / ₹990 (Popular) -->
+      <div class="mt-plan-card popular">
+        <div class="mt-popular-tag">Best for Continuous Recovery</div>
+
+        <div class="mt-plan-header">
+          <h3 class="mt-plan-name">Patient Premium</h3>
+          <p class="mt-plan-desc">Comprehensive home therapy access with full guided video exercises and family caregiver pass.</p>
+        </div>
+
+        <div class="mt-plan-price-wrap">
+          <span class="mt-price-currency">₹</span>
+          <span class="mt-price-amount" id="pricePrem">99</span>
+          <span class="mt-price-cycle" id="cyclePrem">/ month</span>
+        </div>
+        <div class="mt-price-savings" id="savingsPrem" style="display:none;">🎉 Save ₹198 / year (₹82/mo)</div>
+
+        <ul class="mt-features-list">
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span><strong>Full 50+ HD Exercise Video Regimens</strong> (Arm, Leg, Balance, Speech)</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span><strong>Daily Mobility Progress Tracker</strong> &amp; Milestones Index</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span><strong>Up to 3 Family Caregiver Profiles</strong> connected to patient record</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>Priority Queue Booking with Lead Clinical Specialists</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>Monthly Rehabilitation PDF Summary Report for Doctors</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>Direct WhatsApp Therapy Support Updates</span>
+          </li>
+        </ul>
+
+        <a href="./subscription-checkout.html?plan_id=8&cycle=monthly" class="mt-btn-subscribe" id="btnPrem" style="background: #0284c7; color: #ffffff;">
+          <span>⭐ Upgrade to Patient Premium</span> <span>&rarr;</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Assurance Callout -->
+    <div class="text-center mt-4 mb-5 text-muted small">
+      🔒 100% Secure Razorpay checkout • Cancel anytime from dashboard • 7-day refund guarantee
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-footer">
+    <div class="container-xl d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div class="d-flex align-items-center gap-2">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy" style="width: 34px; height: 34px; border-radius: 50%; background: #ffffff; padding: 2px;">
+        <span class="text-white fw-bold">Multi Therapy &copy; 2026</span>
+        <span class="text-muted ms-2">Patient Memberships</span>
+      </div>
+      <div class="small">
+        <a href="./subscription-pricing.html" class="text-decoration-none text-light me-3">All Plans</a>
+        <a href="./hospital-pricing.html" class="text-decoration-none text-light me-3">Hospital Plans</a>
+        <a href="./doctor-pricing.html" class="text-decoration-none text-light">Doctor Plans</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toggle Script -->
+  <script>
+    const toggle = document.getElementById('billingCycleToggle');
+    const labelM = document.getElementById('labelMonthly');
+    const labelY = document.getElementById('labelYearly');
+
+    function updateCycle(isY) {
+      document.getElementById('pricePrem').textContent = isY ? '990' : '99';
+      document.getElementById('cyclePrem').textContent = isY ? '/ year' : '/ month';
+      document.getElementById('savingsPrem').style.display = isY ? 'block' : 'none';
+      document.getElementById('btnPrem').href = `./subscription-checkout.html?plan_id=8&cycle=${isY ? 'yearly' : 'monthly'}`;
+
+      if (isY) {
+        labelM.classList.remove('active');
+        labelY.classList.add('active');
+      } else {
+        labelM.classList.add('active');
+        labelY.classList.remove('active');
+      }
+    }
+
+    if (toggle) {
+      toggle.addEventListener('change', (e) => updateCycle(e.target.checked));
+    }
+  </script>
+</body>
+</html>

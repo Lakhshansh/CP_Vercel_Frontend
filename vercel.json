@@ -1,3 +1,155 @@
 {
-  "cleanUrls": true
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/admin-login",
+      "destination": "/admin-login.html"
+    },
+    {
+      "source": "/admin/login",
+      "destination": "/admin-login.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin-login.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/patient-home.html"
+    },
+    {
+      "source": "/dashboard.html",
+      "destination": "/patient-home.html"
+    },
+    {
+      "source": "/progress-reports",
+      "destination": "/patient-home.html"
+    },
+    {
+      "source": "/progress-reports.html",
+      "destination": "/patient-home.html"
+    },
+    {
+      "source": "/exercise-assignments",
+      "destination": "/exercises.html"
+    },
+    {
+      "source": "/exercise-assignments.html",
+      "destination": "/exercises.html"
+    },
+    {
+      "source": "/pricing",
+      "destination": "/subscription-pricing.html"
+    },
+    {
+      "source": "/pricing.html",
+      "destination": "/subscription-pricing.html"
+    },
+    {
+      "source": "/checkout",
+      "destination": "/subscription-checkout.html"
+    },
+    {
+      "source": "/checkout.html",
+      "destination": "/subscription-checkout.html"
+    },
+    {
+      "source": "/doctor/profile",
+      "destination": "/doctor-profile.html"
+    },
+    {
+      "source": "/patient/profile",
+      "destination": "/patient-profile.html"
+    },
+    {
+      "source": "/subscriptions/hospital",
+      "destination": "/hospital-subscriptions.html"
+    },
+    {
+      "source": "/subscriptions/doctor",
+      "destination": "/doctor-subscriptions.html"
+    },
+    {
+      "source": "/subscriptions/patient",
+      "destination": "/patient-subscriptions.html"
+    },
+    {
+      "source": "/admin/subscription/dashboard",
+      "destination": "/admin-subscription-dashboard.html"
+    },
+    {
+      "source": "/admin/subscription/list",
+      "destination": "/admin-subscription-list.html"
+    },
+    {
+      "source": "/admin/subscription/plans",
+      "destination": "/admin-plan-management.html"
+    },
+    {
+      "source": "/admin/subscription/payments",
+      "destination": "/admin-payment-management.html"
+    },
+    {
+      "source": "/admin/subscription/refunds",
+      "destination": "/admin-refund-management.html"
+    },
+    {
+      "source": "/admin/subscription/coupons",
+      "destination": "/admin-coupon-management.html"
+    },
+    {
+      "source": "/admin/subscription/invoices",
+      "destination": "/admin-invoice-management.html"
+    },
+    {
+      "source": "/admin/subscription/analytics",
+      "destination": "/admin-revenue-analytics.html"
+    },
+    {
+      "source": "/admin/subscriptions",
+      "destination": "/admin-subscriptions.html"
+    },
+    {
+      "source": "/admin/plans",
+      "destination": "/admin-plans.html"
+    },
+    {
+      "source": "/admin/payments",
+      "destination": "/admin-payments.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/(css|js|images)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    }
+  ]
 }

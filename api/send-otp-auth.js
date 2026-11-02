@@ -28,15 +28,13 @@ module.exports = async function handler(req, res) {
     }
     body = body || {};
 
-    const { email, name, otp, apiKey, fromEmail } = body;
+    const { email, name, otp, apiKey, fromEmail, role } = body;
 
     if (!email) {
       return res.status(400).json({ success: false, error: "Recipient email address is required." });
     }
 
-    if (!otp) {
-      return res.status(400).json({ success: false, error: "OTP code is required." });
-    }
+    const otpCode = otp || Math.floor(100000 + Math.random() * 900000).toString();
 
     const defaultResendKey = Buffer.from("cmVfWU1ocncxTFJfNEtycjZvVXJLalc0NGtjZHFGUnJINlB3", "base64").toString("utf-8");
     const resendApiKey = apiKey || process.env.RESEND_API_KEY || defaultResendKey;
@@ -48,8 +46,9 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const sender = fromEmail || process.env.RESEND_FROM_EMAIL || "CP Healthcare Auth <onboarding@resend.dev>";
-    const displayName = name ? (name.startsWith("Dr.") ? name : `Dr. ${name}`) : "Doctor";
+    const sender = fromEmail || process.env.RESEND_FROM_EMAIL || "Multi Therapy <onboarding@resend.dev>";
+    const isDoctor = (role || "").toLowerCase() === "doctor";
+    const displayName = name ? (isDoctor && !name.startsWith("Dr.") ? `Dr. ${name}` : name) : (isDoctor ? "Doctor" : "Patient");
 
     const emailHtml = `
 <!DOCTYPE html>
@@ -68,10 +67,10 @@ module.exports = async function handler(req, res) {
           <tr>
             <td style="background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%); padding: 28px 32px; text-align: center;">
               <h1 style="margin: 0; color: #ffffff; font-size: 22px; font-weight: 700; letter-spacing: -0.3px;">
-                🔐 CP Healthcare - OTP Auth
+                🔐 Multi Therapy - OTP Auth
               </h1>
               <p style="margin: 6px 0 0; color: rgba(255,255,255,0.85); font-size: 13px;">
-                Secure OTP Authentication Service
+                Care • Support • Progress • Together
               </p>
             </td>
           </tr>
@@ -92,7 +91,7 @@ module.exports = async function handler(req, res) {
                   OTP Authentication Code
                 </div>
                 <div style="font-size: 36px; font-weight: 800; letter-spacing: 8px; color: #0d6efd; font-family: monospace;">
-                  ${otp}
+                  ${otpCode}
                 </div>
                 <div style="font-size: 12px; color: #64748b; margin-top: 8px;">
                   ⏰ Valid for 5 minutes • Single-use verification code
@@ -109,7 +108,7 @@ module.exports = async function handler(req, res) {
           <tr>
             <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 18px 32px; text-align: center;">
               <p style="margin: 0; font-size: 11px; color: #94a3b8; line-height: 1.4;">
-                Delivered via <strong>OTP AUTH API</strong> • Cerebral Palsy Healthcare Portal
+                Delivered via <strong>OTP AUTH API</strong> • Multi Therapy Portal
               </p>
             </td>
           </tr>
@@ -130,7 +129,7 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         from: sender,
         to: [email.trim()],
-        subject: `OTP Authentication Code: ${otp} - CP Management System`,
+        subject: `OTP Authentication Code: ${otpCode} - Multi Therapy`,
         html: emailHtml
       })
     });
@@ -152,6 +151,7 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({
       success: true,
       message: `OTP successfully sent to ${email} via OTP AUTH API.`,
+      otp: otpCode,
       id: resendData.id
     });
   } catch (error) {

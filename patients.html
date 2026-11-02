@@ -1,613 +1,770 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patients - Multi Therapy Management System</title>
-  <link rel="icon" href="./images/logo.png" type="image/png">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./css/style.css">
-  <style>
-    /* Top Navbar */
-    .mt-navbar {
-      min-height: 88px;
-      padding: 12px 24px;
-      background: linear-gradient(135deg, #0d6efd 0%, #0867e8 100%);
-      box-shadow: 0 4px 18px rgba(0, 80, 180, 0.20);
-      position: relative;
-      z-index: 1000;
-      width: 100%;
-    }
-    .mt-navbar-inner {
-      width: 100%;
-      min-height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-    .mt-brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      text-decoration: none;
-      color: #ffffff;
-    }
-    .mt-logo {
-      width: 60px !important;
-      height: 60px !important;
-      max-width: 60px !important;
-      max-height: 60px !important;
-      border-radius: 50% !important;
-      object-fit: contain !important;
-      background: #ffffff;
-      padding: 2px;
-      border: 2px solid rgba(255, 255, 255, 0.95);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-      flex-shrink: 0;
-      display: block;
-    }
-    .mt-brand-title {
-      font-size: 26px;
-      font-weight: 800;
-      line-height: 1.1;
-      white-space: nowrap;
-      color: #ffffff;
-    }
-    .mt-brand-subtitle {
-      margin-top: 4px;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.92);
-      letter-spacing: 0.4px;
-    }
-    .mt-nav-right {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-shrink: 0;
-    }
-    .mt-profile-btn,
-    .mt-logout-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 10px;
-      padding: 10px 18px;
-      font-size: 15px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      border: none;
-      cursor: pointer;
-    }
-    .mt-profile-btn {
-      background: #ffffff;
-      color: #1e293b;
-    }
-    .mt-profile-btn:hover {
-      background: #f8fafc;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      color: #0d6efd;
-    }
-    .mt-logout-btn {
-      background: #ffffff;
-      color: #dc3545;
-    }
-    .mt-logout-btn:hover {
-      background: #fff5f5;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
-      color: #b02a37;
-    }
-    .mt-user {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #ffffff;
-      padding-left: 14px;
-      border-left: 1px solid rgba(255, 255, 255, 0.35);
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .mt-user-photo,
-    .mt-user-default {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 2px solid #ffffff;
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-    .mt-user-default {
-      background: #ffffff;
-      color: #0d6efd;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-    }
-    .mt-user-text {
-      line-height: 1.2;
-    }
-    .mt-user-name {
-      font-size: 15px;
-      font-weight: 700;
-      white-space: nowrap;
-      color: #ffffff;
-    }
-    .mt-user-role {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.85);
-      text-transform: capitalize;
-    }
-    .mt-arrow {
-      font-size: 16px;
-      color: rgba(255, 255, 255, 0.85);
-      margin-left: 2px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients Dashboard | Multi Therapy</title>
+    <meta name="description"
+        content="Manage patient records, clinical history, therapy sessions, and progress on Multi Therapy.">
+    <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
 
-    /* Sidebar */
-    .sidebar {
-      min-height: calc(100vh - 88px);
-      background: #ffffff;
-      border-right: 1px solid #e9ecef;
-      padding: 20px 14px !important;
-    }
-    .sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      text-decoration: none;
-      color: #475569;
-      border-radius: 10px;
-      margin-bottom: 6px;
-      font-size: 15px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-    .sidebar-link:hover {
-      background: #f1f5f9;
-      color: #0d6efd;
-      transform: translateX(3px);
-    }
-    .sidebar-link.active {
-      background: #e7f1ff;
-      color: #0d6efd;
-      font-weight: 700;
-    }
-    .sidebar-link .icon {
-      font-size: 18px;
-      width: 22px;
-      text-align: center;
-    }
+    <!-- Google Fonts: Plus Jakarta Sans & Caveat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
-    /* Main Page Content */
-    .main-page {
-      padding: 30px;
-      background: #f8fafc;
-      min-height: calc(100vh - 88px);
-    }
-    .page-header h1 {
-      font-size: 30px;
-      font-weight: 800;
-      color: #0f172a;
-      margin-bottom: 22px;
-    }
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
-    /* Cards */
-    .content-box {
-      background: #ffffff;
-      border-radius: 16px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-
-    /* Form Grid */
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-    .form-grid .form-control,
-    .form-grid .form-select {
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 14px;
-      height: 44px;
-      color: #1e293b;
-    }
-    .form-grid .form-control:focus,
-    .form-grid .form-select:focus {
-      border-color: #0d6efd;
-      box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
-    }
-    .btn-add-patient,
-    .btn-send-otp {
-      background: #0d6efd;
-      color: #ffffff;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 24px;
-      font-weight: 600;
-      font-size: 14px;
-      margin-top: 14px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s;
-    }
-    .btn-add-patient:hover,
-    .btn-send-otp:hover {
-      background: #0b5ed7;
-      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
-    }
-    .form-note {
-      font-size: 13px;
-      color: #64748b;
-      margin-top: 10px;
-    }
-    .letter-spacing-2 {
-      letter-spacing: 6px;
-    }
-
-    /* Table */
-    .table-wrap {
-      overflow-x: auto;
-      position: relative;
-    }
-    .table thead th {
-      background: #f8fafc;
-      font-size: 13px;
-      font-weight: 700;
-      color: #475569;
-      border-bottom: 2px solid #e2e8f0;
-      padding: 11px 12px;
-      white-space: nowrap;
-    }
-    .table tbody td {
-      padding: 12px 12px;
-      vertical-align: middle;
-      font-size: 14px;
-      color: #1e293b;
-      border-bottom: 1px solid #f1f5f9;
-      white-space: nowrap;
-    }
-    .sticky-action {
-      position: sticky;
-      right: 0;
-      background: #ffffff;
-      box-shadow: -4px 0 10px rgba(0, 0, 0, 0.08);
-      z-index: 5;
-      text-align: center;
-      min-width: 105px;
-    }
-    thead th.sticky-action {
-      background: #f1f5f9 !important;
-    }
-    .verified-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 12px;
-      border-radius: 20px;
-      background: #198754;
-      color: #ffffff;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .not-verified-pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 12px;
-      border-radius: 20px;
-      background: #ffc107;
-      color: #000000;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .btn-delete-patient {
-      border: 1px solid #dc3545;
-      background: #dc3545;
-      color: #ffffff;
-      border-radius: 8px;
-      padding: 7px 16px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 6px rgba(220, 53, 69, 0.25);
-    }
-    .btn-delete-patient:hover {
-      background: #b02a37;
-      border-color: #b02a37;
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
-      transform: translateY(-1px);
-    }
-
-    @media (max-width: 1200px) {
-      .form-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 768px) {
-      .form-grid { grid-template-columns: 1fr; }
-      .sidebar { min-height: auto; border-right: none; border-bottom: 1px solid #e9ecef; }
-    }
-  </style>
+    <!-- Dedicated Patients Stylesheet -->
+    <link rel="stylesheet" href="./css/patients.css">
 </head>
+
 <body>
 
-  <!-- Top Blue Navbar -->
-  <header class="mt-navbar">
-    <div class="mt-navbar-inner">
-      <a href="./dashboard.html" class="mt-brand">
-        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="mt-logo" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; flex-shrink: 0 !important; display: block !important;">
-        <div>
-          <div class="mt-brand-title">Multi Therapy Management System</div>
-          <div class="mt-brand-subtitle">Care • Support • Progress • Together</div>
+    <!-- ======================================================================
+         1. TOP ANNOUNCEMENT / PORTAL BAR
+         ====================================================================== -->
+    <div class="pt-announcement-bar">
+        <div class="pt-announcement-title">
+            <span>🏥</span> Multi Therapy • Clinical Rehabilitation &amp; Patient Care Hub
         </div>
-      </a>
-
-      <div class="mt-nav-right">
-        <a href="./profile.html" class="mt-profile-btn">
-          <span>👤</span> Profile
-        </a>
-
-        <a href="./profile.html" class="mt-user" title="View Profile">
-          <img id="navAvatarImg" src="./images/logo.png" class="mt-user-photo" alt="Profile" style="display:none;">
-          <div id="navAvatar" class="mt-user-default">👤</div>
-          <div class="mt-user-text">
-            <div class="mt-user-name" id="navUsername">User</div>
-            <div class="mt-user-role" id="navRole">Admin</div>
-          </div>
-          <span class="mt-arrow">⌄</span>
-        </a>
-
-        <button id="logoutBtn" class="mt-logout-btn">
-          <span>🚪</span> Logout
-        </button>
-      </div>
+        <div class="pt-announcement-links">
+            <a href="./appointments.html" class="pt-portal-pill blue">
+                📅 Appointments &rarr;
+            </a>
+            <a href="./therapists.html" class="pt-portal-pill green">
+                🧑‍⚕️ Therapists Directory &rarr;
+            </a>
+            <a href="./exercises.html" class="pt-portal-pill blue">
+                🏃 Therapy Exercises &rarr;
+            </a>
+        </div>
     </div>
-  </header>
 
-  <!-- Main Layout with Left Sidebar -->
-  <div class="container-fluid p-0">
-    <div class="row g-0">
+    <!-- ======================================================================
+         2. HORIZONTAL HEADER NAVIGATION
+         ====================================================================== -->
+    <header class="pt-header">
+        <div class="pt-navbar-inner">
 
-      <!-- Left Sidebar Navigation -->
-      <aside class="col-12 col-md-3 col-lg-2 sidebar">
-        <nav>
-          <a href="./dashboard.html" class="sidebar-link">
-            <span class="icon">🏠</span>
-            <span>Dashboard</span>
-          </a>
-          <a href="./profile.html" class="sidebar-link">
-            <span class="icon">👤</span>
-            <span>My Profile</span>
-          </a>
-          <a href="./patients.html" class="sidebar-link active">
-            <span class="icon">👥</span>
-            <span>Patients</span>
-          </a>
-          <a href="./doctors.html" class="sidebar-link">
-            <span class="icon">👨‍⚕️</span>
-            <span>Doctors</span>
-          </a>
-          <a href="./therapists.html" class="sidebar-link">
-            <span class="icon">🧑‍⚕️</span>
-            <span>Therapists</span>
-          </a>
-          <a href="./appointments.html" class="sidebar-link">
-            <span class="icon">📅</span>
-            <span>Appointments</span>
-          </a>
-          <a href="./therapy-sessions.html" class="sidebar-link">
-            <span class="icon">💪</span>
-            <span>Therapy Sessions</span>
-          </a>
-          <a href="./exercise-assignments.html" class="sidebar-link">
-            <span class="icon">🎯</span>
-            <span>Exercise Assignments</span>
-          </a>
-          <a href="./exercises.html" class="sidebar-link">
-            <span class="icon">🏃</span>
-            <span>Exercises</span>
-          </a>
-          <a href="./caregivers.html" class="sidebar-link">
-            <span class="icon">👥</span>
-            <span>Caregivers</span>
-          </a>
-          <a href="./progress-reports.html" class="sidebar-link">
-            <span class="icon">📊</span>
-            <span>Progress Reports</span>
-          </a>
-        </nav>
-      </aside>
+            <!-- Multi Therapy Brand -->
+            <a href="./index.html" class="pt-brand" title="Multi Therapy Home">
+                <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="pt-brand-logo" width="60"
+                    height="60">
+                <div class="pt-brand-text">
+                    <span class="pt-brand-title">Multi Therapy</span>
+                    <span class="pt-brand-tagline">Care • Support • Progress • Together</span>
+                </div>
+            </a>
 
-      <!-- Main Content Area -->
-      <main class="col-12 col-md-9 col-lg-10 main-page">
-        <div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-          <h1>Patients</h1>
-          <button type="button" class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-1 shadow-sm" data-bs-toggle="modal" data-bs-target="#resendConfigModal" title="Configure Resend.com API Key">
-            <span>⚡</span> <span>Resend API Settings</span>
-          </button>
-        </div>
-
-        <div id="patientAlert" class="alert alert-success mb-3" hidden></div>
-
-        <!-- Add Patient Form Card -->
-        <div class="content-box">
-          <form id="addPatientForm" autocomplete="off">
-            <div class="form-grid">
-              <div>
-                <input type="text" id="pName" class="form-control" placeholder="Patient Name" required>
-              </div>
-              <div>
-                <input type="number" id="pAge" class="form-control" placeholder="Age" min="1" max="120" required>
-              </div>
-              <div>
-                <select id="pGender" class="form-select" required>
-                  <option value="" disabled selected>Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div>
-                <input type="tel" id="pContact" class="form-control" placeholder="Contact (10-digit)" maxlength="10" pattern="[0-9]{10}" inputmode="numeric" required>
-              </div>
-              <div>
-                <input type="text" id="pAddress" class="form-control" placeholder="Address" required>
-              </div>
-              <div>
-                <input type="text" id="pDisability" class="form-control" placeholder="Disability Details" required>
-              </div>
-              <div>
-                <input type="date" id="pRegDate" class="form-control" required>
-              </div>
-              <div>
-                <input type="email" id="pEmail" class="form-control" placeholder="Patient Email" required>
-              </div>
-            </div>
-
-            <button type="submit" id="btnSendPatientOtp" class="btn-send-otp">
-              <span>📧</span> Send OTP &amp; Add Patient
+            <!-- Mobile Hamburger Toggle -->
+            <button class="pt-nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+                ☰
             </button>
-            <div class="form-note d-flex justify-content-between align-items-center flex-wrap gap-2">
-              <span>Patient details are saved only after email OTP verification. OTP is valid for 10 minutes.</span>
-              <span class="badge bg-light text-primary border" style="font-weight: 500;">
-                ⚡ Sent via Resend.com API
-              </span>
+
+            <!-- Center Navigation (Single Horizontal Row) -->
+            <nav aria-label="Main Navigation">
+                <ul class="pt-nav-menu" id="navMenu">
+                    <li><a href="./index.html" class="pt-nav-link" id="navHome">Home</a></li>
+                    <li><a href="./index.html#about" class="pt-nav-link" id="navAbout">About</a></li>
+                    <li><a href="./index.html#services" class="pt-nav-link" id="navServices">Services</a></li>
+                    <li><a href="./patients.html" class="pt-nav-link active" id="navPatients">Patients</a></li>
+                    <li><a href="./appointments.html" class="pt-nav-link" id="navAppointments">Appointments</a></li>
+                    <li><a href="./therapists.html" class="pt-nav-link" id="navTherapists">Therapists</a></li>
+                    <li><a href="./login.html" class="pt-nav-link" id="navPatientLogin">Patient Login</a></li>
+                    <li><a href="./doctor-login.html" class="pt-nav-link" id="navDoctorLogin">Doctor Login</a></li>
+                    <li><a href="./index.html#contact" class="pt-nav-link" id="navContact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- Right Actions: User Profile / Contact / Sign Up / Resend Config -->
+            <div class="pt-nav-actions">
+
+                <!-- Resend Settings Modal Trigger -->
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-pill d-none d-xl-inline-flex align-items-center gap-1 shadow-sm px-3"
+                    data-bs-toggle="modal" data-bs-target="#resendConfigModal" title="Configure Resend.com API Key">
+                    <span>⚡</span> <span>Resend API</span>
+                </button>
+
+                <!-- User Profile Pill (Visible when logged in) -->
+                <div id="userProfileWrap" style="display: none;">
+                    <a href="./patient-profile.html" class="pt-user-pill" id="userProfileBtn" title="View Profile">
+                        <img id="navAvatarImg" src="./images/multi-therapy-logo.png" class="pt-user-avatar" alt="Avatar"
+                            style="display: none;">
+                        <div id="navAvatar" class="pt-user-avatar">👤</div>
+                        <div class="d-none d-sm-block text-start">
+                            <div style="font-weight: 700; font-size: 13.5px; line-height: 1.1;" id="navUsername">User</div>
+                            <div style="font-size: 11px; color: var(--pt-blue-brand); font-weight: 700; text-transform: capitalize;"
+                                id="navRole">Admin</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Logout Button (Visible when logged in) -->
+                <button type="button" id="logoutBtn" class="pt-logout-btn" style="display: none;" title="Sign out">
+                    <span>🚪</span> <span class="d-none d-sm-inline">Logout</span>
+                </button>
+
+                <!-- Public Header Actions (Visible when not logged in) -->
+                <div id="publicNavActions" class="d-flex align-items-center gap-2">
+                    <a href="./index.html#contact" class="pt-btn-contact" id="btnHeaderContact"
+                        title="Contact Multi Therapy Support">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                        </svg>
+                        <span>Contact</span>
+                    </a>
+
+                    <a href="./signup.html" class="pt-btn-signup" id="btnHeaderSignup"
+                        title="Create your patient account">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                        <span>Sign Up</span>
+                    </a>
+                </div>
+
             </div>
-          </form>
+        </div>
+    </header>
+
+    <!-- ======================================================================
+         3. MAIN CONTENT WRAPPER
+         ====================================================================== -->
+    <main class="pt-main-wrapper">
+
+        <!-- Global Status / Alert Container -->
+        <div id="patientAlert" class="alert alert-success alert-dismissible fade show mb-4 shadow-sm" role="alert" hidden>
+            <span id="patientAlertText">Operation completed successfully.</span>
+            <button type="button" class="btn-close" aria-label="Close" onclick="this.parentElement.hidden=true;"></button>
         </div>
 
-        <!-- Patients Table Card -->
-        <div class="content-box">
-          <div class="table-wrap">
-            <table class="table mb-0">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Age</th>
-                  <th>Gender</th>
-                  <th>Contact</th>
-                  <th>Address</th>
-                  <th>Disability Details</th>
-                  <th>Registration Date</th>
-                  <th>Email</th>
-                  <th>Email Verified</th>
-                  <th class="sticky-action">Action</th>
-                </tr>
-              </thead>
-              <tbody id="patientsTableBody">
-                <tr>
-                  <td colspan="10" class="text-center text-muted py-4">Loading patients...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </main>
+        <!-- ==================================================================
+             4. PATIENTS HERO SECTION (CARE, SUPPORT & PROGRESS)
+             ================================================================== -->
+        <section class="pt-hero-card" aria-label="Patients Hero Banner">
+            <div>
+                <!-- Category Pill -->
+                <div class="pt-hero-badge">
+                    <span>👥</span> Multi Therapy Clinical Records
+                </div>
 
+                <!-- Main Heading & Subtitle -->
+                <h1 class="pt-hero-title">Patients</h1>
+                <p class="pt-hero-subtitle">
+                    Manage patient records, appointments, therapy sessions, and progress. Seamlessly onboard patients with verified email OTP authentication.
+                </p>
+
+                <!-- Slogan: "Better Care, Brighter Futures" with Handwritten Cursive Accent -->
+                <div class="pt-slogan-wrap">
+                    <span class="pt-slogan-quote">Better Care, Brighter Futures</span>
+                    <svg class="pt-slogan-swoosh" viewBox="0 0 220 14" fill="none" aria-hidden="true">
+                        <path d="M3 11C60 3 155 2 217 9" stroke="#0875F9" stroke-width="3.2" stroke-linecap="round" />
+                    </svg>
+                </div>
+
+                <!-- Feature Trust Badges -->
+                <div class="pt-hero-features">
+                    <span class="pt-feature-pill green">✓ 100% Verified Records</span>
+                    <span class="pt-feature-pill">🔒 HIPAA / 256-Bit SSL Secure</span>
+                    <span class="pt-feature-pill">⚡ Automated Email OTP</span>
+                </div>
+            </div>
+
+            <!-- Healthcare Caregiver & Child in Wheelchair Illustration -->
+            <div class="pt-hero-illustration">
+                <svg class="pt-hero-svg" viewBox="0 0 360 300" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    aria-label="Caregiver helping child in wheelchair illustration">
+                    <defs>
+                        <linearGradient id="heroGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.9" />
+                            <stop offset="50%" stop-color="#ecfdf5" stop-opacity="0.8" />
+                            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.6" />
+                        </linearGradient>
+                        <filter id="heroShadow" x="-10%" y="-10%" width="120%" height="120%">
+                            <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#0c233c" flood-opacity="0.08" />
+                        </filter>
+                    </defs>
+
+                    <!-- Backdrop Glow Circle -->
+                    <ellipse cx="180" cy="155" rx="145" ry="125" fill="url(#heroGlow)" />
+
+                    <!-- Background Medical Crosses -->
+                    <g opacity="0.2">
+                        <rect x="50" y="70" width="8" height="24" rx="4" fill="#078B69" />
+                        <rect x="42" y="78" width="24" height="8" rx="4" fill="#078B69" />
+                        <rect x="300" y="90" width="8" height="24" rx="4" fill="#0875F9" />
+                        <rect x="292" y="98" width="24" height="8" rx="4" fill="#0875F9" />
+                    </g>
+
+                    <!-- Caregiver standing gently behind wheelchair -->
+                    <g id="caregiverGroup" filter="url(#heroShadow)">
+                        <path d="M110 240 C110 168 135 150 168 150 C201 150 226 168 226 240 Z" fill="#ffffff"
+                            stroke="#cbd5e1" stroke-width="2.5" />
+                        <path d="M152 150 L168 174 L184 150 Z" fill="#078B69" />
+                        <rect x="194" y="172" width="3.5" height="11" rx="1.5" fill="#078B69" />
+                        <rect x="190.25" y="175.75" width="11" height="3.5" rx="1.5" fill="#078B69" />
+                        <path d="M148 152 C148 172 156 182 168 182 C180 182 188 172 188 152" stroke="#1e293b"
+                            stroke-width="3" stroke-linecap="round" fill="none" />
+                        <circle cx="168" cy="186" r="4.5" fill="#94a3b8" stroke="#1e293b" stroke-width="1.8" />
+                        <path d="M130 185 Q115 205 106 218" stroke="#cbd5e1" stroke-width="10" stroke-linecap="round" />
+                        <circle cx="104" cy="220" r="7" fill="#fed7aa" />
+                        <path d="M206 185 Q220 205 228 218" stroke="#cbd5e1" stroke-width="10" stroke-linecap="round" />
+                        <circle cx="230" cy="220" r="7" fill="#fed7aa" />
+                        <circle cx="168" cy="116" r="22" fill="#fed7aa" />
+                        <path
+                            d="M146 112 C146 90 158 84 168 84 C178 84 190 90 190 112 C184 102 176 98 168 98 C160 98 152 102 146 112 Z"
+                            fill="#334155" />
+                        <circle cx="160" cy="116" r="2.2" fill="#1e293b" />
+                        <circle cx="176" cy="116" r="2.2" fill="#1e293b" />
+                        <path d="M162 125 Q168 131 174 125" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"
+                            fill="none" />
+                    </g>
+
+                    <!-- Clinical Wheelchair & Child -->
+                    <g id="childGroup" filter="url(#heroShadow)">
+                        <path d="M96 220 L108 220 L108 245" stroke="#64748b" stroke-width="4.5" stroke-linecap="round" />
+                        <path d="M226 220 L238 220 L226 245" stroke="#64748b" stroke-width="4.5" stroke-linecap="round" />
+                        <rect x="115" y="215" width="85" height="40" rx="8" fill="#103463" />
+                        <rect x="110" y="248" width="95" height="14" rx="5" fill="#0875F9" />
+                        <rect x="135" y="258" width="16" height="30" rx="6" fill="#0c4a6e" />
+                        <rect x="160" y="258" width="16" height="30" rx="6" fill="#0c4a6e" />
+                        <ellipse cx="143" cy="290" rx="10" ry="6" fill="#103463" />
+                        <ellipse cx="168" cy="290" rx="10" ry="6" fill="#103463" />
+                        <path d="M130 288 L180 288" stroke="#64748b" stroke-width="4" stroke-linecap="round" />
+                        <path d="M125 210 C125 186 140 180 156 180 C172 180 187 186 187 210 Z" fill="#0875F9" />
+                        <circle cx="156" cy="162" r="17" fill="#fed7aa" />
+                        <path
+                            d="M139 160 C139 144 148 140 156 140 C166 140 173 145 173 160 C168 152 162 150 156 150 C150 150 144 153 139 160 Z"
+                            fill="#78350f" />
+                        <circle cx="150.5" cy="162" r="2" fill="#451a03" />
+                        <circle cx="163.5" cy="162" r="2" fill="#451a03" />
+                        <path d="M150 170 Q156 176 163 170" stroke="#b45309" stroke-width="2.2" stroke-linecap="round"
+                            fill="none" />
+                        <path d="M178 195 Q196 185 204 170" stroke="#fed7aa" stroke-width="6.5" stroke-linecap="round" />
+                        <circle cx="206" cy="167" r="4.5" fill="#fed7aa" />
+                        <path d="M132 195 Q122 205 116 215" stroke="#fed7aa" stroke-width="6" stroke-linecap="round" />
+
+                        <!-- Large Main Wheel -->
+                        <g>
+                            <ellipse cx="118" cy="285" rx="36" ry="7" fill="#cbd5e1" opacity="0.5" />
+                            <circle cx="118" cy="254" r="34" stroke="#0875F9" stroke-width="5" fill="#ffffff"
+                                fill-opacity="0.9" />
+                            <circle cx="118" cy="254" r="27" stroke="#38bdf8" stroke-width="2.5" fill="none" />
+                            <line x1="118" y1="220" x2="118" y2="288" stroke="#93c5fd" stroke-width="1.8" />
+                            <line x1="84" y1="254" x2="152" y2="254" stroke="#93c5fd" stroke-width="1.8" />
+                            <line x1="94" y1="230" x2="142" y2="278" stroke="#93c5fd" stroke-width="1.8" />
+                            <line x1="94" y1="278" x2="142" y2="230" stroke="#93c5fd" stroke-width="1.8" />
+                            <circle cx="118" cy="254" r="6" fill="#103463" />
+                        </g>
+
+                        <!-- Front Caster Wheel -->
+                        <g>
+                            <path d="M185 258 L192 278" stroke="#103463" stroke-width="3.5" stroke-linecap="round" />
+                            <circle cx="194" cy="282" r="8" stroke="#103463" stroke-width="3" fill="#ffffff" />
+                            <circle cx="194" cy="282" r="2.5" fill="#0875F9" />
+                        </g>
+                    </g>
+                </svg>
+
+                <!-- Floating Heart Badge -->
+                <div class="pt-floating-heart" title="Compassionate Healthcare">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#ef4444" stroke="#dc2626"
+                        stroke-width="1.5">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             5. PATIENTS DASHBOARD SUMMARY CARDS (4 KPI METRICS)
+             ================================================================== -->
+        <section class="pt-kpi-grid" aria-label="Patients Dashboard KPI Metrics">
+
+            <!-- 1. Total Patients -->
+            <div class="pt-kpi-card">
+                <div class="pt-kpi-icon-wrap blue">
+                    👥
+                </div>
+                <div class="pt-kpi-content">
+                    <div class="pt-kpi-label">Total Patients</div>
+                    <div class="pt-kpi-value-wrap">
+                        <span class="pt-kpi-value" id="kpiTotalPatients">48</span>
+                        <span class="pt-kpi-badge blue">Active Registry</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Today's Appointments -->
+            <div class="pt-kpi-card">
+                <div class="pt-kpi-icon-wrap indigo">
+                    📅
+                </div>
+                <div class="pt-kpi-content">
+                    <div class="pt-kpi-label">Today's Appointments</div>
+                    <div class="pt-kpi-value-wrap">
+                        <span class="pt-kpi-value" id="kpiTodayAppointments">6</span>
+                        <span class="pt-kpi-badge purple">Scheduled</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Active Therapies -->
+            <div class="pt-kpi-card">
+                <div class="pt-kpi-icon-wrap green">
+                    💪
+                </div>
+                <div class="pt-kpi-content">
+                    <div class="pt-kpi-label">Active Therapies</div>
+                    <div class="pt-kpi-value-wrap">
+                        <span class="pt-kpi-value" id="kpiActiveTherapies">8</span>
+                        <span class="pt-kpi-badge green">Ongoing Care</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Progress Reports -->
+            <div class="pt-kpi-card">
+                <div class="pt-kpi-icon-wrap amber">
+                    📈
+                </div>
+                <div class="pt-kpi-content">
+                    <div class="pt-kpi-label">Progress Reports</div>
+                    <div class="pt-kpi-value-wrap">
+                        <span class="pt-kpi-value" id="kpiProgressReports">36</span>
+                        <span class="pt-kpi-badge amber">Verified</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================================================================
+             6. ADD NEW PATIENT FORM CARD
+             ================================================================== -->
+        <section class="pt-card" aria-label="Add New Patient">
+            <div class="pt-card-header">
+                <div class="pt-card-header-left">
+                    <h2><span>➕</span> Add New Patient Record</h2>
+                    <p>Enter patient demographics and clinical details. Email verification OTP ensures safe patient onboarding.</p>
+                </div>
+                <div>
+                    <span class="badge bg-light text-primary border px-3 py-2 fw-semibold" style="font-size: 13px;">
+                        ⚡ Resend.com 6-Digit OTP Protected
+                    </span>
+                </div>
+            </div>
+
+            <form id="addPatientForm" autocomplete="off">
+                <div class="pt-form-grid">
+
+                    <!-- Patient Name -->
+                    <div class="pt-form-group">
+                        <label for="pName" class="pt-form-label">
+                            <span>👤</span> Patient Full Name <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" id="pName" class="pt-form-control" placeholder="e.g. Rahul Sharma" required>
+                    </div>
+
+                    <!-- Age -->
+                    <div class="pt-form-group">
+                        <label for="pAge" class="pt-form-label">
+                            <span>🎂</span> Age (Years) <span class="text-danger">*</span>
+                        </label>
+                        <input type="number" id="pAge" class="pt-form-control" placeholder="e.g. 12" min="1" max="120" required>
+                    </div>
+
+                    <!-- Gender Dropdown -->
+                    <div class="pt-form-group">
+                        <label for="pGender" class="pt-form-label">
+                            <span>⚧</span> Gender <span class="text-danger">*</span>
+                        </label>
+                        <select id="pGender" class="pt-form-select" required>
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Contact Number (10 digits) -->
+                    <div class="pt-form-group">
+                        <label for="pContact" class="pt-form-label">
+                            <span>📞</span> Contact Number (10 Digits) <span class="text-danger">*</span>
+                        </label>
+                        <input type="tel" id="pContact" class="pt-form-control" placeholder="e.g. 9468650893"
+                            maxlength="10" pattern="[0-9]{10}" inputmode="numeric" required>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="pt-form-group">
+                        <label for="pAddress" class="pt-form-label">
+                            <span>📍</span> Residential Address <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" id="pAddress" class="pt-form-control" placeholder="e.g. Sector 14, Jaipur" required>
+                    </div>
+
+                    <!-- Disability Details -->
+                    <div class="pt-form-group">
+                        <label for="pDisability" class="pt-form-label">
+                            <span>🩺</span> Disability / Clinical Condition <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" id="pDisability" class="pt-form-control"
+                            placeholder="e.g. Spastic Cerebral Palsy, Hemiplegia" required>
+                    </div>
+
+                    <!-- Registration Date -->
+                    <div class="pt-form-group">
+                        <label for="pRegDate" class="pt-form-label">
+                            <span>🗓️</span> Registration Date <span class="text-danger">*</span>
+                        </label>
+                        <input type="date" id="pRegDate" class="pt-form-control" required>
+                    </div>
+
+                    <!-- Patient Email -->
+                    <div class="pt-form-group">
+                        <label for="pEmail" class="pt-form-label">
+                            <span>✉️</span> Patient Email (for OTP) <span class="text-danger">*</span>
+                        </label>
+                        <input type="email" id="pEmail" class="pt-form-control" placeholder="e.g. patient@gmail.com" required>
+                    </div>
+
+                </div>
+
+                <div class="pt-form-actions">
+                    <button type="submit" id="btnSendPatientOtp" class="pt-btn-submit">
+                        <span>📧</span> Send OTP &amp; Add Patient
+                    </button>
+
+                    <div class="pt-form-security-note">
+                        <span>🛡️ Patient information is securely saved upon successful OTP verification. Code expires in 10 minutes.</span>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <!-- ==================================================================
+             7. PATIENT LIST & DIRECTORY TABLE CARD
+             ================================================================== -->
+        <section class="pt-card" aria-label="Patient Directory Table">
+            <div class="pt-card-header">
+                <div class="pt-card-header-left">
+                    <h2><span>📋</span> Patient Directory</h2>
+                    <p>Comprehensive list of registered patients, verified contact information, and medical conditions.</p>
+                </div>
+                <div class="pt-toolbar-stats">
+                    <span class="pt-count-badge" id="patientCountBadge">Showing 0 Patients</span>
+                    <button type="button" class="pt-btn-refresh" id="btnRefreshPatients" title="Reload patients from database">
+                        <span>🔄</span> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search and Filter Toolbar -->
+            <div class="pt-table-toolbar">
+                <div class="pt-search-box">
+                    <span class="pt-search-icon">🔍</span>
+                    <input type="text" id="searchPatientInput" class="pt-search-input"
+                        placeholder="Search patients by name, email, contact, or condition..."
+                        aria-label="Search patients">
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <select id="filterGender" class="form-select form-select-sm rounded-pill px-3 py-2" style="width: auto;">
+                        <option value="all">All Genders</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <select id="filterStatus" class="form-select form-select-sm rounded-pill px-3 py-2" style="width: auto;">
+                        <option value="all">All Status</option>
+                        <option value="verified">Verified Only</option>
+                        <option value="unverified">Unverified Only</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Responsive Table Wrapper -->
+            <div class="pt-table-wrap">
+                <table class="pt-table" id="patientsTable">
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Contact</th>
+                            <th>Address</th>
+                            <th>Disability Details</th>
+                            <th>Registration Date</th>
+                            <th>Email</th>
+                            <th>Email Verified</th>
+                            <th class="pt-sticky-action">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patientsTableBody">
+                        <tr>
+                            <td colspan="10" class="text-center text-muted py-5">
+                                <div class="spinner-border text-primary spinner-border-sm me-2" role="status"></div>
+                                Loading patient records from Multi Therapy database...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State Container (Displayed when search matches 0 or no records) -->
+            <div id="patientEmptyState" class="pt-empty-state" style="display: none;">
+                <div class="pt-empty-icon">📂</div>
+                <h3 class="pt-empty-title">No Patient Records Found</h3>
+                <p class="pt-empty-desc" id="patientEmptyDesc">No patient records match your current search query or filter. Try adjusting your search criteria or register a new patient above.</p>
+                <button type="button" class="btn btn-primary btn-sm rounded-pill px-4" id="btnResetSearch">
+                    Clear Search Filter
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ======================================================================
+         8. PATIENT OTP VERIFICATION MODAL
+         ====================================================================== -->
+    <div class="modal fade" id="patientOtpModal" tabindex="-1" aria-labelledby="patientOtpModalLabel"
+        aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header pt-modal-header-blue text-white">
+                    <h5 class="modal-title fw-bold" id="patientOtpModalLabel">🔐 Verify Patient Email OTP</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-secondary mb-3">
+                        A secure 6-digit verification code has been dispatched to: <br>
+                        <strong id="modalTargetEmail" class="text-primary fs-6"></strong>
+                    </p>
+
+                    <div id="modalResendSuccessAlert" class="alert alert-success py-2 small mb-3" hidden></div>
+                    <div id="modalNoticeAlert" class="alert alert-info py-2 small mb-3" hidden></div>
+                    <div id="modalErrorAlert" class="alert alert-danger py-2 small mb-3" hidden></div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-navy">Enter 6-Digit Verification Code</label>
+                        <input type="text" id="patientOtpInput"
+                            class="form-control form-control-lg pt-otp-digit-input"
+                            placeholder="• • • • • •" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <button type="button" id="btnResendPatientOtp" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                            🔄 Resend OTP
+                        </button>
+                        <span class="small text-muted" id="otpTimerText">⏱️ Expires in 10 minutes</span>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light px-4 py-3">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="btnVerifyPatientOtp" class="btn btn-primary rounded-pill px-4 fw-bold">
+                        ✓ Verify &amp; Add Patient
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Patient OTP Verification Modal -->
-  <div class="modal fade" id="patientOtpModal" tabindex="-1" aria-labelledby="patientOtpModalLabel" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow">
-        <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title fw-bold" id="patientOtpModalLabel">🔐 Verify Patient Email OTP</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- ======================================================================
+         9. EDIT PATIENT MODAL
+         ====================================================================== -->
+    <div class="modal fade" id="editPatientModal" tabindex="-1" aria-labelledby="editPatientModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header pt-modal-header-blue text-white">
+                    <h5 class="modal-title fw-bold" id="editPatientModalLabel">✏️ Edit Patient Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div id="editPatientAlert" class="alert alert-danger py-2 small mb-3" hidden></div>
+
+                    <input type="hidden" id="editPId">
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="editPName" class="form-label fw-bold small text-secondary">Patient Full Name <span class="text-danger">*</span></label>
+                            <input type="text" id="editPName" class="form-control" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="editPAge" class="form-label fw-bold small text-secondary">Age (Years) <span class="text-danger">*</span></label>
+                            <input type="number" id="editPAge" class="form-control" min="1" max="120" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="editPGender" class="form-label fw-bold small text-secondary">Gender <span class="text-danger">*</span></label>
+                            <select id="editPGender" class="form-select" required>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="editPContact" class="form-label fw-bold small text-secondary">Contact Number (10 Digits) <span class="text-danger">*</span></label>
+                            <input type="tel" id="editPContact" class="form-control" maxlength="10" pattern="[0-9]{10}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editPEmail" class="form-label fw-bold small text-secondary">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" id="editPEmail" class="form-control" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="editPAddress" class="form-label fw-bold small text-secondary">Residential Address <span class="text-danger">*</span></label>
+                            <input type="text" id="editPAddress" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editPRegDate" class="form-label fw-bold small text-secondary">Registration Date <span class="text-danger">*</span></label>
+                            <input type="date" id="editPRegDate" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="editPDisability" class="form-label fw-bold small text-secondary">Disability / Medical Condition <span class="text-danger">*</span></label>
+                            <input type="text" id="editPDisability" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light px-4 py-3">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="btnSaveEditPatient" class="btn btn-primary rounded-pill px-4 fw-bold">
+                        💾 Save Changes
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="modal-body p-4">
-          <p class="text-secondary mb-3">
-            A 6-digit verification code has been sent to: <br>
-            <strong id="modalTargetEmail" class="text-primary fs-6"></strong>
-          </p>
-
-          <div id="modalResendSuccessAlert" class="alert alert-success py-2 small mb-3" hidden></div>
-          <div id="modalNoticeAlert" class="alert alert-info py-2 small mb-3" hidden></div>
-          <div id="modalErrorAlert" class="alert alert-danger py-2 small mb-3" hidden></div>
-
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Enter 6-Digit OTP Code</label>
-            <input type="text" id="patientOtpInput" class="form-control form-control-lg text-center letter-spacing-2 fw-bold" placeholder="• • • • • •" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center mt-3">
-            <button type="button" id="btnResendPatientOtp" class="btn btn-sm btn-outline-secondary">
-              🔄 Resend OTP
-            </button>
-            <span class="small text-muted">Expires in 10 minutes</span>
-          </div>
-        </div>
-        <div class="modal-footer bg-light">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" id="btnVerifyPatientOtp" class="btn btn-primary px-4 fw-semibold">
-            ✓ Verify &amp; Add Patient
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <!-- Resend Configuration Modal -->
-  <div class="modal fade" id="resendConfigModal" tabindex="-1" aria-labelledby="resendConfigModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow">
-        <div class="modal-header bg-dark text-white">
-          <h5 class="modal-title fw-bold" id="resendConfigModalLabel">⚡ Resend.com Email Settings</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body p-4">
-          <p class="text-secondary small mb-3">
-            Configure your Resend.com credentials to deliver patient verification OTP codes directly to their email address.
-          </p>
+    <!-- ======================================================================
+         10. RESEND CONFIGURATION SETTINGS MODAL
+         ====================================================================== -->
+    <div class="modal fade" id="resendConfigModal" tabindex="-1" aria-labelledby="resendConfigModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title fw-bold" id="resendConfigModalLabel">⚡ Resend.com Email Settings</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-secondary small mb-3">
+                        Configure your Resend.com credentials to deliver patient verification OTP codes directly to
+                        their email address.
+                    </p>
 
-          <div id="resendConfigAlert" class="alert alert-success py-2 small mb-3" hidden></div>
+                    <div id="resendConfigAlert" class="alert alert-success py-2 small mb-3" hidden></div>
 
-          <div class="mb-3">
-            <label class="form-label fw-semibold small text-secondary">Resend API Key</label>
-            <div class="input-group">
-              <input type="password" id="inputResendApiKey" class="form-control font-monospace" placeholder="re_123456789...">
-              <button class="btn btn-outline-secondary" type="button" id="btnToggleResendKey" title="Toggle visibility">👁️</button>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold small text-secondary">Resend API Key</label>
+                        <div class="input-group">
+                            <input type="password" id="inputResendApiKey" class="form-control font-monospace"
+                                placeholder="re_123456789...">
+                            <button class="btn btn-outline-secondary" type="button" id="btnToggleResendKey"
+                                title="Toggle visibility">👁️</button>
+                        </div>
+                        <div class="form-text small text-muted">
+                            Get an API key from <a href="https://resend.com/api-keys" target="_blank" rel="noopener"
+                                class="text-decoration-none">resend.com/api-keys</a>. On Vercel deployments, this is
+                            loaded from the <code>RESEND_API_KEY</code> environment variable.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold small text-secondary">Sender "From" Email</label>
+                        <input type="text" id="inputResendFromEmail" class="form-control"
+                            placeholder="Multi Therapy <onboarding@resend.dev>">
+                        <div class="form-text small text-muted">
+                            Defaults to <code>Multi Therapy &lt;onboarding@resend.dev&gt;</code>. If you verified a
+                            domain in Resend, you can use your domain address (e.g.
+                            <code>no-reply@yourdomain.com</code>).
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light px-4 py-3">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="btnSaveResendConfig" class="btn btn-primary rounded-pill px-4 fw-semibold">
+                        Save Settings
+                    </button>
+                </div>
             </div>
-            <div class="form-text small text-muted">
-              Get an API key from <a href="https://resend.com/api-keys" target="_blank" rel="noopener" class="text-decoration-none">resend.com/api-keys</a>. On Vercel deployments, this is loaded from the <code>RESEND_API_KEY</code> environment variable.
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label fw-semibold small text-secondary">Sender "From" Email</label>
-            <input type="text" id="inputResendFromEmail" class="form-control" placeholder="CP Healthcare <onboarding@resend.dev>">
-            <div class="form-text small text-muted">
-              Defaults to <code>CP Healthcare &lt;onboarding@resend.dev&gt;</code>. If you verified a domain in Resend, you can use your domain address (e.g. <code>no-reply@yourdomain.com</code>).
-            </div>
-          </div>
         </div>
-        <div class="modal-footer bg-light">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" id="btnSaveResendConfig" class="btn btn-primary px-4 fw-semibold">
-            Save Settings
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="./js/api.js"></script>
-  <script src="./js/resend.js"></script>
-  <script src="./js/patients.js"></script>
+    <!-- ======================================================================
+         11. FOOTER (CONSISTENT MULTI THERAPY BRANDING)
+         ====================================================================== -->
+    <footer class="pt-footer">
+        <div class="pt-footer-inner">
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo"
+                    style="width: 44px; height: 44px; border-radius: 50%; background: #ffffff; padding: 2px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                <div>
+                    <div style="font-weight: 800; font-size: 16px; color: #ffffff;">Multi Therapy</div>
+                    <div style="font-size: 12px; color: #38bdf8; font-weight: 600;">Care • Support • Progress • Together</div>
+                </div>
+            </div>
+
+            <div style="font-size: 13px; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                <div>&copy; 2026 Multi Therapy. All rights reserved.</div>
+                <div>
+                    <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer"
+                        title="Chat with us on WhatsApp"
+                        style="color: #ffffff; text-decoration: none; display: inline-flex; align-items: flex-start; gap: 8px; margin-top: 4px;">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"
+                            style="color: #25D366; flex-shrink: 0; margin-top: 2px;" aria-hidden="true">
+                            <path
+                                d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z" />
+                        </svg>
+                        <span
+                            style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.35; margin-left: 2px;">
+                            <strong style="color: #ffffff; font-size: 13px;">Help Desk:</strong>
+                            <span style="font-size: 11.5px; color: #38bdf8; font-weight: 600;">📱 Only WhatsApp Us</span>
+                            <strong style="color: #ffffff; font-size: 14px; letter-spacing: 0.3px;">+91 9468650893</strong>
+                            <span style="display: block; margin-top: 4px;">
+                                <img src="./images/whatsapp-us.png" alt="WhatsApp Us"
+                                    style="height: 30px; width: auto; display: block; border-radius: 9999px;">
+                            </span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ======================================================================
+         12. FLOATING WHATSAPP BUTTON
+         ====================================================================== -->
+    <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn"
+        title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp"
+        style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+        <img src="./images/whatsapp-us.png" alt="WhatsApp Us"
+            style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+    </a>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core App & API Scripts -->
+    <script src="./js/api.js"></script>
+    <script src="./js/cdn.js"></script>
+    <script src="./js/resend.js"></script>
+    <script src="./js/patients.js"></script>
+
 </body>
+
 </html>

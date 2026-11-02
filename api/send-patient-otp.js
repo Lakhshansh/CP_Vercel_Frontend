@@ -83,7 +83,7 @@ module.exports = async function handler(req, res) {
                 Hello <strong>${patientName}</strong>,
               </p>
               <p style="margin: 0 0 20px; font-size: 14px; line-height: 1.6; color: #475569;">
-                A request has been made to register or verify your patient profile on the <strong>Cerebral Palsy Care Management System</strong>. Please use the verification code below to verify your email address:
+                A request has been made to register or verify your patient profile on the <strong>Multi Therapy Portal</strong>. Please use the verification code below to verify your email address:
               </p>
 
               <!-- OTP Box -->
@@ -109,7 +109,7 @@ module.exports = async function handler(req, res) {
           <tr>
             <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 18px 32px; text-align: center;">
               <p style="margin: 0; font-size: 11px; color: #94a3b8; line-height: 1.4;">
-                Delivered via <strong>Resend.com Email API</strong> • Cerebral Palsy Healthcare Portal
+                Delivered via <strong>Resend.com Email API</strong> • Multi Therapy Portal
               </p>
             </td>
           </tr>
@@ -130,7 +130,7 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         from: sender,
         to: [email],
-        subject: `Patient Verification OTP: ${otp} - CP Management System`,
+        subject: `Patient Verification OTP: ${otp} - Multi Therapy`,
         html: emailHtml
       })
     });
@@ -138,9 +138,13 @@ module.exports = async function handler(req, res) {
     const resendData = await resendResponse.json();
 
     if (!resendResponse.ok) {
+      let errMsg = resendData.message || "Failed to deliver email through Resend API.";
+      if (errMsg.includes("You can only send testing emails")) {
+        errMsg = "Resend Sandbox Restriction: Testing emails can only be delivered to your registered Resend email address (joshilakhshansh@gmail.com). To send to other addresses, please verify your custom domain at resend.com/domains.";
+      }
       return res.status(resendResponse.status).json({
         success: false,
-        error: resendData.message || "Failed to deliver email through Resend API.",
+        error: errMsg,
         details: resendData
       });
     }

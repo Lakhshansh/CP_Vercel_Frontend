@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Background -->
+    <radialGradient id="bgGlow3" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#fff5f5" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </radialGradient>
+
+    <!-- Warm Rose Heart Gradient -->
+    <linearGradient id="roseHeartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#e11d48" />
+    </linearGradient>
+
+    <!-- Caring Blue Hand Gradient -->
+    <linearGradient id="careBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0866f5" />
+    </linearGradient>
+
+    <!-- Hope Gold Gradient -->
+    <linearGradient id="hopeGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fcd34d" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+
+    <!-- Shadow -->
+    <filter id="shadow3" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#881337" flood-opacity="0.12" />
+    </filter>
+  </defs>
+
+  <!-- Circular Outer Badge -->
+  <circle cx="250" cy="250" r="236" fill="url(#bgGlow3)" stroke="#ffe4e6" stroke-width="4" filter="url(#shadow3)" />
+  <circle cx="250" cy="250" r="224" fill="none" stroke="#fecdd3" stroke-width="2" stroke-dasharray="5,5" />
+
+  <!-- Heart Silhouette (Center Background) -->
+  <path d="M 250 380 
+           C 250 380 130 290 130 190 
+           C 130 130 180 95 235 125 
+           C 245 130 250 138 250 138 
+           C 250 138 255 130 265 125 
+           C 320 95 370 130 370 190 
+           C 370 290 250 380 250 380 Z"
+        fill="url(#roseHeartGrad)" 
+        opacity="0.16" />
+
+  <!-- Left Supportive Hand (Forming Left Heart Arc) -->
+  <path d="M 245 385
+           C 205 355 145 305 130 240
+           C 118 190 135 145 180 130
+           C 215 118 240 142 248 165
+           C 235 160 205 160 185 180
+           C 165 200 165 235 185 265
+           C 205 295 235 340 245 385 Z"
+        fill="url(#careBlueGrad)" />
+
+  <!-- Right Supportive Hand (Forming Right Heart Arc) -->
+  <path d="M 255 385
+           C 295 355 355 305 370 240
+           C 382 190 365 145 320 130
+           C 285 118 260 142 252 165
+           C 265 160 295 160 315 180
+           C 335 200 335 235 315 265
+           C 295 295 265 340 255 385 Z"
+        fill="url(#roseHeartGrad)" />
+
+  <!-- Central Multi-Therapy Uplift Star / Spark of Progress -->
+  <g transform="translate(250, 220)">
+    <circle cx="0" cy="0" r="30" fill="url(#hopeGoldGrad)" filter="url(#shadow3)" />
+    <!-- Rising Figure in the Center -->
+    <circle cx="0" cy="-8" r="7" fill="#ffffff" />
+    <path d="M -9 6 C -9 0 9 0 9 6 C 9 12 -9 12 -9 6 Z" fill="#ffffff" />
+  </g>
+
+  <!-- 4 Colored Therapy Dots around the Heart (PT, OT, ST, NT) -->
+  <circle cx="160" cy="115" r="11" fill="#0284c7" />
+  <circle cx="340" cy="115" r="11" fill="#10b981" />
+  <circle cx="105" cy="225" r="9" fill="#8b5cf6" />
+  <circle cx="395" cy="225" r="9" fill="#f43f5e" />
+
+  <!-- Pulse / ECG Rhythm at base -->
+  <path d="M 190 420 L 225 420 L 235 405 L 250 435 L 265 410 L 275 420 L 310 420"
+        fill="none" stroke="#0866f5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
+

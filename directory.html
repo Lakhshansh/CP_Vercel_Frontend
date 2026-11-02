@@ -1,0 +1,1956 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Find Doctors | Multi Therapy</title>
+  <meta name="description" content="Find qualified and experienced doctors for your therapy needs on Multi Therapy. Verified specialists in Neurology, Physiotherapy, Pediatrics, Occupational Therapy, Speech Therapy, and Orthopedic Care.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Landing CSS -->
+  <link rel="stylesheet" href="./css/landing.css?v=2.0">
+
+  <style>
+    /* ==========================================================================
+       FIND DOCTORS DIRECTORY PAGE - BLUE & WHITE HEALTHCARE DESIGN SYSTEM
+       ========================================================================== */
+    :root {
+      --dir-blue-primary: #0d6efd;
+      --dir-blue-hover: #0b5ed7;
+      --dir-blue-dark: #0a4ebd;
+      --dir-blue-light: #e0f2fe;
+      --dir-blue-soft: #f0f7ff;
+      --dir-navy: #103463;
+      --dir-text-main: #1e293b;
+      --dir-text-muted: #64748b;
+      --dir-border: #cbd5e1;
+      --dir-border-light: #e2e8f0;
+      --dir-card-bg: #ffffff;
+      --dir-success: #10b981;
+      --dir-success-light: #ecfdf5;
+      --dir-amber: #f59e0b;
+      --dir-amber-light: #fffbeb;
+      --dir-radius-lg: 20px;
+      --dir-radius-md: 14px;
+      --dir-radius-sm: 10px;
+      --dir-shadow-sm: 0 2px 8px rgba(16, 52, 99, 0.05);
+      --dir-shadow-md: 0 8px 24px rgba(16, 52, 99, 0.08);
+      --dir-shadow-hover: 0 14px 32px rgba(13, 110, 253, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #f7fbfe;
+      color: var(--dir-text-main);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    /* --------------------------------------------------------------------------
+       1. HEADER (Compact, ~60px logo, no wrap, no duplicate buttons)
+       -------------------------------------------------------------------------- */
+    .header-nav {
+      width: 100%;
+      height: 78px;
+      background: #ffffff;
+      border-bottom: 2px solid #e0f2fe;
+      box-shadow: 0 2px 10px rgba(16, 52, 99, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+    }
+
+    .header-inner {
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    /* Multi Therapy Logo: Exactly ~60x60 pixels */
+    .header-logo {
+      width: 60px !important;
+      height: 60px !important;
+      max-width: 60px !important;
+      max-height: 60px !important;
+      object-fit: contain !important;
+      border-radius: 50% !important;
+      display: block !important;
+      flex-shrink: 0 !important;
+      border: 1.5px solid #e2e8f0;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(13, 110, 253, 0.08);
+    }
+
+    .brand-title {
+      font-size: 25px;
+      font-weight: 800;
+      color: var(--dir-navy);
+      letter-spacing: -0.4px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    /* Navigation Menu */
+    .nav-links-wrap {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-link-item {
+      color: #334155;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+      position: relative;
+      padding: 4px 0;
+    }
+
+    .nav-link-item:hover,
+    .nav-link-item.active {
+      color: var(--dir-blue-primary);
+    }
+
+    .nav-link-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2.5px;
+      background: var(--dir-blue-primary);
+      border-radius: 2px;
+    }
+
+    /* Action Buttons on Right: Search + Sign Up */
+    .nav-actions-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .btn-header-search {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      color: var(--dir-navy);
+      border: 1.5px solid #cbd5e1;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-header-search:hover {
+      border-color: var(--dir-blue-primary);
+      color: var(--dir-blue-primary);
+      background: #f0f7ff;
+    }
+
+    .btn-header-signup {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--dir-blue-primary);
+      color: #ffffff;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(13, 110, 253, 0.25);
+    }
+
+    .btn-header-signup:hover {
+      background: var(--dir-blue-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.35);
+    }
+
+    .header-nav-toggle {
+      display: none;
+      background: none;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      color: var(--dir-navy);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Mobile Drawer */
+    .mobile-drawer-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 1099;
+    }
+
+    .mobile-drawer-backdrop.open {
+      display: block;
+    }
+
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 300px;
+      height: 100vh;
+      background: #ffffff;
+      z-index: 1100;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+      transition: right 0.3s ease;
+    }
+
+    .mobile-drawer.open {
+      right: 0;
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 12px;
+    }
+
+    .drawer-close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #64748b;
+      cursor: pointer;
+    }
+
+    .drawer-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .drawer-nav-link {
+      font-size: 15px;
+      font-weight: 600;
+      color: #334155;
+      text-decoration: none;
+      display: block;
+      padding: 6px 0;
+    }
+
+    .drawer-nav-link.active,
+    .drawer-nav-link:hover {
+      color: var(--dir-blue-primary);
+    }
+
+    .drawer-actions {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* --------------------------------------------------------------------------
+       2. HERO SECTION (Find Doctors, Subtitle, 4 Badges, Healthcare Illustration)
+       -------------------------------------------------------------------------- */
+    .hero-dir-section {
+      position: relative;
+      background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
+      padding: 56px 24px 64px;
+      border-bottom: 1px solid #dbeafe;
+      overflow: hidden;
+    }
+
+    .hero-dir-section::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(13, 110, 253, 0.1) 0%, rgba(13, 110, 253, 0) 70%);
+      pointer-events: none;
+    }
+
+    .hero-dir-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 48px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #ffffff;
+      color: var(--dir-blue-primary);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(13, 110, 253, 0.1);
+      margin-bottom: 18px;
+      border: 1px solid #bfdbfe;
+    }
+
+    .hero-dir-title {
+      font-size: 46px;
+      font-weight: 800;
+      color: var(--dir-navy);
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+    }
+
+    .hero-dir-title span {
+      color: var(--dir-blue-primary);
+      position: relative;
+    }
+
+    .hero-dir-subtitle {
+      font-size: 17.5px;
+      color: #475569;
+      line-height: 1.55;
+      margin-bottom: 32px;
+      max-width: 620px;
+    }
+
+    /* 4 Feature Badges */
+    .hero-features-quad {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      max-width: 620px;
+    }
+
+    .hero-feature-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      padding: 12px 16px;
+      border-radius: var(--dir-radius-md);
+      border: 1px solid #e0f2fe;
+      box-shadow: 0 2px 6px rgba(16, 52, 99, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .hero-feature-badge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(13, 110, 253, 0.1);
+      border-color: #bfdbfe;
+    }
+
+    .feature-badge-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: #f0f7ff;
+      color: var(--dir-blue-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-badge-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dir-navy);
+    }
+
+    /* Healthcare Illustration Card on Right */
+    .hero-illustration-card {
+      background: #ffffff;
+      border-radius: var(--dir-radius-lg);
+      padding: 24px;
+      box-shadow: var(--dir-shadow-md);
+      border: 1px solid #e2e8f0;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .hero-illustration-media {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #e2e8f0;
+      aspect-ratio: 16 / 10;
+    }
+
+    .hero-illustration-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-floating-stat {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(6px);
+      padding: 10px 16px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .stat-circle-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--dir-success-light);
+      color: var(--dir-success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stat-text-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .stat-number {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--dir-navy);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .hero-illustration-caption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .caption-brand {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .caption-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--dir-navy);
+    }
+
+    .caption-sub {
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .caption-badge {
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* --------------------------------------------------------------------------
+       3. SEARCH DOCTORS PANEL
+       -------------------------------------------------------------------------- */
+    .search-panel-wrapper {
+      max-width: 1320px;
+      margin: -36px auto 0;
+      padding: 0 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .search-panel-card {
+      background: #ffffff;
+      border-radius: var(--dir-radius-lg);
+      padding: 28px 32px;
+      box-shadow: var(--dir-shadow-md);
+      border: 1.5px solid #dbeafe;
+    }
+
+    .search-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .search-panel-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-panel-icon {
+      width: 28px;
+      height: 28px;
+      color: var(--dir-blue-primary);
+    }
+
+    .search-panel-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--dir-navy);
+      letter-spacing: -0.3px;
+    }
+
+    .btn-reset-filters {
+      background: none;
+      border: 1px solid #cbd5e1;
+      color: #475569;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-reset-filters:hover {
+      background: #f8fafc;
+      color: var(--dir-blue-primary);
+      border-color: var(--dir-blue-primary);
+    }
+
+    /* 4 Search Fields Grid */
+    .search-fields-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr) auto;
+      gap: 16px;
+      align-items: flex-end;
+    }
+
+    .search-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .search-field-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--dir-navy);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .search-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input-icon {
+      position: absolute;
+      left: 12px;
+      width: 16px;
+      height: 16px;
+      color: #94a3b8;
+      pointer-events: none;
+      transition: color 0.2s ease;
+    }
+
+    .search-input,
+    .search-select {
+      width: 100%;
+      height: 44px;
+      background: #f8fafc;
+      border: 1.5px solid var(--dir-border);
+      border-radius: var(--dir-radius-sm);
+      padding: 0 12px 0 38px;
+      font-size: 13.5px;
+      font-family: inherit;
+      color: var(--dir-text-main);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus,
+    .search-select:focus {
+      background: #ffffff;
+      border-color: var(--dir-blue-primary);
+      box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+    }
+
+    .search-input-wrap:focus-within .search-input-icon {
+      color: var(--dir-blue-primary);
+    }
+
+    .search-select {
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 14px;
+      padding-right: 32px;
+    }
+
+    .btn-search-doctors {
+      height: 44px;
+      background: var(--dir-blue-primary);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--dir-radius-sm);
+      padding: 0 22px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(13, 110, 253, 0.25);
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .btn-search-doctors:hover {
+      background: var(--dir-blue-hover);
+      box-shadow: 0 4px 14px rgba(13, 110, 253, 0.35);
+      transform: translateY(-1px);
+    }
+
+    /* --------------------------------------------------------------------------
+       4. AVAILABLE DOCTORS SECTION
+       -------------------------------------------------------------------------- */
+    .available-doctors-section {
+      max-width: 1320px;
+      margin: 44px auto 60px;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* Controls Bar: Results Count + Sort + Grid/List View */
+    .results-control-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      padding-bottom: 16px;
+      border-bottom: 1.5px solid #e2e8f0;
+    }
+
+    .results-heading-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .available-heading {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--dir-navy);
+      letter-spacing: -0.4px;
+    }
+
+    .doctors-count-badge {
+      background: #e0f2fe;
+      color: var(--dir-blue-dark);
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid #bae6fd;
+    }
+
+    .results-actions-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .sort-control-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sort-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+      white-space: nowrap;
+    }
+
+    .sort-select {
+      height: 38px;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 0 28px 0 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dir-navy);
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
+
+    .view-toggle-wrap {
+      display: flex;
+      align-items: center;
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 3px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .view-toggle-btn {
+      background: none;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .view-toggle-btn.active {
+      background: #ffffff;
+      color: var(--dir-blue-primary);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Doctors Card Grid */
+    .doctors-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+    }
+
+    .doctors-grid.list-view {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    /* Single Doctor Card */
+    .doctor-card {
+      background: #ffffff;
+      border-radius: var(--dir-radius-md);
+      border: 1px solid #e2e8f0;
+      box-shadow: var(--dir-shadow-sm);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .doctor-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--dir-shadow-hover);
+      border-color: #bfdbfe;
+    }
+
+    .doc-card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .doc-avatar-wrap {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+    }
+
+    .doc-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #e0f2fe;
+    }
+
+    .doc-avatar-initials {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0d6efd 0%, #103463 100%);
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #e0f2fe;
+      text-transform: uppercase;
+    }
+
+    .doc-verified-dot {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #10b981;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+      font-size: 9px;
+    }
+
+    .doc-card-title-wrap {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .doc-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--dir-navy);
+      letter-spacing: -0.3px;
+      line-height: 1.25;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .doc-specialization-pill {
+      display: inline-block;
+      align-self: flex-start;
+      background: #eff6ff;
+      color: var(--dir-blue-primary);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid #dbeafe;
+      white-space: nowrap;
+      margin-bottom: 4px;
+    }
+
+    .doc-rating-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+    }
+
+    .doc-rating-star {
+      color: #f59e0b;
+      font-size: 13px;
+    }
+
+    .doc-rating-val {
+      font-weight: 700;
+      color: var(--dir-navy);
+    }
+
+    .doc-rating-reviews {
+      color: #64748b;
+      font-size: 12px;
+    }
+
+    /* Doctor Details List */
+    .doc-details-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 10px 0 16px;
+      padding-top: 12px;
+      border-top: 1px solid #f1f5f9;
+      flex: 1;
+    }
+
+    .doc-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13px;
+      color: #475569;
+    }
+
+    .detail-svg {
+      width: 15px;
+      height: 15px;
+      color: #64748b;
+      flex-shrink: 0;
+    }
+
+    .detail-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .detail-text.text-available {
+      color: #059669;
+      font-weight: 700;
+    }
+
+    /* Action Buttons in Card */
+    .doc-card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding-top: 14px;
+      border-top: 1px solid #f1f5f9;
+      margin-top: auto;
+    }
+
+    .btn-doc-profile {
+      background: #ffffff;
+      color: var(--dir-navy);
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      height: 38px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-doc-profile:hover {
+      background: #f8fafc;
+      border-color: var(--dir-blue-primary);
+      color: var(--dir-blue-primary);
+    }
+
+    .btn-doc-book {
+      background: var(--dir-blue-primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      height: 38px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(13, 110, 253, 0.2);
+    }
+
+    .btn-doc-book:hover {
+      background: var(--dir-blue-hover);
+      box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* List View Adjustments */
+    .doctors-grid.list-view .doctor-card {
+      display: grid;
+      grid-template-columns: 240px 1fr 200px;
+      gap: 20px;
+      align-items: center;
+      padding: 18px 24px;
+    }
+
+    .doctors-grid.list-view .doc-card-header {
+      margin-bottom: 0;
+    }
+
+    .doctors-grid.list-view .doc-details-list {
+      margin: 0;
+      padding-top: 0;
+      border-top: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 16px;
+    }
+
+    .doctors-grid.list-view .doc-card-actions {
+      grid-template-columns: 1fr;
+      padding-top: 0;
+      border-top: none;
+      gap: 8px;
+    }
+
+    /* Pagination for Pages 1-4 */
+    .pagination-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 40px;
+      width: 100%;
+    }
+
+    .pagination-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #ffffff;
+      padding: 8px 14px;
+      border-radius: 12px;
+      box-shadow: var(--dir-shadow-sm);
+      border: 1px solid #e2e8f0;
+    }
+
+    .page-btn {
+      min-width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: var(--dir-navy);
+      font-size: 13.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      padding: 0 10px;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      border-color: var(--dir-blue-primary);
+      color: var(--dir-blue-primary);
+      background: #f0f7ff;
+    }
+
+    .page-btn.active {
+      background: var(--dir-blue-primary);
+      color: #ffffff;
+      border-color: var(--dir-blue-primary);
+      box-shadow: 0 2px 8px rgba(13, 110, 253, 0.25);
+    }
+
+    .page-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .page-control-btn {
+      font-size: 13px;
+      padding: 0 14px;
+    }
+
+    /* --------------------------------------------------------------------------
+       5. DOCTOR PROFILE MODAL
+       -------------------------------------------------------------------------- */
+    .doc-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .doc-modal-backdrop.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .doc-modal-dialog {
+      background: #ffffff;
+      border-radius: var(--dir-radius-lg);
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      border: 1px solid #e2e8f0;
+      position: relative;
+      animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalSlideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .doc-modal-header {
+      padding: 24px 28px 18px;
+      border-bottom: 1.5px solid #e0f2fe;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      background: linear-gradient(135deg, #f8fbff 0%, #eff6ff 100%);
+      border-radius: var(--dir-radius-lg) var(--dir-radius-lg) 0 0;
+    }
+
+    .modal-doc-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .modal-doc-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--dir-navy);
+      letter-spacing: -0.4px;
+    }
+
+    .modal-doc-degrees {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #64748b;
+    }
+
+    .modal-doc-badge {
+      display: inline-block;
+      align-self: flex-start;
+      background: var(--dir-blue-primary);
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      margin-top: 4px;
+    }
+
+    .modal-close-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #64748b;
+      font-size: 18px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .modal-close-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+
+    .doc-modal-body {
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .modal-details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      background: #f8fafc;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .modal-detail-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .modal-detail-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .modal-detail-val {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--dir-navy);
+    }
+
+    .modal-bio-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .modal-bio-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dir-navy);
+    }
+
+    .modal-bio-text {
+      font-size: 13.5px;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    .doc-modal-footer {
+      padding: 18px 28px 24px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .btn-modal-book {
+      background: var(--dir-blue-primary);
+      color: #ffffff;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(13, 110, 253, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .btn-modal-book:hover {
+      background: var(--dir-blue-hover);
+      transform: translateY(-1px);
+    }
+
+    /* --------------------------------------------------------------------------
+       6. CLEAN HEALTHCARE FOOTER
+       -------------------------------------------------------------------------- */
+    .dir-footer {
+      background: #ffffff;
+      border-top: 1.5px solid #e0f2fe;
+      margin-top: auto;
+      padding: 40px 24px 28px;
+    }
+
+    .footer-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-logo {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .footer-brand-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--dir-navy);
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--dir-blue-primary);
+    }
+
+    .footer-copy {
+      font-size: 12.5px;
+      color: #94a3b8;
+    }
+
+    /* --------------------------------------------------------------------------
+       RESPONSIVE BREAKPOINTS
+       -------------------------------------------------------------------------- */
+    @media (max-width: 1200px) {
+      .doctors-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .search-fields-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .btn-search-doctors {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .header-nav {
+        padding: 0 20px;
+      }
+      .nav-links-wrap {
+        display: none;
+      }
+      .btn-header-search {
+        display: none;
+      }
+      .header-nav-toggle {
+        display: flex;
+      }
+      .hero-dir-container {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .hero-illustration-card {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-nav {
+        height: 70px;
+      }
+      .header-logo {
+        width: 50px !important;
+        height: 50px !important;
+      }
+      .brand-title {
+        font-size: 22px;
+      }
+      .hero-dir-section {
+        padding: 40px 16px 48px;
+      }
+      .hero-dir-title {
+        font-size: 34px;
+      }
+      .hero-dir-subtitle {
+        font-size: 15px;
+      }
+      .hero-features-quad {
+        grid-template-columns: 1fr;
+      }
+      .search-panel-wrapper {
+        margin-top: -24px;
+        padding: 0 16px;
+      }
+      .search-panel-card {
+        padding: 20px 18px;
+      }
+      .search-fields-grid {
+        grid-template-columns: 1fr;
+      }
+      .btn-search-doctors {
+        grid-column: span 1;
+        width: 100%;
+      }
+      .available-doctors-section {
+        padding: 0 16px;
+        margin-top: 32px;
+      }
+      .doctors-grid {
+        grid-template-columns: 1fr;
+      }
+      .doctors-grid.list-view .doctor-card {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .doctors-grid.list-view .doc-details-list {
+        grid-template-columns: 1fr;
+      }
+      .modal-details-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======================================================================
+       1. COMPACT BLUE-AND-WHITE HEALTHCARE HEADER
+       ====================================================================== -->
+  <header class="header-nav" role="banner">
+    <div class="header-inner">
+
+      <!-- Logo & Brand Name (Logo approx 60x60px) -->
+      <a href="./index.html" class="header-brand" aria-label="Multi Therapy Home">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="header-logo" width="60" height="60">
+        <div style="display: flex; flex-direction: column; line-height: 1.15;">
+          <span class="brand-title">Multi Therapy</span>
+          <span style="font-size: 11.5px; font-weight: 600; color: #0284c7; letter-spacing: 0.2px;">Care • Support • Progress • Together</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links-wrap" id="navMenu">
+          <li><a href="./index.html" class="nav-link-item">Home</a></li>
+          <li><a href="./index.html#about" class="nav-link-item" id="navAbout">About</a></li>
+          <li><a href="./index.html#services" class="nav-link-item" id="navServices">Services</a></li>
+          <li><a href="./directory.html" class="nav-link-item active" aria-current="page" id="navDirectory">Directory</a></li>
+          <li><a href="./login.html" class="nav-link-item" id="navPatientLogin">Patient Login</a></li>
+          <li><a href="./doctor-login.html" class="nav-link-item" id="navDoctorLogin">Doctor Login</a></li>
+          <li><a href="./index.html#contact" class="nav-link-item" id="navContact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Action Buttons: Search + Sign Up (No duplicates, no wrapping) -->
+      <div class="nav-actions-wrap">
+        <button type="button" class="btn-header-search" id="btnHeaderSearch" aria-label="Search doctors directory">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>Search</span>
+        </button>
+        <a href="./signup.html" class="btn-header-signup" id="btnHeaderSignup">Sign Up</a>
+        <button class="header-nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">☰</button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Backdrop & Drawer -->
+  <div class="mobile-drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobile Navigation">
+    <div class="drawer-header">
+      <div class="header-brand">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy" class="header-logo" width="44" height="44" style="width:44px!important;height:44px!important;">
+        <span class="brand-title" style="font-size:20px;">Multi Therapy</span>
+      </div>
+      <button type="button" class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close menu">&times;</button>
+    </div>
+    <ul class="drawer-nav-list">
+      <li><a href="./index.html" class="drawer-nav-link">Home</a></li>
+      <li><a href="./index.html#about" class="drawer-nav-link">About</a></li>
+      <li><a href="./index.html#services" class="drawer-nav-link">Services</a></li>
+      <li><a href="./directory.html" class="drawer-nav-link active">Directory</a></li>
+      <li><a href="./login.html" class="drawer-nav-link">Patient Login</a></li>
+      <li><a href="./doctor-login.html" class="drawer-nav-link">Doctor Login</a></li>
+      <li><a href="./index.html#contact" class="drawer-nav-link">Contact</a></li>
+    </ul>
+    <div class="drawer-actions">
+      <a href="./signup.html" class="btn-header-signup" style="justify-content:center;">Sign Up</a>
+      <a href="./login.html" class="btn-header-search" style="justify-content:center;">Patient Login</a>
+    </div>
+  </aside>
+
+  <!-- ======================================================================
+       2. HERO SECTION: FIND DOCTORS + 4 FEATURE BADGES + ILLUSTRATION
+       ====================================================================== -->
+  <section class="hero-dir-section" aria-labelledby="heroHeading">
+    <div class="hero-dir-container">
+
+      <!-- Left Column: Title, Subtitle, and 4 Badges -->
+      <div class="hero-text-col">
+        <div class="hero-badge-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>Verified Healthcare Directory</span>
+        </div>
+
+        <h1 class="hero-dir-title" id="heroHeading">
+          Find <span>Doctors</span>
+        </h1>
+
+        <p class="hero-dir-subtitle">
+          Find qualified and experienced doctors for your therapy needs.
+        </p>
+
+        <!-- Four Feature Badges -->
+        <div class="hero-features-quad">
+          <!-- 1. Verified Doctors -->
+          <div class="hero-feature-badge">
+            <div class="feature-badge-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+            <span class="feature-badge-text">Verified Doctors</span>
+          </div>
+
+          <!-- 2. Trusted Care Network -->
+          <div class="hero-feature-badge">
+            <div class="feature-badge-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <span class="feature-badge-text">Trusted Care Network</span>
+          </div>
+
+          <!-- 3. Easy Appointments -->
+          <div class="hero-feature-badge">
+            <div class="feature-badge-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <span class="feature-badge-text">Easy Appointments</span>
+          </div>
+
+          <!-- 4. Better Therapy Outcomes -->
+          <div class="hero-feature-badge">
+            <div class="feature-badge-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+            </div>
+            <span class="feature-badge-text">Better Therapy Outcomes</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Suitable Healthcare Illustration -->
+      <div class="hero-illustration-col">
+        <div class="hero-illustration-card">
+          <div class="hero-illustration-media">
+            <img src="./images/doctor-login-avatar.svg" alt="Doctor Specialist Illustration" onerror="this.src='./images/doctor-avatar.svg'; this.onerror=null;" class="hero-illustration-img">
+            <div class="hero-floating-stat" aria-label="Clinical Stat">
+              <div class="stat-circle-icon" aria-hidden="true">✓</div>
+              <div class="stat-text-wrap">
+                <span class="stat-number">100% Verified</span>
+                <span class="stat-label">Licensed Specialists</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-illustration-caption">
+            <div class="caption-brand">
+              <span class="caption-title">Comprehensive Multi-Disciplinary Care</span>
+              <span class="caption-sub">Pediatric, Neurological &amp; Motor Rehabilitation</span>
+            </div>
+            <span class="caption-badge">Active Practice</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       3. SEARCH DOCTORS PANEL
+       ====================================================================== -->
+  <section class="search-panel-wrapper" aria-label="Search and Filter Doctors">
+    <div class="search-panel-card">
+
+      <div class="search-panel-header">
+        <div class="search-panel-title-wrap">
+          <svg class="search-panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <h2 class="search-panel-title">Search Doctors</h2>
+        </div>
+
+        <button type="button" class="btn-reset-filters" id="btnResetFilters" aria-label="Reset all search filters">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          <span>Reset Filters</span>
+        </button>
+      </div>
+
+      <div class="search-fields-grid">
+
+        <!-- 1. Doctor Name -->
+        <div class="search-field-group">
+          <label for="searchDoctorName" class="search-field-label">Doctor Name</label>
+          <div class="search-input-wrap">
+            <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <input type="text" id="searchDoctorName" class="search-input" placeholder="e.g. Dr. Sarah Mitchell" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- 2. Specialization Dropdown -->
+        <div class="search-field-group">
+          <label for="searchSpecialization" class="search-field-label">Specialization</label>
+          <div class="search-input-wrap">
+            <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+            <select id="searchSpecialization" class="search-select">
+              <option value="">All Specializations</option>
+              <option value="Neurology">Neurology</option>
+              <option value="Physiotherapy">Physiotherapy</option>
+              <option value="Pediatrics">Pediatrics</option>
+              <option value="Occupational Therapy">Occupational Therapy</option>
+              <option value="Speech Therapy">Speech Therapy</option>
+              <option value="Orthopedic Rehabilitation">Orthopedic Rehabilitation</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 3. Hospital or Clinic -->
+        <div class="search-field-group">
+          <label for="searchHospital" class="search-field-label">Hospital or Clinic</label>
+          <div class="search-input-wrap">
+            <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="12" y1="8" x2="12" y2="16"></line>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+            <input type="text" id="searchHospital" class="search-input" placeholder="e.g. City Neuro Care" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- 4. Location -->
+        <div class="search-field-group">
+          <label for="searchLocation" class="search-field-label">Location</label>
+          <div class="search-input-wrap">
+            <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <input type="text" id="searchLocation" class="search-input" placeholder="e.g. New York, NY" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Search Doctors Button -->
+        <button type="button" id="btnSearchDoctors" class="btn-search-doctors">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>Search Doctors</span>
+        </button>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       4. AVAILABLE DOCTORS (Grid, Sorting, List View & Pagination)
+       ====================================================================== -->
+  <main class="available-doctors-section" aria-labelledby="availableDoctorsHeading">
+
+    <!-- Results Control Bar -->
+    <div class="results-control-bar">
+      <div class="results-heading-wrap">
+        <h2 class="available-heading" id="availableDoctorsHeading">Available Doctors</h2>
+        <span class="doctors-count-badge" id="doctorsCountBadge">Showing 24 Verified Doctors</span>
+      </div>
+
+      <div class="results-actions-wrap">
+        <!-- Sorting dropdown -->
+        <div class="sort-control-group">
+          <label for="sortDoctors" class="sort-label">Sort By:</label>
+          <select id="sortDoctors" class="sort-select" aria-label="Sort doctors">
+            <option value="rating_desc">Highest Rated</option>
+            <option value="exp_desc">Most Experienced</option>
+            <option value="name_asc">Name (A-Z)</option>
+            <option value="name_desc">Name (Z-A)</option>
+          </select>
+        </div>
+
+        <!-- Grid / List View Toggle -->
+        <div class="view-toggle-wrap" role="group" aria-label="Layout view">
+          <button type="button" class="view-toggle-btn active" id="viewGridBtn" aria-label="Grid view" title="Grid View">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+          </button>
+          <button type="button" class="view-toggle-btn" id="viewListBtn" aria-label="List view" title="List View">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="8" y1="6" x2="21" y2="6"></line>
+              <line x1="8" y1="12" x2="21" y2="12"></line>
+              <line x1="8" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="6" x2="3.01" y2="6"></line>
+              <line x1="3" y1="12" x2="3.01" y2="12"></line>
+              <line x1="3" y1="18" x2="3.01" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Doctors Cards Container (Dynamically rendered by js/directory.js) -->
+    <div id="doctorsGridContainer" class="doctors-grid grid-view" aria-live="polite">
+      <!-- Cards populated by JavaScript -->
+    </div>
+
+    <!-- Pagination for Pages 1-4 -->
+    <div id="paginationContainer" class="pagination-wrapper" aria-label="Directory pagination">
+      <!-- Rendered dynamically by js/directory.js -->
+    </div>
+
+  </main>
+
+  <!-- ======================================================================
+       DOCTOR PROFILE DETAILS MODAL
+       ====================================================================== -->
+  <div class="doc-modal-backdrop" id="doctorProfileModal" role="dialog" aria-modal="true" aria-labelledby="modalDocName" aria-hidden="true">
+    <div class="doc-modal-dialog">
+
+      <div class="doc-modal-header">
+        <div class="modal-doc-meta">
+          <h3 class="modal-doc-name" id="modalDocName">Dr. Sarah Mitchell</h3>
+          <p class="modal-doc-degrees" id="modalDocDegrees">MD, DM (Neurology), FAAN</p>
+          <span class="modal-doc-badge" id="modalDocSpec">Neurology</span>
+        </div>
+        <button type="button" class="modal-close-btn" id="modalProfileCloseBtn" aria-label="Close doctor details modal">&times;</button>
+      </div>
+
+      <div class="doc-modal-body">
+        <div class="modal-details-grid">
+          <div class="modal-detail-block">
+            <span class="modal-detail-label">Patient Rating</span>
+            <span class="modal-detail-val" id="modalDocRating">4.9 (142 reviews)</span>
+          </div>
+          <div class="modal-detail-block">
+            <span class="modal-detail-label">Experience</span>
+            <span class="modal-detail-val" id="modalDocExperience">15+ Years</span>
+          </div>
+          <div class="modal-detail-block">
+            <span class="modal-detail-label">Hospital / Clinic</span>
+            <span class="modal-detail-val" id="modalDocHospital">City Neuro Care Hospital</span>
+          </div>
+          <div class="modal-detail-block">
+            <span class="modal-detail-label">Location</span>
+            <span class="modal-detail-val" id="modalDocLocation">New York, NY</span>
+          </div>
+          <div class="modal-detail-block">
+            <span class="modal-detail-label">Availability</span>
+            <span class="modal-detail-val" id="modalDocAvailability" style="color:#059669;">Available Today</span>
+          </div>
+          <div class="modal-detail-block">
+            <span class="modal-detail-label">Clinical Timing</span>
+            <span class="modal-detail-val" id="modalDocTiming">Mon - Fri, 9:00 AM - 4:00 PM</span>
+          </div>
+          <div class="modal-detail-block" style="grid-column: span 2;">
+            <span class="modal-detail-label">Standard Consultation</span>
+            <span class="modal-detail-val" id="modalDocFee" style="color:var(--dir-blue-primary);">$120</span>
+          </div>
+        </div>
+
+        <div class="modal-bio-block">
+          <h4 class="modal-bio-title">Clinical Background &amp; Expertise</h4>
+          <p class="modal-bio-text" id="modalDocBio">
+            Dr. Sarah Mitchell is a senior neuro-rehabilitation specialist with over 15 years of experience treating pediatric and adult cerebral palsy, spasticity management, and neuromuscular mobility rehabilitation.
+          </p>
+        </div>
+      </div>
+
+      <div class="doc-modal-footer">
+        <button type="button" class="btn-doc-profile" onclick="closeDoctorProfileModal()">Close</button>
+        <a href="./appointments.html" class="btn-modal-book" id="modalDocBookBtn">
+          <span>Book Appointment</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       FOOTER
+       ====================================================================== -->
+  <footer class="dir-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand-wrap">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="footer-logo">
+        <div>
+          <div class="footer-brand-name">Multi Therapy</div>
+          <div style="font-size: 11.5px; color: #0284c7; font-weight: 600;">Care • Support • Progress • Together</div>
+        </div>
+      </div>
+      <ul class="footer-links">
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./index.html#about">About Us</a></li>
+        <li><a href="./index.html#services">Services</a></li>
+        <li><a href="./directory.html">Doctor Directory</a></li>
+        <li><a href="./appointments.html">Appointments</a></li>
+        <li><a href="./index.html#contact">Contact</a></li>
+      </ul>
+      <div class="footer-copy-wrap" style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+        <p class="footer-copy" style="margin: 0;">
+          &copy; 2026 Multi Therapy. All rights reserved.
+        </p>
+        <div>
+          <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp" style="color: #103463; text-decoration: none; display: inline-flex; align-items: flex-start; gap: 8px; margin-top: 6px;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #25D366; flex-shrink: 0; margin-top: 2px;" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/></svg>
+            <span style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.35; margin-left: 2px;">
+              <strong style="color: #103463; font-size: 13px;">Help Desk:</strong>
+              <span style="font-size: 11.5px; color: #0284c7; font-weight: 600;">📱 Only WhatsApp Us</span>
+              <strong style="color: #103463; font-size: 14px; letter-spacing: 0.3px;">+91 9468650893</strong>
+              <span style="display: block; margin-top: 6px;">
+                <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 32px; width: auto; display: block; border-radius: 9999px;">
+              </span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./js/api.js"></script>
+  <script src="./js/cdn.js"></script>
+  <script src="./js/directory.js"></script>
+
+  <!-- Mobile Drawer Toggle Script -->
+  <script>
+    (function () {
+      const navToggle = document.getElementById('navToggle');
+      const mobileDrawer = document.getElementById('mobileDrawer');
+      const drawerBackdrop = document.getElementById('drawerBackdrop');
+      const drawerCloseBtn = document.getElementById('drawerCloseBtn');
+
+      function openDrawer() {
+        if (mobileDrawer) mobileDrawer.classList.add('open');
+        if (drawerBackdrop) drawerBackdrop.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeDrawer() {
+        if (mobileDrawer) mobileDrawer.classList.remove('open');
+        if (drawerBackdrop) drawerBackdrop.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      if (navToggle) navToggle.addEventListener('click', openDrawer);
+      if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeDrawer);
+      if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeDrawer);
+    })();
+  </script>
+
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+  </a>
+
+</body>
+</html>

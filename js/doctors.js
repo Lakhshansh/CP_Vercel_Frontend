@@ -311,7 +311,15 @@ async function loadDoctors() {
 
     tbody.innerHTML = doctors.map(d => `
       <tr>
-        <td><strong>${escapeHtml(d.name || '-')}</strong></td>
+        <td>
+          <div class="d-flex align-items-center gap-2">
+            ${d.profile_photo || d.photo
+              ? `<img src="${typeof CdnManager !== 'undefined' ? CdnManager.buildCdnUrl(d.profile_photo || d.photo, { width: 44, height: 44, crop: 'fill' }) : (d.profile_photo || d.photo)}" style="width: 26px; height: 26px; border-radius: 50%; object-fit: cover;" onerror="this.outerHTML='<span>🩺</span>';">`
+              : `<span>🩺</span>`
+            }
+            <strong>${escapeHtml(d.name || '-')}</strong>
+          </div>
+        </td>
         <td><span class="badge bg-light text-dark border">${escapeHtml(d.gender || '-')}</span></td>
         <td>${escapeHtml(d.specialization || '-')}</td>
         <td>${escapeHtml(d.contact || '-')}</td>

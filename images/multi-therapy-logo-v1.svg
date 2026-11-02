@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Background subtle gradient -->
+    <radialGradient id="bgGlow1" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#eff6ff" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </radialGradient>
+    
+    <!-- Primary Blue Gradient -->
+    <linearGradient id="blueGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#0866f5" />
+    </linearGradient>
+
+    <!-- Emerald Teal Gradient (Occupational / Sensory) -->
+    <linearGradient id="tealGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- Cyan Pulse Gradient (Speech / Communication) -->
+    <linearGradient id="cyanGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+
+    <!-- Violet Hope Gradient (Neuro / Cognitive) -->
+    <linearGradient id="violetGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+
+    <!-- Coral Vitality Gradient -->
+    <linearGradient id="coralGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb7185" />
+      <stop offset="100%" stop-color="#e11d48" />
+    </linearGradient>
+
+    <!-- Golden Progress Gradient -->
+    <linearGradient id="goldGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+
+    <!-- Drop Shadows -->
+    <filter id="softShadow1" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0b3c73" flood-opacity="0.16" />
+    </filter>
+    <filter id="glowShadow1" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0866f5" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Circular Base Badge -->
+  <circle cx="250" cy="250" r="236" fill="url(#bgGlow1)" stroke="#dbeafe" stroke-width="4" filter="url(#softShadow1)" />
+  <circle cx="250" cy="250" r="226" fill="none" stroke="#e0f2fe" stroke-width="2" stroke-dasharray="6,4" />
+
+  <!-- Multi-therapy 4 Radiant Therapy Nodes (Speech, Physical, Occupational, Neuro) -->
+  <!-- Node 1: Physical (Teal - Top Left) -->
+  <path d="M 230 148 C 210 115 160 125 155 165 C 150 200 185 220 220 205 Z" fill="url(#tealGrad1)" filter="url(#glowShadow1)" opacity="0.92" />
+  <circle cx="178" cy="155" r="9" fill="#ffffff" opacity="0.9" />
+
+  <!-- Node 2: Neuro/Cognitive (Violet - Top Right) -->
+  <path d="M 270 148 C 290 115 340 125 345 165 C 350 200 315 220 280 205 Z" fill="url(#violetGrad1)" filter="url(#glowShadow1)" opacity="0.92" />
+  <circle cx="322" cy="155" r="9" fill="#ffffff" opacity="0.9" />
+
+  <!-- Node 3: Occupational (Cyan - Center Up) -->
+  <path d="M 250 110 C 235 75 265 75 250 110 Z" fill="none" />
+  <circle cx="250" cy="98" r="16" fill="url(#goldGrad1)" filter="url(#glowShadow1)" />
+  <path d="M 250 86 L 253 95 L 262 95 L 255 101 L 257 110 L 250 104 L 243 110 L 245 101 L 238 95 L 247 95 Z" fill="#ffffff" />
+
+  <!-- Center Rising Human Figure (Progress & Recovery) -->
+  <!-- Head of Rising Patient/Person -->
+  <circle cx="250" cy="180" r="24" fill="url(#blueGrad1)" filter="url(#glowShadow1)" />
+  <!-- Joyous Uplifted Arms / Human Body -->
+  <path d="M 250 216 
+           C 220 216 195 230 180 255 
+           C 172 268 184 282 198 276 
+           C 215 268 232 264 250 264 
+           C 268 264 285 268 302 276 
+           C 316 282 328 268 320 255 
+           C 305 230 280 216 250 216 Z" 
+        fill="url(#blueGrad1)" />
+
+  <!-- Interlocking Caring Hands (Therapist & Doctor Foundation Supporting the Patient) -->
+  <!-- Left Supporting Hand -->
+  <path d="M 115 310
+           C 115 310 145 280 185 285
+           C 215 289 235 310 246 328
+           C 225 338 180 345 150 355
+           C 130 362 110 340 115 310 Z" 
+        fill="url(#cyanGrad1)" opacity="0.95" />
+
+  <!-- Right Supporting Hand (Embracing) -->
+  <path d="M 385 310
+           C 385 310 355 280 315 285
+           C 285 289 265 310 254 328
+           C 275 338 320 345 350 355
+           C 370 362 390 340 385 310 Z" 
+        fill="url(#tealGrad1)" opacity="0.95" />
+
+  <!-- Protective Therapeutic Arch / Caring Base -->
+  <path d="M 130 350
+           C 170 395 210 408 250 408
+           C 290 408 330 395 370 350
+           C 345 385 300 418 250 418
+           C 200 418 155 385 130 350 Z" 
+        fill="url(#blueGrad1)" />
+
+  <!-- Central Medical Cross Accent (Subtle & Elegant) -->
+  <g transform="translate(250, 318)">
+    <circle cx="0" cy="0" r="16" fill="#ffffff" filter="url(#glowShadow1)" />
+    <rect x="-3" y="-10" width="6" height="20" rx="3" fill="#0866f5" />
+    <rect x="-10" y="-3" width="20" height="6" rx="3" fill="#0866f5" />
+  </g>
+</svg>
+

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Payment Ledger | Multi Therapy</title>
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/subscriptions.css">
+
+  <style>
+    :root {
+      --primary-blue: #0866F5;
+      --navy-dark: #103463;
+      --clinical-teal: #059669;
+      --bg-light: #f8fafc;
+      --card-radius: 16px;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: var(--bg-light);
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+    }
+
+    .admin-nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 14px 28px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .admin-nav-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .admin-hero {
+      background: linear-gradient(135deg, #091e3a 0%, #103463 60%, #059669 100%);
+      color: #ffffff;
+      padding: 38px 24px;
+      margin-bottom: 28px;
+    }
+
+    .admin-hero-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .stat-card-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1320px;
+      margin: 0 auto 28px;
+      padding: 0 20px;
+    }
+
+    .admin-stat-card {
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 14px rgba(16, 52, 99, 0.05);
+      padding: 22px;
+      transition: transform 0.2s ease;
+    }
+
+    .admin-stat-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .admin-stat-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .admin-stat-val {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .admin-main-wrap {
+      max-width: 1320px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    .panel-card {
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 14px rgba(16, 52, 99, 0.05);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .table-modern thead th {
+      background: #f8fafc;
+      color: #475569;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 14px 16px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .table-modern tbody td {
+      padding: 16px;
+      vertical-align: middle;
+      font-size: 13.5px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .table-modern tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    .badge-captured {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .badge-pending {
+      background: #fffbeb;
+      color: #b45309;
+      border: 1px solid #fde68a;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .badge-failed {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    @media (max-width: 992px) {
+      .stat-card-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 576px) {
+      .stat-card-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="admin-nav">
+    <div class="admin-nav-inner">
+      <a href="./admin-subscriptions.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" style="width: 40px; height: 40px; border-radius: 50%;">
+        <div>
+          <div style="font-size: 19px; font-weight: 800; color: #103463; line-height: 1.1;">MULTI THERAPY</div>
+          <div style="font-size: 11px; font-weight: 700; color: #059669;">Admin Payments Ledger</div>
+        </div>
+      </a>
+
+      <div class="d-flex align-items-center gap-2">
+        <a href="./admin-subscriptions.html" class="btn btn-sm btn-outline-secondary fw-bold">Admin Hub</a>
+        <a href="./admin-plans.html" class="btn btn-sm btn-outline-secondary fw-bold">Plans Config</a>
+        <a href="./subscription-history.html" class="btn btn-sm btn-outline-primary fw-bold" target="_blank">User Receipts</a>
+        <a href="./index.html" class="btn btn-sm btn-danger fw-bold">Exit Admin</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="admin-hero">
+    <div class="admin-hero-inner">
+      <div>
+        <div class="badge bg-success mb-2 py-1 px-3" style="font-size: 12px; font-weight: 700;">Razorpay Gateway Ledger</div>
+        <h1 style="font-size: 30px; font-weight: 800; margin: 0 0 6px;">Payment Transactions &amp; Revenue Audit</h1>
+        <p style="color: #cbd5e1; margin: 0; font-size: 14.5px;">
+          Inspect Razorpay checkout order IDs, payment signatures, 18% GST tax breakdowns, customer billing records, and tax invoices.
+        </p>
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-light fw-bold" id="btnExportCsv">📥 Export CSV</button>
+        <button type="button" class="btn btn-light fw-bold" id="btnRefreshPayments">🔄 Refresh Ledger</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Metrics Row -->
+  <section class="stat-card-row">
+    <div class="admin-stat-card">
+      <div class="admin-stat-title">Total Revenue Collected</div>
+      <div class="admin-stat-val text-success" id="metricTotalVolume">₹0.00</div>
+      <div class="small text-muted mt-1">100% Captured in INR</div>
+    </div>
+
+    <div class="admin-stat-card">
+      <div class="admin-stat-title">Successful Transactions</div>
+      <div class="admin-stat-val text-primary" id="metricSuccessCount">0</div>
+      <div class="small text-success fw-bold mt-1">✓ Signature Verified</div>
+    </div>
+
+    <div class="admin-stat-card">
+      <div class="admin-stat-title">Pending / Failed</div>
+      <div class="admin-stat-val text-warning" id="metricPendingCount">0</div>
+      <div class="small text-muted mt-1">Requires follow-up</div>
+    </div>
+
+    <div class="admin-stat-card">
+      <div class="admin-stat-title">Average Order Value</div>
+      <div class="admin-stat-val text-dark" id="metricAvgOrder">₹0.00</div>
+      <div class="small text-muted mt-1">Net of 18% GST</div>
+    </div>
+  </section>
+
+  <!-- Main Transactions Panel -->
+  <main class="admin-main-wrap">
+
+    <div id="paymentAlertMsg" class="alert alert-success d-none mb-3" role="alert"></div>
+
+    <div class="panel-card">
+      <!-- Search & Filter Controls -->
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 pb-3 mb-4 border-bottom">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 800; color: #103463; margin: 0 0 4px;">Payment Audit Ledger</h2>
+          <p class="text-muted small mb-0">Live transaction records synchronized with MySQL and Razorpay Webhook events.</p>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <select id="statusFilter" class="form-select form-select-sm fw-bold" style="width: 150px;">
+            <option value="all">All Statuses</option>
+            <option value="captured">Captured (Success)</option>
+            <option value="pending">Pending</option>
+            <option value="failed">Failed</option>
+          </select>
+
+          <input type="text" id="paymentSearchInput" class="form-control form-control-sm" placeholder="🔍 Search Order ID / Email..." style="width: 240px;">
+        </div>
+      </div>
+
+      <!-- Transactions Table -->
+      <div class="table-responsive">
+        <table class="table table-modern align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Payment ID / Date</th>
+              <th>Subscriber Details</th>
+              <th>Tier &amp; Cycle</th>
+              <th>Amount (Inc. GST)</th>
+              <th>Payment Method</th>
+              <th>Status</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="paymentsTableBody">
+            <!-- Dynamically populated by js/admin-payments.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Transaction Details Modal -->
+  <div class="modal fade" id="paymentDetailsModal" tabindex="-1" aria-labelledby="paymentDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" style="border-radius: 16px;">
+        <div class="modal-header" style="background: #f8fafc; border-bottom: 1px solid #e2e8f0; border-radius: 16px 16px 0 0;">
+          <h5 class="modal-title fw-bold" id="paymentDetailsModalLabel" style="color: #103463;">💳 Transaction Breakdown</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4" id="paymentModalContent">
+          <!-- Populated dynamically -->
+        </div>
+        <div class="modal-footer" style="background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 16px 16px;">
+          <button type="button" class="btn btn-secondary fw-bold" data-bs-dismiss="modal">Close</button>
+          <a href="#" id="modalInvoiceBtn" target="_blank" class="btn btn-primary fw-bold" style="background:#0866F5;">📄 View Official Tax Invoice</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="margin-top: auto; background: #ffffff; border-top: 1px solid #e2e8f0; padding: 20px 24px; text-align: center;">
+    <div style="font-size: 13px; color: #64748b;">
+      © 2026 <strong>MULTI THERAPY</strong>. Razorpay Certified Transaction Ledger.
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/admin-payments.js"></script>
+</body>
+</html>
+

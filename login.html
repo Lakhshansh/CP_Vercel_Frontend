@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Patient Login - Multi Therapy Management System</title>
-  <meta name="description" content="Access your Multi Therapy Management System patient account to book appointments, view personalized therapy sessions, track clinical milestones, and connect with caring doctors.">
+  <title>Patient Login | Multi Therapy</title>
+  <meta name="description" content="Access your Multi Therapy patient account to book appointments, view personalized therapy sessions, track clinical milestones, and connect with caring doctors.">
   <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
 
   <!-- Google Fonts: Plus Jakarta Sans & Caveat -->
@@ -568,6 +568,18 @@
       border: 1px solid #bbf7d0;
     }
 
+    .alert-warning {
+      background-color: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    .alert-info {
+      background-color: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+
     /* Primary Submit Button: Login as Patient */
     .patient-btn-primary {
       width: 100%;
@@ -769,11 +781,11 @@
       <div class="cp-navbar-inner">
         
         <!-- Brand Logo & Name (Together on the left) -->
-        <a class="cp-brand" href="./index.html" title="Multi Therapy Management System Home">
-          <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="cp-brand-logo-img" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; flex-shrink: 0 !important; display: block !important;">
+        <a class="cp-brand" href="./index.html" title="Multi Therapy Home">
+          <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="cp-brand-logo-img" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; flex-shrink: 0 !important; display: block !important;">
           <div class="cp-brand-text">
             <span class="cp-brand-title">Multi Therapy</span>
-            <span class="cp-brand-subtitle">Management System</span>
+            <span class="cp-brand-tagline">Care • Support • Progress • Together</span>
           </div>
         </a>
 
@@ -843,7 +855,7 @@
 
         <!-- Healthcare Patient Session Illustration Card -->
         <div class="patient-illustration-card">
-          <img src="./images/patient-avatar.jpg" alt="Caring therapy session with patient" class="patient-avatar-thumb">
+          <img src="./images/patient-avatar.svg" alt="" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJwYXRHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMGIzYzczIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMwODY2ZjUiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMjg0YzciLz48L2xpbmVhckdyYWRpZW50PjxmZWRyb3BTaGFkb3cgaWQ9InNoYWRvdyIgeD0iLTEwJSIgeT0iLTEwJSIgd2lkdGg9IjEyMCUiIGhlaWdodD0iMTIwJSI+PGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjQiIHN0ZERldmlhdGlvbj0iNCIgZmxvb2QtY29sb3I9IiMwMDAiIGZsb29kLW9wYWNpdHk9IjAuMTUiLz48L2ZpbHRlcj48L2RlZnM+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5NiIgZmlsbD0idXJsKCNwYXRHcmFkKSIvPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2Utb3BhY2l0eT0iMC4zIi8+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsdGVyPSJ1cmwoI3NoYWRvdykiPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjcyIiByPSIzMiIvPjxwYXRoIGQ9Ik0gNDUsMTYyIEMgNDUsMTI0IDcyLDExOCAxMDAsMTE4IEMgMTI4LDExOCAxNTUsMTI0IDE1NSwxNjIgQyAxNTUsMTY4IDE1MCwxNzIgMTQ0LDE3MiBMIDU2LDE3MiBDIDUwLDE3MiA0NSwxNjggNDUsMTYyIFoiLz48cGF0aCBkPSJNIDEwMCwxMzggQyA5NiwxMzMgODgsMTMzIDg1LDEzOCBDIDgyLDE0MyA4NSwxNDggMTAwLDE1NyBDIDExNSwxNDggMTE4LDE0MyAxMTUsMTM4IEMgMTEyLDEzMyAxMDQsMTMzIDEwMCwxMzggWiIgZmlsbD0iIzM4YmRmOCIvPjwvZz48L3N2Zz4='; this.onerror=null;" class="patient-avatar-thumb">
           <div class="patient-thumb-info">
             <span class="patient-thumb-title">Personalized Therapy &amp; Care</span>
             <span class="patient-thumb-desc">Direct access to your physiotherapists, speech specialists, and occupational therapists.</span>
@@ -925,7 +937,7 @@
           <!-- Card Header -->
           <div class="patient-card-header">
             <div class="patient-card-logo-wrap">
-              <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="patient-card-logo" width="58" height="58">
+              <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="patient-card-logo" width="58" height="58">
             </div>
             <h2 class="patient-card-title">Patient Login</h2>
             <p class="patient-card-sub">Sign in to continue to your account.</p>
@@ -982,7 +994,7 @@
                 <input type="checkbox" id="remember" checked>
                 <span>Remember Me</span>
               </label>
-              <a href="./forgot.html" id="forgotLink" class="patient-forgot-link">Forgot Password?</a>
+              <a href="./patient-forgot.html" id="forgotLink" class="patient-forgot-link">Forgot Password?</a>
             </div>
 
             <!-- Alert Message for Login Results / Errors -->
@@ -1030,6 +1042,37 @@
   </main>
 
   <!-- ======================================================================
+       FOOTER
+       ====================================================================== -->
+  <footer style="background: #103463; color: #94a3b8; padding: 22px 24px; margin-top: auto; border-top: 1px solid #1e427b;">
+    <div style="max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" style="width: 42px; height: 42px; border-radius: 50%; background: #ffffff; padding: 2px;">
+        <div>
+          <div style="font-weight: 800; font-size: 15px; color: #ffffff;">Multi Therapy</div>
+          <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600;">Care • Support • Progress • Together</div>
+        </div>
+      </div>
+      <div style="font-size: 12.5px; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+        <div>&copy; 2026 Multi Therapy. All rights reserved.</div>
+        <div>
+          <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp" style="color: #ffffff; text-decoration: none; display: inline-flex; align-items: flex-start; gap: 8px; margin-top: 6px;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #25D366; flex-shrink: 0; margin-top: 2px;" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/></svg>
+            <span style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.35; margin-left: 2px;">
+              <strong style="color: #ffffff; font-size: 13px;">Help Desk:</strong>
+              <span style="font-size: 11.5px; color: #38bdf8; font-weight: 600;">📱 Only WhatsApp Us</span>
+              <strong style="color: #ffffff; font-size: 14px; letter-spacing: 0.3px;">+91 9468650893</strong>
+              <span style="display: block; margin-top: 6px;">
+                <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 32px; width: auto; display: block; border-radius: 9999px;">
+              </span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================================
        INFORMATIONAL MODAL (About, Services, Contact Details)
        ====================================================================== -->
   <div class="cp-modal-backdrop" id="infoModal" role="dialog" aria-modal="true" aria-hidden="true">
@@ -1045,8 +1088,9 @@
   </div>
 
   <!-- Core JavaScript Handlers -->
-  <script src="./js/api.js"></script>
-  <script src="./js/login.js"></script>
+  <script src="./js/api.js?v=2.1"></script>
+  <script src="./js/cdn.js"></script>
+  <script src="./js/login.js?v=2.1"></script>
 
   <script>
     // Mobile navigation toggle
@@ -1092,8 +1136,8 @@
       openInfoModal("Contact Multi Therapy Support", `
         <p style="margin-bottom: 12px;">Our clinical care team is here to support patients, families, and therapists.</p>
         <div style="background: #f0f7ff; padding: 14px 18px; border-radius: 10px; margin: 16px 0; border-left: 4px solid #0d6efd; font-size: 14px; line-height: 1.8;">
-          <div>📞 <strong>Toll-Free Patient Care Helpline:</strong> +1 (800) 555-CP-CARE</div>
-          <div>✉️ <strong>General Inquiries:</strong> info@cpmanagementsystem.org</div>
+          <div><a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp" style="color: #0d6efd; font-weight: 700; text-decoration: none; display: inline-flex; align-items: flex-start; gap: 8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #25D366; flex-shrink: 0; margin-top: 2px;" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/></svg><span style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.35;"><strong style="font-size: 13px;">Help Desk:</strong><span style="font-size: 11.5px; color: #0284c7; font-weight: 600;">📱 Only WhatsApp Us</span><strong style="font-size: 14px; letter-spacing: 0.3px;">+91 9468650893</strong></span></a></div>
+          <div>✉️ <strong>General Inquiries:</strong> info@multitherapy.com</div>
           <div>🏥 <strong>Clinical Emergency:</strong> Available 24/7 via Healthcare Portal</div>
         </div>
         <p style="font-size: 13px; color: #64748b;">For existing therapy session changes or doctor notes, please log in or reach out directly to your attending clinician.</p>
@@ -1122,7 +1166,7 @@
       navAbout.addEventListener("click", (e) => {
         e.preventDefault();
         openInfoModal("About Multi Therapy Care", `
-          <p><strong>Multi Therapy Management System</strong> is a comprehensive clinical management platform uniting patients, therapists, doctors, and family caregivers.</p>
+          <p><strong>Multi Therapy</strong> is a comprehensive clinical management platform uniting patients, therapists, doctors, and family caregivers.</p>
           <p style="margin-top: 12px;">We simplify therapy scheduling, track motor and communication milestones, and empower patients through every phase of neuromuscular rehabilitation.</p>
           <div style="background: #f0f7ff; padding: 12px 16px; border-radius: 8px; margin-top: 14px; border-left: 4px solid #0284c7;">
             💡 <em>"Better Care, Brighter Tomorrow — Every Step Matters."</em>
@@ -1147,5 +1191,10 @@
       });
     }
   </script>
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+  </a>
+
 </body>
 </html>

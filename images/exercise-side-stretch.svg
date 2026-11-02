@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sideGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FDF4"/>
+      <stop offset="100%" stop-color="#DCFCE7"/>
+    </linearGradient>
+    <filter id="shadowSide" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#059669" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="400" height="260" rx="20" fill="url(#sideGrad)"/>
+  
+  <!-- Subtle circular accents -->
+  <circle cx="330" cy="70" r="45" fill="#BBF7D0" opacity="0.4"/>
+
+  <!-- Character performing lateral side stretch -->
+  <g filter="url(#shadowSide)" transform="translate(130, 20)">
+    <!-- Head tilted slightly -->
+    <circle cx="85" cy="40" r="20" fill="#103463"/>
+    
+    <!-- Torso bent laterally to right side -->
+    <path d="M 65 145 C 65 110, 85 85, 88 65" fill="none" stroke="#059669" stroke-width="26" stroke-linecap="round"/>
+    
+    <!-- Left Arm curved gracefully overhead -->
+    <path d="M 75 80 C 85 40, 115 35, 125 55" fill="none" stroke="#0866F5" stroke-width="14" stroke-linecap="round"/>
+    
+    <!-- Right Arm along side/hip for stability -->
+    <path d="M 98 88 L 105 135" fill="none" stroke="#103463" stroke-width="12" stroke-linecap="round"/>
+    
+    <!-- Legs in stable standing stance -->
+    <path d="M 60 145 L 35 215 M 72 145 L 95 215" stroke="#334155" stroke-width="15" stroke-linecap="round"/>
+
+    <!-- Lateral Stretch Motion Curve & Arrow -->
+    <path d="M 135 45 C 145 65, 142 85, 130 100" fill="none" stroke="#D97706" stroke-width="3" stroke-linecap="round" stroke-dasharray="4,4"/>
+    <polygon points="124,96 130,105 136,96" fill="#D97706"/>
+  </g>
+
+  <!-- Badge Pill -->
+  <rect x="24" y="20" width="122" height="28" rx="14" fill="#FFFFFF" opacity="0.95"/>
+  <text x="36" y="38" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="11.5" font-weight="800" fill="#059669">SIDE STRETCH</text>
+  <circle cx="134" cy="34" r="4" fill="#059669"/>
+</svg>
+

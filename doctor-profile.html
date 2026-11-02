@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Profile | Multi Therapy</title>
+  <meta name="description"
+    content="Multi Therapy - Physician & Therapist Profile. Manage professional credentials, clinical specialization, practice availability, and profile photo.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+  <style>
+    :root {
+      --clinical-navy: #103463;
+      --clinical-teal: #078B69;
+      --clinical-teal-hover: #067256;
+      --clinical-teal-light: #ecfdf5;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --card-radius: 20px;
+      --shadow-subtle: 0 10px 30px rgba(16, 52, 99, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+    }
+
+    /* Top Role Switcher Banner */
+    .role-switcher-banner-doc {
+      background: linear-gradient(90deg, #ecfdf5 0%, #f0fdf4 100%);
+      border-bottom: 1px solid #a7f3d0;
+      padding: 8px 24px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .role-current-tag-doc {
+      font-weight: 700;
+      color: #065f46;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .role-switch-link-doc {
+      color: #0866F5;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 4px 12px;
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      transition: all 0.2s ease;
+    }
+
+    .role-switch-link-doc:hover {
+      background: #0866F5;
+      color: #ffffff;
+    }
+
+    /* Header Nav */
+    .header-nav {
+      position: sticky;
+      top: 0;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      z-index: 1000;
+      padding: 0 28px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 12px rgba(16, 52, 99, 0.05);
+    }
+
+    .header-inner {
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 2px;
+      box-shadow: 0 2px 8px rgba(7, 139, 105, 0.15);
+    }
+
+    .brand-title {
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--clinical-navy);
+      line-height: 1.1;
+    }
+
+    .brand-tagline {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--clinical-teal);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-link-item {
+      color: #334155;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      padding: 6px 0;
+    }
+
+    .nav-link-item:hover,
+    .nav-link-item.active {
+      color: var(--clinical-teal);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-pill-doc {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 14px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 999px;
+      text-decoration: none;
+      color: var(--clinical-navy);
+      transition: all 0.2s ease;
+    }
+
+    .user-pill-avatar-doc {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--clinical-teal);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      object-fit: cover;
+    }
+
+    .logout-btn {
+      background: #ffffff;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .logout-btn:hover {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #fca5a5;
+    }
+
+    /* Main Container */
+    .profile-main-wrap {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 36px 20px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* Doctor Profile Hero Card */
+    .profile-hero-card-doc {
+      background: linear-gradient(135deg, #091e3a 0%, #103463 60%, #078B69 100%);
+      color: #ffffff;
+      border-radius: var(--card-radius);
+      padding: 36px 40px;
+      box-shadow: 0 16px 36px rgba(16, 52, 99, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+      position: relative;
+    }
+
+    .profile-hero-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Avatar & Photo Controls */
+    .avatar-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      min-width: 130px;
+      z-index: 10;
+    }
+
+    .avatar-circle-container {
+      position: relative;
+      width: 110px;
+      height: 110px;
+    }
+
+    .profile-avatar-large {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 4px solid #ffffff;
+      background: #ffffff;
+      object-fit: cover;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+    }
+
+    img.profile-avatar-large {
+      font-size: 0 !important;
+      color: transparent !important;
+      line-height: 0 !important;
+      display: block;
+    }
+
+    div.profile-avatar-large {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--clinical-teal);
+    }
+
+    .avatar-camera-btn {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid var(--clinical-teal);
+      color: var(--clinical-teal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+      z-index: 5;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .avatar-camera-btn:hover {
+      transform: scale(1.1);
+      background: #ecfdf5;
+    }
+
+    .avatar-preview-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #10b981;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1.5px solid #ffffff;
+      display: none;
+      z-index: 5;
+    }
+
+    .avatar-actions-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+      z-index: 10;
+      margin-top: 4px;
+    }
+
+    .btn-avatar-pill {
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--clinical-navy);
+      border: none;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-avatar-pill:hover {
+      background: #ffffff;
+      color: var(--clinical-teal);
+      transform: translateY(-1px);
+    }
+
+    .btn-avatar-danger {
+      color: #dc2626 !important;
+    }
+
+    .btn-avatar-danger:hover {
+      background: #fee2e2 !important;
+      color: #991b1b !important;
+    }
+
+    .profile-info-block h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .profile-tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+
+    .badge-verified-doc {
+      background: rgba(16, 185, 129, 0.35);
+      border: 1px solid rgba(16, 185, 129, 0.8);
+      color: #ffffff;
+    }
+
+    .hero-actions-right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-hero-white-doc {
+      background: #ffffff;
+      color: var(--clinical-navy);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-hero-white-doc:hover {
+      background: #ecfdf5;
+      color: var(--clinical-teal);
+      transform: translateY(-1px);
+    }
+
+    /* Grid Layout for Details */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 28px;
+    }
+
+    .profile-card {
+      background: var(--card-bg);
+      border-radius: var(--card-radius);
+      border: 1.5px solid #e2e8f0;
+      box-shadow: var(--shadow-subtle);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card-heading {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--clinical-navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 12px;
+    }
+
+    /* Form Fields */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group-custom {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label-custom {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .form-control-custom {
+      height: 46px;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 0 14px;
+      font-size: 14px;
+      color: var(--text-main);
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-control-custom:focus {
+      border-color: var(--clinical-teal);
+      box-shadow: 0 0 0 3px rgba(7, 139, 105, 0.15);
+    }
+
+    .form-control-custom:read-only {
+      background: #f8fafc;
+      color: #64748b;
+    }
+
+    .btn-save-profile-doc {
+      background: var(--clinical-teal);
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(7, 139, 105, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .btn-save-profile-doc:hover {
+      background: var(--clinical-teal-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-cancel-profile {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1.5px solid #cbd5e1;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-cancel-profile:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    /* Practice Stats */
+    .doc-stat-box {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .stat-title-doc {
+      font-size: 12px;
+      font-weight: 700;
+      color: #065f46;
+      text-transform: uppercase;
+    }
+
+    .stat-val-doc {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--clinical-navy);
+    }
+
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      transition: transform 0.3s ease;
+      z-index: 9999;
+    }
+
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 992px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-hero-card-doc {
+        padding: 24px;
+      }
+
+      .profile-hero-left {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Role Switcher -->
+  <div class="role-switcher-banner-doc" role="complementary" aria-label="Portal Role">
+    <div class="role-current-tag-doc">
+      <span>🩺</span> Doctor &amp; Healthcare Specialist Profile Portal
+    </div>
+    <a href="./patient-profile.html" class="role-switch-link-doc" title="Open Patient & Caregiver Profile Portal">
+      <span>👤 Switch to Patient Profile Portal &rarr;</span>
+    </a>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="header-nav" role="banner">
+    <div class="header-inner">
+      <a href="./doctor-home.html" class="brand-wrap">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="brand-logo">
+        <div>
+          <div class="brand-title">Multi Therapy</div>
+          <div class="brand-tagline">Clinical Practitioner Portal</div>
+        </div>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="./doctor-home.html" class="nav-link-item">Dashboard</a></li>
+          <li><a href="./patients.html" class="nav-link-item">Patients</a></li>
+          <li><a href="./doctor-appointments.html" class="nav-link-item">Appointments</a></li>
+          <li><a href="./therapy-sessions.html" class="nav-link-item">Sessions</a></li>
+          <li><a href="./exercises.html" class="nav-link-item">Exercises</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="./doctor-profile.html" class="user-pill-doc" id="navUserPill" title="My Doctor Profile (Active)">
+          <div class="user-pill-avatar-doc" id="navAvatar">🩺</div>
+          <img id="navAvatarImg"
+            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJkb2NHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMDY0ZTNiIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMwNTk2NjkiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwZDk0ODgiLz48L2xpbmVhckdyYWRpZW50PjxmZWRyb3BTaGFkb3cgaWQ9ImRvY1NoYWRvdyIgeD0iLTEwJSIgeT0iLTEwJSIgd2lkdGg9IjEyMCUiIGhlaWdodD0iMTIwJSI+PGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjQiIHN0ZERldmlhdGlvbj0iNCIgZmxvb2QtY29sb3I9IiMwMDAiIGZsb29kLW9wYWNpdHk9IjAuMTUiLz48L2ZpbHRlcj48L2RlZnM+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5NiIgZmlsbD0idXJsKCNkb2NHcmFkKSIvPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2Utb3BhY2l0eT0iMC4zIi8+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsdGVyPSJ1cmwoI2RvY1NoYWRvdykiPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjY4IiByPSIzMCIvPjxwYXRoIGQ9Ik0gNDYsMTY0IEMgNDYsMTIyIDcyLDExNCAxMDAsMTE0IEMgMTI4LDExNCAxNTQsMTIyIDE1NCwxNjQgQyAxNTQsMTcwIDE0OSwxNzQgMTQzLDE3NCBMIDU3LDE3NCBDIDUxLDE3NCA0NiwxNzAgNDYsMTY0IFoiLz48cG9seWdvbiBwb2ludHM9IjEwMCwxNDYgODgsMTE0IDExMiwxMTQiIGZpbGw9IiMwNjVmNDYiLz48cmVjdCB4PSI5NyIgeT0iMTI2IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOCIgZmlsbD0iIzM0ZDM5OSIgcng9IjIiLz48cmVjdCB4PSI5MSIgeT0iMTMyIiB3aWR0aD0iMTgiIGhlaWdodD0iNiIgZmlsbD0iIzM0ZDM5OSIgcng9IjIiLz48cGF0aCBkPSJNIDgwLDExOCBDIDgwLDEzNiA4NCwxNDYgOTIsMTU0IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGU3ZmYiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTSAxMjAsMTE4IEMgMTIwLDEzNiAxMTYsMTQ2IDEwOCwxNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2UwZTdmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxNTgiIHI9IjUiIGZpbGw9IiNmOGZhZmMiLz48L2c+PC9zdmc+"
+            class="user-pill-avatar-doc" alt="" style="display:none; object-fit:cover;">
+          <div>
+            <div style="font-size:13px; font-weight:800; line-height:1.1;" id="navUsername">Dr. admin</div>
+            <div style="font-size:11px; color:#059669; font-weight:600;" id="navRole">Clinical Specialist</div>
+          </div>
+        </a>
+
+        <button type="button" class="logout-btn" id="logoutBtn" title="Logout">
+          <span>🚪</span> Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Profile Content -->
+  <main class="profile-main-wrap">
+
+    <!-- Profile Hero Card -->
+    <section class="profile-hero-card-doc">
+      <div class="profile-hero-left">
+
+        <!-- Avatar Wrapper with Upload / Change / Remove Controls -->
+        <div class="avatar-wrapper">
+          <div class="avatar-circle-container">
+            <div id="docAvatarEl" class="profile-avatar-large" style="display:none;">🩺</div>
+            <img id="docAvatarImg" src="./images/doctor-login-avatar.svg" class="profile-avatar-large" alt="" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+PGRlZnM+PGNsaXBQYXRoIGlkPSJkb2NDaXJjbGVDbGlwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NyIvPjwvY2xpcFBhdGg+PGxpbmVhckdyYWRpZW50IGlkPSJkb2NCZ0dyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNlY2ZkZjUiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkMWZhZTUiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OCIgZmlsbD0idXJsKCNkb2NCZ0dyYWQpIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ2LjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2E3ZjNkMCIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48ZyBjbGlwLXBhdGg9InVybCgjZG9jQ2lyY2xlQ2xpcCkiPjxwYXRoIGQ9Ik0yMiA4NiBDMjIgNjIgMzQgNTQgNTAgNTQgQzY2IDU0IDc4IDYyIDc4IDg2IFoiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2NiZDVlMSIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48cGF0aCBkPSJNNDIgNTQgTDUwIDY3IEw1OCA1NCBaIiBmaWxsPSIjMDc4QjY5Ii8+PHBhdGggZD0iTTM5IDU1IEMzOSA2NyA0NCA3MyA1MCA3MyBDNTYgNzMgNjEgNjcgNjEgNTUiIHN0cm9rZT0iIzFlMjkzYiIgc3Ryb2tlLXdpZHRoPSIyLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNzUiIHI9IjMuNSIgZmlsbD0iIzk0YTNiOCIgc3Ryb2tlPSIjMGYxNzJhIiBzdHJva2Utd2lkdGg9IjEuNCIvPjxwYXRoIGQ9Ik0zNCA1NiBMNDUgNzUgTDM4IDg2IiBzdHJva2U9IiMwNzhCNjkiIHN0cm9rZS13aWR0aD0iMi4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNjYgNTYgTDU1IDc1IEw2MiA4NiIgc3Ryb2tlPSIjMDc4QjY5IiBzdHJva2Utd2lkdGg9IjIuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+PHJlY3QgeD0iNjQiIHk9IjY1IiBwidthPSIyLjUiIGhlaWdodD0iNy41IiByeD0iMS4yIiBmaWxsPSIjMDU5NjY5Ii8+PHJlY3QgeD0iNjEuNSIgeT0iNjcuNSIgd2lkdGg9IjcuNSIgaGVpZ2h0PSIyLjUiIHJ4PSIxLjIiIGZpbGw9IiMwNTk2NjkiLz48cmVjdCB4PSI0NSIgeT0iNDQiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMiIgZmlsbD0iI2ZlZDdhYSIgcng9IjIiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjMzIiByPSIxNCIgZmlsbD0iI2ZlZDdhYSIvPjxwYXRoIGQ9Ik0zNSAzMSBDMzUgMTcgNDMgMTUgNTAgMTUgQzU3IDE1IDY1IDE3IDY1IDMxIEM2MCAyNCA1NSAyMyA1MCAyMyBDNDQgMjMgMzkgMjUgMzUgMzFaIiBmaWxsPSIjMWUyOTNiIi8+PHBhdGggZD0iTTM1IDI5IEwzNSAzNCBDMzYgMzQgMzcgMzIgMzcgMjkgWiIgZmlsbD0iMWUyOTNiIi8+PHBhdGggZD0iTTY1IDI5IEw2NSAzNCBDNjQgMzQgNjMgMzIgNjMgMjkgWiIgZmlsbD0iMWUyOTNiIi8+PHBhdGggZD0iTTQxIDI3IFE0NCAyNiA0NyAyNyIgc3Ryb2tlPSIjMWUyOTNiIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTUzIDI3IFE1NiAyNiA1OSAyNyIgc3Ryb2tlPSIjMWUyOTNiIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+PGNpcmNsZSBjeD0iNDQuNSIgY3k9IjMyLjUiIHI9IjEuNiIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjU1LjUiIGN5PSIzMi41IiByPSIxLjYiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI0NCIgY3k9IjMyIiByPSIwLjUiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSI1NSIgY3k9IjMyIiByPSIwLjUiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIzOS41IiB5PSIyOSIgd2lkdGg9IjkiIGhlaWdodD0iNyIgcng9IjIuNSIgc3Ryb2tlPSIjMDU5NjY5IiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIvPjxyZWN0IHg9IjUxLjUiIHk9IjI5IiB3aWR0aD0iOSIgaGVpZ2h0PSI3IiByeD0iMi41IiBzdHJva2U9IiMwNTk2NjkiIHN0cm9rZS13aWR0aD0iMS40IiBmaWxsPSJub25lIi8+PGxpbmUgeDE9IjQ4LjUiIHkxPSIzMiIgeDI9IjUxLjUiIHkyPSIzMiIgc3Ryb2tlPSIjMDU5NjY5IiBzdHJva2Utd2lkdGg9IjEuNCIvPjxsaW5lIHgxPSIzNiIgeTE9IjMxIiB4Mj0iMzkuNSIgeTI9IjMxIiBzdHJva2U9IiMwNTk2NjkiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjYwLjUiIHkxPSIzMSIgeDI9IjY0IiB5Mj0iMzEiIHN0cm9rZT0iIzA1OTY2OSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48cGF0aCBkPSJNNDkgMzQgTDQ5LjUgMzcgTDUxIDM3IiBzdHJva2U9IiNlYTU4MGMiIHN0cm9rZS13aWR0aD0iMS4xIiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNDYuNSAzOS41IFE1MCA0MyA1My41IDM5LjUiIHN0cm9rZT0iI2MyNDEwYyIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjwvZz48L3N2Zz4='; this.onerror=null;" style="object-fit:cover;">
+            <button type="button" class="avatar-camera-btn" id="btnCameraDocPhoto" title="Upload / Change Photo" aria-label="Upload or Change Photo">
+              📷
+            </button>
+            <span id="doctorPhotoPreviewBadge" class="avatar-preview-badge">Preview</span>
+          </div>
+
+          <!-- Photo Buttons Row -->
+          <div class="avatar-actions-pills">
+            <button type="button" class="btn-avatar-pill" id="btnUploadDocPhoto" title="Upload a photo from computer">
+              <span>📷</span> <span>Upload Photo</span>
+            </button>
+            <button type="button" class="btn-avatar-pill" id="btnChangeDocPhoto" style="display:none;"
+              title="Select a different photo">
+              <span>🔄</span> <span>Change</span>
+            </button>
+            <button type="button" class="btn-avatar-pill btn-avatar-danger" id="btnRemoveDocPhoto" style="display:none;"
+              title="Remove uploaded photo">
+              <span>🗑️</span> <span>Remove</span>
+            </button>
+            <button type="button" class="btn-avatar-pill" id="btnSaveQuickDocPhoto"
+              style="display:none; background:#059669; color:#ffffff;" title="Save doctor photo now">
+              <span>💾</span> <span>Save Photo</span>
+            </button>
+            <input type="file" id="doctorPhotoInput" accept="image/jpeg, image/jpg, image/png, image/webp"
+              style="display:none;">
+          </div>
+        </div>
+
+        <div class="profile-info-block">
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
+            <span class="profile-tag-pill">🩺 Clinical Specialist</span>
+            <span class="profile-tag-pill badge-verified-doc">✓ Certified Practitioner</span>
+            <span class="profile-tag-pill" id="docRegIdTag">REG: #MCI-RAJ-2018-8492</span>
+          </div>
+          <h1 id="heroDocName">Dr. admin</h1>
+          <p style="color: #d1fae5; font-size: 14px; margin: 0;" id="heroDocSub">
+            Pediatric Neurology • Practitioner @admin
+          </p>
+        </div>
+      </div>
+
+      <div class="hero-actions-right">
+        <a href="./doctor-subscriptions.html" class="btn-hero-white-doc"
+          style="background: rgba(255,255,255,0.18); color:#ffffff; border: 1.5px solid rgba(255,255,255,0.4);"
+          title="Manage Subscription & Membership">
+          <span>⭐</span> <span>Membership &amp; Plans</span>
+        </a>
+        <a href="./doctor-appointments.html" class="btn-hero-white-doc">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+          </svg>
+          <span>Appointments Roster</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Grid: Details & Clinical Profile -->
+    <div class="profile-grid">
+
+      <!-- LEFT COLUMN: EDITABLE CREDENTIALS -->
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+
+        <!-- Professional Credentials & Contact -->
+        <section class="profile-card">
+          <h2 class="card-heading">
+            <span>📋</span> Professional Credentials &amp; Contact
+          </h2>
+
+          <div id="profileMessage" class="alert alert-success" hidden></div>
+
+          <form id="docProfileForm" autocomplete="off">
+            <div class="form-row mb-3">
+              <div class="form-group-custom">
+                <label for="profDocName" class="form-label-custom">Doctor Full Name *</label>
+                <input type="text" id="profDocName" class="form-control-custom" placeholder="e.g. Dr. Rajesh Sharma"
+                  required>
+              </div>
+
+              <div class="form-group-custom">
+                <label for="profDocUsername" class="form-label-custom">Doctor Username</label>
+                <input type="text" id="profDocUsername" class="form-control-custom" readonly>
+              </div>
+            </div>
+
+            <div class="form-row mb-3">
+              <div class="form-group-custom">
+                <label for="profDocLicense" class="form-label-custom">Medical License / Registration No. *</label>
+                <input type="text" id="profDocLicense" class="form-control-custom" placeholder="e.g. MCI-RAJ-2018-8492"
+                  required>
+              </div>
+
+              <div class="form-group-custom">
+                <label for="profDocSpecialty" class="form-label-custom">Primary Specialization *</label>
+                <select id="profDocSpecialty" class="form-control-custom" required>
+                  <option value="Pediatric Neurology">Pediatric Neurology</option>
+                  <option value="Physical Rehabilitation">Physical Rehabilitation</option>
+                  <option value="Orthopedic Surgery">Orthopedic Surgery</option>
+                  <option value="Occupational Therapy">Occupational Therapy</option>
+                  <option value="Developmental Pediatrics">Developmental Pediatrics</option>
+                  <option value="Speech-Language Pathology">Speech-Language Pathology</option>
+                  <option value="Clinical Neuropsychology">Clinical Neuropsychology</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row mb-3">
+              <div class="form-group-custom">
+                <label for="profDocEmail" class="form-label-custom">Clinical Email *</label>
+                <input type="email" id="profDocEmail" class="form-control-custom" placeholder="doctor@multitherapy.org"
+                  required>
+              </div>
+
+              <div class="form-group-custom">
+                <label for="profDocPhone" class="form-label-custom">Practitioner WhatsApp / Mobile *</label>
+                <input type="tel" id="profDocPhone" class="form-control-custom" placeholder="+91 9468650893" required>
+              </div>
+            </div>
+
+            <div class="form-row mb-3">
+              <div class="form-group-custom">
+                <label for="profDocHospital" class="form-label-custom">Hospital / Clinic *</label>
+                <input type="text" id="profDocHospital" class="form-control-custom"
+                  placeholder="e.g. Multi Therapy Rehabilitation Center">
+              </div>
+
+              <div class="form-group-custom">
+                <label for="profDocExperience" class="form-label-custom">Experience (Years)</label>
+                <input type="text" id="profDocExperience" class="form-control-custom" placeholder="e.g. 12+ Years">
+              </div>
+            </div>
+
+            <div class="form-row mb-4">
+              <div class="form-group-custom">
+                <label for="profDocQualification" class="form-label-custom">Qualification</label>
+                <input type="text" id="profDocQualification" class="form-control-custom"
+                  placeholder="e.g. MBBS, MD (Pediatrics), DM (Neuro)">
+              </div>
+
+              <div class="form-group-custom">
+                <label for="profDocAddress" class="form-label-custom">Professional Address</label>
+                <input type="text" id="profDocAddress" class="form-control-custom"
+                  placeholder="Clinic / Hospital address, City">
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+              <button type="submit" class="btn-save-profile-doc" id="btnSaveDocProfile">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Save Changes</span>
+              </button>
+
+              <button type="button" class="btn-cancel-profile" id="btnCancelDocProfile">
+                <span>✖</span> <span>Cancel</span>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Account Security: Update Password -->
+        <section class="profile-card">
+          <h2 class="card-heading">
+            <span>🔒</span> Clinical Account Security
+          </h2>
+
+          <div id="passwordMessage" class="alert alert-danger" hidden></div>
+
+          <form id="changePasswordForm">
+            <div class="form-row mb-3">
+              <div class="form-group-custom">
+                <label for="newPass" class="form-label-custom">New Clinical Password</label>
+                <input type="password" id="newPass" class="form-control-custom" placeholder="Min. 6 characters"
+                  required>
+              </div>
+
+              <div class="form-group-custom">
+                <label for="confirmNewPass" class="form-label-custom">Confirm New Password</label>
+                <input type="password" id="confirmNewPass" class="form-control-custom"
+                  placeholder="Confirm new password" required>
+              </div>
+            </div>
+
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <button type="submit" class="btn-save-profile-doc" id="btnUpdatePassword" style="background:#0f172a;">
+                <span>Update Credentials</span>
+              </button>
+
+              <a href="./doctor-forgot.html"
+                style="font-size: 13px; color: var(--clinical-teal); font-weight: 700; text-decoration: underline;">
+                Doctor password reset portal &rarr;
+              </a>
+            </div>
+          </form>
+        </section>
+
+      </div>
+
+      <!-- RIGHT COLUMN: PRACTICE OVERVIEW -->
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+
+        <!-- Practice Overview -->
+        <aside class="profile-card">
+          <h2 class="card-heading">
+            <span>📊</span> Practice Overview
+          </h2>
+
+          <div class="doc-stat-box">
+            <span class="stat-title-doc">Active Clinical Status</span>
+            <span class="stat-val-doc" style="color: #059669; font-size: 15px;">● Online &amp; On-Duty</span>
+          </div>
+
+          <div class="doc-stat-box">
+            <span class="stat-title-doc">Assigned Patients</span>
+            <span class="stat-val-doc">24 Patients</span>
+          </div>
+
+          <div class="doc-stat-box">
+            <span class="stat-title-doc">Completed Sessions</span>
+            <span class="stat-val-doc">142 Sessions</span>
+          </div>
+
+          <div class="doc-stat-box">
+            <span class="stat-title-doc">Consultation Schedule</span>
+            <span class="stat-val-doc" style="font-size: 13.5px; color: #1e40af;">Mon - Sat: 09:00 AM - 05:00 PM</span>
+          </div>
+
+          <a href="./doctor-appointments.html"
+            style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; background: #ecfdf5; border: 1.5px dashed #a7f3d0; border-radius: 12px; font-weight: 700; color: var(--clinical-teal); text-decoration: none; font-size: 13.5px; margin-top: 4px;">
+            <span>🗓️ View Schedule &rarr;</span>
+          </a>
+        </aside>
+
+        <!-- Help Desk Callout -->
+        <aside class="profile-card" style="background: linear-gradient(135deg, #eff6ff 0%, #ecfdf5 100%);">
+          <h2 class="card-heading" style="color: #065f46;">
+            <span>📱</span> Clinical Support
+          </h2>
+          <p style="font-size: 13px; color: #334155; line-height: 1.5;">
+            Need technical assistance or system support with your doctor profile credentials?
+          </p>
+          <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer"
+            style="display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14px; color: #047857; text-decoration: none;">
+            <span>WhatsApp Us: +91 9468650893 &rarr;</span>
+          </a>
+        </aside>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer
+    style="background: #103463; color: #94a3b8; padding: 22px 24px; margin-top: auto; border-top: 1px solid #1e427b;">
+    <div
+      style="max-width: 1240px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy"
+          style="width: 38px; height: 38px; border-radius: 50%; background: #ffffff; padding: 2px;">
+        <span style="color: #ffffff; font-weight: 700; font-size: 14px;">Multi Therapy Doctor Portal &copy; 2026</span>
+      </div>
+      <div style="font-size: 12px; color: #cbd5e1;">Care • Support • Progress • Together</div>
+    </div>
+  </footer>
+
+  <div id="toastPopup" class="toast-popup">Practitioner profile updated!</div>
+
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn"
+    title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp"
+    style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Us"
+      style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+  </a>
+
+  <!-- Scripts -->
+  <script src="./js/api.js"></script>
+  <script src="./js/cdn.js"></script>
+  <script src="./js/doctor-profile.js"></script>
+</body>
+
+</html>

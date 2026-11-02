@@ -48,7 +48,7 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const sender = fromEmail || process.env.RESEND_FROM_EMAIL || "CP System <onboarding@resend.dev>";
+    const sender = fromEmail || process.env.RESEND_FROM_EMAIL || "Multi Therapy <onboarding@resend.dev>";
     const therapistName = name ? name.trim() : "Therapist";
 
     const emailHtml = `
@@ -68,10 +68,10 @@ module.exports = async function handler(req, res) {
           <tr>
             <td style="background: linear-gradient(135deg, #0d6efd 0%, #0867e8 100%); padding: 28px 32px; text-align: center;">
               <h1 style="margin: 0; color: #ffffff; font-size: 22px; font-weight: 700; letter-spacing: -0.3px;">
-                🏥 CP Healthcare System
+                🏥 Multi Therapy
               </h1>
               <p style="margin: 6px 0 0; color: rgba(255,255,255,0.85); font-size: 13px;">
-                Therapist Profile Verification
+                Care • Support • Progress • Together
               </p>
             </td>
           </tr>
@@ -83,7 +83,7 @@ module.exports = async function handler(req, res) {
                 Hello <strong>${therapistName}</strong>,
               </p>
               <p style="margin: 0 0 20px; font-size: 14px; line-height: 1.6; color: #475569;">
-                A request has been made to register your therapist profile on the <strong>Cerebral Palsy Care Management System</strong>. Please use the verification code below to verify your email address:
+                A request has been made to register your therapist profile on <strong>Multi Therapy</strong>. Please use the verification code below to verify your email address:
               </p>
 
               <!-- OTP Box -->
@@ -109,7 +109,7 @@ module.exports = async function handler(req, res) {
           <tr>
             <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 18px 32px; text-align: center;">
               <p style="margin: 0; font-size: 11px; color: #94a3b8; line-height: 1.4;">
-                Delivered via <strong>Resend.com Email API</strong> • Cerebral Palsy Healthcare Portal
+                Delivered via <strong>Resend.com Email API</strong> • Multi Therapy Portal
               </p>
             </td>
           </tr>
@@ -130,7 +130,7 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         from: sender,
         to: [email.trim()],
-        subject: `Therapist Verification OTP: ${otp} - CP Management System`,
+        subject: `Therapist Verification OTP: ${otp} - Multi Therapy`,
         html: emailHtml
       })
     });

@@ -1,0 +1,853 @@
+/* ==========================================================================
+   MULTI THERAPY - VERIFY YOUR EMAIL PAGE STYLING
+   ========================================================================== */
+
+:root {
+  --ve-navy-dark: #0c233c;
+  --ve-navy-primary: #103463;
+  --ve-navy-sub: #1e3a5f;
+  --ve-blue-brand: #0875F9;
+  --ve-blue-brand-hover: #0660d1;
+  --ve-blue-light: #f0f7ff;
+  --ve-blue-subtle: #e0f2fe;
+  --ve-blue-border: #bfdbfe;
+  --ve-green-accent: #078B69;
+  --ve-green-light: #e6fcf5;
+  --ve-green-border: #a7f3d0;
+  --ve-slate-text: #475569;
+  --ve-muted: #64748b;
+  --ve-border-light: #e2e8f0;
+  --ve-white: #ffffff;
+  --ve-font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --ve-font-script: 'Caveat', cursive, 'Brush Script MT', sans-serif;
+  --ve-shadow-card: 0 20px 50px rgba(8, 117, 249, 0.09), 0 4px 18px rgba(16, 52, 99, 0.05);
+  --ve-shadow-btn: 0 6px 18px rgba(8, 117, 249, 0.28);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: var(--ve-font-sans);
+  background: radial-gradient(circle at 10% 20%, rgba(8, 117, 249, 0.06) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(7, 139, 105, 0.05) 0%, transparent 40%),
+              linear-gradient(180deg, #f8fbff 0%, #edf6fe 100%);
+  color: #1e293b;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+   NAVBAR (CONSISTENT WITH MULTI THERAPY BRANDING)
+   -------------------------------------------------------------------------- */
+.ve-navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid #eef3f8;
+  z-index: 1000;
+  box-shadow: 0 2px 14px rgba(16, 52, 99, 0.04);
+  display: flex;
+  align-items: center;
+  padding: 10px 30px;
+}
+
+.ve-navbar-inner {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.ve-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.ve-brand-logo-img {
+  width: 60px !important;
+  height: 60px !important;
+  max-width: 60px !important;
+  max-height: 60px !important;
+  border-radius: 50% !important;
+  object-fit: contain !important;
+  background-color: #ffffff;
+  padding: 2px;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 3px 10px rgba(0, 80, 180, 0.15);
+  flex-shrink: 0 !important;
+  display: block !important;
+}
+
+.ve-brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+.ve-brand-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ve-navy-primary);
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.ve-brand-tagline {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ve-blue-brand);
+  line-height: 1.15;
+  letter-spacing: 0.2px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.ve-nav-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 26px;
+  color: var(--ve-navy-primary);
+  cursor: pointer;
+  padding: 6px;
+}
+
+.ve-nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.ve-nav-link {
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: #334e68;
+  padding: 6px 0;
+  position: relative;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+  display: inline-block;
+}
+
+.ve-nav-link:hover {
+  color: var(--ve-blue-brand);
+}
+
+.ve-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.ve-btn-contact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 20px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--ve-blue-brand);
+  background: transparent;
+  color: var(--ve-blue-brand);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  line-height: 1;
+}
+
+.ve-btn-contact:hover {
+  background-color: #f0f7ff;
+}
+
+.ve-btn-signup {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  background-color: var(--ve-blue-brand);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(8, 117, 249, 0.25);
+  line-height: 1;
+}
+
+.ve-btn-signup:hover {
+  background-color: var(--ve-blue-brand-hover);
+  box-shadow: 0 6px 16px rgba(8, 117, 249, 0.35);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   MAIN VERIFICATION WRAPPER
+   -------------------------------------------------------------------------- */
+.ve-main-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+}
+
+.ve-container {
+  width: 100%;
+  max-width: 1060px;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   LARGE TWO-COLUMN VERIFICATION CARD
+   -------------------------------------------------------------------------- */
+.ve-card {
+  background: var(--ve-white);
+  border-radius: 28px;
+  border: 2px solid var(--ve-blue-border);
+  box-shadow: var(--ve-shadow-card);
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+/* --------------------------------------------------------------------------
+   LEFT COLUMN: HEALTHCARE ILLUSTRATION & BRAND VALUES
+   -------------------------------------------------------------------------- */
+.ve-card-left {
+  background: linear-gradient(145deg, #f0f7ff 0%, #eefbf7 60%, #e6fcf5 100%);
+  padding: 48px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  border-right: 1.5px solid #e0f2fe;
+}
+
+.ve-left-top-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  border: 1px solid var(--ve-green-border);
+  box-shadow: 0 2px 8px rgba(7, 139, 105, 0.08);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ve-green-accent);
+  margin-bottom: 20px;
+}
+
+.ve-left-top-badge svg {
+  color: var(--ve-green-accent);
+}
+
+/* Caregiver & Child Wheelchair Illustration Container */
+.ve-illustration-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ve-illustration-svg {
+  width: 100%;
+  height: auto;
+  max-height: 290px;
+  display: block;
+  filter: drop-shadow(0 12px 24px rgba(16, 52, 99, 0.08));
+}
+
+/* Floating Heart Accent Badge */
+.ve-floating-heart {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background: #ffffff;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(239, 68, 68, 0.2);
+  border: 2px solid #ffffff;
+  animation: veHeartPulse 2.2s infinite ease-in-out;
+}
+
+@keyframes veHeartPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* Slogan & Quote */
+.ve-slogan-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.ve-slogan-quote {
+  font-family: var(--ve-font-script);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ve-navy-primary);
+  line-height: 1.1;
+  position: relative;
+  display: inline-block;
+}
+
+.ve-slogan-swoosh {
+  width: 210px;
+  height: 14px;
+  margin-top: -2px;
+}
+
+.ve-slogan-desc {
+  font-size: 13.5px;
+  color: var(--ve-slate-text);
+  max-width: 320px;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+/* Trust Pill Badges */
+.ve-trust-badges {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.ve-trust-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334e68;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #dbeafe;
+  padding: 4px 12px;
+  border-radius: 9999px;
+}
+
+/* --------------------------------------------------------------------------
+   RIGHT COLUMN: VERIFICATION ACTIONS & DETAILS
+   -------------------------------------------------------------------------- */
+.ve-card-right {
+  padding: 48px 42px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #ffffff;
+}
+
+/* Big Illustrated Email Icon Badge */
+.ve-icon-circle {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+  border: 3px solid #ffffff;
+  box-shadow: 0 8px 22px rgba(8, 117, 249, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  position: relative;
+}
+
+.ve-icon-circle svg {
+  color: var(--ve-blue-brand);
+}
+
+.ve-icon-ping {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--ve-green-accent);
+  border: 2.5px solid #ffffff;
+}
+
+/* Heading & Subtitle */
+.ve-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--ve-navy-primary);
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+}
+
+.ve-subtitle {
+  font-size: 15px;
+  color: var(--ve-slate-text);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+/* Target Registered Email Box */
+.ve-email-card {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  transition: all 0.2s ease;
+}
+
+.ve-email-card:hover {
+  border-color: var(--ve-blue-border);
+  background: #f0f7ff;
+}
+
+.ve-email-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e0f2fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ve-blue-brand);
+  flex-shrink: 0;
+}
+
+.ve-email-details {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-align: left;
+}
+
+.ve-email-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--ve-muted);
+  letter-spacing: 0.6px;
+}
+
+.ve-email-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ve-navy-primary);
+  word-break: break-all;
+}
+
+/* Action Button: Check Your Email */
+.ve-btn-check-email {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: var(--ve-blue-brand);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  padding: 15px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--ve-shadow-btn);
+  transition: all 0.25s ease;
+  line-height: 1;
+}
+
+.ve-btn-check-email:hover {
+  background-color: var(--ve-blue-brand-hover);
+  box-shadow: 0 8px 24px rgba(8, 117, 249, 0.38);
+  color: #ffffff;
+  transform: translateY(-1.5px);
+}
+
+.ve-btn-check-email:active {
+  transform: translateY(0);
+}
+
+/* Resend Verification Email Section */
+.ve-resend-row {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--ve-slate-text);
+  text-align: center;
+}
+
+.ve-btn-resend {
+  background: none;
+  border: none;
+  color: var(--ve-blue-brand);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 2px 4px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: color 0.2s ease;
+}
+
+.ve-btn-resend:hover:not(:disabled) {
+  color: var(--ve-blue-brand-hover);
+}
+
+.ve-btn-resend:disabled {
+  color: #94a3b8;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.ve-countdown-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0284c7;
+  display: inline-block;
+}
+
+/* Information Box */
+.ve-info-box {
+  margin-top: 24px;
+  background: #f0f7ff;
+  border: 1.5px solid #bfdbfe;
+  border-left: 4px solid var(--ve-blue-brand);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13.5px;
+  color: #1e3a8a;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.ve-info-box svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--ve-blue-brand);
+}
+
+/* Instant OTP / Code Option Collapsible Box */
+.ve-code-card {
+  margin-top: 22px;
+  padding: 16px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 14px;
+  background: #fcfdfd;
+}
+
+.ve-code-card summary {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ve-navy-primary);
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ve-code-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.ve-code-form {
+  margin-top: 14px;
+}
+
+.ve-code-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.ve-otp-input {
+  flex: 1;
+  text-align: center;
+  letter-spacing: 6px;
+  font-size: 20px;
+  font-weight: 800;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: var(--ve-navy-primary);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.ve-otp-input:focus {
+  border-color: var(--ve-blue-brand);
+  box-shadow: 0 0 0 3px rgba(8, 117, 249, 0.12);
+}
+
+.ve-btn-verify-code {
+  padding: 10px 18px;
+  background: var(--ve-green-accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.ve-btn-verify-code:hover {
+  background: #067256;
+}
+
+/* Secondary Back / Help Links */
+.ve-footer-links {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--ve-muted);
+}
+
+.ve-footer-link {
+  color: var(--ve-blue-brand);
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+
+.ve-footer-link:hover {
+  color: var(--ve-blue-brand-hover);
+  text-decoration: underline;
+}
+
+/* Alerts */
+.ve-alert {
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ve-alert-success {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.ve-alert-warning {
+  background: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.ve-alert-danger {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* --------------------------------------------------------------------------
+   FOOTER (MATCHING SITE FOOTER)
+   -------------------------------------------------------------------------- */
+.ve-footer {
+  background: #103463;
+  color: #94a3b8;
+  padding: 24px 24px;
+  margin-top: auto;
+  border-top: 1px solid #1e427b;
+}
+
+.ve-footer-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.ve-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ve-footer-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  padding: 2px;
+}
+
+.ve-footer-name {
+  font-weight: 800;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.ve-footer-tagline {
+  font-size: 12px;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.ve-footer-right {
+  font-size: 13px;
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   -------------------------------------------------------------------------- */
+@media (max-width: 960px) {
+  .ve-navbar {
+    padding: 10px 18px;
+    height: 76px;
+  }
+  
+  .ve-nav-menu,
+  .ve-nav-actions {
+    display: none;
+  }
+  
+  .ve-nav-toggle {
+    display: block;
+  }
+  
+  .ve-card {
+    grid-template-columns: 1fr;
+    max-width: 620px;
+  }
+  
+  .ve-card-left {
+    border-right: none;
+    border-bottom: 1.5px solid #e0f2fe;
+    padding: 36px 24px;
+  }
+  
+  .ve-card-right {
+    padding: 36px 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ve-main-wrapper {
+    padding: 24px 12px;
+  }
+  
+  .ve-card {
+    border-radius: 20px;
+  }
+  
+  .ve-title {
+    font-size: 24px;
+  }
+  
+  .ve-subtitle {
+    font-size: 14px;
+  }
+  
+  .ve-card-left {
+    padding: 28px 18px;
+  }
+  
+  .ve-card-right {
+    padding: 28px 18px;
+  }
+  
+  .ve-illustration-svg {
+    max-height: 220px;
+  }
+  
+  .ve-slogan-quote {
+    font-size: 26px;
+  }
+  
+  .ve-btn-check-email {
+    padding: 14px 18px;
+    font-size: 15px;
+  }
+  
+  .ve-footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+  
+  .ve-footer-right {
+    text-align: left;
+  }
+}
+

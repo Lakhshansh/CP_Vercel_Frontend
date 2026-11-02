@@ -1,0 +1,382 @@
+/**
+ * ============================================================================
+ * Multi Therapy - Super Admin Subscription Management Stylesheet
+ * ============================================================================
+ * Professional healthcare blue and white theme with Bootstrap 5
+ */
+
+:root {
+  --primary-blue: #0866F5;
+  --primary-hover: #0652c7;
+  --primary-light: #eff6ff;
+  --navy-dark: #103463;
+  --navy-deep: #091e3a;
+  --clinical-teal: #059669;
+  --clinical-teal-light: #ecfdf5;
+  --danger-red: #ef4444;
+  --danger-light: #fef2f2;
+  --warning-amber: #f59e0b;
+  --warning-light: #fffbeb;
+  --bg-page: #f8fafc;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
+  --border-light: #f1f5f9;
+  --card-radius: 16px;
+  --shadow-subtle: 0 4px 14px rgba(16, 52, 99, 0.05);
+  --shadow-hover: 0 10px 25px rgba(8, 102, 245, 0.1);
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-page);
+  color: #0f172a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Super Admin Main Top Header */
+.super-admin-header {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 28px;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.super-admin-header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand-badge-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brand-logo-img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.brand-title-main {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--navy-dark);
+  line-height: 1.1;
+  letter-spacing: -0.3px;
+}
+
+.brand-sub-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary-blue);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Secondary Super Admin Navigation Bar (Tabs) */
+.admin-subnav-bar {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 28px;
+}
+
+.admin-subnav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.admin-subnav-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.admin-nav-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  color: #64748b;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 700;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.admin-nav-tab:hover {
+  color: var(--primary-blue);
+}
+
+.admin-nav-tab.active {
+  color: var(--primary-blue);
+  border-bottom-color: var(--primary-blue);
+  background: #f8fafc;
+}
+
+/* Hero Section */
+.admin-hero-banner {
+  background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy-dark) 55%, var(--primary-blue) 100%);
+  color: #ffffff;
+  padding: 34px 28px;
+  margin-bottom: 28px;
+}
+
+.admin-hero-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.hero-pill-badge {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+/* KPI Cards Row */
+.kpi-grid-6 {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  max-width: 1400px;
+  margin: 0 auto 28px;
+  padding: 0 28px;
+}
+
+.kpi-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 20px 18px;
+  box-shadow: var(--shadow-subtle);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: #93c5fd;
+}
+
+.kpi-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.kpi-title {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.kpi-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+}
+
+.kpi-sub {
+  font-size: 11.5px;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* Main Content Area */
+.admin-container {
+  max-width: 1400px;
+  margin: 0 auto 60px;
+  padding: 0 28px;
+  width: 100%;
+}
+
+.dash-panel {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-subtle);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.panel-header-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 18px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.panel-heading {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy-dark);
+  margin: 0 0 2px;
+}
+
+.panel-subtext {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Modern Tables */
+.table-admin thead th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 14px;
+  border-bottom: 2px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.table-admin tbody td {
+  padding: 14px;
+  vertical-align: middle;
+  font-size: 13.5px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.table-admin tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Role Badges */
+.badge-role-hospital {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  font-weight: 800;
+  font-size: 10.5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.badge-role-doctor {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+  font-weight: 800;
+  font-size: 10.5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.badge-role-patient {
+  background: #fdf4ff;
+  color: #7e22ce;
+  border: 1px solid #f0abfc;
+  font-weight: 800;
+  font-size: 10.5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+/* Status Badges */
+.badge-status-active {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+  font-weight: 800;
+  font-size: 10.5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.badge-status-expired {
+  background: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
+  font-weight: 800;
+  font-size: 10.5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.badge-status-cancelled {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  font-weight: 800;
+  font-size: 10.5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+/* Action Buttons */
+.btn-action-pill {
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Responsive Grid */
+@media (max-width: 1200px) {
+  .kpi-grid-6 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .kpi-grid-6 { grid-template-columns: repeat(2, 1fr); }
+  .super-admin-header { padding: 12px 16px; }
+  .admin-container { padding: 0 16px; }
+}
+
+@media (max-width: 576px) {
+  .kpi-grid-6 { grid-template-columns: 1fr; }
+}
+

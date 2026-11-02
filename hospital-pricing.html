@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital &amp; Clinic Subscription Plans | Multi Therapy</title>
+  <meta name="description" content="Multi Therapy Hospital & Clinic Membership Plans - Scale your multi-specialty rehabilitation practice with doctor quotas, patient capacity, and hospital sponsorship.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/subscriptions.css">
+</head>
+<body>
+
+  <!-- Announcement -->
+  <div style="background: #eff6ff; border-bottom: 1px solid #bfdbfe; padding: 8px 20px; font-size: 13px; text-align: center; color: #1e40af; font-weight: 700;">
+    🏥 Institutional Partner Offer: Annual Hospital Plans include 2 Months Free + 18% GST Input Tax Credit.
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="mt-sub-header">
+    <div class="container-xl d-flex align-items-center justify-content-between py-2">
+      <a href="./index.html" class="mt-brand-wrap">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="mt-brand-logo">
+        <div>
+          <div class="mt-brand-title">Multi Therapy</div>
+          <div class="mt-brand-tagline">Hospital &amp; Clinic Portal</div>
+        </div>
+      </a>
+
+      <nav class="d-none d-lg-flex align-items-center gap-1">
+        <a href="./index.html" class="mt-nav-link">Home</a>
+        <a href="./subscription-pricing.html" class="mt-nav-link">All Plans</a>
+        <a href="./doctor-pricing.html" class="mt-nav-link">Doctors</a>
+        <a href="./patient-pricing.html" class="mt-nav-link">Patients</a>
+        <a href="./my-subscription.html" class="mt-nav-link">My Subscription</a>
+      </nav>
+
+      <div class="d-flex align-items-center gap-2">
+        <a href="./subscription-pricing.html" class="btn btn-outline-primary btn-sm rounded-pill fw-bold px-3">
+          Switch User Type &rarr;
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="mt-hero-banner">
+    <div class="container-xl">
+      <div class="mt-hero-badge">
+        <span>🏥</span> Enterprise Rehabilitation Infrastructure
+      </div>
+      <h1 class="mt-hero-title">Hospital &amp; Clinic Subscription Plans</h1>
+      <p class="mt-hero-subtitle">
+        Scale your rehabilitation department with seamless multi-doctor quotas, unified patient records, and hospital-sponsored access for all staff and patients.
+      </p>
+
+      <!-- Monthly / Yearly Billing Toggle -->
+      <div class="mt-billing-toggle-wrap">
+        <span class="mt-toggle-label active" id="labelMonthly">Monthly Billing</span>
+        <label class="mt-switch">
+          <input type="checkbox" id="billingCycleToggle">
+          <span class="mt-slider"></span>
+        </label>
+        <span class="mt-toggle-label" id="labelYearly">Yearly Billing</span>
+        <span class="mt-save-badge">Save up to 20% + 2 Months Free</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container-xl">
+    
+    <!-- Three Hospital Plans -->
+    <div class="mt-pricing-grid" id="hospitalGrid">
+      
+      <!-- Basic: ₹499 / ₹4,990 -->
+      <div class="mt-plan-card">
+        <div class="mt-plan-header">
+          <h3 class="mt-plan-name">Basic Clinic</h3>
+          <p class="mt-plan-desc">For specialized therapy studios and outpatient clinics initiating digital coordination.</p>
+        </div>
+
+        <div class="mt-plan-price-wrap">
+          <span class="mt-price-currency">₹</span>
+          <span class="mt-price-amount" id="priceBasic">499</span>
+          <span class="mt-price-cycle" id="cycleBasic">/ month</span>
+        </div>
+        <div class="mt-price-savings" id="savingsBasic" style="display:none;">🎉 Save ₹998 / year (₹415/mo)</div>
+
+        <ul class="mt-features-list">
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span><strong>Up to 5 Doctors &amp; Therapists</strong> seat quota</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span><strong>Up to 50 Patient Profiles</strong> in unified registry</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>Appointments &amp; Therapy Scheduling Engine</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>Automated GST Tax Invoices (18% input credit)</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-cross-icon">✕</span>
+            <span class="text-muted">Hospital-Sponsored Doctor Access</span>
+          </li>
+        </ul>
+
+        <a href="./subscription-checkout.html?plan_id=1&cycle=monthly" class="mt-btn-subscribe" id="btnBasic">
+          <span>Choose Basic</span> <span>&rarr;</span>
+        </a>
+      </div>
+
+      <!-- Professional: ₹999 / ₹9,990 (Popular) -->
+      <div class="mt-plan-card popular">
+        <div class="mt-popular-tag">Most Popular Clinic Tier</div>
+
+        <div class="mt-plan-header">
+          <h3 class="mt-plan-name">Professional Hospital</h3>
+          <p class="mt-plan-desc">For established rehabilitation hospitals managing high daily therapy volume.</p>
+        </div>
+
+        <div class="mt-plan-price-wrap">
+          <span class="mt-price-currency">₹</span>
+          <span class="mt-price-amount" id="pricePro">999</span>
+          <span class="mt-price-cycle" id="cyclePro">/ month</span>
+        </div>
+        <div class="mt-price-savings" id="savingsPro" style="display:none;">🎉 Save ₹1,998 / year (₹832/mo)</div>
+
+        <ul class="mt-features-list">
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span><strong>Up to 20 Doctors &amp; Specialists</strong></span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span><strong>Up to 250 Active Patient Profiles</strong></span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>Priority Tele-Therapy HD Video Rooms</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>Digital Prescriptions &amp; Clinical Progress Notes</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>Automated Quota &amp; Seat Utilization Tracking</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>Subsidized Staff Account Sponsorship</span>
+          </li>
+        </ul>
+
+        <a href="./subscription-checkout.html?plan_id=2&cycle=monthly" class="mt-btn-subscribe" id="btnPro">
+          <span>⭐ Choose Professional</span> <span>&rarr;</span>
+        </a>
+      </div>
+
+      <!-- Enterprise: ₹2,499 / ₹24,990 -->
+      <div class="mt-plan-card">
+        <div class="mt-plan-header">
+          <h3 class="mt-plan-name">Enterprise Network</h3>
+          <p class="mt-plan-desc">For multi-center healthcare chains requiring unlimited capacity and complete staff sponsorship.</p>
+        </div>
+
+        <div class="mt-plan-price-wrap">
+          <span class="mt-price-currency">₹</span>
+          <span class="mt-price-amount" id="priceEnterprise">2,499</span>
+          <span class="mt-price-cycle" id="cycleEnterprise">/ month</span>
+        </div>
+        <div class="mt-price-savings" id="savingsEnterprise" style="display:none;">🎉 Save ₹4,998 / year (₹2,082/mo)</div>
+
+        <ul class="mt-features-list">
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span><strong>Unlimited Doctors &amp; Therapists</strong></span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span><strong>Unlimited Patient Registry</strong></span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span><strong>100% Hospital-Sponsored Access</strong> for all verified staff</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>Custom Clinic Branding &amp; Letterhead Exports</span>
+          </li>
+          <li class="mt-feature-item">
+            <span class="mt-check-icon">✓</span>
+            <span>24/7 Dedicated Healthcare Account Manager</span>
+          </li>
+        </ul>
+
+        <a href="./subscription-checkout.html?plan_id=3&cycle=monthly" class="mt-btn-subscribe" id="btnEnterprise">
+          <span>Choose Enterprise</span> <span>&rarr;</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Hospital Sponsorship Callout Card -->
+    <section class="mt-dash-card" style="background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border-color: #bfdbfe;">
+      <div class="d-flex align-items-center gap-3 flex-wrap">
+        <div style="font-size: 40px;">🎁</div>
+        <div class="flex-grow-1">
+          <h4 class="fw-bold mb-1" style="color: var(--mt-navy);">What is Hospital-Sponsored Access?</h4>
+          <p class="mb-0 text-muted" style="font-size: 14.5px;">
+            When your hospital subscribes to Multi Therapy Professional or Enterprise, any doctor, specialist, or patient registered under your hospital inherits full pro features automatically. They are never prompted to pay separate fees.
+          </p>
+        </div>
+        <a href="./subscription-checkout.html?plan_id=3&cycle=yearly" class="btn btn-primary rounded-pill px-4 fw-bold">
+          Upgrade to Enterprise
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-footer">
+    <div class="container-xl d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div class="d-flex align-items-center gap-2">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy" style="width: 34px; height: 34px; border-radius: 50%; background: #ffffff; padding: 2px;">
+        <span class="text-white fw-bold">Multi Therapy &copy; 2026</span>
+        <span class="text-muted ms-2">Hospital Infrastructure</span>
+      </div>
+      <div class="small">
+        <a href="./subscription-pricing.html" class="text-decoration-none text-light me-3">All Plans</a>
+        <a href="./doctor-pricing.html" class="text-decoration-none text-light me-3">Doctor Plans</a>
+        <a href="./patient-pricing.html" class="text-decoration-none text-light">Patient Plans</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toggle Script -->
+  <script>
+    const toggle = document.getElementById('billingCycleToggle');
+    const labelM = document.getElementById('labelMonthly');
+    const labelY = document.getElementById('labelYearly');
+
+    function updateCycle(isY) {
+      document.getElementById('priceBasic').textContent = isY ? '4,990' : '499';
+      document.getElementById('cycleBasic').textContent = isY ? '/ year' : '/ month';
+      document.getElementById('savingsBasic').style.display = isY ? 'block' : 'none';
+      document.getElementById('btnBasic').href = `./subscription-checkout.html?plan_id=1&cycle=${isY ? 'yearly' : 'monthly'}`;
+
+      document.getElementById('pricePro').textContent = isY ? '9,990' : '999';
+      document.getElementById('cyclePro').textContent = isY ? '/ year' : '/ month';
+      document.getElementById('savingsPro').style.display = isY ? 'block' : 'none';
+      document.getElementById('btnPro').href = `./subscription-checkout.html?plan_id=2&cycle=${isY ? 'yearly' : 'monthly'}`;
+
+      document.getElementById('priceEnterprise').textContent = isY ? '24,990' : '2,499';
+      document.getElementById('cycleEnterprise').textContent = isY ? '/ year' : '/ month';
+      document.getElementById('savingsEnterprise').style.display = isY ? 'block' : 'none';
+      document.getElementById('btnEnterprise').href = `./subscription-checkout.html?plan_id=3&cycle=${isY ? 'yearly' : 'monthly'}`;
+
+      if (isY) {
+        labelM.classList.remove('active');
+        labelY.classList.add('active');
+      } else {
+        labelM.classList.add('active');
+        labelY.classList.remove('active');
+      }
+    }
+
+    if (toggle) {
+      toggle.addEventListener('change', (e) => updateCycle(e.target.checked));
+    }
+  </script>
+</body>
+</html>

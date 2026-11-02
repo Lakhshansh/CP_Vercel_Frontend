@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Login | Multi Therapy Management System</title>
+  <meta name="description" content="Multi Therapy Management System - Online Administration Portal Secure Sign In">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="./css/style.css">
+
+  <style>
+    body {
+      background: radial-gradient(circle at 10% 20%, rgba(13, 110, 253, 0.05) 0%, transparent 40%),
+                  radial-gradient(circle at 90% 80%, rgba(16, 52, 99, 0.06) 0%, transparent 40%),
+                  linear-gradient(180deg, #f8fafc 0%, #edf4fc 100%);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .admin-login-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .admin-login-card {
+      width: 100%;
+      max-width: 440px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 36px 32px;
+      box-shadow: 0 16px 40px rgba(16, 52, 99, 0.08), 0 2px 10px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e2e8f0;
+      text-align: center;
+    }
+
+    .admin-logo-box {
+      margin-bottom: 18px;
+    }
+
+    .admin-logo {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 2px;
+      border: 2px solid #bfdbfe;
+      box-shadow: 0 4px 14px rgba(13, 110, 253, 0.15);
+    }
+
+    .admin-login-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #0c233c;
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+
+    .admin-portal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      color: #0d6efd;
+      border: 1px solid #bfdbfe;
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+
+    .admin-form-group {
+      text-align: left;
+      margin-bottom: 16px;
+    }
+
+    .admin-form-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .admin-form-control {
+      height: 48px;
+      border-radius: 12px;
+      border: 1.5px solid #cbd5e1;
+      font-size: 14.5px;
+      padding: 10px 16px;
+      transition: all 0.2s ease;
+    }
+
+    .admin-form-control:focus {
+      border-color: #0d6efd;
+      box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.12);
+    }
+
+    .admin-password-wrap {
+      position: relative;
+    }
+
+    .admin-password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      color: #64748b;
+      padding: 4px;
+    }
+
+    .admin-captcha-section {
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .admin-captcha-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .admin-captcha-text {
+      flex: 1;
+      height: 42px;
+      background: #1e293b;
+      color: #38bdf8;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+
+    .admin-captcha-refresh {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      width: 42px;
+      height: 42px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .admin-captcha-refresh:hover {
+      background: #f1f5f9;
+      transform: rotate(45deg);
+    }
+
+    .admin-login-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13.5px;
+      margin-bottom: 20px;
+    }
+
+    .admin-btn-submit {
+      height: 48px;
+      background: linear-gradient(135deg, #0d6efd 0%, #0867e8 100%);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 15px;
+      border-radius: 12px;
+      border: none;
+      box-shadow: 0 4px 14px rgba(13, 110, 253, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .admin-btn-submit:hover {
+      background: linear-gradient(135deg, #0b5ed7 0%, #0752c4 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(13, 110, 253, 0.35);
+    }
+
+    .admin-portal-footer-links {
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      font-size: 13px;
+    }
+
+    .admin-portal-footer-links a {
+      color: #0d6efd;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .admin-portal-footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Blue Navbar -->
+  <header class="mt-navbar">
+    <div class="mt-navbar-inner">
+      <a class="mt-brand" href="./index.html" title="Multi Therapy Home">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="mt-logo">
+        <div>
+          <div class="mt-brand-title">Multi Therapy</div>
+          <div class="mt-brand-subtitle">Care • Support • Progress • Together</div>
+        </div>
+      </a>
+      <div class="ms-auto d-none d-md-flex align-items-center gap-3">
+        <a href="./index.html" class="btn btn-outline-light btn-sm rounded-pill px-3">Public Home</a>
+        <a href="./login.html" class="btn btn-light btn-sm rounded-pill px-3 fw-bold text-primary">Patient Login</a>
+        <a href="./doctor-login.html" class="btn btn-light btn-sm rounded-pill px-3 fw-bold text-success">Doctor Login</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Login Card Area -->
+  <main class="admin-login-wrapper">
+    <div class="admin-login-card">
+
+      <!-- Logo -->
+      <div class="admin-logo-box">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="admin-logo">
+      </div>
+
+      <!-- Title & Portal Badge -->
+      <h1 class="admin-login-title">Multi Therapy</h1>
+      <div class="admin-portal-badge">
+        <span>🛡️</span> Online Administration Portal
+      </div>
+
+      <!-- Login Form -->
+      <form id="adminLoginForm" autocomplete="off">
+
+        <!-- Username or Email -->
+        <div class="admin-form-group">
+          <label for="username" class="admin-form-label">Admin Username or Email</label>
+          <input class="form-control admin-form-control" type="text" id="username"
+                 placeholder="e.g. admin or admin@multitherapy.org" autocomplete="username" required>
+        </div>
+
+        <!-- Password -->
+        <div class="admin-form-group">
+          <label for="loginPassword" class="admin-form-label">Password</label>
+          <div class="admin-password-wrap">
+            <input id="loginPassword" class="form-control admin-form-control" type="password"
+                   placeholder="Enter admin password" autocomplete="current-password" required>
+            <button type="button" id="togglePassword" class="admin-password-toggle"
+                    aria-label="Toggle password visibility">👁️</button>
+          </div>
+        </div>
+
+        <!-- Security Check CAPTCHA -->
+        <div class="admin-captcha-section">
+          <label class="admin-form-label" style="margin-bottom: 2px;">🔐 Security Check</label>
+          <div class="admin-captcha-box">
+            <div id="captchaText" class="admin-captcha-text" aria-live="polite">•••••</div>
+            <button type="button" id="refreshCaptcha" class="admin-captcha-refresh" title="Refresh CAPTCHA">↻</button>
+          </div>
+          <input id="captchaInput" class="form-control admin-form-control mt-2" type="text"
+                 placeholder="Enter 5-character code above" autocomplete="off" maxlength="5" required>
+        </div>
+
+        <div class="admin-login-options">
+          <label class="d-flex align-items-center gap-2 m-0 cursor-pointer text-muted">
+            <input type="checkbox" id="remember" checked class="form-check-input mt-0">
+            <span>Remember Me</span>
+          </label>
+          <a href="./forgot.html" id="forgotLink" class="text-primary text-decoration-none fw-semibold">Forgot Password?</a>
+        </div>
+
+        <div id="loginMessage" class="alert py-2 small mb-3 text-start" hidden></div>
+
+        <button type="submit" id="btnAdminSubmit" class="btn admin-btn-submit w-100">
+          Sign In to Administration
+        </button>
+      </form>
+
+      <!-- Portal Navigation Footer Links -->
+      <div class="admin-portal-footer-links">
+        <a href="./index.html">← Public Homepage</a>
+        <span>•</span>
+        <a href="./login.html">Patient Login</a>
+        <span>•</span>
+        <a href="./doctor-login.html">Doctor Login</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="text-center py-3 text-muted small" style="background: #ffffff; border-top: 1px solid #e2e8f0;">
+    &copy; 2026 Multi Therapy Management System. Online Administration Portal.
+  </footer>
+
+  <script src="./js/api.js"></script>
+  <script src="./js/admin-login.js"></script>
+</body>
+</html>
+

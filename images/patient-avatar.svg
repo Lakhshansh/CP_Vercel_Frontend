@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="patGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b3c73"/>
+      <stop offset="50%" stop-color="#0866f5"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="96" fill="url(#patGrad)"/>
+  <circle cx="100" cy="100" r="92" fill="none" stroke="#ffffff" stroke-width="4" stroke-opacity="0.3"/>
+  <!-- Patient Silhouette -->
+  <g fill="#ffffff" filter="url(#shadow)">
+    <!-- Head -->
+    <circle cx="100" cy="72" r="32"/>
+    <!-- Shoulders & Body -->
+    <path d="M 45,162 C 45,124 72,118 100,118 C 128,118 155,124 155,162 C 155,168 150,172 144,172 L 56,172 C 50,172 45,168 45,162 Z"/>
+    <!-- Heart / Care Symbol on chest -->
+    <path d="M 100,138 C 96,133 88,133 85,138 C 82,143 85,148 100,157 C 115,148 118,143 115,138 C 112,133 104,133 100,138 Z" fill="#38bdf8"/>
+  </g>
+</svg>
+

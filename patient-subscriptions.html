@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient &amp; Caregiver Subscriptions | Multi Therapy</title>
+  <meta name="description" content="Multi Therapy Patient & Caregiver Membership Plans. Access personalized therapy exercises, motor milestones, and caregiver collaboration.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/patient-home.css">
+
+  <!-- Razorpay Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <style>
+    :root {
+      --primary-blue: #0866F5;
+      --primary-hover: #0756d1;
+      --navy-dark: #103463;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --bg-page: #f8fafc;
+      --card-radius: 20px;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+    }
+
+    .pat-pricing-hero {
+      background: linear-gradient(135deg, #0b3c73 0%, #0866F5 60%, #0284c7 100%);
+      color: #ffffff;
+      padding: 60px 20px 80px;
+      text-align: center;
+      position: relative;
+    }
+
+    .pat-pricing-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #ffffff;
+    }
+
+    .pat-pricing-hero h1 {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+    }
+
+    .pat-pricing-hero p {
+      font-size: 17px;
+      color: #e0f2fe;
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Billing Toggle */
+    .billing-toggle-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .toggle-label {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    .toggle-label.active {
+      color: #fed7aa;
+    }
+
+    .switch-btn {
+      position: relative;
+      width: 56px;
+      height: 30px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      cursor: pointer;
+      border: 2px solid #ffffff;
+      transition: background 0.3s;
+    }
+
+    .switch-btn .slider-dot {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: #ffffff;
+      border-radius: 50%;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .switch-btn.yearly .slider-dot {
+      transform: translateX(26px);
+      background: #f97316;
+    }
+
+    .save-badge {
+      background: #f97316;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-left: 6px;
+    }
+
+    /* Pricing Cards */
+    .pricing-container {
+      max-width: 1040px;
+      margin: -40px auto 60px;
+      padding: 0 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+
+    .pricing-card {
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      border: 1.5px solid #e2e8f0;
+      box-shadow: 0 12px 30px rgba(16, 52, 99, 0.08);
+      padding: 36px 30px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(8, 102, 245, 0.15);
+      border-color: #bfdbfe;
+    }
+
+    .pricing-card.popular {
+      border: 2px solid var(--primary-blue);
+      box-shadow: 0 20px 45px rgba(8, 102, 245, 0.18);
+    }
+
+    .popular-ribbon {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary-blue);
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 4px 16px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 10px rgba(8, 102, 245, 0.3);
+    }
+
+    .plan-header {
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+    }
+
+    .plan-name {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      margin-bottom: 8px;
+    }
+
+    .plan-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      min-height: 42px;
+      line-height: 1.5;
+    }
+
+    .plan-price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-top: 14px;
+    }
+
+    .plan-currency {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy-dark);
+    }
+
+    .plan-price {
+      font-size: 46px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      line-height: 1;
+    }
+
+    .plan-cycle {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 30px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: #334155;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .feature-check {
+      color: #10b981;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .btn-subscribe {
+      width: 100%;
+      padding: 13px 20px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-subscribe-primary {
+      background: var(--primary-blue);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(8, 102, 245, 0.25);
+    }
+
+    .btn-subscribe-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-subscribe-outline {
+      background: #eff6ff;
+      color: var(--primary-blue);
+      border: 1.5px solid #bfdbfe;
+    }
+
+    .btn-subscribe-outline:hover {
+      background: var(--primary-blue);
+      color: #ffffff;
+    }
+
+    /* Patient Dashboard Status Card */
+    .pat-dash-card {
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      border: 1.5px solid #e2e8f0;
+      box-shadow: 0 10px 30px rgba(16, 52, 99, 0.06);
+      padding: 32px;
+      margin-bottom: 40px;
+    }
+
+    .pat-dash-heading {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 16px;
+    }
+
+    .pat-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .pat-stat-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .pat-stat-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .pat-stat-val {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy-dark);
+    }
+
+    .pat-stat-sub {
+      font-size: 12px;
+      color: #10b981;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* Coupon Box */
+    .coupon-box {
+      background: #eff6ff;
+      border: 1.5px dashed #bfdbfe;
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .coupon-input {
+      flex: 1;
+      height: 42px;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 0 14px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      outline: none;
+    }
+
+    @media (max-width: 992px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pat-stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 576px) {
+      .pat-stats-grid { grid-template-columns: 1fr; }
+      .pat-pricing-hero h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header class="header-nav" role="banner" style="position: sticky; top: 0; background: #ffffff; border-bottom: 1px solid #e2e8f0; z-index: 1000; padding: 14px 28px;">
+    <div style="max-width: 1320px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;">
+      <a href="./index.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" style="width: 44px; height: 44px; border-radius: 50%;">
+        <div>
+          <div style="font-size: 20px; font-weight: 800; color: #103463;">Multi Therapy</div>
+          <div style="font-size: 11px; font-weight: 700; color: #0866F5;">Care • Support • Progress • Together</div>
+        </div>
+      </a>
+
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <a href="./hospital-subscriptions.html" class="btn btn-sm btn-outline-secondary" style="font-weight: 700; border-radius: 999px;">Hospital Plans</a>
+        <a href="./doctor-subscriptions.html" class="btn btn-sm btn-outline-secondary" style="font-weight: 700; border-radius: 999px;">Doctor Plans</a>
+        <a href="./patient-home.html" class="btn btn-sm btn-primary" style="font-weight: 700; border-radius: 999px; background: #0866F5;">Patient Portal &rarr;</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="pat-pricing-hero">
+    <div class="pat-pricing-hero-badge">
+      <span>💙</span> Patient &amp; Family Caregiver Plans
+    </div>
+    <h1>Personalized Therapy For Faster Progress</h1>
+    <p>
+      Unlock custom home exercise schedules, HD video tutorials, milestone progress charts, family caregiver accounts, and priority specialist consultations.
+    </p>
+
+    <!-- Monthly / Yearly Toggle -->
+    <div class="billing-toggle-wrap">
+      <span class="toggle-label active" id="labelMonthly">Monthly Billing</span>
+      <div class="switch-btn" id="billingSwitch" role="button" aria-label="Toggle Monthly/Yearly Billing">
+        <div class="slider-dot"></div>
+      </div>
+      <span class="toggle-label" id="labelYearly">
+        Annual Billing
+        <span class="save-badge">Save 17%</span>
+      </span>
+    </div>
+  </section>
+
+  <!-- Pricing Cards Container -->
+  <main class="pricing-container">
+
+    <!-- Active Subscription Alert / Toast -->
+    <div id="subAlertMessage" class="alert alert-success d-none mb-4" role="alert"></div>
+
+    <!-- Active Patient Subscription Dashboard -->
+    <section class="pat-dash-card" id="patientDashSection" style="display: none;">
+      <h2 class="pat-dash-heading">
+        <span>🌟</span> My Therapy Membership Status
+      </h2>
+
+      <div class="pat-stats-grid">
+        <div class="pat-stat-box">
+          <div class="pat-stat-title">Current Plan</div>
+          <div class="pat-stat-val text-primary" id="curPlanName">Patient Premium</div>
+          <div class="pat-stat-sub" id="curPlanStatus">Active Membership</div>
+        </div>
+
+        <div class="pat-stat-box">
+          <div class="pat-stat-title">Membership Expiry</div>
+          <div class="pat-stat-val" id="curPlanExpiry" style="font-size: 18px;">31 Dec 2026</div>
+          <div class="pat-stat-sub text-muted" id="curBillingCycle">Monthly Cycle</div>
+        </div>
+
+        <div class="pat-stat-box">
+          <div class="pat-stat-title">Therapy Features</div>
+          <div class="pat-stat-val text-success" id="curTherapyFeatures">Full Access</div>
+          <div class="pat-stat-sub text-success">Personalized Video Plans</div>
+        </div>
+
+        <div class="pat-stat-box">
+          <div class="pat-stat-title">Caregiver Access</div>
+          <div class="pat-stat-val text-primary" id="curCaregiverAccess">Multi-Account</div>
+          <div class="pat-stat-sub">Family Progress Sharing</div>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge bg-success py-2 px-3 fs-6" id="sponsoredBadge">✓ Verified Patient Member</span>
+          <span class="text-muted small" id="autoRenewStatus">Auto-renewal enabled</span>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-outline-danger btn-sm" id="btnCancelAutoRenew">Cancel Auto-Renew</button>
+          <button type="button" class="btn btn-primary btn-sm" id="btnRenewEarly" style="background:#0866F5;">Renew / Upgrade</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Coupon Input Bar -->
+    <div class="coupon-box">
+      <div style="font-size: 22px;">🏷️</div>
+      <div style="flex: 1;">
+        <div style="font-size: 13px; font-weight: 800; color: #1e40af;">Have a Promotional Coupon?</div>
+        <div style="font-size: 12px; color: #64748b;">Enter coupon code (e.g. WELCOME50, HEALTH2026) for instant patient discount</div>
+      </div>
+      <input type="text" id="couponCodeInput" class="coupon-input" placeholder="COUPON CODE" maxlength="20">
+      <button type="button" class="btn btn-primary px-3" id="btnApplyCoupon" style="height: 42px; font-weight: 700; border-radius: 10px; background: #0866F5;">Apply</button>
+    </div>
+
+    <!-- Pricing Cards Grid -->
+    <div class="pricing-grid">
+
+      <!-- Plan 1: Patient Free -->
+      <div class="pricing-card" data-plan="pat_free">
+        <div class="plan-header">
+          <div class="plan-name">Patient Free</div>
+          <div class="plan-desc">Essential rehabilitation access for individual patients and standard exercise routines.</div>
+          <div class="plan-price-wrap">
+            <span class="plan-currency">₹</span>
+            <span class="plan-price" id="price_pat_free">0</span>
+            <span class="plan-cycle" id="cycle_pat_free">/ month</span>
+          </div>
+          <div class="small text-muted mt-1" id="subtext_pat_free">free forever</div>
+        </div>
+
+        <ul class="features-list">
+          <li class="feature-item"><span class="feature-check">✓</span> <span>Browse Standard Exercise Library</span></li>
+          <li class="feature-item"><span class="feature-check">✓</span> <span>Book Regular Clinical Consultations</span></li>
+          <li class="feature-item"><span class="feature-check">✓</span> <span>Personal Medical &amp; Profile Records</span></li>
+          <li class="feature-item"><span class="feature-check">✓</span> <span>Single Family Caregiver Account</span></li>
+          <li class="feature-item"><span class="feature-check">✓</span> <span>Standard Community Support</span></li>
+        </ul>
+
+        <button type="button" class="btn-subscribe btn-subscribe-outline" data-plan="pat_free">
+          <span>Get Started Free</span>
+        </button>
+      </div>
+
+      <!-- Plan 2: Patient Premium (Best Value) -->
+      <div class="pricing-card popular" data-plan="pat_premium">
+        <div class="popular-ribbon">Best Value</div>
+        <div class="plan-header">
+          <div class="plan-name">Patient Premium</div>
+          <div class="plan-desc">Comprehensive personalized therapy, daily exercise video routines, and caregiver tracking.</div>
+          <div class="plan-price-wrap">
+            <span class="plan-currency">₹</span>
+            <span class="plan-price" id="price_pat_premium">99</span>
+            <span class="plan-cycle" id="cycle_pat_premium">/ month</span>
+          </div>
+          <div class="small text-muted mt-1" id="subtext_pat_premium">billed monthly</div>
+        </div>
+
+        <ul class="features-list">
+          <li class="feature-item"><span class="feature-check">✓</span> <span><b>Personalized Daily Exercise Schedules</b></span></li>
+          <li class="feature-item"><span class="feature-check">✓</span> <span><b>HD Video Demonstrations &amp; Audio Guidance</b></span></li>
+          <li class="feature-item"><span class="feature-check">✓</span> <span>Interactive Motor Milestone Progress Tracking</span></li>
+          <li class="feature-item"><span class="feature-check">✓</span> <span>Multiple Family Caregiver Links (Up to 5)</span></li>
+          <li class="feature-item"><span class="feature-check">✓</span> <span>Priority Specialist Appointment Booking</span></li>
+          <li class="feature-item"><span class="feature-check">✓</span> <span>Downloadable Clinical PDF Progress Reports</span></li>
+          <li class="feature-item"><span class="feature-check">✓</span> <span>Direct Messaging with Assigned Therapists</span></li>
+        </ul>
+
+        <button type="button" class="btn-subscribe btn-subscribe-primary" data-plan="pat_premium">
+          <span>Subscribe to Premium</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Patient Billing History & Receipts -->
+    <section class="pat-dash-card mt-5" id="historySection">
+      <h3 class="pat-dash-heading">
+        <span>📄</span> Membership Receipts &amp; Invoices
+      </h3>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Invoice #</th>
+              <th>Date</th>
+              <th>Plan</th>
+              <th>Billing Cycle</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="paymentsBody">
+            <tr>
+              <td colspan="7" class="text-center text-muted py-4">No prior payments. Active membership invoices will appear here.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #103463; color: #ffffff; padding: 40px 20px; text-align: center; margin-top: auto;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="font-weight: 800; font-size: 18px; margin-bottom: 8px;">MULTI THERAPY</div>
+      <div style="font-size: 13px; color: #cbd5e1; margin-bottom: 20px;">
+        Empowering patients and caregivers with accessible multidisciplinary rehabilitation.
+      </div>
+      <div style="font-size: 12px; color: #94a3b8;">
+        &copy; 2026 Multi Therapy Rehabilitation System. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="./js/api.js"></script>
+  <script src="./js/patient-subscriptions.js"></script>
+</body>
+</html>
+

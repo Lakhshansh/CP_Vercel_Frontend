@@ -2,7 +2,7 @@
 const RESEND_STORAGE_KEY = "RESEND_API_KEY";
 const RESEND_FROM_STORAGE_KEY = "RESEND_FROM_EMAIL";
 const DEFAULT_RESEND_KEY = typeof atob === "function" ? atob("cmVfWU1ocncxTFJfNEtycjZvVXJLalc0NGtjZHFGUnJINlB3") : "";
-const DEFAULT_RESEND_FROM = "CP Healthcare <onboarding@resend.dev>";
+const DEFAULT_RESEND_FROM = "Multi Therapy <onboarding@resend.dev>";
 
 function getResendConfig() {
   return {
@@ -91,7 +91,7 @@ async function sendDoctorOtpViaResend({ email, name, otp }) {
       const doctorDisplayName = name ? `Dr. ${name.replace(/^Dr\.?\s*/i, "")}` : "Doctor";
       const htmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 10px; background: #ffffff;">
-          <h2 style="color: #0d6efd; margin-top: 0;">🏥 CP Healthcare System</h2>
+          <h2 style="color: #0d6efd; margin-top: 0;">🏥 Multi Therapy</h2>
           <p>Hello <strong>${doctorDisplayName}</strong>,</p>
           <p>Please use the following 6-digit verification code to complete your doctor profile registration:</p>
           <div style="background: #f1f5f9; padding: 18px; text-align: center; border-radius: 8px; margin: 20px 0;">
@@ -113,7 +113,7 @@ async function sendDoctorOtpViaResend({ email, name, otp }) {
         body: JSON.stringify({
           from: config.fromEmail || DEFAULT_RESEND_FROM,
           to: [email.trim()],
-          subject: `Doctor Verification OTP: ${otp} - CP Management System`,
+          subject: `Doctor Verification OTP: ${otp} - Multi Therapy`,
           html: htmlContent
         })
       });
@@ -204,7 +204,7 @@ async function sendPatientOtpViaResend({ email, name, otp }) {
       const patientDisplayName = name ? name.trim() : "Patient";
       const htmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 10px; background: #ffffff;">
-          <h2 style="color: #0d6efd; margin-top: 0;">🏥 CP Healthcare System</h2>
+          <h2 style="color: #0d6efd; margin-top: 0;">🏥 Multi Therapy</h2>
           <p>Hello <strong>${patientDisplayName}</strong>,</p>
           <p>Please use the following 6-digit verification code to complete your patient profile registration:</p>
           <div style="background: #f1f5f9; padding: 18px; text-align: center; border-radius: 8px; margin: 20px 0;">
@@ -226,7 +226,7 @@ async function sendPatientOtpViaResend({ email, name, otp }) {
         body: JSON.stringify({
           from: config.fromEmail || DEFAULT_RESEND_FROM,
           to: [email.trim()],
-          subject: `Patient Verification OTP: ${otp} - CP Management System`,
+          subject: `Patient Verification OTP: ${otp} - Multi Therapy`,
           html: htmlContent
         })
       });
@@ -317,7 +317,7 @@ async function sendSignupOtpViaResend({ email, name, otp }) {
       const displayName = name ? (name.startsWith("Dr.") ? name : `Dr. ${name}`) : "Doctor";
       const htmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 10px; background: #ffffff;">
-          <h2 style="color: #0d6efd; margin-top: 0;">🏥 CP Healthcare System</h2>
+          <h2 style="color: #0d6efd; margin-top: 0;">🏥 Multi Therapy</h2>
           <p>Hello <strong>${displayName}</strong>,</p>
           <p>Please use the following 6-digit verification code to complete your account registration:</p>
           <div style="background: #f1f5f9; padding: 18px; text-align: center; border-radius: 8px; margin: 20px 0;">
@@ -339,7 +339,7 @@ async function sendSignupOtpViaResend({ email, name, otp }) {
         body: JSON.stringify({
           from: config.fromEmail || DEFAULT_RESEND_FROM,
           to: [email.trim()],
-          subject: `Signup Verification OTP: ${otp} - CP Management System`,
+          subject: `Signup Verification OTP: ${otp} - Multi Therapy`,
           html: htmlContent
         })
       });
@@ -430,7 +430,7 @@ async function sendTherapistOtpViaResend({ email, name, otp }) {
       const therapistDisplayName = name ? name.trim() : "Therapist";
       const htmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 10px; background: #ffffff;">
-          <h2 style="color: #0d6efd; margin-top: 0;">🏥 CP Healthcare System</h2>
+          <h2 style="color: #0d6efd; margin-top: 0;">🏥 Multi Therapy</h2>
           <p>Hello <strong>${therapistDisplayName}</strong>,</p>
           <p>Please use the following 6-digit verification code to complete your therapist profile registration:</p>
           <div style="background: #f1f5f9; padding: 18px; text-align: center; border-radius: 8px; margin: 20px 0;">
@@ -452,7 +452,7 @@ async function sendTherapistOtpViaResend({ email, name, otp }) {
         body: JSON.stringify({
           from: config.fromEmail || DEFAULT_RESEND_FROM,
           to: [email.trim()],
-          subject: `Therapist Verification OTP: ${otp} - CP Management System`,
+          subject: `Therapist Verification OTP: ${otp} - Multi Therapy`,
           html: htmlContent
         })
       });

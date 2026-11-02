@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Doctor Login - Multi Therapy Management System</title>
-  <meta name="description" content="Secure Doctor &amp; Healthcare Practitioner Portal for Multi Therapy Management System. Access patient charts, manage appointments, and track therapy progress.">
+  <title>Doctor Login | Multi Therapy</title>
+  <meta name="description" content="Secure Doctor &amp; Healthcare Practitioner Portal for Multi Therapy. Access patient charts, manage appointments, and track therapy progress.">
   <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
 
   <!-- Google Fonts: Plus Jakarta Sans & Caveat -->
@@ -307,13 +307,13 @@
     }
 
     .doctor-card-avatar-wrap {
-      width: 72px;
-      height: 72px;
+      width: 66px;
+      height: 66px;
       border-radius: 50%;
       background: #ffffff;
       padding: 3px;
-      box-shadow: 0 6px 18px rgba(13, 110, 253, 0.18);
-      border: 2px solid #e0f2fe;
+      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.16);
+      border: 2px solid #a7f3d0;
       margin-bottom: 12px;
       position: relative;
       display: flex;
@@ -322,22 +322,24 @@
     }
 
     .doctor-card-avatar {
-      width: 64px;
-      height: 64px;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
       object-fit: cover;
       display: block;
+      background: #ecfdf5;
     }
 
     .doctor-online-dot {
       position: absolute;
-      bottom: 2px;
-      right: 2px;
-      width: 16px;
-      height: 16px;
+      bottom: 1px;
+      right: 1px;
+      width: 14px;
+      height: 14px;
       background-color: #10b981;
-      border: 2.5px solid #ffffff;
+      border: 2px solid #ffffff;
       border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
     }
 
     .doctor-card-title {
@@ -852,11 +854,11 @@
       <div class="cp-navbar-inner">
         
         <!-- Brand Logo & Name (Together on the left) -->
-        <a class="cp-brand" href="./index.html" title="Multi Therapy Management System Home">
-          <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="cp-brand-logo-img" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; flex-shrink: 0 !important; display: block !important;">
+        <a class="cp-brand" href="./index.html" title="Multi Therapy Home">
+          <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="cp-brand-logo-img" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; flex-shrink: 0 !important; display: block !important;">
           <div class="cp-brand-text">
             <span class="cp-brand-title">Multi Therapy</span>
-            <span class="cp-brand-subtitle">Management System</span>
+            <span class="cp-brand-tagline">Care • Support • Progress • Together</span>
           </div>
         </a>
 
@@ -927,7 +929,7 @@
 
         <!-- Healthcare Doctor Profile Illustration Card -->
         <div class="doctor-illustration-card">
-          <img src="./images/doctor-avatar.jpg" alt="Dedicated physician illustration" class="doctor-avatar-thumb">
+          <img src="./images/doctor-login-avatar.svg" alt="Doctor Illustration" class="doctor-avatar-thumb" onerror="this.src='./images/doctor-avatar.svg'; this.onerror=null;">
           <div class="doctor-thumb-info">
             <span class="doctor-thumb-title">Physician &amp; Therapist Portal</span>
             <span class="doctor-thumb-desc">Direct clinical overview, neuromuscular milestone tracking, and therapeutic assignment management.</span>
@@ -983,7 +985,7 @@
             </div>
           </div>
 
-          <!-- 4. View Progress Reports -->
+          <!-- 4. Clinical Evaluations -->
           <div class="doctor-feature-card">
             <div class="doctor-feature-icon" aria-hidden="true">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -995,8 +997,8 @@
               </svg>
             </div>
             <div class="doctor-feature-text">
-              <span class="doctor-feature-title">View Progress Reports</span>
-              <span class="doctor-feature-sub">Export evaluations &amp; notes</span>
+              <span class="doctor-feature-title">Clinical Evaluations</span>
+              <span class="doctor-feature-sub">Diagnosis &amp; therapy notes</span>
             </div>
           </div>
         </div>
@@ -1011,7 +1013,7 @@
           <!-- Card Header with Doctor Avatar -->
           <div class="doctor-card-header">
             <div class="doctor-card-avatar-wrap">
-              <img src="./images/doctor-avatar.jpg" alt="Doctor Portal Profile" class="doctor-card-avatar">
+              <img src="./images/doctor-login-avatar.svg" alt="Doctor Login Illustration" class="doctor-card-avatar" width="58" height="58" onerror="this.src='./images/doctor-avatar.svg'; this.onerror=null;">
               <div class="doctor-online-dot" title="Doctor Portal Online"></div>
             </div>
             <h2 class="doctor-card-title">Doctor Login</h2>
@@ -1084,7 +1086,7 @@
                 <input type="checkbox" id="doctorRemember" checked>
                 <span>Remember Me</span>
               </label>
-              <a href="./forgot.html" class="doctor-forgot-link">Forgot Password?</a>
+              <a href="./doctor-forgot.html" class="doctor-forgot-link">Forgot Password?</a>
             </div>
 
             <!-- Primary Action Button: Login as Doctor -->
@@ -1151,8 +1153,8 @@
           <div class="doctor-bottom-links">
             <div>
               New Doctor or Medical Clinic?
-              <a href="./signup.html" class="doctor-reg-link">
-                Register Medical Account
+              <a href="./doctor-signup.html" class="doctor-reg-link">
+                Register Doctor Account →
               </a>
             </div>
 
@@ -1178,6 +1180,37 @@
   </main>
 
   <!-- ======================================================================
+       FOOTER
+       ====================================================================== -->
+  <footer style="background: #103463; color: #94a3b8; padding: 22px 24px; margin-top: auto; border-top: 1px solid #1e427b;">
+    <div style="max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" style="width: 42px; height: 42px; border-radius: 50%; background: #ffffff; padding: 2px;">
+        <div>
+          <div style="font-weight: 800; font-size: 15px; color: #ffffff;">Multi Therapy</div>
+          <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600;">Care • Support • Progress • Together</div>
+        </div>
+      </div>
+      <div style="font-size: 12.5px; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+        <div>&copy; 2026 Multi Therapy. All rights reserved.</div>
+        <div>
+          <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp" style="color: #ffffff; text-decoration: none; display: inline-flex; align-items: flex-start; gap: 8px; margin-top: 6px;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #25D366; flex-shrink: 0; margin-top: 2px;" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/></svg>
+            <span style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.35; margin-left: 2px;">
+              <strong style="color: #ffffff; font-size: 13px;">Help Desk:</strong>
+              <span style="font-size: 11.5px; color: #38bdf8; font-weight: 600;">📱 Only WhatsApp Us</span>
+              <strong style="color: #ffffff; font-size: 14px; letter-spacing: 0.3px;">+91 9468650893</strong>
+              <span style="display: block; margin-top: 6px;">
+                <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 32px; width: auto; display: block; border-radius: 9999px;">
+              </span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================================
        INFORMATIONAL MODAL (About, Services, Contact Details)
        ====================================================================== -->
   <div class="cp-modal-backdrop" id="infoModal" role="dialog" aria-modal="true" aria-hidden="true">
@@ -1193,7 +1226,8 @@
   </div>
 
   <!-- Core JavaScript & Authentication Handlers -->
-  <script src="./js/api.js"></script>
+  <script src="./js/api.js?v=2.1"></script>
+  <script src="./js/cdn.js"></script>
   <script>
     // Elements
     const tabPasswordMode = document.getElementById("tabPasswordMode");
@@ -1314,17 +1348,25 @@
             })
           });
 
-          showAlert(data.message || "Doctor authentication successful! Redirecting...", "success");
+          // Role verification: Prevent Patients from logging into Doctor Portal
+          if (data.user && data.user.role && data.user.role.toLowerCase() === "patient") {
+            showAlert("This account is a Patient account. Please log in via Patient Login.", "danger");
+            generateDocCaptcha();
+            return;
+          }
+
+          showAlert(data.message || "Doctor authentication successful! Redirecting to Doctor Home...", "success");
 
           if (data.user) {
             localStorage.setItem("currentUser", JSON.stringify({
               ...data.user,
-              role: data.user.role || "doctor"
+              role: "Doctor",
+              doctor_name: data.user.doctor_name || ("Dr. " + (data.user.username || "Practitioner"))
             }));
           }
 
           setTimeout(() => {
-            window.location.href = "./dashboard.html";
+            window.location.href = "./doctor-home.html";
           }, 500);
 
         } catch (err) {
@@ -1397,18 +1439,18 @@
           return;
         }
 
-        showAlert("Doctor OTP verified! Redirecting to clinical dashboard...", "success");
+        showAlert("Doctor OTP verified! Redirecting to Doctor Home...", "success");
 
         const doctorUser = {
           username: doctorOtpEmail.value.split("@")[0],
           email: doctorOtpEmail.value,
-          role: "doctor",
+          role: "Doctor",
           doctor_name: "Dr. " + doctorOtpEmail.value.split("@")[0]
         };
         localStorage.setItem("currentUser", JSON.stringify(doctorUser));
 
         setTimeout(() => {
-          window.location.href = "./dashboard.html";
+          window.location.href = "./doctor-home.html";
         }, 600);
       });
     }
@@ -1447,8 +1489,8 @@
       openInfoModal("Contact Multi Therapy Clinical Support", `
         <p style="margin-bottom: 12px;">Our clinical administration team is available to assist physicians and therapists.</p>
         <div style="background: #f0f7ff; padding: 14px 18px; border-radius: 10px; margin: 16px 0; border-left: 4px solid #0d6efd; font-size: 14px; line-height: 1.8;">
-          <div>📞 <strong>Practitioner Priority Support:</strong> +1 (800) 555-CP-DOCS</div>
-          <div>✉️ <strong>Clinical Inquiries:</strong> clinical@cpmanagementsystem.org</div>
+          <div><a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp" style="color: #0d6efd; font-weight: 700; text-decoration: none; display: inline-flex; align-items: flex-start; gap: 8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #25D366; flex-shrink: 0; margin-top: 2px;" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/></svg><span style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.35;"><strong style="font-size: 13px;">Help Desk:</strong><span style="font-size: 11.5px; color: #0284c7; font-weight: 600;">📱 Only WhatsApp Us</span><strong style="font-size: 14px; letter-spacing: 0.3px;">+91 9468650893</strong></span></a></div>
+          <div>✉️ <strong>Clinical Inquiries:</strong> clinical@multitherapy.com</div>
           <div>🏥 <strong>Emergency Triage Desk:</strong> Available 24/7 on Doctor Portal</div>
         </div>
         <p style="font-size: 13px; color: #64748b;">For hospital onboardings or practitioner licensing assistance, please submit a request or contact your clinic administrator.</p>
@@ -1477,7 +1519,7 @@
       navAbout.addEventListener("click", (e) => {
         e.preventDefault();
         openInfoModal("About Multi Therapy Care", `
-          <p><strong>Multi Therapy Management System</strong> is a comprehensive clinical management platform uniting patients, therapists, doctors, and family caregivers.</p>
+          <p><strong>Multi Therapy</strong> is a comprehensive clinical management platform uniting patients, therapists, doctors, and family caregivers.</p>
           <p style="margin-top: 12px;">We simplify therapy scheduling, track motor and communication milestones, and empower patients through every phase of neuromuscular rehabilitation.</p>
           <div style="background: #f0f7ff; padding: 12px 16px; border-radius: 8px; margin-top: 14px; border-left: 4px solid #0284c7;">
             💡 <em>"Better Care, Brighter Tomorrow — Every Step Matters."</em>
@@ -1502,5 +1544,10 @@
       });
     }
   </script>
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+  </a>
+
 </body>
 </html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Membership &amp; Subscription Plans | Multi Therapy</title>
+  <meta name="description" content="Multi Therapy Membership Plans - Flexible pricing for Hospitals, Doctors, and Patients with Razorpay integration and instant activation.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/subscriptions.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div style="background: #eff6ff; border-bottom: 1px solid #bfdbfe; padding: 8px 20px; font-size: 13px; text-align: center; color: #1e40af; font-weight: 700;">
+    <span>🎉 Special Launch: Use coupon code <strong style="color: #0866F5; background: #ffffff; padding: 2px 8px; border-radius: 6px; border: 1px dashed #0866F5;">WELCOME50</strong> for 50% discount on all plans!</span>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="mt-sub-header">
+    <div class="container-xl d-flex align-items-center justify-content-between py-2">
+      <a href="./index.html" class="mt-brand-wrap">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="mt-brand-logo">
+        <div>
+          <div class="mt-brand-title">Multi Therapy</div>
+          <div class="mt-brand-tagline">Care • Support • Progress • Together</div>
+        </div>
+      </a>
+
+      <nav class="d-none d-lg-flex align-items-center gap-1">
+        <a href="./index.html" class="mt-nav-link">Home</a>
+        <a href="./hospital-pricing.html" class="mt-nav-link">Hospitals</a>
+        <a href="./doctor-pricing.html" class="mt-nav-link">Doctors</a>
+        <a href="./patient-pricing.html" class="mt-nav-link">Patients</a>
+        <a href="./my-subscription.html" class="mt-nav-link">My Subscription</a>
+      </nav>
+
+      <div class="d-flex align-items-center gap-3">
+        <a href="./my-subscription.html" class="mt-user-pill" id="navUserPill">
+          <div class="mt-user-avatar" id="navAvatar">👤</div>
+          <div>
+            <div style="line-height: 1.1;" id="navUsername">My Account</div>
+            <div style="font-size: 11px; color: #0284c7; font-weight: 600;" id="navRole">Patient</div>
+          </div>
+        </a>
+        <a href="./login.html" class="btn btn-outline-primary btn-sm rounded-pill fw-bold px-3 d-none" id="navLoginBtn">Login</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="mt-hero-banner">
+    <div class="container-xl">
+      <div class="mt-hero-badge">
+        <span>⭐</span> Transparent &amp; Flexible Clinical Subscriptions
+      </div>
+      <h1 class="mt-hero-title">Choose the Perfect Care Plan</h1>
+      <p class="mt-hero-subtitle">
+        Empower clinical workflows, tele-therapy consultations, personalized therapy regimens, and hospital-wide multi-specialty coordination.
+      </p>
+
+      <!-- Role Selection Tabs -->
+      <div class="mt-role-tabs">
+        <button type="button" class="mt-role-tab active" data-role="hospital">
+          <span>🏥</span> Hospital / Clinic
+        </button>
+        <button type="button" class="mt-role-tab" data-role="doctor">
+          <span>🩺</span> Doctor / Specialist
+        </button>
+        <button type="button" class="mt-role-tab" data-role="patient">
+          <span>👤</span> Patient &amp; Family
+        </button>
+      </div>
+
+      <!-- Monthly / Yearly Billing Toggle -->
+      <div class="mt-billing-toggle-wrap">
+        <span class="mt-toggle-label active" id="labelMonthly">Monthly Billing</span>
+        <label class="mt-switch">
+          <input type="checkbox" id="billingCycleToggle">
+          <span class="mt-slider"></span>
+        </label>
+        <span class="mt-toggle-label" id="labelYearly">Yearly Billing</span>
+        <span class="mt-save-badge">Save up to 20% + 2 Months Free</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Pricing Content -->
+  <main class="container-xl">
+    
+    <!-- Dynamic Loading Spinner / Alert -->
+    <div id="loadingPlans" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status"></div>
+      <div class="mt-2 text-muted fw-bold">Loading live plans from Multi Therapy secure database...</div>
+    </div>
+
+    <!-- Pricing Cards Grid -->
+    <div class="mt-pricing-grid" id="pricingCardsGrid" style="display: none;">
+      <!-- Populated via js/subscription-pricing.js -->
+    </div>
+
+    <!-- Quick Jump Sub-Navigation -->
+    <div class="d-flex justify-content-center gap-3 flex-wrap mb-5">
+      <a href="./hospital-pricing.html" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold">
+        🏥 Dedicated Hospital Pricing &rarr;
+      </a>
+      <a href="./doctor-pricing.html" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">
+        🩺 Dedicated Doctor Pricing &rarr;
+      </a>
+      <a href="./patient-pricing.html" class="btn btn-sm btn-outline-info rounded-pill px-3 fw-bold">
+        👤 Dedicated Patient Pricing &rarr;
+      </a>
+    </div>
+
+    <!-- Comparison Matrix Section -->
+    <section class="mt-table-card">
+      <div class="mt-table-header d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <h2 class="mt-table-title" id="matrixHeading">Hospital / Clinic Tier Comparison Matrix</h2>
+        <span class="badge bg-primary rounded-pill px-3 py-2 fw-bold">Instant Activation • Cancel Anytime</span>
+      </div>
+      <div class="table-responsive">
+        <table class="table mt-matrix-table align-middle" id="comparisonTable">
+          <!-- Populated dynamically based on active role -->
+        </table>
+      </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section class="mb-5">
+      <div class="text-center mb-4">
+        <h3 class="fw-bold" style="color: var(--mt-navy);">Frequently Asked Questions</h3>
+        <p class="text-muted">Everything you need to know about Multi Therapy memberships &amp; payments</p>
+      </div>
+
+      <div class="accordion accordion-flush bg-white rounded-4 border p-3 shadow-sm mx-auto" id="faqAccordion" style="max-width: 860px;">
+        <div class="accordion-item border-bottom">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed fw-bold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+              Can hospital plans sponsor affiliated doctors and patients?
+            </button>
+          </h2>
+          <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body text-muted">
+              Yes! When a Hospital or Clinic subscribes to the Professional or Enterprise tier, all verified affiliated doctors and patients automatically inherit full premium clinical features without paying separate membership fees.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-bottom">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed fw-bold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+              What payment methods does Razorpay accept?
+            </button>
+          </h2>
+          <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body text-muted">
+              Through our secure Razorpay integration, we support all major Credit/Debit Cards (Visa, Mastercard, RuPay, Amex), UPI (Google Pay, PhonePe, Paytm, BHIM), NetBanking across 50+ banks, and popular mobile wallets.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-bottom">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed fw-bold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+              Can I upgrade or downgrade my plan at any time?
+            </button>
+          </h2>
+          <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body text-muted">
+              Yes. You can upgrade from Free to Pro or Enterprise at any moment. Upgrades take effect immediately. Downgrades apply at the end of the current billing cycle.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed fw-bold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+              Do you provide GST-compliant tax invoices?
+            </button>
+          </h2>
+          <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body text-muted">
+              Every paid transaction automatically generates a downloadable GST Tax Invoice (with 18% GST calculation, CGST 9% + SGST 9%) and a unique invoice number accessible in your Subscription History.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-footer">
+    <div class="container-xl d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div class="d-flex align-items-center gap-2">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy" style="width: 34px; height: 34px; border-radius: 50%; background: #ffffff; padding: 2px;">
+        <span class="text-white fw-bold">Multi Therapy &copy; 2026</span>
+        <span class="text-muted ms-2">Care • Support • Progress • Together</span>
+      </div>
+      <div class="small">
+        <a href="./subscription-pricing.html" class="text-decoration-none text-light me-3">All Plans</a>
+        <a href="./my-subscription.html" class="text-decoration-none text-light me-3">My Subscription</a>
+        <a href="./admin-subscriptions.html" class="text-decoration-none text-light">Admin Portal</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22));">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Support" style="height: 48px; width: auto; border-radius: 9999px;">
+  </a>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/api.js"></script>
+  <script src="./js/subscription-pricing.js"></script>
+</body>
+</html>

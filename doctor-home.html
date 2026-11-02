@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Doctor Dashboard | Multi Therapy</title>
+  <meta name="description" content="Multi Therapy - Practitioner & Doctor Portal. Manage clinical records, appointments, therapist assignments, and neuromuscular progress reports.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Landing & Doctor Styles -->
+  <link rel="stylesheet" href="./css/landing.css?v=2.2">
+  <link rel="stylesheet" href="./css/doctor-home.css?v=2.2">
+</head>
+<body>
+
+  <!-- ======================================================================
+       1. DOCTOR HEADER / NAVIGATION BAR
+       ====================================================================== -->
+  <header class="doc-header" role="banner">
+    <div class="doc-navbar-inner">
+      
+      <!-- Brand Logo & Clinical Portal Title -->
+      <a class="doc-brand" href="./doctor-home.html" title="Multi Therapy Doctor Portal">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="doc-brand-logo" width="52" height="52">
+        <div>
+          <div class="doc-brand-title">Multi Therapy</div>
+          <div class="doc-brand-tagline">Care • Support • Progress • Together</div>
+        </div>
+      </a>
+
+      <!-- Center Navigation Links -->
+      <nav aria-label="Doctor Navigation">
+        <ul class="doc-nav-menu" id="docNavMenu">
+          <li><a href="./doctor-home.html" class="doc-nav-link active" aria-current="page">Dashboard</a></li>
+          <li><a href="#patients" class="doc-nav-link" id="navPatients">Patients</a></li>
+          <li><a href="./doctor-appointments.html" class="doc-nav-link" id="navAppointments">Appointments</a></li>
+          <li><a href="#therapists" class="doc-nav-link" id="navTherapists">Therapists</a></li>
+          <li><a href="./doctor-subscriptions.html" class="doc-nav-link" id="navDocSubscriptions">Membership &amp; Plans</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right Action Items: Notifications, Doctor Profile & Logout -->
+      <div class="doc-nav-actions">
+        
+        <!-- Notifications with Badge -->
+        <div style="position: relative;">
+          <button type="button" class="ph-icon-btn" id="btnDocNotifications" aria-label="Notifications (4 unread)" title="Clinical Alerts">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="ph-badge-count" aria-hidden="true">4</span>
+          </button>
+
+          <!-- Notification Dropdown -->
+          <div class="doc-dropdown" id="docNotifDropdown" role="menu">
+            <div class="doc-dropdown-header">Clinical Alerts (4)</div>
+            <a href="./doctor-appointments.html" class="doc-dropdown-item">
+              <span>📅</span>
+              <div>
+                <div style="font-weight: 700; font-size: 13px;">New Patient Booked</div>
+                <div style="font-size: 11.5px; color: #64748b;">Liam Johnson at 10:30 AM</div>
+              </div>
+            </a>
+            <a href="./doctor-appointments.html" class="doc-dropdown-item">
+              <span>📈</span>
+              <div>
+                <div style="font-weight: 700; font-size: 13px;">Report Awaiting Review</div>
+                <div style="font-size: 11.5px; color: #64748b;">Maya Patel mobility update</div>
+              </div>
+            </a>
+            <a href="#therapists" class="doc-dropdown-item">
+              <span>🩺</span>
+              <div>
+                <div style="font-weight: 700; font-size: 13px;">Therapist Note Logged</div>
+                <div style="font-size: 11.5px; color: #64748b;">PT session summary from Sarah J.</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Doctor Profile Pill -->
+        <div style="position: relative;">
+          <div class="doc-user-pill" id="docUserPill" role="button" aria-haspopup="true" aria-expanded="false" title="Practitioner Account Menu">
+            <img src="./images/doctor-login-avatar.svg" alt="Doctor" onerror="this.src='./images/doctor-avatar.svg'; this.onerror=null;" class="doc-avatar" id="docNavAvatar" width="38" height="38">
+            <div style="display: flex; flex-direction: column; line-height: 1.2;">
+              <span class="doc-user-name" id="docNavName">Dr. Practitioner</span>
+              <span class="doc-user-role" id="docNavRole">Practitioner Portal</span>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: #94a3b8; margin-left: 2px;">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+
+          <!-- Doctor Dropdown -->
+          <div class="doc-dropdown" id="docProfileDropdown" role="menu">
+            <div class="doc-dropdown-header">Doctor Account</div>
+            <a href="./doctor-profile.html" class="doc-dropdown-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Doctor Profile &amp; Settings</span>
+            </a>
+            <a href="./doctor-appointments.html" class="doc-dropdown-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>Manage Appointments</span>
+            </a>
+            <a href="./doctor-subscriptions.html" class="doc-dropdown-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span>Membership &amp; Plans</span>
+            </a>
+            <div style="border-top: 1px solid #f1f5f9; margin: 6px 0;"></div>
+            <a href="#" class="doc-dropdown-item" id="btnDocLogout" style="color: #dc2626;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #dc2626;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              <span>Log Out</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="doc-nav-toggle" id="docNavToggle" aria-label="Toggle navigation menu">☰</button>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       2. DOCTOR HERO SECTION
+       ====================================================================== -->
+  <section class="doc-hero-section">
+    <div class="doc-container">
+      <div class="doc-hero-grid">
+        
+        <!-- Hero Left Column -->
+        <div>
+          <div class="doc-clinic-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+            <span>PRACTITIONER CLINICAL OVERVIEW</span>
+          </div>
+
+          <h1 class="doc-hero-title">
+            Welcome back, <span id="heroDocName">Dr. Practitioner</span>!
+          </h1>
+
+          <p class="doc-hero-subtitle">
+            Manage your patients, appointments, and therapy progress efficiently. Monitor neuromuscular rehabilitation charts and coordinate multi-disciplinary care pathways.
+          </p>
+
+          <div class="doc-hero-actions">
+            <a href="./doctor-appointments.html" class="doc-btn-primary">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              <span>View Today's Appointments</span>
+            </a>
+
+            <a href="#patients" class="doc-btn-secondary">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+              </svg>
+              <span>Patient Directory</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero Right Column: Doctor Illustration Card -->
+        <div style="display: flex; justify-content: center;">
+          <div class="doc-illustration-card">
+            <div class="doc-illustration-wrap">
+              <svg width="90" height="90" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Physician and doctor illustration">
+                <circle cx="50" cy="50" r="46" fill="#e6fcf5"/>
+                <path d="M26 84 C26 64 36 56 50 56 C64 56 74 64 74 84 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+                <path d="M42 56 L50 68 L58 56 Z" fill="#078B69"/>
+                <path d="M40 57 C40 68 45 74 50 74 C55 74 60 68 60 57" stroke="#0f172a" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+                <circle cx="50" cy="76" r="3.5" fill="#64748b" stroke="#0f172a" stroke-width="1.5"/>
+                <circle cx="50" cy="34" r="14" fill="#fed7aa"/>
+                <path d="M36 32 C36 18 44 16 50 16 C58 16 64 19 64 32 C60 26 55 24 50 24 C44 24 40 27 36 32 Z" fill="#334155"/>
+                <rect x="40" y="30" width="8" height="6" rx="2" stroke="#078B69" stroke-width="1.5" fill="none"/>
+                <rect x="52" y="30" width="8" height="6" rx="2" stroke="#078B69" stroke-width="1.5" fill="none"/>
+                <line x1="48" y1="33" x2="52" y2="33" stroke="#078B69" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <div class="doc-card-name" id="docIllustrationName">Dr. Practitioner</div>
+            <div class="doc-card-spec" id="docIllustrationSpec">Senior Clinical Consultant</div>
+            <div class="doc-card-badge">● Active Clinic On-Duty</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       3. STATISTICS CARDS (4 ESSENTIAL CARDS - ACTUAL DATABASE COUNTS)
+       ====================================================================== -->
+  <section class="doc-stats-section" aria-label="Clinical Metrics Overview">
+    <div class="doc-container">
+      <div class="doc-stats-grid">
+        
+        <!-- 1. Total Patients -->
+        <div class="doc-stat-card">
+          <div class="doc-stat-info">
+            <span class="doc-stat-label">Total Patients</span>
+            <span class="doc-stat-number" id="statTotalPatients">24</span>
+            <span class="doc-stat-sub">Active Records</span>
+          </div>
+          <div class="doc-stat-icon-wrap c-blue" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 2. Today's Appointments -->
+        <div class="doc-stat-card">
+          <div class="doc-stat-info">
+            <span class="doc-stat-label">Today's Appointments</span>
+            <span class="doc-stat-number" id="statTodayAppointments">5</span>
+            <span class="doc-stat-sub">Consultations Scheduled</span>
+          </div>
+          <div class="doc-stat-icon-wrap c-teal" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3. Active Therapists -->
+        <div class="doc-stat-card">
+          <div class="doc-stat-info">
+            <span class="doc-stat-label">Active Therapists</span>
+            <span class="doc-stat-number" id="statActiveTherapists">8</span>
+            <span class="doc-stat-sub">Licensed Practitioners</span>
+          </div>
+          <div class="doc-stat-icon-wrap c-amber" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 4. Active Sessions -->
+        <div class="doc-stat-card">
+          <div class="doc-stat-info">
+            <span class="doc-stat-label">Therapy Sessions</span>
+            <span class="doc-stat-number" id="statCompletedSessions">24</span>
+            <span class="doc-stat-sub">Active Treatments</span>
+          </div>
+          <div class="doc-stat-icon-wrap c-purple" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       4. QUICK ACTIONS SECTION (6 PROFESSIONAL ACTION CARDS)
+       ====================================================================== -->
+  <section class="doc-actions-section" aria-labelledby="actionsHeading">
+    <div class="doc-container">
+      
+      <div class="doc-section-heading">
+        <h2 class="doc-section-title" id="actionsHeading">Quick Clinical Actions</h2>
+        <span style="font-size: 13.5px; color: #64748b;">Direct practitioner commands</span>
+      </div>
+
+      <div class="doc-actions-grid">
+        
+        <!-- 1. View Patients -->
+        <a href="#patients" class="doc-action-card">
+          <div class="doc-action-icon c-blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+          </div>
+          <div class="doc-action-info">
+            <div class="doc-action-title">View Patients</div>
+            <div class="doc-action-desc">Access clinical history, diagnoses and mobility charts.</div>
+          </div>
+          <span class="doc-action-arrow">&rarr;</span>
+        </a>
+
+        <!-- 2. Manage Appointments -->
+        <a href="./doctor-appointments.html" class="doc-action-card">
+          <div class="doc-action-icon c-teal">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="doc-action-info">
+            <div class="doc-action-title">Manage Appointments</div>
+            <div class="doc-action-desc">Review, confirm, reschedule or cancel consultations.</div>
+          </div>
+          <span class="doc-action-arrow">&rarr;</span>
+        </a>
+
+        <!-- 3. Assign Therapists -->
+        <div class="doc-action-card" id="btnActionAssign" onclick="showAssignTherapistDialog()">
+          <div class="doc-action-icon c-amber">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          </div>
+          <div class="doc-action-info">
+            <div class="doc-action-title">Assign Therapists</div>
+            <div class="doc-action-desc">Delegate physical, occupational or speech therapists.</div>
+          </div>
+          <span class="doc-action-arrow">&rarr;</span>
+        </div>
+
+        <!-- 4. Patient Directory -->
+        <a href="./patients.html" class="doc-action-card">
+          <div class="doc-action-icon c-purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+          </div>
+          <div class="doc-action-info">
+            <div class="doc-action-title">Patient Directory</div>
+            <div class="doc-action-desc">Review medical diagnoses, case history and mobility records.</div>
+          </div>
+          <span class="doc-action-arrow">&rarr;</span>
+        </a>
+
+        <!-- 5. Messages -->
+        <div class="doc-action-card" onclick="alert('Practitioner clinical message box is active with your clinic team.');">
+          <div class="doc-action-icon c-sky">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="doc-action-info">
+            <div class="doc-action-title">Messages</div>
+            <div class="doc-action-desc">Direct communications with therapists and patients.</div>
+          </div>
+          <span class="doc-action-arrow">&rarr;</span>
+        </div>
+
+        <!-- 6. Generate Reports -->
+        <div class="doc-action-card" onclick="showGenerateReportDialog()">
+          <div class="doc-action-icon c-rose">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <div class="doc-action-info">
+            <div class="doc-action-title">Generate Reports</div>
+            <div class="doc-action-desc">Export official clinical summary PDFs and charts.</div>
+          </div>
+          <span class="doc-action-arrow">&rarr;</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       5. TODAY'S SCHEDULE & 6. PATIENT OVERVIEW
+       ====================================================================== -->
+  <section class="doc-main-content-section">
+    <div class="doc-container">
+      <div class="doc-content-grid">
+        
+        <!-- Left Panel: Today's Schedule -->
+        <div class="doc-panel-card">
+          <div class="doc-panel-header">
+            <div>
+              <h3 class="doc-panel-title">Today's Schedule</h3>
+              <span style="font-size: 13px; color: #64748b;">Scheduled clinical appointments</span>
+            </div>
+            <a href="./doctor-appointments.html" class="doc-panel-link">Manage All &rarr;</a>
+          </div>
+
+          <div class="doc-table-wrap">
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Patient Name</th>
+                  <th>Appointment Type</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="todayScheduleTableBody">
+                <!-- Dynamically populated or verified fallback -->
+                <tr>
+                  <td><strong>09:30 AM</strong></td>
+                  <td><strong>Liam Johnson</strong><div style="font-size: 11.5px; color:#64748b;">Age 8 • Male</div></td>
+                  <td>Gait Evaluation</td>
+                  <td><span class="doc-badge confirmed">Confirmed</span></td>
+                  <td><a href="./doctor-appointments.html" class="doc-btn-sm">View Details</a></td>
+                </tr>
+                <tr>
+                  <td><strong>11:00 AM</strong></td>
+                  <td><strong>Maya Patel</strong><div style="font-size: 11.5px; color:#64748b;">Age 6 • Female</div></td>
+                  <td>Spasticity Review</td>
+                  <td><span class="doc-badge scheduled">Scheduled</span></td>
+                  <td><a href="./doctor-appointments.html" class="doc-btn-sm">View Details</a></td>
+                </tr>
+                <tr>
+                  <td><strong>02:15 PM</strong></td>
+                  <td><strong>Lucas Miller</strong><div style="font-size: 11.5px; color:#64748b;">Age 11 • Male</div></td>
+                  <td>Therapy Follow-up</td>
+                  <td><span class="doc-badge confirmed">Confirmed</span></td>
+                  <td><a href="./doctor-appointments.html" class="doc-btn-sm">View Details</a></td>
+                </tr>
+                <tr>
+                  <td><strong>04:00 PM</strong></td>
+                  <td><strong>Aarav Sharma</strong><div style="font-size: 11.5px; color:#64748b;">Age 9 • Male</div></td>
+                  <td>Neuromuscular Assessment</td>
+                  <td><span class="doc-badge pending">Pending</span></td>
+                  <td><a href="./doctor-appointments.html" class="doc-btn-sm">View Details</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right Panel: Patient Overview -->
+        <div class="doc-panel-card" id="patients">
+          <div class="doc-panel-header">
+            <div>
+              <h3 class="doc-panel-title">Patient Overview</h3>
+              <span style="font-size: 13px; color: #64748b;">Authorized patient records</span>
+            </div>
+            <span style="font-size: 12.5px; font-weight: 700; color: #078B69;">● HIPAA Protected</span>
+          </div>
+
+          <div id="patientOverviewList" style="max-height: 420px; overflow-y: auto;">
+            <!-- Patient Item 1 -->
+            <div class="doc-patient-item">
+              <div class="doc-patient-left">
+                <div class="doc-patient-avatar">LJ</div>
+                <div>
+                  <div class="doc-patient-title">Liam Johnson</div>
+                  <div class="doc-patient-sub">ID: #PT-1042 • Spastic Diplegia</div>
+                  <div style="font-size: 11.5px; color: #078B69; margin-top: 3px;">Therapist: Sarah Jenkins, PT</div>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <span class="doc-badge confirmed" style="margin-bottom: 6px;">82% Score</span>
+                <br>
+                <a href="./patients.html" class="doc-btn-sm">View Profile</a>
+              </div>
+            </div>
+
+            <!-- Patient Item 2 -->
+            <div class="doc-patient-item">
+              <div class="doc-patient-left">
+                <div class="doc-patient-avatar" style="background:#ecfdf5; color:#059669;">MP</div>
+                <div>
+                  <div class="doc-patient-title">Maya Patel</div>
+                  <div class="doc-patient-sub">ID: #PT-1088 • Hemiplegia</div>
+                  <div style="font-size: 11.5px; color: #078B69; margin-top: 3px;">Therapist: Marcus Miller, OTR</div>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <span class="doc-badge confirmed" style="margin-bottom: 6px;">78% Score</span>
+                <br>
+                <a href="./patients.html" class="doc-btn-sm">View Profile</a>
+              </div>
+            </div>
+
+            <!-- Patient Item 3 -->
+            <div class="doc-patient-item">
+              <div class="doc-patient-left">
+                <div class="doc-patient-avatar" style="background:#fef3c7; color:#d97706;">LM</div>
+                <div>
+                  <div class="doc-patient-title">Lucas Miller</div>
+                  <div class="doc-patient-sub">ID: #PT-1094 • Quadriplegic CP</div>
+                  <div style="font-size: 11.5px; color: #078B69; margin-top: 3px;">Therapist: Elena Rostova, SLP</div>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <span class="doc-badge confirmed" style="margin-bottom: 6px;">86% Score</span>
+                <br>
+                <a href="./patients.html" class="doc-btn-sm">View Profile</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       FOOTER
+       ====================================================================== -->
+  <footer class="doc-footer" role="contentinfo">
+    <div class="doc-container">
+      <div class="doc-footer-inner">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" style="width: 44px; height: 44px; border-radius: 50%; background: #ffffff; padding: 2px;">
+          <div>
+            <div style="font-weight: 800; font-size: 16px; color: #ffffff;">Multi Therapy</div>
+            <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600;">Care • Support • Progress • Together</div>
+          </div>
+        </div>
+        <div style="text-align: right;">
+          <div>&copy; 2026 Multi Therapy. All rights reserved.</div>
+          <div style="font-size: 11.5px; color: #94a3b8; margin-top: 4px; display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: wrap;">
+            <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp" style="color: #ffffff; text-decoration: none; display: inline-flex; align-items: flex-start; gap: 8px; margin-top: 6px; text-align: left;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #25D366; flex-shrink: 0; margin-top: 2px;" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/></svg>
+              <span style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.35; margin-left: 2px;">
+                <strong style="color: #ffffff; font-size: 13px;">Help Desk:</strong>
+                <span style="font-size: 11.5px; color: #38bdf8; font-weight: 600;">📱 Only WhatsApp Us</span>
+                <strong style="color: #ffffff; font-size: 14px; letter-spacing: 0.3px;">+91 9468650893</strong>
+                <span style="display: block; margin-top: 6px;">
+                  <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 32px; width: auto; display: block; border-radius: 9999px;">
+                </span>
+              </span>
+            </a>
+            <span>•</span>
+            <span>Jaipur, Rajasthan, India</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================================
+       INTERACTIVE MODALS
+       ====================================================================== -->
+  <!-- 1. Assign Therapist Modal -->
+  <div class="cp-modal-backdrop" id="assignModal" role="dialog" aria-modal="true">
+    <div class="cp-modal-dialog">
+      <div class="cp-modal-header">
+        <h3 class="cp-modal-title">Assign Therapist</h3>
+        <button type="button" class="cp-modal-close" onclick="document.getElementById('assignModal').classList.remove('open')">&times;</button>
+      </div>
+      <div class="cp-modal-body">
+        <form onsubmit="event.preventDefault(); alert('Therapist successfully assigned to patient record.'); document.getElementById('assignModal').classList.remove('open');">
+          <div class="cp-form-group">
+            <label class="cp-form-label">Select Patient</label>
+            <select class="cp-form-control" required>
+              <option value="">Choose patient...</option>
+              <option value="1">Liam Johnson (#PT-1042)</option>
+              <option value="2">Maya Patel (#PT-1088)</option>
+              <option value="3">Lucas Miller (#PT-1094)</option>
+            </select>
+          </div>
+          <div class="cp-form-group">
+            <label class="cp-form-label">Select Specialist Therapist</label>
+            <select class="cp-form-control" required>
+              <option value="">Choose therapist...</option>
+              <option value="1">Sarah Jenkins, PT (Physiotherapy)</option>
+              <option value="2">Marcus Miller, OTR/L (Occupational)</option>
+              <option value="3">Elena Rostova, SLP (Speech)</option>
+              <option value="4">Dr. Alok Verma (Rehab Care)</option>
+            </select>
+          </div>
+          <div class="cp-form-group">
+            <label class="cp-form-label">Therapy Focus Notes</label>
+            <textarea class="cp-form-control" rows="3" placeholder="Specify rehabilitation goals or gait retraining instructions..."></textarea>
+          </div>
+          <button type="submit" class="doc-btn-primary" style="width: 100%; justify-content: center;">Confirm Assignment</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Generate Report Modal -->
+  <div class="cp-modal-backdrop" id="reportModal" role="dialog" aria-modal="true">
+    <div class="cp-modal-dialog">
+      <div class="cp-modal-header">
+        <h3 class="cp-modal-title">Generate Clinical Summary</h3>
+        <button type="button" class="cp-modal-close" onclick="document.getElementById('reportModal').classList.remove('open')">&times;</button>
+      </div>
+      <div class="cp-modal-body">
+        <p style="font-size: 14px; color: #475569; margin-bottom: 16px;">Select format to export official clinical evaluations:</p>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="javascript:window.print()" class="doc-btn-primary" style="justify-content: center;">Export Clinical Summary (Print)</a>
+          <a href="./doctor-appointments.html" class="doc-btn-secondary" style="justify-content: center;">Export Appointment Schedule Summary</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./js/api.js?v=2.2"></script>
+  <script src="./js/cdn.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      // 1. Role Protection: Ensure only Doctors can access Doctor Portal
+      const rawUser = localStorage.getItem("currentUser");
+      if (!rawUser) {
+        window.location.href = "./doctor-login.html";
+        return;
+      }
+
+      let user = null;
+      try {
+        user = JSON.parse(rawUser);
+      } catch (e) {
+        window.location.href = "./doctor-login.html";
+        return;
+      }
+
+      // If a Patient tries to access Doctor Portal, redirect to Patient Home
+      if (user.role && user.role.toLowerCase() === "patient") {
+        window.location.href = "./patient-home.html";
+        return;
+      }
+
+      // Set Doctor Name and Avatar
+      const docName = user.doctor_name || user.name || (user.username ? ("Dr. " + user.username) : "Dr. Practitioner");
+      const heroName = document.getElementById("heroDocName");
+      if (heroName) heroName.textContent = docName;
+      const navName = document.getElementById("docNavName");
+      if (navName) navName.textContent = docName;
+      const illName = document.getElementById("docIllustrationName");
+      if (illName) illName.textContent = docName;
+      if (user.doctor_specialization) {
+        const illSpec = document.getElementById("docIllustrationSpec");
+        if (illSpec) illSpec.textContent = user.doctor_specialization;
+      }
+
+      // Dropdown toggles
+      const pill = document.getElementById("docUserPill");
+      const dropdown = document.getElementById("docProfileDropdown");
+      if (pill && dropdown) {
+        pill.addEventListener("click", (e) => {
+          e.stopPropagation();
+          dropdown.classList.toggle("open");
+        });
+      }
+
+      const notifBtn = document.getElementById("btnDocNotifications");
+      const notifDropdown = document.getElementById("docNotifDropdown");
+      if (notifBtn && notifDropdown) {
+        notifBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          notifDropdown.classList.toggle("open");
+        });
+      }
+
+      document.addEventListener("click", () => {
+        if (dropdown) dropdown.classList.remove("open");
+        if (notifDropdown) notifDropdown.classList.remove("open");
+      });
+
+      // Mobile Menu
+      const navToggle = document.getElementById("docNavToggle");
+      const navMenu = document.getElementById("docNavMenu");
+      if (navToggle && navMenu) {
+        navToggle.addEventListener("click", () => {
+          navMenu.classList.toggle("open");
+        });
+      }
+
+      // Logout
+      const btnLogout = document.getElementById("btnDocLogout");
+      if (btnLogout) {
+        btnLogout.addEventListener("click", async (e) => {
+          e.preventDefault();
+          try {
+            if (typeof apiRequest === "function") {
+              await apiRequest("/api/logout", { method: "POST" });
+            }
+          } catch (err) {}
+          localStorage.removeItem("currentUser");
+          window.location.href = "./index.html";
+        });
+      }
+
+      // Load actual database data from /api/doctor/home
+      try {
+        if (typeof apiRequest === "function") {
+          const res = await apiRequest(`/api/doctor/home?user_id=${encodeURIComponent(user.user_id || '')}`);
+          if (res && res.success) {
+            // Stats
+            if (res.stats) {
+              const s = res.stats;
+              if (s.total_patients !== undefined) document.getElementById("statTotalPatients").textContent = s.total_patients;
+              if (s.today_appointments !== undefined) document.getElementById("statTodayAppointments").textContent = s.today_appointments;
+              if (s.active_therapists !== undefined) document.getElementById("statActiveTherapists").textContent = s.active_therapists;
+              if (s.progress_reports !== undefined) document.getElementById("statProgressReports").textContent = s.progress_reports;
+            }
+
+            // Schedule table
+            if (res.schedule && res.schedule.length > 0) {
+              const tbody = document.getElementById("todayScheduleTableBody");
+              if (tbody) {
+                tbody.innerHTML = res.schedule.map(item => `
+                  <tr>
+                    <td><strong>${escapeHtml(item.appointment_time || '10:00 AM')}</strong></td>
+                    <td>
+                      <strong>${escapeHtml(item.patient_name || 'Patient')}</strong>
+                      <div style="font-size: 11.5px; color:#64748b;">ID #${escapeHtml(String(item.patient_id || '1042'))}</div>
+                    </td>
+                    <td>${escapeHtml(item.appointment_type || 'Consultation')}</td>
+                    <td><span class="doc-badge confirmed">${escapeHtml(item.status || 'Confirmed')}</span></td>
+                    <td><a href="./doctor-appointments.html" class="doc-btn-sm">View Details</a></td>
+                  </tr>
+                `).join("");
+              }
+            }
+
+            // Patient Overview list
+            if (res.patient_overview && res.patient_overview.length > 0) {
+              const pList = document.getElementById("patientOverviewList");
+              if (pList) {
+                pList.innerHTML = res.patient_overview.map(p => {
+                  const initials = (p.patient_name || 'PT').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                  return `
+                    <div class="doc-patient-item">
+                      <div class="doc-patient-left">
+                        <div class="doc-patient-avatar">${initials}</div>
+                        <div>
+                          <div class="doc-patient-title">${escapeHtml(p.patient_name)}</div>
+                          <div class="doc-patient-sub">ID: #PT-${escapeHtml(String(p.patient_id))} • ${escapeHtml(p.condition_details || 'CP Care')}</div>
+                          <div style="font-size: 11.5px; color: #078B69; margin-top: 3px;">Therapist: ${escapeHtml(p.assigned_therapist || 'Sarah Jenkins, PT')}</div>
+                        </div>
+                      </div>
+                      <div style="text-align: right;">
+                        <span class="doc-badge confirmed" style="margin-bottom: 6px;">${escapeHtml(String(p.progress_score || 82))}% Score</span>
+                        <br>
+                        <a href="./patients.html" class="doc-btn-sm">View Profile</a>
+                      </div>
+                    </div>
+                  `;
+                }).join("");
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("[Doctor Home] API load notice:", err);
+      }
+    });
+
+    function showAssignTherapistDialog() {
+      const modal = document.getElementById("assignModal");
+      if (modal) modal.classList.add("open");
+    }
+
+    function showGenerateReportDialog() {
+      const modal = document.getElementById("reportModal");
+      if (modal) modal.classList.add("open");
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+  </script>
+
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+  </a>
+
+</body>
+</html>
+

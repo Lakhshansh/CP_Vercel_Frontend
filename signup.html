@@ -3,171 +3,1172 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Create Account - Multi Therapy Management System</title>
+  <title>Patient Sign Up | Multi Therapy</title>
+  <meta name="description" content="Create your Patient account on Multi Therapy to manage appointments, therapy sessions, and progress.">
   <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
-  <link rel="stylesheet" href="./css/style.css?v=2.0">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Landing Design System -->
+  <link rel="stylesheet" href="./css/landing.css?v=2.0">
+
   <style>
-    .login-card {
-      max-width: 520px;
-      margin: 30px auto;
+    /* ==========================================================================
+       PATIENT SIGN UP PAGE - CLEAN HEALTHCARE DESIGN
+       ========================================================================== */
+    :root {
+      --primary-blue: #0d6efd;
+      --primary-blue-hover: #0b5ed7;
+      --navy-dark: #103463;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --bg-light-blue: #edf5fd;
+      --card-white: #ffffff;
+      --card-radius: 18px;
+      --input-radius: 10px;
     }
-    .btn-success {
-      background: #198754 !important;
-      background-color: #198754 !important;
-      border: none !important;
-      color: #ffffff !important;
-      font-weight: 700 !important;
-      font-size: 16px !important;
-      min-height: 48px !important;
-      border-radius: 10px !important;
-      width: 100% !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      cursor: pointer !important;
-      transition: all 0.25s ease !important;
-      box-shadow: 0 4px 12px rgba(25, 135, 84, 0.25) !important;
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    .btn-success:hover {
-      background: #157347 !important;
-      background-color: #157347 !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 6px 16px rgba(25, 135, 84, 0.35) !important;
-      color: #ffffff !important;
+
+    body {
+      background-color: var(--bg-light-blue);
+      color: var(--text-dark);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
     }
-    .btn-success:active {
-      background: #146c43 !important;
-      transform: translateY(0) !important;
+
+    /* --------------------------------------------------------------------------
+       COMPACT BLUE-AND-WHITE HEALTHCARE HEADER
+       -------------------------------------------------------------------------- */
+    .header-nav {
+      width: 100%;
+      height: 78px;
+      background: #ffffff;
+      border-bottom: 2px solid #e0f2fe;
+      box-shadow: 0 2px 10px rgba(16, 52, 99, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+    }
+
+    .header-inner {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    /* Multi Therapy Logo: Exactly 55x55 pixels */
+    .header-logo {
+      width: 55px !important;
+      height: 55px !important;
+      max-width: 55px !important;
+      max-height: 55px !important;
+      object-fit: contain !important;
+      border-radius: 50% !important;
+      display: block !important;
+      flex-shrink: 0 !important;
+      border: 1.5px solid #e2e8f0;
+      background: #ffffff;
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    .brand-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      letter-spacing: -0.3px;
+    }
+
+    .brand-subtitle {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--primary-blue);
+      letter-spacing: 0.2px;
+    }
+
+    /* Header Navigation Links */
+    .nav-links-wrap {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      list-style: none;
+    }
+
+    .nav-link-item {
+      color: #334155;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .nav-link-item:hover {
+      color: var(--primary-blue);
+    }
+
+    .nav-actions-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-header-contact {
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      background: #ffffff;
+    }
+
+    .btn-header-contact:hover {
+      border-color: var(--primary-blue);
+      color: var(--primary-blue);
+      background: #f0f7ff;
+    }
+
+    .btn-header-signup {
+      background: var(--primary-blue);
+      color: #ffffff;
+      padding: 7px 18px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(13, 110, 253, 0.25);
+    }
+
+    .btn-header-signup:hover {
+      background: var(--primary-blue-hover);
+    }
+
+    /* Hamburger Toggle for Mobile */
+    .header-nav-toggle {
+      display: none;
+      background: none;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #334155;
+    }
+
+    /* --------------------------------------------------------------------------
+       MAIN CONTENT: CENTERED FORM IN A WHITE CARD
+       -------------------------------------------------------------------------- */
+    .signup-page-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      background: var(--bg-light-blue);
+    }
+
+    .patient-signup-card {
+      width: 100%;
+      max-width: 680px;
+      background: var(--card-white);
+      border-radius: var(--card-radius);
+      box-shadow: 0 10px 30px rgba(16, 52, 99, 0.08), 0 2px 8px rgba(0, 0, 0, 0.03);
+      border: 1px solid #dbeafe;
+      padding: 36px 38px 32px;
+      position: relative;
+    }
+
+    /* Top Blue Accent Border */
+    .patient-signup-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #0d6efd 0%, #38bdf8 100%);
+      border-top-left-radius: var(--card-radius);
+      border-top-right-radius: var(--card-radius);
+    }
+
+    /* Header Section in Card */
+    .card-title-section {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .page-main-heading {
+      font-size: 27px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      letter-spacing: -0.4px;
+      margin-bottom: 6px;
+    }
+
+    .page-subtitle {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* Feedback Alert Message */
+    .patient-alert {
+      padding: 11px 16px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      margin-bottom: 20px;
+      line-height: 1.45;
+      display: none;
+    }
+
+    .patient-alert:not([hidden]) {
+      display: block;
+    }
+
+    .alert-danger {
+      background-color: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .alert-success {
+      background-color: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    /* --------------------------------------------------------------------------
+       PATIENT FORM & TWO-COLUMN DESKTOP GRID
+       -------------------------------------------------------------------------- */
+    .patient-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .form-field-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .field-label {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .field-label .req-star {
+      color: #ef4444;
+      font-weight: 800;
+      margin-left: 3px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .field-icon {
+      position: absolute;
+      left: 14px;
+      width: 17px;
+      height: 17px;
+      color: #94a3b8;
+      pointer-events: none;
+      transition: color 0.2s ease;
+      z-index: 2;
+    }
+
+    .field-input,
+    .field-select {
+      width: 100%;
+      height: 44px;
+      background: #f8fafc;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--input-radius);
+      padding: 0 14px 0 42px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text-dark);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .field-input:focus,
+    .field-select:focus {
+      background: #ffffff;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3.5px rgba(13, 110, 253, 0.12);
+    }
+
+    .input-wrapper:focus-within .field-icon {
+      color: var(--primary-blue);
+    }
+
+    .field-input-password {
+      padding-right: 44px;
+    }
+
+    /* Custom Gender Select styling */
+    .field-select {
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 14px;
+      padding-right: 36px;
+    }
+
+    .field-input[type="date"] {
+      cursor: pointer;
+      color: var(--text-dark);
+    }
+
+    /* Show/Hide Password Toggle */
+    .pw-toggle-btn {
+      position: absolute;
+      right: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px 7px;
+      font-size: 15px;
+      color: #64748b;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+    }
+
+    .pw-toggle-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    /* Security CAPTCHA Row */
+    .captcha-container {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+    }
+
+    .captcha-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .captcha-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .captcha-display {
+      flex: 1;
+      background: #ffffff;
+      border: 1.5px dashed #94a3b8;
+      border-radius: 8px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      color: #1e293b;
+      text-align: center;
+      padding: 6px 8px;
+      user-select: none;
+      min-width: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .captcha-refresh-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      width: 38px;
+      height: 38px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #475569;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .captcha-refresh-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+      transform: rotate(45deg);
+    }
+
+    .captcha-input {
+      flex: 1.1;
+      height: 38px;
+      padding: 0 10px !important;
+      font-size: 14px;
+      text-align: center;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Terms & Conditions Checkbox */
+    .terms-row {
+      margin-bottom: 20px;
+    }
+
+    .terms-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #475569;
+      cursor: pointer;
+      user-select: none;
+      line-height: 1.45;
+    }
+
+    .terms-label input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      border-radius: 4px;
+      accent-color: var(--primary-blue);
+      cursor: pointer;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .terms-label a {
+      color: var(--primary-blue);
+      font-weight: 600;
+      text-decoration: underline;
+      transition: color 0.2s ease;
+    }
+
+    .terms-label a:hover {
+      color: var(--primary-blue-hover);
+    }
+
+    /* Blue Create Patient Account Button */
+    .btn-create-patient {
+      width: 100%;
+      height: 48px;
+      background: var(--primary-blue);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15.5px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(13, 110, 253, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .btn-create-patient:hover {
+      background: var(--primary-blue-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(13, 110, 253, 0.35);
+    }
+
+    .btn-create-patient:active {
+      transform: translateY(0);
+    }
+
+    .btn-create-patient:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Divider */
+    .signup-divider {
+      position: relative;
+      text-align: center;
+      margin: 20px 0 16px;
+    }
+
+    .signup-divider::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    .signup-divider span {
+      position: relative;
+      background: #ffffff;
+      padding: 0 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* Already have an account? Login Here Link */
+    .account-login-prompt {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .account-login-link {
+      color: var(--primary-blue);
+      font-weight: 700;
+      text-decoration: none;
+      margin-left: 4px;
+      transition: color 0.2s ease;
+    }
+
+    .account-login-link:hover {
+      color: var(--primary-blue-hover);
+      text-decoration: underline;
+    }
+
+    /* Secondary Footer Links */
+    .secondary-footer-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    .doctor-login-link {
+      color: #0284c7;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .doctor-login-link:hover {
+      text-decoration: underline;
+    }
+
+    .otp-verify-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      color: #334155;
+      font-weight: 600;
+      font-size: 12.5px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .otp-verify-link:hover {
+      background: #f0f7ff;
+      border-color: #bfdbfe;
+      color: var(--primary-blue);
+    }
+
+    .back-home-link {
+      color: #64748b;
+      font-size: 12.5px;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      margin-top: 4px;
+    }
+
+    .back-home-link:hover {
+      color: #1e293b;
+      text-decoration: underline;
+    }
+
+    /* --------------------------------------------------------------------------
+       RESPONSIVE DESIGN (ONE COLUMN ON MOBILE)
+       -------------------------------------------------------------------------- */
+    @media (max-width: 820px) {
+      .nav-links-wrap {
+        display: none;
+      }
+      .nav-links-wrap.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 78px;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        padding: 18px 24px;
+        border-bottom: 2px solid #e0f2fe;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+        gap: 14px;
+      }
+      .header-nav-toggle {
+        display: block;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .header-nav {
+        padding: 0 16px;
+        height: 70px;
+      }
+      .header-logo {
+        width: 48px !important;
+        height: 48px !important;
+      }
+      .brand-title {
+        font-size: 17px;
+      }
+      .brand-subtitle {
+        font-size: 11.5px;
+      }
+      .btn-header-contact {
+        display: none;
+      }
+      .signup-page-container {
+        padding: 24px 14px;
+      }
+      .patient-signup-card,
+      .patient-card {
+        padding: 28px 20px 24px;
+        border-radius: 14px;
+      }
+      .page-main-heading {
+        font-size: 23px;
+      }
+      .page-subtitle {
+        font-size: 13.5px;
+      }
+      /* One Column Layout on Mobile */
+      .form-grid-2col,
+      .patient-form-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .captcha-row {
+        flex-wrap: wrap;
+      }
+      .captcha-display {
+        flex: 1 1 100px;
+      }
+      .captcha-input {
+        flex: 1 1 100%;
+        margin-top: 6px;
+      }
     }
   </style>
 </head>
 <body>
-  <nav class="mt-navbar">
-    <div class="container-fluid mt-navbar-inner">
-      <a class="mt-brand" href="./index.html">
-        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="mt-logo" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; flex-shrink: 0 !important; display: block !important;">
-        <div>
-          <div class="mt-brand-title">Multi Therapy Management System</div>
-          <div class="mt-brand-subtitle">Care • Support • Progress • Together</div>
+
+  <!-- ======================================================================
+       HEADER: Multi Therapy Logo (~55x55), Brand Name, Blue-and-White Theme
+       ====================================================================== -->
+  <header class="header-nav">
+    <div class="header-inner">
+      
+      <!-- Brand on Left -->
+      <a class="header-brand" href="./index.html" title="Multi Therapy Home">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="header-logo" width="55" height="55">
+        <div class="brand-title-wrap">
+          <span class="brand-title">Multi Therapy</span>
+          <span class="brand-subtitle">Care • Support • Progress • Together</span>
         </div>
       </a>
-    </div>
-  </nav>
 
-  <main class="container-fluid">
-    <div class="login-card">
-      <div class="logo-box">
-        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="login-logo" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; margin: 0 auto 12px !important; display: block !important;">
+      <!-- Navigation Links -->
+      <ul class="nav-links-wrap" id="navMenu">
+        <li><a href="./index.html" class="nav-link-item">Home</a></li>
+        <li><a href="./index.html#about" class="nav-link-item" id="navAbout">About</a></li>
+        <li><a href="./index.html#services" class="nav-link-item" id="navServices">Services</a></li>
+        <li><a href="./login.html" class="nav-link-item">Patient Login</a></li>
+        <li><a href="./doctor-login.html" class="nav-link-item">Doctor Login</a></li>
+        <li><a href="./index.html#contact" class="nav-link-item" id="navContact">Contact</a></li>
+      </ul>
+
+      <!-- Action Buttons on Right -->
+      <div class="nav-actions-wrap">
+        <a href="./index.html#contact" class="btn-header-contact" id="btnHeaderContact">Contact</a>
+        <a href="./signup.html" class="btn-header-signup" id="btnHeaderSignup">Sign Up</a>
+        <button class="header-nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
       </div>
-      <h2>Create Account</h2>
-      <p class="text-muted">Multi Therapy Management System</p>
 
-      <form id="signupForm" enctype="multipart/form-data">
-        <!-- HOSPITAL NAME -->
-        <input class="form-control mb-3" name="hospital_name" type="text"
-               placeholder="Hospital Name" required>
+    </div>
+  </header>
 
-        <!-- 10 DIGIT MOBILE NUMBER -->
-        <input class="form-control mb-3" name="phone" type="tel"
-               placeholder="10 Digit Mobile Number" maxlength="10"
-               pattern="[0-9]{10}" inputmode="numeric" title="Enter exactly 10 digits" required>
+  <!-- ======================================================================
+       MAIN CONTENT: Center the form in a white card on light blue background
+       ====================================================================== -->
+  <main class="signup-page-container">
+    <div class="patient-signup-card patient-card" role="region" aria-label="Patient Sign Up Form">
 
-        <!-- USERNAME -->
-        <input class="form-control mb-3" name="username" type="text"
-               placeholder="Username" autocomplete="username" required>
+      <!-- Page Heading & Subtitle -->
+      <div class="card-title-section">
+        <h1 class="page-main-heading">Patient Sign Up</h1>
+        <p class="page-subtitle">
+          Create your account to manage appointments, therapy sessions, and progress.
+        </p>
+      </div>
 
-        <!-- EMAIL -->
-        <input class="form-control mb-3" name="email" type="email"
-               placeholder="Email Address" autocomplete="email" required>
+      <!-- Feedback Alert Message Box -->
+      <div id="signupMessage" class="patient-alert" hidden aria-live="assertive"></div>
 
-        <!-- DOCTOR NAME -->
-        <input class="form-control mb-3" name="doctor_name" type="text"
-               placeholder="Doctor Name" required>
+      <!-- Patient Registration Form -->
+      <form id="signupForm" class="patient-form" autocomplete="on">
+        <!-- Hidden Role Fields for Patient Account -->
+        <input type="hidden" name="account_type" value="Patient">
+        <input type="hidden" name="role" value="patient">
 
-        <!-- DOCTOR SPECIALIZATION -->
-        <select class="form-control mb-3" name="doctor_specialization" required>
-          <option value="">Doctor Specialization</option>
-          <option value="Neurologist">Neurologist</option>
-          <option value="Pediatrician">Pediatrician</option>
-          <option value="Orthopedic">Orthopedic</option>
-          <option value="Physiotherapy">Physiotherapy</option>
-          <option value="Occupational Therapy">Occupational Therapy</option>
-          <option value="Speech Therapy">Speech Therapy</option>
-          <option value="Behaviour Therapy">Behaviour Therapy</option>
-          <option value="Rehabilitation Specialist">Rehabilitation Specialist</option>
-          <option value="Other">Other</option>
-        </select>
+        <!-- Two Columns on Desktop Where Appropriate, One Column on Mobile -->
+        <div class="form-grid-2col patient-form-grid">
 
-        <!-- UPLOAD DOCTOR DOCUMENT (MANDATORY) -->
-        <div class="mb-3 text-start">
-          <label for="document_file" class="form-label fw-bold" style="font-size: 14px; color: #1e293b;">
-            📄 Upload Doctor Document / Certificate <span style="color: #dc3545;">*</span>
-          </label>
-          <input id="document_file" class="form-control" type="file"
-                 name="document_file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
-          <small class="text-muted d-block mt-1" style="font-size: 12.5px; line-height: 1.4;">
-            Medical license or degree certificate (PDF, DOC, DOCX, JPG, JPEG or PNG • Max 5 MB) <span style="color: #dc3545; font-weight: 600;">*Required</span>
-          </small>
-        </div>
-
-        <!-- PASSWORD -->
-        <div class="password-wrapper mb-3">
-          <input id="signupPassword" class="form-control" type="password" name="password"
-                 placeholder="Password (min 6 characters)" minlength="6" autocomplete="new-password" required>
-          <button type="button" id="toggleSignupPassword" class="password-toggle"
-                  aria-label="Show password" title="Show password">👁️</button>
-        </div>
-
-        <!-- CONFIRM PASSWORD -->
-        <div class="password-wrapper mb-3">
-          <input id="signupConfirm" class="form-control" type="password" name="confirm_password"
-                 placeholder="Confirm Password" minlength="6" autocomplete="new-password" required>
-          <button type="button" id="toggleSignupConfirm" class="password-toggle"
-                  aria-label="Show confirm password" title="Show confirm password">👁️</button>
-        </div>
-
-        <!-- CAPTCHA -->
-        <div class="captcha-section mb-3">
-          <label class="captcha-label fw-bold" style="font-size: 14px; color: #1e293b;">🔐 Security Verification</label>
-          <div class="captcha-box">
-            <div id="captchaText" class="captcha-image" aria-live="polite">Loading...</div>
-            <button type="button" id="refreshCaptcha" class="captcha-refresh"
-                    title="Refresh CAPTCHA" aria-label="Refresh CAPTCHA">↻</button>
+          <!-- 1. Full Name -->
+          <div class="form-field-group">
+            <label class="field-label" for="signupFullName">
+              <span>Full Name</span>
+              <span class="req-star">*</span>
+            </label>
+            <div class="input-wrapper">
+              <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <input class="field-input" type="text" id="signupFullName" name="full_name" placeholder="Enter your full name" autocomplete="name" required>
+            </div>
           </div>
-          <input id="captchaInput" class="form-control mt-2" type="text"
-                 placeholder="Enter CAPTCHA code" autocomplete="off"
-                 maxlength="5" required>
+
+          <!-- 2. Email Address -->
+          <div class="form-field-group">
+            <label class="field-label" for="signupEmail">
+              <span>Email Address</span>
+              <span class="req-star">*</span>
+            </label>
+            <div class="input-wrapper">
+              <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              <input class="field-input" type="email" id="signupEmail" name="email" placeholder="Enter your email address" autocomplete="email" required>
+            </div>
+          </div>
+
+          <!-- 3. 10-Digit Mobile Number -->
+          <div class="form-field-group">
+            <label class="field-label" for="signupPhone">
+              <span>10-Digit Mobile Number</span>
+              <span class="req-star">*</span>
+            </label>
+            <div class="input-wrapper">
+              <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              <input class="field-input" type="tel" id="signupPhone" name="phone" placeholder="Enter 10-digit mobile number" maxlength="10" pattern="[0-9]{10}" inputmode="numeric" title="Please enter exactly 10 digits" autocomplete="tel" required>
+            </div>
+          </div>
+
+          <!-- 4. Date of Birth -->
+          <div class="form-field-group">
+            <label class="field-label" for="signupDob">
+              <span>Date of Birth</span>
+              <span class="req-star">*</span>
+            </label>
+            <div class="input-wrapper">
+              <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <input class="field-input" type="date" id="signupDob" name="dob" autocomplete="bday" required>
+            </div>
+          </div>
+
+          <!-- 5. Gender dropdown -->
+          <div class="form-field-group">
+            <label class="field-label" for="signupGender">
+              <span>Gender</span>
+              <span class="req-star">*</span>
+            </label>
+            <div class="input-wrapper">
+              <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M16 8l5-5"></path>
+                <path d="M21 3h-4"></path>
+                <path d="M21 3v4"></path>
+                <path d="M12 16v6"></path>
+                <path d="M9 19h6"></path>
+              </svg>
+              <select class="field-select" id="signupGender" name="gender" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 6. Address -->
+          <div class="form-field-group">
+            <label class="field-label" for="signupAddress">
+              <span>Address</span>
+              <span class="req-star">*</span>
+            </label>
+            <div class="input-wrapper">
+              <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <input class="field-input" type="text" id="signupAddress" name="address" placeholder="Enter your street address" autocomplete="street-address" required>
+            </div>
+          </div>
+
+          <!-- 7. Create Password -->
+          <div class="form-field-group">
+            <label class="field-label" for="signupPassword">
+              <span>Create Password</span>
+              <span class="req-star">*</span>
+            </label>
+            <div class="input-wrapper">
+              <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <input class="field-input field-input-password" type="password" id="signupPassword" name="password" placeholder="Create a password (min 6 chars)" minlength="6" autocomplete="new-password" required>
+              <button type="button" id="toggleSignupPassword" class="pw-toggle-btn" aria-label="Toggle password visibility" title="Show or hide password">👁️</button>
+            </div>
+          </div>
+
+          <!-- 8. Confirm Password -->
+          <div class="form-field-group">
+            <label class="field-label" for="signupConfirm">
+              <span>Confirm Password</span>
+              <span class="req-star">*</span>
+            </label>
+            <div class="input-wrapper">
+              <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <input class="field-input field-input-password" type="password" id="signupConfirm" name="confirm_password" placeholder="Confirm your password" minlength="6" autocomplete="new-password" required>
+              <button type="button" id="toggleSignupConfirm" class="pw-toggle-btn" aria-label="Toggle confirm password visibility" title="Show or hide confirm password">👁️</button>
+            </div>
+          </div>
+
+        </div><!-- /.form-grid-2col -->
+
+        <!-- Security Verification (CAPTCHA) -->
+        <div class="captcha-container">
+          <div class="captcha-title">
+            <span>🔐 Security Verification</span>
+            <span style="font-weight: 500; text-transform: none; color: #64748b;">Case-insensitive</span>
+          </div>
+          <div class="captcha-row">
+            <div id="captchaText" class="captcha-display" aria-live="polite">Loading...</div>
+            <button type="button" id="refreshCaptcha" class="captcha-refresh-btn" title="Refresh CAPTCHA code" aria-label="Refresh code">
+              ↻
+            </button>
+            <input id="captchaInput" class="field-input captcha-input" type="text" placeholder="Enter code" autocomplete="off" maxlength="5" required>
+          </div>
         </div>
 
-        <div id="signupMessage" class="alert mb-3" hidden></div>
+        <!-- Terms and Conditions Checkbox -->
+        <div class="terms-row">
+          <label class="terms-label" for="agreeTerms">
+            <input type="checkbox" id="agreeTerms" name="agree_terms" required>
+            <span>I agree to the <a href="./index.html#terms" id="linkSignupTerms">Terms and Conditions</a> and <a href="./index.html#privacy" id="linkSignupPrivacy">Privacy Policy</a> of Multi Therapy Management System.</span>
+          </label>
+        </div>
 
-        <!-- CREATE ACCOUNT / SEND OTP -->
-        <button type="submit" class="btn btn-success w-100" id="signupSubmitBtn" style="font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;">
-          <span>📧</span> Send OTP &amp; Create Account
+        <!-- Blue Create Patient Account Button -->
+        <button type="submit" id="signupSubmitBtn" class="btn-create-patient">
+          <span>Create Patient Account</span>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
         </button>
-        <div class="d-flex justify-content-between align-items-center mt-2 small text-muted">
-          <span>Verification OTP sent to email</span>
-          <span class="badge bg-light text-primary border" style="font-weight: 500;">
-            🔐 OTP AUTH API
-          </span>
-        </div>
+
       </form>
 
-      <!-- ALREADY HAVE OTP -->
-      <a href="./verify-signup-otp.html" class="btn btn-outline-secondary w-100 mt-3" style="font-size: 14px; min-height: 42px; display: flex; align-items: center; justify-content: center;">
-        🔑 Already have an OTP? Verify Signup OTP →
-      </a>
+      <!-- Divider -->
+      <div class="signup-divider">
+        <span>OR</span>
+      </div>
 
-      <!-- BACK TO LOGIN -->
-      <a href="./index.html" class="btn btn-outline-primary w-100 mt-2" style="font-size: 14px; min-height: 42px; display: flex; align-items: center; justify-content: center;">
-        ← Back to Login
-      </a>
+      <!-- "Already have an account? Login Here" link to login.html -->
+      <div class="account-login-prompt">
+        Already have an account?
+        <a href="./login.html" class="account-login-link">Login Here</a>
+      </div>
+
+      <!-- Secondary Shortcuts -->
+      <div class="secondary-footer-links">
+        <div>
+          Are you a Doctor?
+          <a href="./doctor-login.html" class="doctor-login-link">Doctor Login</a> or
+          <a href="./doctor-signup.html" class="doctor-login-link">Doctor Sign Up →</a>
+        </div>
+        <a href="./verify-email.html" class="otp-verify-link">
+          <span>✉️ Already registered? <strong>Verify Your Email →</strong></span>
+        </a>
+        <a href="./index.html" class="back-home-link">
+          ← Back to Multi Therapy Home
+        </a>
+      </div>
+
     </div>
   </main>
 
+  <!-- ======================================================================
+       FOOTER
+       ====================================================================== -->
+  <footer style="background: #103463; color: #94a3b8; padding: 22px 24px; margin-top: auto; border-top: 1px solid #1e427b;">
+    <div style="max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" style="width: 42px; height: 42px; border-radius: 50%; background: #ffffff; padding: 2px;">
+        <div>
+          <div style="font-weight: 800; font-size: 15px; color: #ffffff;">Multi Therapy</div>
+          <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600;">Care • Support • Progress • Together</div>
+        </div>
+      </div>
+      <div style="font-size: 12.5px; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+        <div>&copy; 2026 Multi Therapy. All rights reserved.</div>
+        <div>
+          <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp" style="color: #ffffff; text-decoration: none; display: inline-flex; align-items: flex-start; gap: 8px; margin-top: 6px;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #25D366; flex-shrink: 0; margin-top: 2px;" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/></svg>
+            <span style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.35; margin-left: 2px;">
+              <strong style="color: #ffffff; font-size: 13px;">Help Desk:</strong>
+              <span style="font-size: 11.5px; color: #38bdf8; font-weight: 600;">📱 Only WhatsApp Us</span>
+              <strong style="color: #ffffff; font-size: 14px; letter-spacing: 0.3px;">+91 9468650893</strong>
+              <span style="display: block; margin-top: 6px;">
+                <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 32px; width: auto; display: block; border-radius: 9999px;">
+              </span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================================
+       INFORMATIONAL MODALS (About, Services, Contact Details, Terms, Privacy)
+       ====================================================================== -->
+  <div class="cp-modal-backdrop" id="infoModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="cp-modal-card">
+      <div class="cp-modal-header">
+        <h3 class="cp-modal-title" id="infoModalTitle">Multi Therapy Care</h3>
+        <button class="cp-modal-close" id="infoModalCloseBtn" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="cp-modal-body" id="infoModalBody">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
   <script src="./js/api.js"></script>
+  <script src="./js/cdn.js"></script>
   <script src="./js/resend.js"></script>
   <script src="./js/otp-auth.js"></script>
   <script src="./js/signup.js"></script>
+
+  <script>
+    // Mobile navigation toggle
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("navMenu");
+    if (navToggle && navMenu) {
+      navToggle.addEventListener("click", () => {
+        navMenu.classList.toggle("open");
+      });
+    }
+
+    // Modal dialog controller for About, Services, Contact, Privacy, and Terms
+    const infoModal = document.getElementById("infoModal");
+    const infoModalTitle = document.getElementById("infoModalTitle");
+    const infoModalBody = document.getElementById("infoModalBody");
+    const infoModalCloseBtn = document.getElementById("infoModalCloseBtn");
+
+    function openInfoModal(title, content) {
+      if (!infoModal) return;
+      infoModalTitle.textContent = title;
+      infoModalBody.innerHTML = content;
+      infoModal.classList.add("open");
+      infoModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeInfoModal() {
+      if (!infoModal) return;
+      infoModal.classList.remove("open");
+      infoModal.setAttribute("aria-hidden", "true");
+    }
+
+    if (infoModalCloseBtn) {
+      infoModalCloseBtn.addEventListener("click", closeInfoModal);
+    }
+    if (infoModal) {
+      infoModal.addEventListener("click", (e) => {
+        if (e.target === infoModal) closeInfoModal();
+      });
+    }
+
+    // Contact modal
+    function showContactDialog() {
+      openInfoModal("Contact Multi Therapy Support", `
+        <p style="margin-bottom: 12px;">We are here to assist new patients, families, and healthcare providers.</p>
+        <div style="background: #f0f7ff; padding: 14px 18px; border-radius: 10px; margin: 16px 0; border-left: 4px solid #0d6efd; font-size: 14px; line-height: 1.8;">
+          <div><a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp" style="color: #0d6efd; font-weight: 700; text-decoration: none; display: inline-flex; align-items: flex-start; gap: 8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #25D366; flex-shrink: 0; margin-top: 2px;" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/></svg><span style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.35;"><strong style="font-size: 13px;">Help Desk:</strong><span style="font-size: 11.5px; color: #0284c7; font-weight: 600;">📱 Only WhatsApp Us</span><strong style="font-size: 14px; letter-spacing: 0.3px;">+91 9468650893</strong></span></a></div>
+          <div>✉️ <strong>General Inquiries:</strong> info@multitherapy.com</div>
+          <div>🏥 <strong>Patient Care Desk:</strong> Available 24/7 on Multi Therapy Portal</div>
+        </div>
+        <p style="font-size: 13px; color: #64748b;">Have a question about patient registration or appointment booking? Our team is available 24/7.</p>
+      `);
+    }
+
+    const btnHeaderContact = document.getElementById("btnHeaderContact");
+    if (btnHeaderContact) {
+      btnHeaderContact.addEventListener("click", (e) => {
+        e.preventDefault();
+        showContactDialog();
+      });
+    }
+
+    const navContact = document.getElementById("navContact");
+    if (navContact) {
+      navContact.addEventListener("click", (e) => {
+        e.preventDefault();
+        showContactDialog();
+      });
+    }
+
+    // About modal
+    const navAbout = document.getElementById("navAbout");
+    if (navAbout) {
+      navAbout.addEventListener("click", (e) => {
+        e.preventDefault();
+        openInfoModal("About Multi Therapy Care", `
+          <p><strong>Multi Therapy</strong> is a specialized clinical platform connecting patients, caregivers, physiotherapists, and medical practitioners.</p>
+          <p style="margin-top: 12px;">We streamline clinical scheduling, monitor neuromuscular rehabilitation milestones, and track personalized therapy assignments in real time.</p>
+          <div style="background: #f0f7ff; padding: 12px 16px; border-radius: 8px; margin-top: 14px; border-left: 4px solid #0284c7;">
+            💡 <em>"Better Care, Brighter Tomorrow — Every Step Matters."</em>
+          </div>
+        `);
+      });
+    }
+
+    // Services modal
+    const navServices = document.getElementById("navServices");
+    if (navServices) {
+      navServices.addEventListener("click", (e) => {
+        e.preventDefault();
+        openInfoModal("Specialized Healthcare Services", `
+          <ul style="padding-left: 20px; margin: 10px 0; line-height: 1.8;">
+            <li><strong>Physiotherapy &amp; Mobility:</strong> Gait training, posture correction, and range-of-motion assessments.</li>
+            <li><strong>Occupational Therapy:</strong> Daily functional independence and adaptive device assistance.</li>
+            <li><strong>Speech &amp; Communication Therapy:</strong> Oral-motor rehabilitation and speech development.</li>
+            <li><strong>Rehabilitation Analytics:</strong> Quantitative progress tracking and medical reporting.</li>
+          </ul>
+        `);
+      });
+    }
+
+    // Terms modal
+    const linkSignupTerms = document.getElementById("linkSignupTerms");
+    if (linkSignupTerms) {
+      linkSignupTerms.addEventListener("click", (e) => {
+        e.preventDefault();
+        openInfoModal("Terms and Conditions", `
+          <p>By creating a patient account on Multi Therapy, you agree to comply with healthcare security standards, protect patient data confidentiality, and provide accurate contact and demographic information.</p>
+          <p style="margin-top: 10px;">Therapy sessions and clinical evaluations are recorded for medical coordination under licensed practitioner care.</p>
+        `);
+      });
+    }
+
+    // Privacy modal
+    const linkSignupPrivacy = document.getElementById("linkSignupPrivacy");
+    if (linkSignupPrivacy) {
+      linkSignupPrivacy.addEventListener("click", (e) => {
+        e.preventDefault();
+        openInfoModal("Privacy Policy", `
+          <p>Your privacy and medical records are encrypted under HIPAA and GDPR healthcare regulations. Contact details and therapeutic data are strictly confidential and shared only between authorized physicians, therapists, and patients.</p>
+        `);
+      });
+    }
+  </script>
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+  </a>
+
 </body>
 </html>

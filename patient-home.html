@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patient Home | Multi Therapy</title>
+  <meta name="description" content="Multi Therapy - Patient Portal Home. Manage appointments, connect with doctors and therapists, and track clinical therapy progress.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./css/landing.css?v=2.2">
+  <link rel="stylesheet" href="./css/patient-home.css?v=2.2">
+</head>
+<body>
+
+  <!-- ======================================================================
+       1. PATIENT HEADER / NAVIGATION BAR
+       ====================================================================== -->
+  <header class="ph-header" role="banner">
+    <div class="ph-navbar-inner">
+      
+      <!-- Brand Logo, Name & Tagline -->
+      <a class="ph-brand" href="./patient-home.html" title="Multi Therapy Patient Portal">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="ph-brand-logo" width="54" height="54">
+        <div class="ph-brand-text">
+          <span class="ph-brand-name">Multi Therapy</span>
+          <span class="ph-brand-tagline">Care • Support • Progress • Together</span>
+        </div>
+      </a>
+
+      <!-- Center Navigation Links -->
+      <nav aria-label="Patient Navigation">
+        <ul class="ph-nav-menu" id="navMenu">
+          <li><a href="./patient-home.html" class="ph-nav-link active" aria-current="page">Home</a></li>
+          <li><a href="./directory.html" class="ph-nav-link" id="navFindDoctors">Find Doctors</a></li>
+          <li><a href="#find-therapists" class="ph-nav-link" id="navFindTherapists">Find Therapists</a></li>
+          <li><a href="./patient-appointments.html" class="ph-nav-link" id="navAppointments">Appointments</a></li>
+          <li><a href="./patient-subscriptions.html" class="ph-nav-link" id="navSubscriptions">Plans &amp; Membership</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right Actions: Quick Search, Notifications, Profile & Logout -->
+      <div class="ph-nav-actions">
+        
+        <!-- Search Button -->
+        <button type="button" class="ph-icon-btn" id="btnNavSearch" aria-label="Search directory" title="Quick Search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+
+        <!-- Notification Icon with Badge Count & Dropdown -->
+        <div style="position: relative;">
+          <button type="button" class="ph-icon-btn" id="btnNavNotifications" aria-label="Notifications (3 unread)" title="Patient Notifications">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="ph-badge-count" aria-hidden="true">3</span>
+          </button>
+
+          <!-- Notification Dropdown -->
+          <div class="ph-dropdown" id="notificationDropdown" role="menu">
+            <div class="ph-dropdown-header">Patient Notifications (3)</div>
+            <a href="./patient-appointments.html" class="ph-dropdown-item" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <div>
+                <div style="font-weight: 700; font-size: 13px;">Upcoming Therapy Session</div>
+                <div style="font-size: 11.5px; color: #64748b;">Physiotherapy with Dr. Sarah tomorrow</div>
+              </div>
+            </a>
+            <a href="./patient-appointments.html" class="ph-dropdown-item" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              <div>
+                <div style="font-weight: 700; font-size: 13px;">New Milestone Recorded</div>
+                <div style="font-size: 11.5px; color: #64748b;">Mobility index updated to 82/100</div>
+              </div>
+            </a>
+            <a href="#daily-routine" class="ph-dropdown-item" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <div>
+                <div style="font-weight: 700; font-size: 13px;">Home Exercises Prescribed</div>
+                <div style="font-size: 11.5px; color: #64748b;">Daily routine active for gait retraining</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Patient Profile Pill & Dropdown -->
+        <div style="position: relative;">
+          <div class="ph-user-profile" id="navUserProfile" role="button" aria-haspopup="true" aria-expanded="false" title="Patient Account Menu">
+            <img src="./images/patient-avatar.svg" alt="" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJwYXRHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMGIzYzczIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMwODY2ZjUiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMjg0YzciLz48L2xpbmVhckdyYWRpZW50PjxmZWRyb3BTaGFkb3cgaWQ9InNoYWRvdyIgeD0iLTEwJSIgeT0iLTEwJSIgd2lkdGg9IjEyMCUiIGhlaWdodD0iMTIwJSI+PGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjQiIHN0ZERldmlhdGlvbj0iNCIgZmxvb2QtY29sb3I9IiMwMDAiIGZsb29kLW9wYWNpdHk9IjAuMTUiLz48L2ZpbHRlcj48L2RlZnM+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5NiIgZmlsbD0idXJsKCNwYXRHcmFkKSIvPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2Utb3BhY2l0eT0iMC4zIi8+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsdGVyPSJ1cmwoI3NoYWRvdykiPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjcyIiByPSIzMiIvPjxwYXRoIGQ9Ik0gNDUsMTYyIEMgNDUsMTI0IDcyLDExOCAxMDAsMTE4IEMgMTI4LDExOCAxNTUsMTI0IDE1NSwxNjIgQyAxNTUsMTY4IDE1MCwxNzIgMTQ0LDE3MiBMIDU2LDE3MiBDIDUwLDE3MiA0NSwxNjggNDUsMTYyIFoiLz48cGF0aCBkPSJNIDEwMCwxMzggQyA5NiwxMzMgODgsMTMzIDg1LDEzOCBDIDgyLDE0MyA4NSwxNDggMTAwLDE1NyBDIDExNSwxNDggMTE4LDE0MyAxMTUsMTM4IEMgMTEyLDEzMyAxMDQsMTMzIDEwMCwxMzggWiIgZmlsbD0iIzM4YmRmOCIvPjwvZz48L3N2Zz4='; this.onerror=null;" class="ph-user-avatar" id="navPatientAvatar" width="38" height="38">
+            <div class="ph-user-info">
+              <span class="ph-user-name" id="navPatientName">Patient</span>
+              <span class="ph-user-role" id="navPatientRole">Patient Portal</span>
+            </div>
+            <svg class="ph-caret-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+
+          <!-- Profile Dropdown -->
+          <div class="ph-dropdown" id="profileDropdown" role="menu">
+            <div class="ph-dropdown-header">Patient Account</div>
+            <a href="./patient-profile.html" class="ph-dropdown-item" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>My Profile &amp; Settings</span>
+            </a>
+            <a href="./patient-appointments.html" class="ph-dropdown-item" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>My Appointments</span>
+            </a>
+            <a href="./patient-subscriptions.html" class="ph-dropdown-item" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span>Plans &amp; Membership</span>
+            </a>
+            <div class="ph-dropdown-divider"></div>
+            <a href="#" class="ph-dropdown-item" id="btnLogout" role="menuitem" style="color: #dc2626;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #dc2626;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              <span>Log Out</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Mobile Nav Hamburger Toggle -->
+        <button class="ph-nav-toggle" id="navToggle" aria-label="Toggle navigation menu">☰</button>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       2. HERO SECTION
+       ====================================================================== -->
+  <main class="ph-hero-section">
+    <div class="ph-container">
+      <div class="ph-hero-grid">
+        
+        <!-- Left Column: Personalized Greeting & Call to Actions -->
+        <section class="ph-hero-left" aria-labelledby="heroHeading">
+          <div class="ph-welcome-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>PATIENT CARE PORTAL</span>
+          </div>
+
+          <h1 class="ph-hero-title" id="heroHeading">
+            Welcome back, <span id="heroPatientName">Patient</span>!
+          </h1>
+
+          <p class="ph-hero-subtitle">
+            Your journey to better care and brighter futures continues. Connect with qualified specialists, manage therapy routines, and celebrate every milestone.
+          </p>
+
+          <!-- 3 Hero Action Buttons -->
+          <div class="ph-hero-buttons">
+            <a href="./directory.html" class="ph-btn-primary" id="btnHeroDoctors">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <span>Search Doctors</span>
+            </a>
+
+            <a href="#find-therapists" class="ph-btn-accent" id="btnHeroTherapists">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Search Therapists</span>
+            </a>
+
+            <a href="./patient-appointments.html" class="ph-btn-outline" id="btnHeroBook">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span>Book Appointment</span>
+            </a>
+          </div>
+
+          <!-- Hero Metrics -->
+          <div class="ph-hero-stats">
+            <div class="ph-hero-stat-item">
+              <span class="ph-stat-number" id="heroMobilityScore">82%</span>
+              <span class="ph-stat-label">Mobility Index</span>
+            </div>
+            <div class="ph-hero-stat-item">
+              <span class="ph-stat-number" id="heroActiveSessions">12</span>
+              <span class="ph-stat-label">Sessions Completed</span>
+            </div>
+            <div class="ph-hero-stat-item">
+              <span class="ph-stat-number">100%</span>
+              <span class="ph-stat-label">Verified Specialists</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right Column: Healthcare Wheelchair Illustration & 4 Floating Badges -->
+        <section class="ph-hero-right" aria-label="Therapy Highlights Visual">
+          <div class="ph-illustration-wrapper">
+            <div class="ph-illustration-card">
+              <img src="./images/cp-hero-bg.jpg" alt="Child using wheelchair receiving dedicated clinical rehabilitation support" class="ph-illustration-img">
+            </div>
+
+            <!-- 1. Support Badge -->
+            <div class="ph-highlight-badge badge-support">
+              <div class="ph-badge-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="ph-badge-title">Support</div>
+                <div class="ph-badge-sub">Compassionate Care</div>
+              </div>
+            </div>
+
+            <!-- 2. Independence Badge -->
+            <div class="ph-highlight-badge badge-independence">
+              <div class="ph-badge-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                  <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                  <path d="M4 22h16"/>
+                  <path d="M10 14.66V17c0 .55-.45 1-1 1H7"/>
+                  <path d="M14 14.66V17c0 .55.45 1 1 1h2"/>
+                  <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="ph-badge-title">Independence</div>
+                <div class="ph-badge-sub">Daily Living Skills</div>
+              </div>
+            </div>
+
+            <!-- 3. Stronger Abilities Badge -->
+            <div class="ph-highlight-badge badge-abilities">
+              <div class="ph-badge-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <div>
+                <div class="ph-badge-title">Stronger Abilities</div>
+                <div class="ph-badge-sub">Motor Development</div>
+              </div>
+            </div>
+
+            <!-- 4. Brighter Tomorrow Badge -->
+            <div class="ph-highlight-badge badge-tomorrow">
+              <div class="ph-badge-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                </svg>
+              </div>
+              <div>
+                <div class="ph-badge-title">Brighter Tomorrow</div>
+                <div class="ph-badge-sub">Every Step Matters</div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ======================================================================
+       3. MAIN FEATURE CARDS (4 ESSENTIAL CARDS)
+       ====================================================================== -->
+  <section class="ph-features-section" aria-labelledby="featuresHeading">
+    <div class="ph-container">
+      
+      <div class="ph-section-header">
+        <span class="ph-section-badge blue">KEY PATIENT TOOLS</span>
+        <h2 class="ph-section-title" id="featuresHeading">Explore Your Care Options</h2>
+        <p class="ph-section-desc">
+          Easily connect with medical doctors, schedule specialized therapy, book clinical appointments, and track your milestone achievements.
+        </p>
+      </div>
+
+      <div class="ph-features-grid">
+        
+        <!-- Card 1: Find Doctors -->
+        <article class="ph-feature-box c-blue">
+          <div class="ph-feature-icon-wrap c-blue" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+          <h3 class="ph-feature-title">Find Doctors</h3>
+          <p class="ph-feature-desc">Search and connect with qualified pediatricians, neurologists, and rehabilitation specialists.</p>
+          <a href="./directory.html" class="ph-feature-btn blue" id="btnFeatureSearchDoctors">
+            <span>Search Doctors</span>
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </article>
+
+        <!-- Card 2: Find Therapists -->
+        <article class="ph-feature-box c-green">
+          <div class="ph-feature-icon-wrap c-green" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <h3 class="ph-feature-title">Find Therapists</h3>
+          <p class="ph-feature-desc">Search and connect with certified physical, occupational, speech, and rehabilitation therapists.</p>
+          <a href="#find-therapists" class="ph-feature-btn green" id="btnFeatureSearchTherapists">
+            <span>Search Therapists</span>
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </article>
+
+        <!-- Card 3: Book Appointment -->
+        <article class="ph-feature-box c-amber">
+          <div class="ph-feature-icon-wrap c-amber" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <h3 class="ph-feature-title">Book Appointment</h3>
+          <p class="ph-feature-desc">Schedule your clinic consultation or in-person therapy session with instant time confirmation.</p>
+          <a href="./patient-appointments.html" class="ph-feature-btn amber" id="btnFeatureBookAppt">
+            <span>Book Now</span>
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       4. QUICK ACCESS SECTION (6 ESSENTIAL PATIENT SHORTCUTS)
+       ====================================================================== -->
+  <section class="ph-quick-access-section" aria-label="Quick Access Shortcuts">
+    <div class="ph-container">
+      
+      <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+        <h3 style="font-size: 17px; font-weight: 800; color: #103463;">Quick Access</h3>
+        <span style="font-size: 13px; color: #64748b;">Direct patient shortcuts</span>
+      </div>
+
+      <div class="ph-quick-grid">
+        
+        <!-- 1. My Appointments -->
+        <a href="./patient-appointments.html" class="ph-quick-card">
+          <div class="ph-quick-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <span class="ph-quick-label">My Appointments</span>
+        </a>
+
+        <!-- 2. Exercises -->
+        <a href="./exercises.html" class="ph-quick-card">
+          <div class="ph-quick-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 18h12M6 6h12M12 2v20"/><rect x="2" y="8" width="4" height="8" rx="1"/><rect x="18" y="8" width="4" height="8" rx="1"/></svg>
+          </div>
+          <span class="ph-quick-label">Exercises</span>
+        </a>
+
+        <!-- 5. Messages -->
+        <a href="#messages" class="ph-quick-card" onclick="alert('Clinical messaging is active with your attending clinician.'); return false;">
+          <div class="ph-quick-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <span class="ph-quick-label">Messages</span>
+        </a>
+
+        <!-- 6. Support -->
+        <a href="tel:+18005552722" class="ph-quick-card">
+          <div class="ph-quick-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <span class="ph-quick-label">Support</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       5. UPCOMING APPOINTMENT SECTION (ACTUAL DATABASE DATA)
+       ====================================================================== -->
+  <section class="ph-upcoming-section" aria-labelledby="upcomingHeading">
+    <div class="ph-container">
+      
+      <div style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <span class="ph-section-badge blue" style="margin-bottom: 6px;">NEXT CLINICAL VISIT</span>
+          <h2 style="font-size: 26px; font-weight: 800; color: #103463;" id="upcomingHeading">Upcoming Appointment</h2>
+        </div>
+        <a href="./patient-appointments.html" style="font-size: 14px; font-weight: 700; color: #0875F9; text-decoration: none;">View All Appointments &rarr;</a>
+      </div>
+
+      <!-- Main Upcoming Appointment Card -->
+      <article class="ph-appointment-card" id="upcomingApptCard">
+        <!-- Date Badge -->
+        <div class="ph-appt-badge-date">
+          <div class="ph-appt-day" id="apptDay">02</div>
+          <div class="ph-appt-month" id="apptMonth">NOV</div>
+        </div>
+
+        <!-- Appointment Content -->
+        <div class="ph-appt-info">
+          <div class="ph-appt-tag-row">
+            <span class="ph-appt-status scheduled" id="apptStatus">Confirmed</span>
+            <span class="ph-appt-type" id="apptType">Neuromuscular Rehabilitation</span>
+          </div>
+
+          <div class="ph-appt-doctor" id="apptDoctorName">Dr. Sarah Mitchell (Neurologist)</div>
+
+          <div class="ph-appt-meta">
+            <div class="ph-appt-meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span id="apptTime">10:30 AM</span>
+            </div>
+            <div class="ph-appt-meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>City Neuro Care Hospital • Room 304</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="ph-appt-actions">
+          <a href="./patient-appointments.html" class="ph-btn-primary" style="padding: 12px 24px; font-size: 14.5px;">View Details</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       6. SEARCH CARDS: FIND DOCTORS & FIND THERAPISTS
+       ====================================================================== -->
+  <section class="ph-search-section" aria-label="Specialist Search Services">
+    <div class="ph-container">
+      
+      <div class="ph-section-header">
+        <span class="ph-section-badge blue">SPECIALIST DISCOVERY</span>
+        <h2 class="ph-section-title">Search Doctors &amp; Therapists</h2>
+        <p class="ph-section-desc">
+          Locate experienced physicians and licensed rehabilitation therapists matching your personalized care and schedule needs.
+        </p>
+      </div>
+
+      <div class="ph-search-grid">
+        
+        <!-- SECTION: FIND DOCTORS BLUE SEARCH CARD -->
+        <article class="ph-search-card-blue" id="find-doctors">
+          <div class="ph-card-heading">
+            <div class="ph-card-icon-wrap blue" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"></path>
+                <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"></path>
+                <circle cx="20" cy="10" r="2"></circle>
+              </svg>
+            </div>
+            <div>
+              <h3 class="ph-card-title">Find Doctors</h3>
+              <p class="ph-card-sub">Neurology, Pediatrics, Physical Medicine &amp; Orthopedics</p>
+            </div>
+          </div>
+
+          <form id="doctorSearchForm">
+            <div class="ph-form-row">
+              <div class="ph-form-group">
+                <label class="ph-form-label" for="docSpecialization">Specialization</label>
+                <select class="ph-select" id="docSpecialization" name="specialization">
+                  <option value="">All Specializations</option>
+                  <option value="Neurology">Neurology</option>
+                  <option value="Physiotherapy">Physiotherapy</option>
+                  <option value="Pediatrics">Pediatrics</option>
+                  <option value="Occupational Therapy">Occupational Therapy</option>
+                  <option value="Speech Therapy">Speech Therapy</option>
+                </select>
+              </div>
+
+              <div class="ph-form-group">
+                <label class="ph-form-label" for="docLocation">Location</label>
+                <select class="ph-select" id="docLocation" name="location">
+                  <option value="">All Locations</option>
+                  <option value="Jaipur, Rajasthan">Jaipur, Rajasthan</option>
+                  <option value="New York, NY">New York, NY</option>
+                  <option value="Boston, MA">Boston, MA</option>
+                  <option value="Chicago, IL">Chicago, IL</option>
+                </select>
+              </div>
+
+              <div class="ph-form-group">
+                <label class="ph-form-label" for="docAvailability">Availability / Date</label>
+                <select class="ph-select" id="docAvailability" name="availability">
+                  <option value="">Any Availability</option>
+                  <option value="today">Available Today</option>
+                  <option value="tomorrow">Available Tomorrow</option>
+                  <option value="week">Available This Week</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="ph-submit-btn blue" id="btnSearchDoctorsCard">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <span>Search Doctors</span>
+            </button>
+          </form>
+        </article>
+
+        <!-- SECTION: FIND THERAPISTS GREEN SEARCH CARD -->
+        <article class="ph-search-card-green" id="find-therapists">
+          <div class="ph-card-heading">
+            <div class="ph-card-icon-wrap green" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="M9 12l2 2 4-4"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="ph-card-title">Find Therapists</h3>
+              <p class="ph-card-sub">Physio, Occupational, Speech &amp; Rehabilitation Therapy</p>
+            </div>
+          </div>
+
+          <form id="therapistSearchForm">
+            <div class="ph-form-row">
+              <div class="ph-form-group">
+                <label class="ph-form-label" for="therapistType">Therapy Type</label>
+                <select class="ph-select" id="therapistType" name="therapy_type">
+                  <option value="">All Therapy Types</option>
+                  <option value="Physiotherapy">Physiotherapy</option>
+                  <option value="Occupational Therapy">Occupational Therapy</option>
+                  <option value="Speech Therapy">Speech Therapy</option>
+                  <option value="Rehabilitation Therapy">Rehabilitation Therapy</option>
+                </select>
+              </div>
+
+              <div class="ph-form-group">
+                <label class="ph-form-label" for="therapistLocation">Location</label>
+                <select class="ph-select" id="therapistLocation" name="location">
+                  <option value="">All Locations</option>
+                  <option value="Jaipur, Rajasthan">Jaipur, Rajasthan</option>
+                  <option value="New York, NY">New York, NY</option>
+                  <option value="Boston, MA">Boston, MA</option>
+                  <option value="Chicago, IL">Chicago, IL</option>
+                </select>
+              </div>
+
+              <div class="ph-form-group">
+                <label class="ph-form-label" for="therapistAvailability">Schedule</label>
+                <select class="ph-select" id="therapistAvailability" name="availability">
+                  <option value="">Any Time</option>
+                  <option value="morning">Morning</option>
+                  <option value="afternoon">Afternoon</option>
+                  <option value="weekend">Weekend</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="ph-submit-btn green" id="btnSearchTherapistsCard">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Search Therapists</span>
+            </button>
+          </form>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       7. PROFESSIONAL DARK-BLUE FOOTER
+       ====================================================================== -->
+  <footer class="ph-footer" id="contact" role="contentinfo">
+    <div class="ph-container">
+      <div class="ph-footer-grid">
+        
+        <!-- Brand Column -->
+        <div>
+          <div class="ph-footer-brand">
+            <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="ph-footer-logo" width="52" height="52">
+            <div>
+              <div class="ph-footer-brand-title">Multi Therapy</div>
+              <div class="ph-footer-brand-tagline">Care • Support • Progress • Together</div>
+            </div>
+          </div>
+          <p class="ph-footer-desc">
+            A comprehensive clinical management platform empowering Cerebral Palsy patients, doctors, physiotherapists, and family caregivers.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="ph-footer-col-title">Quick Links</h4>
+          <ul class="ph-footer-links">
+            <li><a href="./patient-home.html">Home</a></li>
+            <li><a href="./directory.html">Find Doctors</a></li>
+            <li><a href="#find-therapists">Find Therapists</a></li>
+            <li><a href="./patient-appointments.html">Appointments</a></li>
+          </ul>
+        </div>
+
+        <!-- Patient Portal -->
+        <div>
+          <h4 class="ph-footer-col-title">Patient Portal</h4>
+          <ul class="ph-footer-links">
+            <li><a href="./patient-appointments.html">My Appointments</a></li>
+            <li><a href="./exercises.html">Exercise Plans</a></li>
+            <li><a href="#" id="footerLogoutBtn" style="color: #f87171;">Logout</a></li>
+          </ul>
+        </div>
+
+        <!-- Support & Verified Location -->
+        <div>
+          <h4 class="ph-footer-col-title">Support &amp; Location</h4>
+          
+          <div class="ph-footer-contact-item">
+            <svg class="whatsapp-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #25D366 !important; flex-shrink: 0; margin-top: 3px;" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/></svg>
+            <div>
+              <strong>Help Desk:</strong><br>
+              <span style="font-size: 11.5px; color: #93c5fd; font-weight: 600; display: block; margin-top: 1px;">📱 Only WhatsApp Us</span>
+              <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp" style="color: #ffffff; text-decoration: none; font-weight: 700; font-size: 14px; letter-spacing: 0.3px;">+91 9468650893</a>
+              <div style="margin-top: 6px;">
+                <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp" style="display: inline-block;">
+                  <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 34px; width: auto; display: block; border-radius: 9999px;">
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="ph-footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div>
+              <strong>Email:</strong><br>
+              <a href="mailto:info@multitherapy.org" style="color: #ffffff; text-decoration: none;">info@multitherapy.org</a>
+            </div>
+          </div>
+
+          <div class="ph-footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div>
+              <strong>Location:</strong><br>
+              <span>Jaipur, Rajasthan, India</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="ph-footer-bottom">
+        <div>&copy; 2026 Multi Therapy. All rights reserved.</div>
+        <div>
+          <span>Clinical Tracking &amp; Patient Portal</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Therapist Modal -->
+  <div class="ph-modal-backdrop" id="therapistModal" role="dialog" aria-modal="true">
+    <div class="ph-modal-card" style="max-width: 580px;">
+      <div class="ph-modal-header">
+        <h3 class="ph-modal-title" id="therapistModalTitle">Verified Therapists</h3>
+        <button type="button" class="ph-modal-close" id="therapistModalClose" onclick="document.getElementById('therapistModal').classList.remove('open')">&times;</button>
+      </div>
+      <div class="ph-modal-body">
+        <div id="therapistResultsList"></div>
+        <div style="text-align: right; margin-top: 14px;">
+          <a href="./patient-appointments.html" class="ph-btn-primary" style="padding: 8px 18px; font-size: 13.5px;">Book Direct Appointment &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./js/api.js?v=2.2"></script>
+  <script src="./js/cdn.js"></script>
+  <script src="./js/patient-home.js?v=2.2"></script>
+  <script>
+    // Authentication & Role Check for Patient Portal
+    document.addEventListener("DOMContentLoaded", async () => {
+      const rawUser = localStorage.getItem("currentUser");
+      if (!rawUser) {
+        // Redirect unauthorized access to login
+        window.location.href = "./login.html";
+        return;
+      }
+
+      let user = null;
+      try {
+        user = JSON.parse(rawUser);
+      } catch (e) {
+        window.location.href = "./login.html";
+        return;
+      }
+
+      // If a Doctor tries to access Patient Portal, redirect to Doctor Home
+      if (user.role && user.role.toLowerCase() === "doctor") {
+        window.location.href = "./doctor-home.html";
+        return;
+      }
+
+      // Update patient display names
+      const pName = user.username || user.name || "Patient";
+      const nameEl = document.getElementById("heroPatientName");
+      if (nameEl) nameEl.textContent = pName;
+      const navName = document.getElementById("navPatientName");
+      if (navName) navName.textContent = pName;
+
+      // Handle Logout
+      function handleLogout(e) {
+        if (e) e.preventDefault();
+        try {
+          if (typeof apiRequest === "function") {
+            apiRequest("/api/logout", { method: "POST" });
+          }
+        } catch (err) {}
+        localStorage.removeItem("currentUser");
+        window.location.href = "./index.html";
+      }
+
+      const btnLogout = document.getElementById("btnLogout");
+      if (btnLogout) btnLogout.addEventListener("click", handleLogout);
+      const footerLogoutBtn = document.getElementById("footerLogoutBtn");
+      if (footerLogoutBtn) footerLogoutBtn.addEventListener("click", handleLogout);
+
+      // Load real upcoming appointment from API
+      try {
+        if (typeof apiRequest === "function") {
+          const res = await apiRequest(`/api/patient/home?user_id=${encodeURIComponent(user.user_id || '')}`);
+          if (res && res.success && res.upcoming_appointment) {
+            const appt = res.upcoming_appointment;
+            if (appt.doctor_name) {
+              const docEl = document.getElementById("apptDoctorName");
+              if (docEl) docEl.textContent = `${appt.doctor_name} (${appt.doctor_specialization || 'Specialist'})`;
+            }
+            if (appt.appointment_date) {
+              const dateParts = String(appt.appointment_date).split(" ");
+              if (dateParts.length >= 2) {
+                const dayEl = document.getElementById("apptDay");
+                const monEl = document.getElementById("apptMonth");
+                if (dayEl) dayEl.textContent = dateParts[1].replace(",", "");
+                if (monEl) monEl.textContent = dateParts[0].toUpperCase();
+              }
+            }
+            if (appt.appointment_time) {
+              const timeEl = document.getElementById("apptTime");
+              if (timeEl) timeEl.textContent = appt.appointment_time;
+            }
+            if (appt.status) {
+              const statusEl = document.getElementById("apptStatus");
+              if (statusEl) statusEl.textContent = appt.status;
+            }
+          }
+          if (res && res.progress_score) {
+            const scoreEl = document.getElementById("heroMobilityScore");
+            if (scoreEl) scoreEl.textContent = `${res.progress_score}%`;
+          }
+        }
+      } catch (err) {
+        console.warn("[Patient Home] API data load notice:", err);
+      }
+    });
+  </script>
+
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+  </a>
+
+</body>
+</html>
+

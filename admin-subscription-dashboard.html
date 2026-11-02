@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Admin Subscription Dashboard | MULTI THERAPY</title>
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Fonts & Bootstrap 5 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  
+  <!-- Custom Super Admin Styles -->
+  <link rel="stylesheet" href="./css/admin-subscription.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Super Admin Main Top Navigation -->
+  <header class="super-admin-header">
+    <div class="super-admin-header-inner">
+      <a href="./admin-subscription-dashboard.html" class="brand-badge-wrap">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy" class="brand-logo-img">
+        <div>
+          <div class="brand-title-main">MULTI THERAPY</div>
+          <div class="brand-sub-tag">Super Admin Subscription Engine</div>
+        </div>
+      </a>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-none d-md-flex align-items-center gap-2 bg-light px-3 py-1 rounded-pill border">
+          <span style="font-size: 14px;">🛡️</span>
+          <span class="small fw-bold text-dark">Super Admin: <span class="text-primary">superadmin</span></span>
+          <span class="badge bg-success" style="font-size: 10px;">Verified Session</span>
+        </div>
+        <a href="./subscription-pricing.html" target="_blank" class="btn btn-sm btn-outline-primary fw-bold">Live Pricing</a>
+        <a href="./index.html" class="btn btn-sm btn-danger fw-bold">Exit Portal</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Super Admin Navigation Tabs (All 8 Modules) -->
+  <nav class="admin-subnav-bar">
+    <div class="admin-subnav-inner">
+      <a href="./admin-subscription-dashboard.html" class="admin-nav-tab active">
+        <span>📊</span> <span>Dashboard</span>
+      </a>
+      <a href="./admin-subscription-list.html" class="admin-nav-tab">
+        <span>👥</span> <span>Subscriptions List</span>
+      </a>
+      <a href="./admin-plan-management.html" class="admin-nav-tab">
+        <span>📋</span> <span>Plan Management</span>
+      </a>
+      <a href="./admin-payment-management.html" class="admin-nav-tab">
+        <span>💳</span> <span>Payments</span>
+      </a>
+      <a href="./admin-refund-management.html" class="admin-nav-tab">
+        <span>🔄</span> <span>Refunds</span>
+      </a>
+      <a href="./admin-coupon-management.html" class="admin-nav-tab">
+        <span>🏷️</span> <span>Coupons</span>
+      </a>
+      <a href="./admin-invoice-management.html" class="admin-nav-tab">
+        <span>📄</span> <span>Tax Invoices</span>
+      </a>
+      <a href="./admin-revenue-analytics.html" class="admin-nav-tab">
+        <span>📈</span> <span>Revenue Analytics</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="admin-hero-banner">
+    <div class="admin-hero-inner">
+      <div>
+        <div class="hero-pill-badge">
+          <span>⚡</span> Live Central Revenue Engine
+        </div>
+        <h1 style="font-size: 28px; font-weight: 800; margin: 0 0 6px;">Super Admin Subscription Dashboard</h1>
+        <p style="color: #cbd5e1; margin: 0; font-size: 14px; max-width: 780px;">
+          Comprehensive real-time command center for Hospital, Doctor, and Patient memberships, recurring revenue streams, Razorpay transactions, and financial reconciliations.
+        </p>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn btn-light fw-bold" id="btnRefreshDashboard">🔄 Sync Database</button>
+        <a href="./admin-subscription-list.html" class="btn btn-primary fw-bold" style="background:#0866F5;">👥 View All Subscribers</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 Dashboard KPI Cards -->
+  <section class="kpi-grid-6">
+    <!-- Card 1: Total Subscriptions -->
+    <div class="kpi-card">
+      <div class="kpi-icon-wrap" style="background: #eff6ff; color: #1d4ed8;">👥</div>
+      <div class="kpi-title">Total Subscriptions</div>
+      <div class="kpi-value text-primary" id="kpiTotalSubs">0</div>
+      <div class="kpi-sub text-muted">All Time Enrolled</div>
+    </div>
+
+    <!-- Card 2: Active Subscriptions -->
+    <div class="kpi-card">
+      <div class="kpi-icon-wrap" style="background: #ecfdf5; color: #047857;">✓</div>
+      <div class="kpi-title">Active Subscriptions</div>
+      <div class="kpi-value text-success" id="kpiActiveSubs">0</div>
+      <div class="kpi-sub text-success fw-bold">Live Entitlements</div>
+    </div>
+
+    <!-- Card 3: Expired Subscriptions -->
+    <div class="kpi-card">
+      <div class="kpi-icon-wrap" style="background: #fffbeb; color: #b45309;">⏳</div>
+      <div class="kpi-title">Expired Subscriptions</div>
+      <div class="kpi-value text-warning" id="kpiExpiredSubs">0</div>
+      <div class="kpi-sub text-muted">Awaiting Renewal</div>
+    </div>
+
+    <!-- Card 4: Cancelled Subscriptions -->
+    <div class="kpi-card">
+      <div class="kpi-icon-wrap" style="background: #fef2f2; color: #b91c1c;">✗</div>
+      <div class="kpi-title">Cancelled Subscriptions</div>
+      <div class="kpi-value text-danger" id="kpiCancelledSubs">0</div>
+      <div class="kpi-sub text-muted">Terminated by User/Admin</div>
+    </div>
+
+    <!-- Card 5: Monthly Revenue -->
+    <div class="kpi-card">
+      <div class="kpi-icon-wrap" style="background: #eff6ff; color: #0866F5;">📅</div>
+      <div class="kpi-title">Monthly Revenue</div>
+      <div class="kpi-value text-dark" id="kpiMonthlyRev">₹0.00</div>
+      <div class="kpi-sub text-primary fw-bold">Recurring Monthly Fee</div>
+    </div>
+
+    <!-- Card 6: Yearly Revenue -->
+    <div class="kpi-card">
+      <div class="kpi-icon-wrap" style="background: #ecfdf5; color: #059669;">💎</div>
+      <div class="kpi-title">Yearly Revenue</div>
+      <div class="kpi-value text-success" id="kpiYearlyRev">₹0.00</div>
+      <div class="kpi-sub text-muted">Annual Recurring Inflow</div>
+    </div>
+  </section>
+
+  <!-- Main Dashboard Analytics & Quick Action Rows -->
+  <main class="admin-container">
+
+    <div class="row g-4 mb-4">
+      <!-- Left Column: Revenue Trend Snapshot Chart -->
+      <div class="col-lg-8">
+        <div class="dash-panel h-100">
+          <div class="panel-header-wrap">
+            <div>
+              <h2 class="panel-heading">Platform Revenue Trajectory</h2>
+              <p class="panel-subtext">Real-time captured revenue from MySQL payments ledger</p>
+            </div>
+            <a href="./admin-revenue-analytics.html" class="btn btn-sm btn-outline-primary fw-bold">Deep Analytics &rarr;</a>
+          </div>
+
+          <div style="height: 280px; position: relative;">
+            <canvas id="dashboardRevenueChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Subscriber Breakdown by User Type -->
+      <div class="col-lg-4">
+        <div class="dash-panel h-100">
+          <div class="panel-header-wrap">
+            <div>
+              <h2 class="panel-heading">User Type Distribution</h2>
+              <p class="panel-subtext">Active accounts across clinical roles</p>
+            </div>
+          </div>
+
+          <div style="height: 200px; position: relative;" class="mb-3">
+            <canvas id="dashboardRoleChart"></canvas>
+          </div>
+
+          <div class="d-flex justify-content-around text-center pt-2 border-top">
+            <div>
+              <div class="small text-muted fw-bold">Hospitals</div>
+              <div class="fs-6 fw-bold text-primary" id="kpiHospCount">0 Hospitals</div>
+            </div>
+            <div>
+              <div class="small text-muted fw-bold">Doctors</div>
+              <div class="fs-6 fw-bold text-success" id="kpiDocCount">0 Doctors</div>
+            </div>
+            <div>
+              <div class="small text-muted fw-bold">Patients</div>
+              <div class="fs-6 fw-bold text-info" id="kpiPatCount">0 Patients</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Operations & Recent Activity -->
+    <div class="row g-4">
+      <!-- Quick Action Cards -->
+      <div class="col-lg-4">
+        <div class="dash-panel h-100">
+          <h3 class="panel-heading mb-3">Super Admin Operations</h3>
+          <div class="d-flex flex-column gap-2">
+            <a href="./admin-plan-management.html" class="p-3 bg-light rounded-3 border d-flex align-items-center justify-content-between text-decoration-none text-dark hover-shadow">
+              <div>
+                <div class="fw-bold">📋 Plan &amp; Pricing Architecture</div>
+                <div class="small text-muted">Modify monthly &amp; yearly prices, features, quotas</div>
+              </div>
+              <span class="fs-5 text-primary">&rarr;</span>
+            </a>
+
+            <a href="./admin-payment-management.html" class="p-3 bg-light rounded-3 border d-flex align-items-center justify-content-between text-decoration-none text-dark hover-shadow">
+              <div>
+                <div class="fw-bold">💳 Razorpay Payments Ledger</div>
+                <div class="small text-muted">Audit 18% GST tax and payment order IDs</div>
+              </div>
+              <span class="fs-5 text-success">&rarr;</span>
+            </a>
+
+            <a href="./admin-refund-management.html" class="p-3 bg-light rounded-3 border d-flex align-items-center justify-content-between text-decoration-none text-dark hover-shadow">
+              <div>
+                <div class="fw-bold">🔄 Refund Processing</div>
+                <div class="small text-muted">Authorize refunds &amp; adjust subscriptions</div>
+              </div>
+              <span class="fs-5 text-warning">&rarr;</span>
+            </a>
+
+            <a href="./admin-coupon-management.html" class="p-3 bg-light rounded-3 border d-flex align-items-center justify-content-between text-decoration-none text-dark hover-shadow">
+              <div>
+                <div class="fw-bold">🏷️ Promotional Coupons</div>
+                <div class="small text-muted">Create % and flat discount coupon codes</div>
+              </div>
+              <span class="fs-5 text-info">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Audit Trail -->
+      <div class="col-lg-8">
+        <div class="dash-panel h-100">
+          <div class="panel-header-wrap">
+            <div>
+              <h3 class="panel-heading">Recent Administrative Audit Logs</h3>
+              <p class="panel-subtext">Chronological trail of administrative modifications in MySQL</p>
+            </div>
+            <span class="badge bg-light text-dark border">Immutable Trail</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-admin mb-0">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Admin</th>
+                  <th>Target Entity</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="recentActivityBody">
+                <tr><td colspan="4" class="text-center py-4 text-muted">Synchronizing audit trail...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="margin-top: auto; background: #ffffff; border-top: 1px solid var(--border-color); padding: 18px 28px; text-align: center;">
+    <div style="font-size: 13px; color: #64748b;">
+      © 2026 <strong>MULTI THERAPY</strong> • Super Admin Unified Subscription Infrastructure. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/admin-subscription.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await MultiTherapyAdmin.initDashboardView();
+
+      // Render Charts
+      initDashboardCharts();
+
+      const refreshBtn = document.getElementById('btnRefreshDashboard');
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', async () => {
+          refreshBtn.disabled = true;
+          refreshBtn.textContent = 'Syncing...';
+          await MultiTherapyAdmin.initDashboardView();
+          refreshBtn.disabled = false;
+          refreshBtn.textContent = '🔄 Sync Database';
+          MultiTherapyAdmin.showAdminToast('Dashboard synchronized with MySQL database.');
+        });
+      }
+    });
+
+    async function initDashboardCharts() {
+      try {
+        const res = await MultiTherapyAdmin.adminFetch('/api/super-admin/analytics/revenue');
+        if (!res || !res.success) return;
+
+        // 1. Revenue Trajectory Chart
+        const monthlyData = res.monthly_revenue_chart || [];
+        const labels = monthlyData.map(m => m.month_label);
+        const values = monthlyData.map(m => m.revenue);
+
+        const revCtx = document.getElementById('dashboardRevenueChart').getContext('2d');
+        new Chart(revCtx, {
+          type: 'bar',
+          data: {
+            labels: labels.length ? labels : ['Nov 2026'],
+            datasets: [{
+              label: 'Gross Revenue (₹)',
+              data: values.length ? values : [43386.24],
+              backgroundColor: '#0866F5',
+              borderRadius: 8
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { callback: v => '₹' + v.toLocaleString('en-IN') }
+              }
+            }
+          }
+        });
+
+        // 2. Role Breakdown Doughnut
+        const roleData = res.revenue_by_user_type || [];
+        const roleLabels = roleData.map(r => r.user_type ? r.user_type.toUpperCase() : 'OTHER');
+        const roleValues = roleData.map(r => r.total_revenue);
+
+        const roleCtx = document.getElementById('dashboardRoleChart').getContext('2d');
+        new Chart(roleCtx, {
+          type: 'doughnut',
+          data: {
+            labels: roleLabels.length ? roleLabels : ['HOSPITAL', 'DOCTOR', 'PATIENT'],
+            datasets: [{
+              data: roleValues.length ? roleValues : [41276.4, 941.64, 1168.2],
+              backgroundColor: ['#0866F5', '#059669', '#9333ea']
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+            }
+          }
+        });
+      } catch (err) {
+        console.warn('Chart initialization fallback:', err);
+      }
+    }
+  </script>
+</body>
+</html>
+

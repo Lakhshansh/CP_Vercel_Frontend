@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Profile | Multi Therapy</title>
+  <meta name="description" content="Multi Therapy - Patient & Caregiver Profile. Manage personal details, clinical therapy records, and profile photo.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+  <style>
+    :root {
+      --primary-blue: #0866F5;
+      --primary-hover: #0756d1;
+      --navy-dark: #103463;
+      --teal-green: #059669;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --card-radius: 20px;
+      --shadow-subtle: 0 10px 30px rgba(16, 52, 99, 0.06);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+    }
+
+    /* Top Role Switcher Banner */
+    .role-switcher-banner {
+      background: linear-gradient(90deg, #eff6ff 0%, #e0f2fe 100%);
+      border-bottom: 1px solid #bfdbfe;
+      padding: 8px 24px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .role-current-tag {
+      font-weight: 700;
+      color: #1e40af;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .role-switch-link {
+      color: #0866F5;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 4px 12px;
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      transition: all 0.2s ease;
+    }
+
+    .role-switch-link:hover {
+      background: #0866F5;
+      color: #ffffff;
+    }
+
+    /* Header Nav */
+    .header-nav {
+      position: sticky;
+      top: 0;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      z-index: 1000;
+      padding: 0 28px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 12px rgba(16, 52, 99, 0.05);
+    }
+
+    .header-inner {
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 2px;
+      box-shadow: 0 2px 8px rgba(8, 102, 245, 0.15);
+    }
+
+    .brand-title {
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      line-height: 1.1;
+    }
+
+    .brand-tagline {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary-blue);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-link-item {
+      color: #334155;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      padding: 6px 0;
+    }
+
+    .nav-link-item:hover, .nav-link-item.active {
+      color: var(--primary-blue);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 14px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      text-decoration: none;
+      color: var(--navy-dark);
+      transition: all 0.2s ease;
+    }
+
+    .user-pill-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--primary-blue);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      object-fit: cover;
+    }
+
+    .logout-btn {
+      background: #ffffff;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .logout-btn:hover {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #fca5a5;
+    }
+
+    /* Main Container */
+    .profile-main-wrap {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 36px 20px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* Profile Header Card */
+    .profile-hero-card {
+      background: linear-gradient(135deg, #0b3c73 0%, #0866f5 60%, #0284c7 100%);
+      color: #ffffff;
+      border-radius: var(--card-radius);
+      padding: 36px 40px;
+      box-shadow: 0 16px 36px rgba(8, 102, 245, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+      position: relative;
+    }
+
+    .profile-hero-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Avatar Wrapper & Upload Controls */
+    .avatar-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      min-width: 130px;
+      z-index: 10;
+    }
+
+    .avatar-circle-container {
+      position: relative;
+      width: 110px;
+      height: 110px;
+    }
+
+    .profile-avatar-large {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 4px solid #ffffff;
+      background: #ffffff;
+      object-fit: cover;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+      overflow: hidden;
+    }
+
+    img.profile-avatar-large {
+      font-size: 0 !important;
+      color: transparent !important;
+      line-height: 0 !important;
+      display: block;
+    }
+
+    div.profile-avatar-large {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--primary-blue);
+    }
+
+    .avatar-camera-btn {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid var(--primary-blue);
+      color: var(--primary-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+      z-index: 5;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .avatar-camera-btn:hover {
+      transform: scale(1.1);
+      background: #eff6ff;
+    }
+
+    .avatar-preview-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #10b981;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1.5px solid #ffffff;
+      display: none;
+      z-index: 5;
+    }
+
+    .avatar-actions-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+      z-index: 10;
+      margin-top: 4px;
+    }
+
+    .btn-avatar-pill {
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--navy-dark);
+      border: none;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-avatar-pill:hover {
+      background: #ffffff;
+      color: var(--primary-blue);
+      transform: translateY(-1px);
+    }
+
+    .btn-avatar-danger {
+      color: #dc2626 !important;
+    }
+
+    .btn-avatar-danger:hover {
+      background: #fee2e2 !important;
+      color: #991b1b !important;
+    }
+
+    .profile-info-block h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .profile-tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+
+    .badge-verified {
+      background: rgba(16, 185, 129, 0.28);
+      border: 1px solid rgba(16, 185, 129, 0.6);
+      color: #d1fae5;
+    }
+
+    .hero-actions-right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-hero-white {
+      background: #ffffff;
+      color: var(--navy-dark);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-hero-white:hover {
+      background: #f0f7ff;
+      color: var(--primary-blue);
+      transform: translateY(-1px);
+    }
+
+    /* Grid Layout for Details */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 28px;
+    }
+
+    .profile-card {
+      background: var(--card-bg);
+      border-radius: var(--card-radius);
+      border: 1.5px solid #e2e8f0;
+      box-shadow: var(--shadow-subtle);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card-heading {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 12px;
+    }
+
+    /* Form Fields */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group-custom {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label-custom {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .form-control-custom {
+      height: 46px;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 0 14px;
+      font-size: 14px;
+      color: var(--text-main);
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-control-custom:focus {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(8, 102, 245, 0.12);
+    }
+
+    .form-control-custom:read-only {
+      background: #f8fafc;
+      color: #64748b;
+    }
+
+    .btn-save-profile {
+      background: var(--primary-blue);
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(8, 102, 245, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .btn-save-profile:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-cancel-profile {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1.5px solid #cbd5e1;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-cancel-profile:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    /* Therapy Highlights Card */
+    .therapy-stat-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .stat-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e40af;
+      text-transform: uppercase;
+    }
+
+    .stat-val {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy-dark);
+    }
+
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      transition: transform 0.3s ease;
+      z-index: 9999;
+    }
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 992px) {
+      .profile-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 576px) {
+      .form-row { grid-template-columns: 1fr; }
+      .profile-hero-card { padding: 24px; }
+      .profile-hero-left { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Role Switcher -->
+  <div class="role-switcher-banner" role="complementary" aria-label="Portal Role">
+    <div class="role-current-tag">
+      <span>👤</span> Patient &amp; Caregiver Profile Portal
+    </div>
+    <a href="./doctor-profile.html" class="role-switch-link" title="Open Doctor & Specialist Profile Portal">
+      <span>🩺 Switch to Doctor Profile Portal &rarr;</span>
+    </a>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="header-nav" role="banner">
+    <div class="header-inner">
+      <a href="./patient-home.html" class="brand-wrap">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="brand-logo">
+        <div>
+          <div class="brand-title">Multi Therapy</div>
+          <div class="brand-tagline">Care • Support • Progress • Together</div>
+        </div>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="./patient-home.html" class="nav-link-item">Home</a></li>
+          <li><a href="./patients.html" class="nav-link-item">Patients</a></li>
+          <li><a href="./patient-appointments.html" class="nav-link-item">Appointments</a></li>
+          <li><a href="./therapists.html" class="nav-link-item">Therapists</a></li>
+          <li><a href="./exercises.html" class="nav-link-item">Exercises</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="./patient-profile.html" class="user-pill" id="navUserPill" title="My Profile (Active)">
+          <div class="user-pill-avatar" id="navAvatar">👤</div>
+          <img id="navAvatarImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJwYXRHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMGIzYzczIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMwODY2ZjUiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMjg0YzciLz48L2xpbmVhckdyYWRpZW50PjxmZWRyb3BTaGFkb3cgaWQ9InNoYWRvdyIgeD0iLTEwJSIgeT0iLTEwJSIgd2lkdGg9IjEyMCUiIGhlaWdodD0iMTIwJSI+PGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjQiIHN0ZERldmlhdGlvbj0iNCIgZmxvb2QtY29sb3I9IiMwMDAiIGZsb29kLW9wYWNpdHk9IjAuMTUiLz48L2ZpbHRlcj48L2RlZnM+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5NiIgZmlsbD0idXJsKCNwYXRHcmFkKSIvPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2Utb3BhY2l0eT0iMC4zIi8+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsdGVyPSJ1cmwoI3NoYWRvdykiPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjcyIiByPSIzMiIvPjxwYXRoIGQ9Ik0gNDUsMTYyIEMgNDUsMTI0IDcyLDExOCAxMDAsMTE4IEMgMTI4LDExOCAxNTUsMTI0IDE1NSwxNjIgQyAxNTUsMTY4IDE1MCwxNzIgMTQ0LDE3MiBMIDU2LDE3MiBDIDUwLDE3MiA0NSwxNjggNDUsMTYyIFoiLz48cGF0aCBkPSJNIDEwMCwxMzggQyA5NiwxMzMgODgsMTMzIDg1LDEzOCBDIDgyLDE0MyA4NSwxNDggMTAwLDE1NyBDIDExNSwxNDggMTE4LDE0MyAxMTUsMTM4IEMgMTEyLDEzMyAxMDQsMTMzIDEwMCwxMzggWiIgZmlsbD0iIzM4YmRmOCIvPjwvZz48L3N2Zz4=" class="user-pill-avatar" alt="" style="display:none; object-fit:cover;">
+          <div>
+            <div style="font-size:13px; font-weight:800; line-height:1.1;" id="navUsername">admin</div>
+            <div style="font-size:11px; color:#0284c7; font-weight:600;" id="navRole">Patient</div>
+          </div>
+        </a>
+
+        <button type="button" class="logout-btn" id="logoutBtn" title="Logout">
+          <span>🚪</span> Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Profile Content -->
+  <main class="profile-main-wrap">
+
+    <!-- Profile Hero Card -->
+    <section class="profile-hero-card">
+      <div class="profile-hero-left">
+
+        <!-- Avatar Wrapper with Upload / Change / Remove Controls -->
+        <div class="avatar-wrapper">
+          <div class="avatar-circle-container">
+            <div id="patientAvatarEl" class="profile-avatar-large" style="display:none;">👤</div>
+            <img id="patientAvatarImg" src="./images/patient-avatar.svg" class="profile-avatar-large" alt="" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJwYXRHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMGIzYzczIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMwODY2ZjUiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMjg0YzciLz48L2xpbmVhckdyYWRpZW50PjxmZWRyb3BTaGFkb3cgaWQ9InNoYWRvdyIgeD0iLTEwJSIgeT0iLTEwJSIgd2lkdGg9IjEyMCUiIGhlaWdodD0iMTIwJSI+PGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjQiIHN0ZERldmlhdGlvbj0iNCIgZmxvb2QtY29sb3I9IiMwMDAiIGZsb29kLW9wYWNpdHk9IjAuMTUiLz48L2ZpbHRlcj48L2RlZnM+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5NiIgZmlsbD0idXJsKCNwYXRHcmFkKSIvPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2Utb3BhY2l0eT0iMC4zIi8+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsdGVyPSJ1cmwoI3NoYWRvdykiPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjcyIiByPSIzMiIvPjxwYXRoIGQ9Ik0gNDUsMTYyIEMgNDUsMTI0IDcyLDExOCAxMDAsMTE4IEMgMTI4LDExOCAxNTUsMTI0IDE1NSwxNjIgQyAxNTUsMTY4IDE1MCwxNzIgMTQ0LDE3MiBMIDU2LDE3MiBDIDUwLDE3MiA0NSwxNjggNDUsMTYyIFoiLz48cGF0aCBkPSJNIDEwMCwxMzggQyA5NiwxMzMgODgsMTMzIDg1LDEzOCBDIDgyLDE0MyA4NSwxNDggMTAwLDE1NyBDIDExNSwxNDggMTE4LDE0MyAxMTUsMTM4IEMgMTEyLDEzMyAxMDQsMTMzIDEwMCwxMzggWiIgZmlsbD0iIzM4YmRmOCIvPjwvZz48L3N2Zz4='; this.onerror=null;" style="object-fit:cover;">
+            <button type="button" class="avatar-camera-btn" id="btnCameraPatientPhoto" title="Upload / Change Photo" aria-label="Upload or Change Photo">
+              📷
+            </button>
+            <span id="patientPhotoPreviewBadge" class="avatar-preview-badge">Preview</span>
+          </div>
+
+          <!-- Photo Buttons Row -->
+          <div class="avatar-actions-pills">
+            <button type="button" class="btn-avatar-pill" id="btnUploadPatientPhoto" title="Upload a photo from computer">
+              <span>📷</span> <span>Upload Photo</span>
+            </button>
+            <button type="button" class="btn-avatar-pill" id="btnChangePatientPhoto" style="display:none;" title="Select a different photo">
+              <span>🔄</span> <span>Change</span>
+            </button>
+            <button type="button" class="btn-avatar-pill btn-avatar-danger" id="btnRemovePatientPhoto" style="display:none;" title="Remove uploaded photo">
+              <span>🗑️</span> <span>Remove</span>
+            </button>
+            <button type="button" class="btn-avatar-pill" id="btnSaveQuickPatientPhoto" style="display:none; background:#10b981; color:#ffffff;" title="Save uploaded photo now">
+              <span>💾</span> <span>Save Photo</span>
+            </button>
+            <input type="file" id="patientPhotoInput" accept="image/jpeg, image/jpg, image/png, image/webp" style="display:none;">
+          </div>
+        </div>
+
+        <div class="profile-info-block">
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
+            <span class="profile-tag-pill">👤 Patient Account</span>
+            <span class="profile-tag-pill badge-verified">✓ Verified Patient</span>
+            <span class="profile-tag-pill" id="patientIdTag">ID: #PAT-1</span>
+          </div>
+          <h1 id="heroPatientName">admin</h1>
+          <p style="color: #e0f2fe; font-size: 14px; margin: 0;" id="heroPatientSub">
+            Patient Username: @admin • Multidisciplinary Clinical Care
+          </p>
+        </div>
+      </div>
+
+      <div class="hero-actions-right">
+        <a href="./patient-subscriptions.html" class="btn-hero-white" style="background: rgba(255,255,255,0.18); color:#ffffff; border: 1.5px solid rgba(255,255,255,0.4);" title="Manage Subscription & Membership">
+          <span>⭐</span> <span>Membership &amp; Plans</span>
+        </a>
+        <a href="./patient-appointments.html" class="btn-hero-white">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg>
+          <span>My Appointments</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Grid: Details & Medical Profile -->
+    <div class="profile-grid">
+
+      <!-- LEFT COLUMN: EDITABLE PERSONAL DETAILS -->
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+
+        <!-- Personal & Contact Information -->
+        <section class="profile-card">
+          <h2 class="card-heading">
+            <span>📝</span> Personal &amp; Contact Information
+          </h2>
+
+          <div id="profileMessage" class="alert alert-success" hidden></div>
+
+          <form id="patientProfileForm" autocomplete="off">
+            <div class="form-row mb-3">
+              <div class="form-group-custom">
+                <label for="profFullName" class="form-label-custom">Full Name *</label>
+                <input type="text" id="profFullName" class="form-control-custom" placeholder="Patient's Full Name" required>
+              </div>
+
+              <div class="form-group-custom">
+                <label for="profUsername" class="form-label-custom">Username</label>
+                <input type="text" id="profUsername" class="form-control-custom" readonly>
+              </div>
+            </div>
+
+            <div class="form-row mb-3">
+              <div class="form-group-custom">
+                <label for="profPatientId" class="form-label-custom">Patient ID</label>
+                <input type="text" id="profPatientId" class="form-control-custom" readonly value="#PAT-1">
+              </div>
+
+              <div class="form-group-custom">
+                <label for="profDob" class="form-label-custom">Date of Birth</label>
+                <input type="date" id="profDob" class="form-control-custom">
+              </div>
+            </div>
+
+            <div class="form-row mb-3">
+              <div class="form-group-custom">
+                <label for="profEmail" class="form-label-custom">Registered Email *</label>
+                <input type="email" id="profEmail" class="form-control-custom" placeholder="name@domain.com" required>
+              </div>
+
+              <div class="form-group-custom">
+                <label for="profPhone" class="form-label-custom">Mobile Number / WhatsApp</label>
+                <input type="tel" id="profPhone" class="form-control-custom" placeholder="+91 9468650893">
+              </div>
+            </div>
+
+            <div class="form-row mb-3">
+              <div class="form-group-custom">
+                <label for="profAge" class="form-label-custom">Age (Years)</label>
+                <input type="number" id="profAge" class="form-control-custom" placeholder="e.g. 7" min="1" max="120">
+              </div>
+
+              <div class="form-group-custom">
+                <label for="profGender" class="form-label-custom">Gender</label>
+                <select id="profGender" class="form-control-custom">
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row mb-4">
+              <div class="form-group-custom">
+                <label for="profAddress" class="form-label-custom">Address / City</label>
+                <input type="text" id="profAddress" class="form-control-custom" placeholder="Residential Address, City, State">
+              </div>
+
+              <div class="form-group-custom">
+                <label for="profEmergencyContact" class="form-label-custom">Emergency Contact / Guardian</label>
+                <input type="text" id="profEmergencyContact" class="form-control-custom" placeholder="Guardian Name & Contact Phone">
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+              <button type="submit" class="btn-save-profile" id="btnSavePatientProfile">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Save Changes</span>
+              </button>
+
+              <button type="button" class="btn-cancel-profile" id="btnCancelPatientProfile">
+                <span>✖</span> <span>Cancel</span>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Account Security: Update Password -->
+        <section class="profile-card">
+          <h2 class="card-heading">
+            <span>🔒</span> Account Password &amp; Security
+          </h2>
+
+          <div id="passwordMessage" class="alert alert-danger" hidden></div>
+
+          <form id="changePasswordForm">
+            <div class="form-row mb-3">
+              <div class="form-group-custom">
+                <label for="newPass" class="form-label-custom">New Password</label>
+                <input type="password" id="newPass" class="form-control-custom" placeholder="Min. 6 characters" required>
+              </div>
+
+              <div class="form-group-custom">
+                <label for="confirmNewPass" class="form-label-custom">Confirm New Password</label>
+                <input type="password" id="confirmNewPass" class="form-control-custom" placeholder="Confirm new password" required>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <button type="submit" class="btn-save-profile" id="btnUpdatePassword" style="background:#0f172a;">
+                <span>Update Password</span>
+              </button>
+
+              <a href="./patient-forgot.html" style="font-size: 13px; color: var(--primary-blue); font-weight: 700; text-decoration: underline;">
+                Forgot password recovery portal &rarr;
+              </a>
+            </div>
+          </form>
+        </section>
+
+      </div>
+
+      <!-- RIGHT COLUMN: THERAPY SUMMARY & CARE TEAM -->
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+
+        <!-- Clinical Therapy Highlights -->
+        <aside class="profile-card">
+          <h2 class="card-heading">
+            <span>🩺</span> Clinical Care Summary
+          </h2>
+
+          <div class="therapy-stat-box">
+            <span class="stat-title">Primary Diagnosis / Focus</span>
+            <span class="stat-val" id="dispDiagnosis">Cerebral Palsy Rehabilitation</span>
+          </div>
+
+          <div class="therapy-stat-box">
+            <span class="stat-title">Primary Physician</span>
+            <span class="stat-val" id="dispDoctor">Dr. Clinical Specialist</span>
+          </div>
+
+          <div class="therapy-stat-box">
+            <span class="stat-title">Lead Therapist</span>
+            <span class="stat-val" id="dispTherapist">Certified Motor Specialist</span>
+          </div>
+
+          <div class="therapy-stat-box">
+            <span class="stat-title">Rehabilitation Plan</span>
+            <span class="stat-val" style="font-size:14px; color:#1e40af;">Physical &amp; Speech Therapy Active</span>
+          </div>
+
+          <a href="./patient-appointments.html" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; font-weight: 700; color: var(--primary-blue); text-decoration: none; font-size: 13.5px; margin-top: 4px;">
+            <span>🗓️ Schedule Next Session &rarr;</span>
+          </a>
+        </aside>
+
+        <!-- Help Desk Callout -->
+        <aside class="profile-card" style="background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);">
+          <h2 class="card-heading" style="color: #065f46;">
+            <span>📱</span> Support Help Desk
+          </h2>
+          <p style="font-size: 13px; color: #334155; line-height: 1.5;">
+            Need help with your appointments, patient profile records, or therapy progress reports?
+          </p>
+          <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14px; color: #166534; text-decoration: none;">
+            <span>WhatsApp Us: +91 9468650893 &rarr;</span>
+          </a>
+        </aside>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #103463; color: #94a3b8; padding: 22px 24px; margin-top: auto; border-top: 1px solid #1e427b;">
+    <div style="max-width: 1240px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy" style="width: 38px; height: 38px; border-radius: 50%; background: #ffffff; padding: 2px;">
+        <span style="color: #ffffff; font-weight: 700; font-size: 14px;">Multi Therapy Patient Portal &copy; 2026</span>
+      </div>
+      <div style="font-size: 12px; color: #cbd5e1;">Care • Support • Progress • Together</div>
+    </div>
+  </footer>
+
+  <div id="toastPopup" class="toast-popup">Profile updated successfully!</div>
+
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+  </a>
+
+  <!-- Scripts -->
+  <script src="./js/api.js"></script>
+  <script src="./js/cdn.js"></script>
+  <script src="./js/patient-profile.js"></script>
+</body>
+</html>

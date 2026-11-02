@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment &amp; Invoice History | Multi Therapy</title>
+  <meta name="description" content="View past subscription payments, GST tax breakdown, Razorpay transaction IDs, and download official PDF tax invoices.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/subscriptions.css">
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header class="mt-sub-header">
+    <div class="container-xl d-flex align-items-center justify-content-between py-2">
+      <a href="./index.html" class="mt-brand-wrap">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="mt-brand-logo">
+        <div>
+          <div class="mt-brand-title">Multi Therapy</div>
+          <div class="mt-brand-tagline">Payment History</div>
+        </div>
+      </a>
+
+      <nav class="d-none d-lg-flex align-items-center gap-1">
+        <a href="./my-subscription.html" class="mt-nav-link">My Plan</a>
+        <a href="./subscription-pricing.html" class="mt-nav-link">Upgrade Tier</a>
+        <a href="./patient-profile.html" class="mt-nav-link" id="navProfileLink">Profile</a>
+      </nav>
+
+      <div class="d-flex align-items-center gap-2">
+        <a href="./my-subscription.html" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold">
+          &larr; Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="mt-hero-banner" style="padding: 40px 20px 36px;">
+    <div class="container-xl d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div class="text-start">
+        <div class="mt-hero-badge">
+          <span>📜</span> Billing Records &amp; Tax Compliance
+        </div>
+        <h1 class="mt-hero-title mb-1" style="font-size: 30px;">Payment &amp; Invoice History</h1>
+        <p class="mt-hero-subtitle mb-0 text-start" style="font-size: 14.5px;">
+          Review all previous transactions, verify Razorpay payment IDs, and access official GST-compliant tax invoices.
+        </p>
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-light rounded-pill px-4 fw-bold text-primary shadow-sm" id="btnRefreshHistory">
+          <span>🔄</span> Refresh Records
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container-xl py-3" style="max-width: 1100px;">
+    
+    <!-- Filter Card -->
+    <div class="mt-dash-card mb-4 p-3">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-5">
+          <input type="text" class="form-control" id="searchInvoice" placeholder="Search by Invoice # or Order ID...">
+        </div>
+        <div class="col-md-4">
+          <select class="form-select" id="filterStatus">
+            <option value="">All Payment Statuses</option>
+            <option value="captured">Successful (Captured)</option>
+            <option value="created">Pending (Created)</option>
+            <option value="failed">Failed / Declined</option>
+          </select>
+        </div>
+        <div class="col-md-3 text-md-end text-muted small" id="historyCount">
+          Showing records from MySQL
+        </div>
+      </div>
+    </div>
+
+    <!-- History Table Card -->
+    <div class="mt-table-card">
+      <div class="mt-table-header d-flex align-items-center justify-content-between">
+        <h2 class="mt-table-title">Transaction Ledger &amp; GST Invoices</h2>
+        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 fw-bold">18% GST Compliant</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table align-middle table-hover mb-0" id="historyTable">
+          <thead class="table-light">
+            <tr>
+              <th>Invoice #</th>
+              <th>Date</th>
+              <th>Plan Name</th>
+              <th>Razorpay Order / Pay ID</th>
+              <th>Base Fee</th>
+              <th>GST (18%)</th>
+              <th>Total (₹)</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="historyBody">
+            <!-- Populated via js/subscription-history.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Help Box -->
+    <div class="mt-4 p-3 bg-light rounded-3 border d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="small text-muted">
+        Need assistance with a transaction or GST invoice correction? Contact our billing support desk.
+      </div>
+      <a href="https://wa.me/919468650893" target="_blank" class="btn btn-sm btn-outline-success rounded-pill fw-bold px-3">
+        WhatsApp Billing Support &rarr;
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-footer">
+    <div class="container-xl d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div class="d-flex align-items-center gap-2">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy" style="width: 34px; height: 34px; border-radius: 50%; background: #ffffff; padding: 2px;">
+        <span class="text-white fw-bold">Multi Therapy &copy; 2026</span>
+        <span class="text-muted ms-2">Invoice Records</span>
+      </div>
+      <div class="small">
+        <a href="./my-subscription.html" class="text-decoration-none text-light me-3">My Plan</a>
+        <a href="./subscription-pricing.html" class="text-decoration-none text-light">Pricing</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./js/api.js"></script>
+  <script src="./js/subscription-history.js"></script>
+</body>
+</html>

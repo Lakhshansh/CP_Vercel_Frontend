@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Plans Management | Multi Therapy</title>
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/subscriptions.css">
+
+  <style>
+    :root {
+      --primary-blue: #0866F5;
+      --navy-dark: #103463;
+      --clinical-teal: #059669;
+      --bg-light: #f8fafc;
+      --card-radius: 16px;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: var(--bg-light);
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+    }
+
+    .admin-nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 14px 28px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .admin-nav-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .admin-hero {
+      background: linear-gradient(135deg, #091e3a 0%, #103463 60%, #0866F5 100%);
+      color: #ffffff;
+      padding: 38px 24px;
+      margin-bottom: 28px;
+    }
+
+    .admin-hero-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .stat-card-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1320px;
+      margin: 0 auto 28px;
+      padding: 0 20px;
+    }
+
+    .admin-stat-card {
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 14px rgba(16, 52, 99, 0.05);
+      padding: 22px;
+      transition: transform 0.2s ease;
+    }
+
+    .admin-stat-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .admin-stat-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .admin-stat-val {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .admin-main-wrap {
+      max-width: 1320px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    .panel-card {
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 14px rgba(16, 52, 99, 0.05);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .plan-card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .plan-item-card {
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      border: 1.5px solid #e2e8f0;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .plan-item-card:hover {
+      border-color: #93c5fd;
+      box-shadow: 0 10px 25px rgba(8, 102, 245, 0.1);
+    }
+
+    .role-badge-hosp {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .role-badge-doc {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .role-badge-pat {
+      background: #fdf4ff;
+      color: #7e22ce;
+      border: 1px solid #f0abfc;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .plan-price-block {
+      background: #f8fafc;
+      border: 1px solid #f1f5f9;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 16px 0;
+    }
+
+    @media (max-width: 992px) {
+      .stat-card-row { grid-template-columns: repeat(2, 1fr); }
+      .plan-card-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 576px) {
+      .stat-card-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="admin-nav">
+    <div class="admin-nav-inner">
+      <a href="./admin-subscriptions.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" style="width: 40px; height: 40px; border-radius: 50%;">
+        <div>
+          <div style="font-size: 19px; font-weight: 800; color: #103463; line-height: 1.1;">MULTI THERAPY</div>
+          <div style="font-size: 11px; font-weight: 700; color: #0866F5;">Admin Plans Architecture</div>
+        </div>
+      </a>
+
+      <div class="d-flex align-items-center gap-2">
+        <a href="./admin-subscriptions.html" class="btn btn-sm btn-outline-secondary fw-bold">Admin Hub</a>
+        <a href="./admin-payments.html" class="btn btn-sm btn-outline-secondary fw-bold">Transactions</a>
+        <a href="./subscription-pricing.html" class="btn btn-sm btn-outline-primary fw-bold" target="_blank">Live Pricing</a>
+        <a href="./index.html" class="btn btn-sm btn-danger fw-bold">Exit Admin</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="admin-hero">
+    <div class="admin-hero-inner">
+      <div>
+        <div class="badge bg-primary mb-2 py-1 px-3" style="font-size: 12px; font-weight: 700;">Multi-Role Tier Management</div>
+        <h1 style="font-size: 30px; font-weight: 800; margin: 0 0 6px;">Subscription Plans &amp; Quotas Architecture</h1>
+        <p style="color: #cbd5e1; margin: 0; font-size: 14.5px;">
+          Configure recurring rates, billing limits, practitioner allocations, and clinical access privileges for Hospital, Doctor, and Patient accounts.
+        </p>
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-light fw-bold" id="btnRefreshPlans">🔄 Reload Plans</button>
+        <button type="button" class="btn btn-primary fw-bold" data-bs-toggle="modal" data-bs-target="#editPlanModal" id="btnCreateNewPlan" style="background:#0866F5;">➕ Add Custom Tier</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Metrics Row -->
+  <section class="stat-card-row">
+    <div class="admin-stat-card">
+      <div class="admin-stat-title">Configured Plans</div>
+      <div class="admin-stat-val text-primary" id="metricTotalPlans">8</div>
+      <div class="small text-muted mt-1">Across 3 Target Audiences</div>
+    </div>
+
+    <div class="admin-stat-card">
+      <div class="admin-stat-title">Hospital Plans</div>
+      <div class="admin-stat-val text-dark" id="metricHospPlans">3</div>
+      <div class="small text-primary fw-bold mt-1">Basic, Pro, Enterprise</div>
+    </div>
+
+    <div class="admin-stat-card">
+      <div class="admin-stat-title">Doctor Plans</div>
+      <div class="admin-stat-val text-success" id="metricDocPlans">3</div>
+      <div class="small text-success fw-bold mt-1">Free, Pro, Premium</div>
+    </div>
+
+    <div class="admin-stat-card">
+      <div class="admin-stat-title">Patient Plans</div>
+      <div class="admin-stat-val text-info" id="metricPatPlans">2</div>
+      <div class="small text-info fw-bold mt-1">Free, Premium Family</div>
+    </div>
+  </section>
+
+  <!-- Main Plans Management Panel -->
+  <main class="admin-main-wrap">
+
+    <div id="planAlertMsg" class="alert alert-success d-none mb-3" role="alert"></div>
+
+    <div class="panel-card">
+      <!-- Search & Filter Controls -->
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 pb-3 mb-4 border-bottom">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 800; color: #103463; margin: 0 0 4px;">Configured Membership Tiers</h2>
+          <p class="text-muted small mb-0">Changes saved here dynamically propagate to frontend pricing cards and checkout calculation engine.</p>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <div class="btn-group" role="group" aria-label="Role Filters">
+            <button type="button" class="btn btn-sm btn-primary fw-bold role-filter-btn" data-role="all">All Plans</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary fw-bold role-filter-btn" data-role="hospital">Hospital</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary fw-bold role-filter-btn" data-role="doctor">Doctor</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary fw-bold role-filter-btn" data-role="patient">Patient</button>
+          </div>
+
+          <input type="text" id="planSearchInput" class="form-control form-control-sm" placeholder="🔍 Search plan by name..." style="width: 210px;">
+        </div>
+      </div>
+
+      <!-- Plans Cards Grid -->
+      <div id="plansGrid" class="plan-card-grid">
+        <!-- Rendered dynamically by js/admin-plans.js -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Edit Plan Modal -->
+  <div class="modal fade" id="editPlanModal" tabindex="-1" aria-labelledby="editPlanModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" style="border-radius: 16px;">
+        <div class="modal-header" style="background: #f8fafc; border-bottom: 1px solid #e2e8f0; border-radius: 16px 16px 0 0;">
+          <h5 class="modal-title fw-bold" id="editPlanModalLabel" style="color: #103463;">✏️ Edit Subscription Tier</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="editPlanForm">
+            <input type="hidden" id="editPlanId">
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label fw-bold small text-muted">PLAN CODE (UNIQUE IDENTIFIER)</label>
+                <input type="text" class="form-control fw-bold" id="editPlanCode" required readonly style="background:#f1f5f9;">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold small text-muted">DISPLAY NAME</label>
+                <input type="text" class="form-control fw-bold" id="editPlanName" required placeholder="e.g. Professional Practice">
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <label class="form-label fw-bold small text-muted">TARGET USER TYPE</label>
+                <select class="form-select fw-bold" id="editPlanRole" required>
+                  <option value="hospital">Hospital / Clinic</option>
+                  <option value="doctor">Doctor / Specialist</option>
+                  <option value="patient">Patient / Family</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold small text-muted">MONTHLY PRICE (₹)</label>
+                <input type="number" class="form-control fw-bold" id="editPriceMonthly" required min="0" step="1">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold small text-muted">YEARLY PRICE (₹)</label>
+                <input type="number" class="form-control fw-bold" id="editPriceYearly" required min="0" step="1">
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label fw-bold small text-muted">MAX DOCTORS / SPECIALISTS QUOTA</label>
+                <input type="number" class="form-control" id="editMaxDoctors" min="0" placeholder="0 = Unlimited">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold small text-muted">MAX PATIENTS / CLIENTS QUOTA</label>
+                <input type="number" class="form-control" id="editMaxPatients" min="0" placeholder="0 = Unlimited">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold small text-muted">KEY FEATURES &amp; PRIVILEGES (ONE PER LINE OR JSON ARRAY)</label>
+              <textarea class="form-control font-monospace" id="editFeaturesText" rows="5" placeholder="✓ Full Multidisciplinary Care Matrix&#10;✓ Unlimited Exercise Assignments&#10;✓ HIPAA Compliant Data Vault"></textarea>
+            </div>
+
+            <div class="form-check form-switch mb-3">
+              <input class="form-check-input" type="checkbox" id="editIsActive" checked>
+              <label class="form-check-label fw-bold" for="editIsActive">Active &amp; Available for New Subscriptions</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer" style="background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 16px 16px;">
+          <button type="button" class="btn btn-secondary fw-bold" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary fw-bold" id="btnSavePlanEdits" style="background:#0866F5;">💾 Save Plan Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="margin-top: auto; background: #ffffff; border-top: 1px solid #e2e8f0; padding: 20px 24px; text-align: center;">
+    <div style="font-size: 13px; color: #64748b;">
+      © 2026 <strong>MULTI THERAPY</strong>. Centralized Membership &amp; Pricing Management.
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/admin-plans.js"></script>
+</body>
+</html>
+

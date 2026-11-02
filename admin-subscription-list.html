@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Management Ledger | MULTI THERAPY</title>
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Fonts & Bootstrap 5 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  
+  <!-- Custom Super Admin Styles -->
+  <link rel="stylesheet" href="./css/admin-subscription.css">
+</head>
+<body>
+
+  <!-- Super Admin Main Top Navigation -->
+  <header class="super-admin-header">
+    <div class="super-admin-header-inner">
+      <a href="./admin-subscription-dashboard.html" class="brand-badge-wrap">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy" class="brand-logo-img">
+        <div>
+          <div class="brand-title-main">MULTI THERAPY</div>
+          <div class="brand-sub-tag">Super Admin Subscription Engine</div>
+        </div>
+      </a>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-none d-md-flex align-items-center gap-2 bg-light px-3 py-1 rounded-pill border">
+          <span style="font-size: 14px;">🛡️</span>
+          <span class="small fw-bold text-dark">Super Admin: <span class="text-primary">superadmin</span></span>
+        </div>
+        <a href="./index.html" class="btn btn-sm btn-danger fw-bold">Exit Portal</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Super Admin Navigation Tabs (All 8 Modules) -->
+  <nav class="admin-subnav-bar">
+    <div class="admin-subnav-inner">
+      <a href="./admin-subscription-dashboard.html" class="admin-nav-tab">
+        <span>📊</span> <span>Dashboard</span>
+      </a>
+      <a href="./admin-subscription-list.html" class="admin-nav-tab active">
+        <span>👥</span> <span>Subscriptions List</span>
+      </a>
+      <a href="./admin-plan-management.html" class="admin-nav-tab">
+        <span>📋</span> <span>Plan Management</span>
+      </a>
+      <a href="./admin-payment-management.html" class="admin-nav-tab">
+        <span>💳</span> <span>Payments</span>
+      </a>
+      <a href="./admin-refund-management.html" class="admin-nav-tab">
+        <span>🔄</span> <span>Refunds</span>
+      </a>
+      <a href="./admin-coupon-management.html" class="admin-nav-tab">
+        <span>🏷️</span> <span>Coupons</span>
+      </a>
+      <a href="./admin-invoice-management.html" class="admin-nav-tab">
+        <span>📄</span> <span>Tax Invoices</span>
+      </a>
+      <a href="./admin-revenue-analytics.html" class="admin-nav-tab">
+        <span>📈</span> <span>Revenue Analytics</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="admin-hero-banner">
+    <div class="admin-hero-inner">
+      <div>
+        <div class="hero-pill-badge">
+          <span>👥</span> User Accounts &amp; Membership Lifecycle
+        </div>
+        <h1 style="font-size: 28px; font-weight: 800; margin: 0 0 6px;">Active Subscriptions Ledger</h1>
+        <p style="color: #cbd5e1; margin: 0; font-size: 14px;">
+          Filter, inspect, change pricing tiers, suspend, reactivate, or cancel subscriptions for Hospitals, Doctors, and Patients.
+        </p>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn btn-light fw-bold" id="btnRefreshSubs">🔄 Reload Subscriptions</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Area -->
+  <main class="admin-container">
+
+    <div class="dash-panel">
+      <!-- Multi-Filter Control Toolbar -->
+      <div class="row g-3 align-items-center mb-4 pb-3 border-bottom">
+        <!-- Search Input -->
+        <div class="col-lg-3 col-md-6">
+          <label class="small text-muted fw-bold mb-1">SEARCH SUBSCRIBER</label>
+          <input type="text" id="subSearchInput" class="form-control form-control-sm" placeholder="🔍 Name, email, or code...">
+        </div>
+
+        <!-- Role Filter: Hospital, Doctor, Patient, All -->
+        <div class="col-lg-2 col-md-3">
+          <label class="small text-muted fw-bold mb-1">USER TYPE</label>
+          <select id="roleFilter" class="form-select form-select-sm fw-bold">
+            <option value="all">All User Types</option>
+            <option value="hospital">🏥 Hospital</option>
+            <option value="doctor">🩺 Doctor</option>
+            <option value="patient">👤 Patient</option>
+          </select>
+        </div>
+
+        <!-- Status Filter: Active, Expired, Cancelled, All -->
+        <div class="col-lg-2 col-md-3">
+          <label class="small text-muted fw-bold mb-1">STATUS</label>
+          <select id="statusFilter" class="form-select form-select-sm fw-bold">
+            <option value="all">All Statuses</option>
+            <option value="active">✓ Active</option>
+            <option value="expired">⏳ Expired</option>
+            <option value="cancelled">✗ Cancelled</option>
+          </select>
+        </div>
+
+        <!-- Billing Cycle Filter: Monthly, Yearly, All -->
+        <div class="col-lg-2 col-md-4">
+          <label class="small text-muted fw-bold mb-1">BILLING CYCLE</label>
+          <select id="cycleFilter" class="form-select form-select-sm fw-bold">
+            <option value="all">All Cycles</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+            <option value="free">Free Forever</option>
+          </select>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="col-lg-3 col-md-8 text-end pt-3">
+          <button type="button" class="btn btn-sm btn-outline-secondary fw-bold" id="btnResetFilters">Reset Filters</button>
+          <span class="badge bg-light text-dark border ms-2 py-2 px-3 fw-bold" id="subCountBadge">0 Records</span>
+        </div>
+      </div>
+
+      <!-- Subscriptions Table -->
+      <div class="table-responsive">
+        <table class="table table-admin align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Subscription Code / Date</th>
+              <th>Subscriber Details</th>
+              <th>Target Type</th>
+              <th>Plan Name &amp; Price</th>
+              <th>Cycle &amp; Expiry</th>
+              <th>Status</th>
+              <th class="text-end">Admin Actions</th>
+            </tr>
+          </thead>
+          <tbody id="subscriptionsTableBody">
+            <tr><td colspan="7" class="text-center py-5 text-muted">Loading subscriptions from database...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL 1: VIEW SUBSCRIPTION DETAILS -->
+  <div class="modal fade" id="viewSubModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" style="border-radius: 16px;">
+        <div class="modal-header" style="background: #f8fafc; border-bottom: 1px solid var(--border-color); border-radius: 16px 16px 0 0;">
+          <h5 class="modal-title fw-bold" style="color: var(--navy-dark);">🔍 Subscription Specification</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4" id="viewSubModalBody">
+          <!-- Populated dynamically -->
+        </div>
+        <div class="modal-footer" style="background: #f8fafc; border-top: 1px solid var(--border-color); border-radius: 0 0 16px 16px;">
+          <button type="button" class="btn btn-secondary fw-bold" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: CHANGE PLAN -->
+  <div class="modal fade" id="changePlanModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" style="border-radius: 16px;">
+        <div class="modal-header" style="background: #f8fafc; border-bottom: 1px solid var(--border-color); border-radius: 16px 16px 0 0;">
+          <h5 class="modal-title fw-bold" style="color: var(--navy-dark);">✏️ Change Subscription Plan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <input type="hidden" id="changePlanSubId">
+          <div class="mb-3">
+            <label class="small text-muted fw-bold">SUBSCRIBER</label>
+            <div class="fw-bold fs-6 text-dark" id="changePlanUserLabel">—</div>
+          </div>
+          <div class="mb-3">
+            <label class="small text-muted fw-bold">CURRENT ACTIVE TIER</label>
+            <div class="badge bg-light text-dark border p-2 fw-bold" id="changePlanCurrentLabel">—</div>
+          </div>
+          <div class="mb-3">
+            <label class="small text-muted fw-bold">SELECT NEW SUBSCRIPTION TIER</label>
+            <select id="selectNewPlanCode" class="form-select fw-bold">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer" style="background: #f8fafc; border-top: 1px solid var(--border-color); border-radius: 0 0 16px 16px;">
+          <button type="button" class="btn btn-secondary fw-bold" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary fw-bold" id="btnSubmitChangePlan" style="background:#0866F5;">Apply Plan Modification</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="margin-top: auto; background: #ffffff; border-top: 1px solid var(--border-color); padding: 18px 28px; text-align: center;">
+    <div style="font-size: 13px; color: #64748b;">
+      © 2026 <strong>MULTI THERAPY</strong> • Super Admin Unified Subscription Infrastructure.
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/admin-subscription.js"></script>
+  <script>
+    let allSubscriptions = [];
+    let availablePlans = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadPlansCatalog();
+      await loadSubscriptions();
+      setupListListeners();
+    });
+
+    async function loadPlansCatalog() {
+      try {
+        const res = await MultiTherapyAdmin.adminFetch('/api/super-admin/plans');
+        if (res && res.success) {
+          availablePlans = res.plans || [];
+        }
+      } catch (e) {}
+    }
+
+    async function loadSubscriptions() {
+      const userType = document.getElementById('roleFilter').value;
+      const status = document.getElementById('statusFilter').value;
+      const cycle = document.getElementById('cycleFilter').value;
+      const search = document.getElementById('subSearchInput').value.trim();
+
+      const params = new URLSearchParams();
+      if (userType !== 'all') params.append('user_type', userType);
+      if (status !== 'all') params.append('status', status);
+      if (cycle !== 'all') params.append('cycle', cycle);
+      if (search) params.append('search', search);
+
+      try {
+        const res = await MultiTherapyAdmin.adminFetch(`/api/super-admin/subscriptions?${params.toString()}`);
+        if (res && res.success) {
+          allSubscriptions = res.subscriptions || [];
+          renderSubscriptionsTable(allSubscriptions);
+          document.getElementById('subCountBadge').textContent = `${allSubscriptions.length} Records`;
+        }
+      } catch (err) {
+        document.getElementById('subscriptionsTableBody').innerHTML = `
+          <tr><td colspan="7" class="text-center py-5 text-danger fw-bold">Failed to load subscriptions from MySQL: ${err.message}</td></tr>
+        `;
+      }
+    }
+
+    function renderSubscriptionsTable(subs) {
+      const tbody = document.getElementById('subscriptionsTableBody');
+      if (!tbody) return;
+
+      if (subs.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center py-5">
+              <div style="font-size: 38px; margin-bottom: 8px;">🔍</div>
+              <h6 class="fw-bold text-dark">No Subscriptions Found</h6>
+              <p class="text-muted small mb-0">Try clearing or adjusting your multi-filter criteria.</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = subs.map(s => {
+        const price = s.billing_cycle === 'yearly' ? s.yearly_price : s.monthly_price;
+        const priceFmt = price === 0 ? 'Free' : MultiTherapyAdmin.formatINR(price);
+        const cycleLabel = s.billing_cycle ? s.billing_cycle.toUpperCase() : 'MONTHLY';
+
+        return `
+          <tr>
+            <td>
+              <div class="fw-bold font-monospace text-dark" style="font-size: 13px;">${MultiTherapyAdmin.escapeHtml(s.subscription_code)}</div>
+              <div class="text-muted small" style="font-size: 11px;">Enrolled: ${MultiTherapyAdmin.formatDateTime(s.start_date)}</div>
+            </td>
+            <td>
+              <div class="fw-bold text-dark">${MultiTherapyAdmin.escapeHtml(s.display_name || s.username)}</div>
+              <div class="text-muted small">${MultiTherapyAdmin.escapeHtml(s.email || '—')}</div>
+            </td>
+            <td>${MultiTherapyAdmin.getRoleBadge(s.user_type)}</td>
+            <td>
+              <div class="fw-bold text-primary">${MultiTherapyAdmin.escapeHtml(s.plan_name)}</div>
+              <div class="text-muted small">${priceFmt}</div>
+            </td>
+            <td>
+              <span class="badge bg-light text-secondary border text-uppercase" style="font-size: 10px;">${cycleLabel}</span>
+              <div class="text-muted small" style="font-size: 11px;">Expires: ${s.end_date ? MultiTherapyAdmin.formatDateTime(s.end_date) : 'Never'}</div>
+            </td>
+            <td>${MultiTherapyAdmin.getStatusBadge(s.status)}</td>
+            <td class="text-end">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-outline-primary dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown">
+                  ⚙️ Actions
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius: 12px; font-size: 13px;">
+                  <li><a class="dropdown-item py-2 fw-bold" href="javascript:void(0)" onclick="openViewModal(${s.subscription_id})">🔍 View Details</a></li>
+                  <li><a class="dropdown-item py-2 fw-bold text-primary" href="javascript:void(0)" onclick="openChangePlanModal(${s.subscription_id}, '${s.user_type}', '${s.plan_code}', '${s.display_name || s.username}')">✏️ Change Plan</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  ${s.status === 'active' ? `
+                    <li><a class="dropdown-item py-2 fw-bold text-warning" href="javascript:void(0)" onclick="updateStatus(${s.subscription_id}, 'expired')">⏳ Suspend / Expire</a></li>
+                  ` : `
+                    <li><a class="dropdown-item py-2 fw-bold text-success" href="javascript:void(0)" onclick="updateStatus(${s.subscription_id}, 'active')">✓ Reactivate</a></li>
+                  `}
+                  <li><a class="dropdown-item py-2 fw-bold text-danger" href="javascript:void(0)" onclick="updateStatus(${s.subscription_id}, 'cancelled')">✗ Cancel Subscription</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item py-2" href="./admin-payment-management.html?search=${encodeURIComponent(s.subscription_code)}">💳 Payment History</a></li>
+                  <li><a class="dropdown-item py-2" href="./admin-invoice-management.html?search=${encodeURIComponent(s.display_name || s.username)}">📄 View Invoices</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function setupListListeners() {
+      ['roleFilter', 'statusFilter', 'cycleFilter'].forEach(id => {
+        document.getElementById(id).addEventListener('change', loadSubscriptions);
+      });
+
+      document.getElementById('subSearchInput').addEventListener('input', debounce(loadSubscriptions, 300));
+      document.getElementById('btnResetFilters').addEventListener('click', () => {
+        document.getElementById('roleFilter').value = 'all';
+        document.getElementById('statusFilter').value = 'all';
+        document.getElementById('cycleFilter').value = 'all';
+        document.getElementById('subSearchInput').value = '';
+        loadSubscriptions();
+      });
+
+      document.getElementById('btnRefreshSubs').addEventListener('click', loadSubscriptions);
+
+      // Submit Plan Change
+      document.getElementById('btnSubmitChangePlan').addEventListener('click', async () => {
+        const subId = document.getElementById('changePlanSubId').value;
+        const newCode = document.getElementById('selectNewPlanCode').value;
+        const btn = document.getElementById('btnSubmitChangePlan');
+        btn.disabled = true;
+        btn.textContent = 'Updating...';
+
+        try {
+          const res = await MultiTherapyAdmin.adminFetch(`/api/super-admin/subscriptions/${subId}/change-plan`, {
+            method: 'POST',
+            body: JSON.stringify({ plan_code: newCode })
+          });
+          if (res && res.success) {
+            MultiTherapyAdmin.showAdminToast(res.message);
+            bootstrap.Modal.getInstance(document.getElementById('changePlanModal')).hide();
+            await loadSubscriptions();
+          }
+        } catch (err) {
+          MultiTherapyAdmin.showAdminToast(err.message, 'error');
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Apply Plan Modification';
+        }
+      });
+    }
+
+    async function openViewModal(subId) {
+      try {
+        const res = await MultiTherapyAdmin.adminFetch(`/api/super-admin/subscriptions/${subId}`);
+        if (!res || !res.success) return;
+        const s = res.subscription;
+        const p = res.payments || [];
+
+        document.getElementById('viewSubModalBody').innerHTML = `
+          <div class="p-3 bg-light rounded-3 border mb-3">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="small text-muted fw-bold">SUBSCRIBER</label>
+                <div class="fw-bold text-dark fs-6">${MultiTherapyAdmin.escapeHtml(s.display_name || s.username)}</div>
+                <div class="small text-muted">${MultiTherapyAdmin.escapeHtml(s.email || '—')} • ${MultiTherapyAdmin.escapeHtml(s.phone || '—')}</div>
+              </div>
+              <div class="col-md-6">
+                <label class="small text-muted fw-bold">PLAN & STATUS</label>
+                <div>${MultiTherapyAdmin.getRoleBadge(s.user_type)} ${MultiTherapyAdmin.getStatusBadge(s.status)}</div>
+                <div class="fw-bold text-primary mt-1">${MultiTherapyAdmin.escapeHtml(s.plan_name)} (${s.billing_cycle.toUpperCase()})</div>
+              </div>
+            </div>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">Attached Payments (${p.length})</h6>
+          <table class="table table-sm table-bordered small">
+            <thead class="table-light"><tr><th>Payment Code</th><th>Amount</th><th>Method</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody>
+              ${p.length ? p.map(pay => `
+                <tr>
+                  <td class="font-monospace">${pay.payment_code}</td>
+                  <td class="fw-bold">${MultiTherapyAdmin.formatINR(pay.amount)}</td>
+                  <td>${pay.payment_method}</td>
+                  <td>${MultiTherapyAdmin.getStatusBadge(pay.status)}</td>
+                  <td>${MultiTherapyAdmin.formatDateTime(pay.created_at)}</td>
+                </tr>
+              `).join('') : '<tr><td colspan="5" class="text-center text-muted">No payments on record.</td></tr>'}
+            </tbody>
+          </table>
+        `;
+
+        new bootstrap.Modal(document.getElementById('viewSubModal')).show();
+      } catch (err) {
+        MultiTherapyAdmin.showAdminToast(err.message, 'error');
+      }
+    }
+
+    function openChangePlanModal(subId, userType, currentCode, userName) {
+      document.getElementById('changePlanSubId').value = subId;
+      document.getElementById('changePlanUserLabel').textContent = userName;
+      document.getElementById('changePlanCurrentLabel').textContent = currentCode.toUpperCase();
+
+      const select = document.getElementById('selectNewPlanCode');
+      select.innerHTML = availablePlans
+        .filter(p => p.user_type === userType)
+        .map(p => `
+          <option value="${p.plan_code}" ${p.plan_code === currentCode ? 'selected' : ''}>
+            ${p.name} - Monthly: ${MultiTherapyAdmin.formatINR(p.monthly_price)} / Yearly: ${MultiTherapyAdmin.formatINR(p.yearly_price)}
+          </option>
+        `).join('');
+
+      new bootstrap.Modal(document.getElementById('changePlanModal')).show();
+    }
+
+    async function updateStatus(subId, status) {
+      if (!confirm(`Are you sure you want to mark subscription #${subId} as '${status}'?`)) return;
+
+      try {
+        const res = await MultiTherapyAdmin.adminFetch(`/api/super-admin/subscriptions/${subId}/status`, {
+          method: 'POST',
+          body: JSON.stringify({ status })
+        });
+        if (res && res.success) {
+          MultiTherapyAdmin.showAdminToast(res.message);
+          await loadSubscriptions();
+        }
+      } catch (err) {
+        MultiTherapyAdmin.showAdminToast(err.message, 'error');
+      }
+    }
+
+    function debounce(fn, ms) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn.apply(this, args), ms);
+      };
+    }
+  </script>
+</body>
+</html>
+

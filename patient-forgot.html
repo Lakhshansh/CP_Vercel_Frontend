@@ -1,0 +1,1154 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reset Patient Password | Multi Therapy</title>
+  <meta name="description" content="Reset your Multi Therapy patient or caregiver account password securely via email recovery code.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       MULTI THERAPY PATIENT RESET PASSWORD - MODERN HEALTHCARE AESTHETIC
+       ========================================================================== */
+    :root {
+      --primary-blue: #0866F5;
+      --primary-hover: #0756d1;
+      --primary-soft: #f0f7ff;
+      --primary-light: #e0f2fe;
+      --navy-dark: #103463;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --border-light: #e2e8f0;
+      --card-bg: #ffffff;
+      --card-radius: 24px;
+      --shadow-subtle: 0 16px 40px rgba(16, 52, 99, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f0f7ff 0%, #eaf4fd 40%, #f8fbfe 100%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* --------------------------------------------------------------------------
+       1. HEADER / NAVIGATION (Clean White Header)
+       -------------------------------------------------------------------------- */
+    .header-nav {
+      width: 100%;
+      height: 78px;
+      background: #ffffff;
+      border-bottom: 2px solid #e0f2fe;
+      box-shadow: 0 2px 12px rgba(16, 52, 99, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+    }
+
+    .header-inner {
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .header-logo {
+      width: 52px !important;
+      height: 52px !important;
+      max-width: 52px !important;
+      max-height: 52px !important;
+      object-fit: contain !important;
+      border-radius: 50% !important;
+      display: block !important;
+      flex-shrink: 0 !important;
+      border: 1.5px solid #e2e8f0;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(8, 102, 245, 0.1);
+    }
+
+    .brand-text-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    .brand-title {
+      font-size: 23px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      letter-spacing: -0.4px;
+      white-space: nowrap;
+    }
+
+    .brand-tagline {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #0284c7;
+      letter-spacing: 0.3px;
+      margin-top: 2px;
+    }
+
+    /* Navigation Links */
+    .nav-links-wrap {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-link-item {
+      color: #334155;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+      padding: 4px 0;
+    }
+
+    .nav-link-item:hover {
+      color: var(--primary-blue);
+    }
+
+    .nav-actions-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .btn-hdr-doctor-link {
+      background: #f8fafc;
+      color: #1e3a8a;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-size: 13.5px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-hdr-doctor-link:hover {
+      background: #eff6ff;
+      border-color: #3b82f6;
+      color: #1d4ed8;
+    }
+
+    .btn-hdr-signup {
+      background: var(--primary-blue);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(8, 102, 245, 0.25);
+    }
+
+    .btn-hdr-signup:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    /* Mobile Drawer */
+    .mobile-drawer-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 1099;
+    }
+
+    .mobile-drawer-backdrop.open { display: block; }
+
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 280px;
+      height: 100vh;
+      background: #ffffff;
+      z-index: 1100;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+      transition: right 0.3s ease;
+    }
+
+    .mobile-drawer.open { right: 0; }
+
+    .header-nav-toggle {
+      display: none;
+      background: none;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      color: var(--navy-dark);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Background Decorations */
+    .floating-deco {
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1;
+      opacity: 0.22;
+      font-family: inherit;
+    }
+
+    .deco-heart-1 { top: 120px; left: 4%; font-size: 28px; color: #0284c7; }
+    .deco-heart-2 { bottom: 140px; right: 6%; font-size: 32px; color: var(--primary-blue); }
+    .deco-cross-1 { top: 220px; right: 48%; font-size: 24px; color: var(--primary-blue); }
+    .deco-cross-2 { bottom: 80px; left: 10%; font-size: 26px; color: #0284c7; }
+
+    /* Main 2-Column Layout */
+    .reset-hero-section {
+      position: relative;
+      width: 100%;
+      min-height: calc(100vh - 78px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 44px 24px 64px;
+      z-index: 2;
+    }
+
+    .reset-hero-inner {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 48px;
+    }
+
+    /* Card Column */
+    .reset-card-col {
+      display: flex;
+      justify-content: center;
+    }
+
+    .reset-card {
+      width: 100%;
+      max-width: 510px;
+      background: var(--card-bg);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow-subtle);
+      border: 1.5px solid #dbeafe;
+      padding: 36px 38px 32px;
+      position: relative;
+      transition: transform 0.2s ease;
+    }
+
+    .reset-card:hover {
+      box-shadow: 0 20px 48px rgba(8, 102, 245, 0.12);
+    }
+
+    .patient-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      color: #1e40af;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      margin: 0 auto 12px;
+    }
+
+    .card-logo-wrap {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .card-top-logo {
+      width: 54px !important;
+      height: 54px !important;
+      border-radius: 50% !important;
+      object-fit: contain !important;
+      border: 1.5px solid #e2e8f0;
+      padding: 2px;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(8, 102, 245, 0.08);
+      display: inline-block;
+    }
+
+    .card-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      text-align: center;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .card-subtitle {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    /* 3-Step Indicator */
+    .step-indicator-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      margin-bottom: 24px;
+      padding: 0 4px;
+    }
+
+    .step-indicator-line {
+      position: absolute;
+      top: 14px;
+      left: 36px;
+      right: 36px;
+      height: 2px;
+      background: #e2e8f0;
+      z-index: 1;
+    }
+
+    .step-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      z-index: 2;
+      flex: 1;
+    }
+
+    .step-bubble {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: 2px solid #cbd5e1;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s ease;
+    }
+
+    .step-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-align: center;
+      white-space: nowrap;
+      transition: all 0.25s ease;
+    }
+
+    .step-item.active .step-bubble {
+      background: var(--primary-blue);
+      border-color: var(--primary-blue);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(8, 102, 245, 0.35);
+    }
+
+    .step-item.active .step-label {
+      color: var(--primary-blue);
+      font-weight: 700;
+    }
+
+    .step-item.completed .step-bubble {
+      background: #10b981;
+      border-color: #10b981;
+      color: #ffffff;
+    }
+
+    .step-item.completed .step-label {
+      color: #059669;
+    }
+
+    /* Information Panel */
+    .info-panel-instruction {
+      background: #eff6ff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .info-icon-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #dbeafe;
+      color: var(--primary-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .info-instruction-text {
+      font-size: 13px;
+      color: #1e40af;
+      line-height: 1.45;
+      font-weight: 500;
+    }
+
+    /* Feedback Alert Messages */
+    #forgotMessage {
+      border-radius: 10px;
+      font-size: 13.5px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      line-height: 1.45;
+    }
+
+    .alert-danger {
+      background-color: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .alert-info {
+      background-color: #f0f7ff;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    .alert-success {
+      background-color: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    /* Form Fields */
+    .form-group-field {
+      margin-bottom: 18px;
+    }
+
+    .field-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .input-field-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .input-field-icon {
+      position: absolute;
+      left: 14px;
+      width: 18px;
+      height: 18px;
+      color: #94a3b8;
+      pointer-events: none;
+      transition: color 0.2s ease;
+      z-index: 2;
+    }
+
+    .form-control-accessible {
+      width: 100%;
+      height: 48px;
+      background: #ffffff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 0 14px 0 42px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-control-accessible:focus {
+      background: #ffffff;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(8, 102, 245, 0.15);
+    }
+
+    .input-field-wrap:focus-within .input-field-icon {
+      color: var(--primary-blue);
+    }
+
+    .otp-input-control {
+      font-size: 22px;
+      letter-spacing: 8px;
+      text-align: center;
+      font-weight: 700;
+      color: var(--navy-dark);
+      padding: 0 14px !important;
+    }
+
+    /* Buttons */
+    .btn-primary-recovery {
+      width: 100%;
+      height: 48px;
+      background: var(--primary-blue);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: all 0.2s ease;
+      box-shadow: 0 3px 10px rgba(8, 102, 245, 0.28);
+      font-family: inherit;
+    }
+
+    .btn-primary-recovery:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(8, 102, 245, 0.38);
+    }
+
+    .btn-resend-control {
+      background: none;
+      border: none;
+      color: var(--primary-blue);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: block;
+      margin: 12px auto 0;
+      text-decoration: underline;
+    }
+
+    .btn-secondary-login {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: #475569;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 8px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary-login:hover {
+      color: var(--primary-blue);
+      background: #f1f5f9;
+    }
+
+    /* Cross-Portal Switcher Card */
+    .cross-role-box {
+      margin-top: 20px;
+      padding: 12px 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 13px;
+      color: #475569;
+    }
+
+    .cross-role-box a {
+      color: #103463;
+      font-weight: 700;
+      text-decoration: underline;
+      margin-left: 4px;
+    }
+    .cross-role-box a:hover {
+      color: var(--primary-blue);
+    }
+
+    /* Right Illustration Column */
+    .illustration-card-wrap {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .illustration-frame {
+      position: relative;
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-subtle);
+      border: 2px solid #ffffff;
+      aspect-ratio: 4 / 3;
+    }
+
+    .illustration-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .floating-illustration-badge {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 24px rgba(16, 52, 99, 0.12);
+    }
+
+    .badge-check-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #10b981;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .badge-text-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--navy-dark);
+    }
+
+    .badge-text-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    /* Curved Blue Footer */
+    .curved-blue-footer {
+      background: linear-gradient(135deg, #0b3c73 0%, #0866f5 60%, #0284c7 100%);
+      color: #ffffff;
+      padding: 56px 28px 24px;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 36px;
+      padding-bottom: 36px;
+    }
+
+    .footer-brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .footer-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #ffffff;
+      padding: 2px;
+      object-fit: contain;
+    }
+
+    .footer-brand-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .footer-brand-tagline {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .footer-col-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-info-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .footer-bottom-bar {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 16px 24px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.8);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    @media (max-width: 992px) {
+      .nav-links-wrap { display: none; }
+      .header-nav-toggle { display: flex; }
+      .reset-hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .illustration-card-wrap { order: -1; max-width: 480px; }
+      .footer-inner { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    }
+
+    @media (max-width: 576px) {
+      .reset-card { padding: 26px 20px 24px; }
+      .footer-inner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Background Decorative Floating Icons -->
+  <span class="floating-deco deco-heart-1" aria-hidden="true">♥</span>
+  <span class="floating-deco deco-heart-2" aria-hidden="true">♥</span>
+  <span class="floating-deco deco-cross-1" aria-hidden="true">✚</span>
+  <span class="floating-deco deco-cross-2" aria-hidden="true">✚</span>
+
+  <!-- ======================================================================
+       HEADER / NAVIGATION
+       ====================================================================== -->
+  <header class="header-nav" role="banner">
+    <div class="header-inner">
+      <a href="./index.html" class="header-brand" aria-label="Multi Therapy Home">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="header-logo" width="52" height="52">
+        <div class="brand-text-wrap">
+          <span class="brand-title">Multi Therapy</span>
+          <span class="brand-tagline">Care • Support • Progress • Together</span>
+        </div>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links-wrap" id="navMenu">
+          <li><a href="./index.html" class="nav-link-item">Home</a></li>
+          <li><a href="./index.html#about" class="nav-link-item">About</a></li>
+          <li><a href="./index.html#services" class="nav-link-item">Services</a></li>
+          <li><a href="./directory.html" class="nav-link-item">Directory</a></li>
+          <li><a href="./login.html" class="nav-link-item">Patient Login</a></li>
+          <li><a href="./doctor-login.html" class="nav-link-item">Doctor Login</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions-wrap">
+        <a href="./doctor-forgot.html" class="btn-hdr-doctor-link" title="Doctor & Specialist Password Recovery">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span>Doctor Recovery</span>
+        </a>
+        <a href="./login.html" class="btn-hdr-signup">Patient Login</a>
+        <button class="header-nav-toggle" id="navToggle" aria-label="Toggle navigation menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobile Navigation">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e2e8f0; padding-bottom:12px;">
+      <span style="font-weight:800; color:var(--navy-dark); font-size:18px;">Multi Therapy</span>
+      <button type="button" id="drawerCloseBtn" style="background:none; border:none; font-size:24px; color:#64748b; cursor:pointer;">&times;</button>
+    </div>
+    <ul style="list-style:none; display:flex; flex-direction:column; gap:12px; margin-top:8px;">
+      <li><a href="./index.html" class="nav-link-item">Home</a></li>
+      <li><a href="./login.html" class="nav-link-item">Patient Login</a></li>
+      <li><a href="./doctor-login.html" class="nav-link-item">Doctor Login</a></li>
+      <li><a href="./doctor-forgot.html" class="nav-link-item" style="color:#0866F5; font-weight:700;">Doctor Password Reset</a></li>
+      <li><a href="./index.html#contact" class="nav-link-item">Contact Support</a></li>
+    </ul>
+  </aside>
+
+  <!-- ======================================================================
+       MAIN CONTENT: 2-COLUMN PATIENT RESET CARD + ILLUSTRATION
+       ====================================================================== -->
+  <main class="reset-hero-section">
+    <div class="reset-hero-inner">
+
+      <!-- LEFT COLUMN: PATIENT RESET CARD -->
+      <section class="reset-card-col" aria-labelledby="patientResetCardTitle">
+        <div class="reset-card">
+
+          <!-- Role Badge -->
+          <div style="text-align: center;">
+            <div class="patient-badge-pill">
+              <span>👤</span> Patient Account Recovery
+            </div>
+          </div>
+
+          <!-- Multi Therapy Logo -->
+          <div class="card-logo-wrap">
+            <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="card-top-logo" width="54" height="54">
+          </div>
+
+          <!-- Title & Subtitle -->
+          <h1 class="card-title" id="patientResetCardTitle">Reset Patient Password</h1>
+          <p class="card-subtitle">Recover access to your therapy schedule, care plans &amp; records</p>
+
+          <!-- 3-Step Progress Indicator -->
+          <div class="step-indicator-wrapper" aria-label="Password Reset Progress">
+            <div class="step-indicator-line" aria-hidden="true"></div>
+
+            <div class="step-item active" id="stepIndicator1">
+              <div class="step-bubble">1</div>
+              <span class="step-label">Verification</span>
+            </div>
+
+            <div class="step-item" id="stepIndicator2">
+              <div class="step-bubble">2</div>
+              <span class="step-label">Enter Code</span>
+            </div>
+
+            <div class="step-item" id="stepIndicator3">
+              <div class="step-bubble">3</div>
+              <span class="step-label">New Password</span>
+            </div>
+          </div>
+
+          <!-- Feedback Notification Box -->
+          <div id="forgotMessage" class="alert alert-danger" hidden></div>
+
+          <!-- ==============================================================
+               STEP 1: Request OTP
+               ============================================================== -->
+          <form id="step1Form">
+            <div class="info-panel-instruction">
+              <div class="info-icon-circle" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </div>
+              <div class="info-instruction-text">
+                Enter your registered patient username or email to receive a secure recovery code.
+              </div>
+            </div>
+
+            <div class="form-group-field">
+              <label for="identifier" class="field-label">Patient Username or Registered Email</label>
+              <div class="input-field-wrap">
+                <svg class="input-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <input type="text" id="identifier" class="form-control-accessible"
+                  placeholder="Enter username or email" required autocomplete="username">
+              </div>
+            </div>
+
+            <button type="submit" id="btnSendOtp" class="btn-primary-recovery">
+              <span>Send Recovery Code</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </form>
+
+          <!-- ==============================================================
+               STEP 2: Enter Verification Code
+               ============================================================== -->
+          <form id="step2Form" hidden>
+            <div class="info-panel-instruction">
+              <div class="info-icon-circle" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div class="info-instruction-text">
+                Enter the 6-digit verification code sent to your registered email.
+              </div>
+            </div>
+
+            <div class="form-group-field">
+              <label for="otpInput" class="field-label">6-Digit Verification Code</label>
+              <div class="input-field-wrap">
+                <input type="text" id="otpInput" class="form-control-accessible otp-input-control" placeholder="------"
+                  maxlength="6" inputmode="numeric" pattern="[0-9]{6}" required autocomplete="one-time-code">
+              </div>
+            </div>
+
+            <button type="submit" id="btnVerifyOtp" class="btn-primary-recovery">
+              <span>Verify Code</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+
+            <button type="button" id="btnResend" class="btn-resend-control">
+              Resend Code
+            </button>
+          </form>
+
+          <!-- ==============================================================
+               STEP 3: Set New Password
+               ============================================================== -->
+          <form id="step3Form" hidden>
+            <div class="info-panel-instruction">
+              <div class="info-icon-circle" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div class="info-instruction-text">
+                Create and confirm your new patient portal password (min. 6 characters).
+              </div>
+            </div>
+
+            <div class="form-group-field">
+              <label for="newPassword" class="field-label">New Password</label>
+              <div class="input-field-wrap">
+                <svg class="input-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <input type="password" id="newPassword" class="form-control-accessible"
+                  placeholder="New Password (min. 6 characters)" required autocomplete="new-password">
+              </div>
+            </div>
+
+            <div class="form-group-field">
+              <label for="confirmPassword" class="field-label">Confirm New Password</label>
+              <div class="input-field-wrap">
+                <svg class="input-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <input type="password" id="confirmPassword" class="form-control-accessible"
+                  placeholder="Confirm New Password" required autocomplete="new-password">
+              </div>
+            </div>
+
+            <button type="submit" id="btnResetPassword" class="btn-primary-recovery">
+              <span>Update Password</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              </svg>
+            </button>
+          </form>
+
+          <!-- Back to Patient Login -->
+          <a href="./login.html" class="btn-secondary-login" id="btnBackToLogin">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Back to Patient Login</span>
+          </a>
+
+          <!-- Cross-Role Switcher -->
+          <div class="cross-role-box">
+            <span>Are you a Doctor or Therapist?</span>
+            <a href="./doctor-forgot.html">Reset Doctor Password here &rarr;</a>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: HEALTHCARE ILLUSTRATION -->
+      <section class="illustration-col" aria-label="Clinical Support Illustration">
+        <div class="illustration-card-wrap">
+          <div class="illustration-frame">
+            <img src="./images/cp-hero-bg.jpg" alt="Compassionate healthcare doctor and patient therapy session" class="illustration-photo">
+            <div class="floating-illustration-badge">
+              <div class="badge-check-icon" aria-hidden="true">✓</div>
+              <div>
+                <div class="badge-text-title">Secure Patient Account Recovery</div>
+                <div class="badge-text-sub">End-to-end encrypted recovery code verification</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ======================================================================
+       FOOTER
+       ====================================================================== -->
+  <footer class="curved-blue-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand-header">
+          <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="footer-logo">
+          <div>
+            <div class="footer-brand-title">Multi Therapy</div>
+            <div class="footer-brand-tagline">Care • Support • Progress • Together</div>
+          </div>
+        </div>
+        <p style="font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.6; margin-top: 4px;">
+          Comprehensive pediatric neuro-motor therapy, physician directory, and personalized clinical rehabilitation platform.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Help Desk</h4>
+        <ul class="footer-info-list">
+          <li style="display:flex; align-items:flex-start; gap:8px;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="color: #25D366; flex-shrink: 0; margin-top: 2px;"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/></svg>
+            <div>
+              <strong style="color: #ffffff;">WhatsApp Support:</strong>
+              <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" style="color: #ffffff; text-decoration: none; font-weight: 700; display: block;">+91 9468650893</a>
+            </div>
+          </li>
+          <li><span>✉️</span> support@multitherapy.org</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Clinic Hours</h4>
+        <ul class="footer-info-list">
+          <li><span>⏰</span> Mon - Sat: 8:00 AM - 8:00 PM</li>
+          <li><span>📅</span> Sunday: Emergency On-Call</li>
+          <li><span>🌐</span> Online Portal: 24/7</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Center Location</h4>
+        <ul class="footer-info-list">
+          <li><span>📍</span> Jaipur, Rajasthan, India</li>
+          <li><span>🏢</span> Multi Therapy Clinical Center</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <span>&copy; 2026 Multi Therapy. All rights reserved.</span>
+      <span>Patient Care Portal • HIPAA Compliant</span>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./js/api.js"></script>
+  <script src="./js/cdn.js"></script>
+  <script src="./js/patient-forgot.js"></script>
+
+  <!-- Mobile Drawer Toggle Script -->
+  <script>
+    (function () {
+      const navToggle = document.getElementById('navToggle');
+      const mobileDrawer = document.getElementById('mobileDrawer');
+      const drawerBackdrop = document.getElementById('drawerBackdrop');
+      const drawerCloseBtn = document.getElementById('drawerCloseBtn');
+
+      function openDrawer() {
+        if (mobileDrawer) mobileDrawer.classList.add('open');
+        if (drawerBackdrop) drawerBackdrop.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeDrawer() {
+        if (mobileDrawer) mobileDrawer.classList.remove('open');
+        if (drawerBackdrop) drawerBackdrop.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      if (navToggle) navToggle.addEventListener('click', openDrawer);
+      if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeDrawer);
+      if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeDrawer);
+    })();
+  </script>
+
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+  </a>
+
+</body>
+</html>
+

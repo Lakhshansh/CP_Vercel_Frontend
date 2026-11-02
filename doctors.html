@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doctors - Multi Therapy Management System</title>
-  <link rel="icon" href="./images/logo.png" type="image/png">
+  <title>Doctors | Multi Therapy</title>
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/style.css">
   <style>
@@ -341,28 +341,25 @@
   <!-- Top Blue Navbar -->
   <header class="mt-navbar">
     <div class="mt-navbar-inner">
-      <a href="./dashboard.html" class="mt-brand">
-        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Management System Logo" class="mt-logo" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; flex-shrink: 0 !important; display: block !important;">
+      <a href="./index.html" class="mt-brand">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="mt-logo" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; flex-shrink: 0 !important; display: block !important;">
         <div>
-          <div class="mt-brand-title">Multi Therapy Management System</div>
+          <div class="mt-brand-title">Multi Therapy</div>
           <div class="mt-brand-subtitle">Care • Support • Progress • Together</div>
         </div>
       </a>
 
       <div class="mt-nav-right">
-        <a href="./profile.html" class="mt-profile-btn">
-          <span>👤</span> Profile
-        </a>
 
-        <a href="./profile.html" class="mt-user" title="View Profile">
-          <img id="navAvatarImg" src="./images/logo.png" class="mt-user-photo" alt="Profile" style="display:none;">
+        <div class="mt-user" title="View Profile">
+          <img id="navAvatarImg" src="./images/multi-therapy-logo.png" class="mt-user-photo" alt="Profile" style="display:none;">
           <div id="navAvatar" class="mt-user-default">👤</div>
           <div class="mt-user-text">
             <div class="mt-user-name" id="navUsername">User</div>
             <div class="mt-user-role" id="navRole">Admin</div>
           </div>
           <span class="mt-arrow">⌄</span>
-        </a>
+        </div>
 
         <button id="logoutBtn" class="mt-logout-btn">
           <span>🚪</span> Logout
@@ -378,14 +375,6 @@
       <!-- Left Sidebar Navigation -->
       <aside class="col-12 col-md-3 col-lg-2 sidebar">
         <nav>
-          <a href="./dashboard.html" class="sidebar-link">
-            <span class="icon">🏠</span>
-            <span>Dashboard</span>
-          </a>
-          <a href="./profile.html" class="sidebar-link">
-            <span class="icon">👤</span>
-            <span>My Profile</span>
-          </a>
           <a href="./patients.html" class="sidebar-link">
             <span class="icon">👥</span>
             <span>Patients</span>
@@ -406,10 +395,6 @@
             <span class="icon">💪</span>
             <span>Therapy Sessions</span>
           </a>
-          <a href="./exercise-assignments.html" class="sidebar-link">
-            <span class="icon">🎯</span>
-            <span>Exercise Assignments</span>
-          </a>
           <a href="./exercises.html" class="sidebar-link">
             <span class="icon">🏃</span>
             <span>Exercises</span>
@@ -417,10 +402,6 @@
           <a href="./caregivers.html" class="sidebar-link">
             <span class="icon">👥</span>
             <span>Caregivers</span>
-          </a>
-          <a href="./progress-reports.html" class="sidebar-link">
-            <span class="icon">📊</span>
-            <span>Progress Reports</span>
           </a>
         </nav>
       </aside>
@@ -520,6 +501,35 @@
     </div>
   </div>
 
+  <!-- Footer -->
+  <footer style="background: #103463; color: #94a3b8; padding: 22px 24px; margin-top: auto; border-top: 1px solid #1e427b;">
+    <div style="max-width: 1360px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" style="width: 42px; height: 42px; border-radius: 50%; background: #ffffff; padding: 2px;">
+        <div>
+          <div style="font-weight: 800; font-size: 15px; color: #ffffff;">Multi Therapy</div>
+          <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600;">Care • Support • Progress • Together</div>
+        </div>
+      </div>
+      <div style="font-size: 12.5px; text-align: right;">
+        <div>&copy; 2026 Multi Therapy. All rights reserved.</div>
+        <div>
+          <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp" style="color: #ffffff; text-decoration: none; display: inline-flex; align-items: flex-start; gap: 8px; margin-top: 6px;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #25D366; flex-shrink: 0; margin-top: 2px;" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/></svg>
+            <span style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.35; margin-left: 2px;">
+              <strong style="color: #ffffff; font-size: 13px;">Help Desk:</strong>
+              <span style="font-size: 11.5px; color: #38bdf8; font-weight: 600;">📱 Only WhatsApp Us</span>
+              <strong style="color: #ffffff; font-size: 14px; letter-spacing: 0.3px;">+91 9468650893</strong>
+              <span style="display: block; margin-top: 6px;">
+                <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 32px; width: auto; display: block; border-radius: 9999px;">
+              </span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
   <!-- OTP Verification Modal -->
   <div class="modal fade" id="doctorOtpModal" tabindex="-1" aria-labelledby="doctorOtpModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
@@ -606,7 +616,13 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./js/api.js"></script>
+  <script src="./js/cdn.js"></script>
   <script src="./js/resend.js"></script>
   <script src="./js/doctors.js"></script>
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+  </a>
+
 </body>
 </html>

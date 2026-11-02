@@ -1,0 +1,711 @@
+/**
+ * ============================================================================
+ * MULTI THERAPY - SUBSCRIPTION MANAGEMENT SYSTEM STYLES
+ * Theme: Professional White & Medical Blue, Modern Rounded Cards, Bootstrap 5
+ * ============================================================================
+ */
+
+:root {
+  --mt-primary: #0866F5;
+  --mt-primary-hover: #0756d1;
+  --mt-navy: #103463;
+  --mt-navy-dark: #0a2347;
+  --mt-teal: #059669;
+  --mt-teal-hover: #047857;
+  --mt-accent: #0284c7;
+  --mt-bg-light: #f8fafc;
+  --mt-card-bg: #ffffff;
+  --mt-border: #e2e8f0;
+  --mt-text: #0f172a;
+  --mt-muted: #64748b;
+  --mt-gold: #f59e0b;
+  --mt-card-radius: 18px;
+  --mt-shadow: 0 10px 30px rgba(16, 52, 99, 0.07);
+  --mt-shadow-hover: 0 20px 40px rgba(8, 102, 245, 0.14);
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: var(--mt-bg-light);
+  color: var(--mt-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================================
+   HEADER & NAVIGATION
+   ============================================================================ */
+.mt-sub-header {
+  background: #ffffff;
+  border-bottom: 1.5px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  box-shadow: 0 2px 12px rgba(16, 52, 99, 0.04);
+}
+
+.mt-brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.mt-brand-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 2px;
+  box-shadow: 0 2px 8px rgba(8, 102, 245, 0.15);
+}
+
+.mt-brand-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--mt-navy);
+  line-height: 1.1;
+}
+
+.mt-brand-tagline {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mt-primary);
+}
+
+.mt-nav-link {
+  color: #334155;
+  font-weight: 600;
+  font-size: 14.5px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.mt-nav-link:hover, .mt-nav-link.active {
+  color: var(--mt-primary);
+  background: #eff6ff;
+}
+
+/* User pill */
+.mt-user-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 14px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--mt-navy);
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.mt-user-pill:hover {
+  background: #dbeafe;
+}
+
+.mt-user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--mt-primary);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  object-fit: cover;
+}
+
+/* ============================================================================
+   HERO BANNER
+   ============================================================================ */
+.mt-hero-banner {
+  background: linear-gradient(135deg, #0b3c73 0%, #0866f5 65%, #0284c7 100%);
+  color: #ffffff;
+  padding: 56px 20px 48px;
+  text-align: center;
+  border-radius: 0 0 32px 32px;
+  box-shadow: 0 16px 36px rgba(8, 102, 245, 0.15);
+  margin-bottom: 40px;
+}
+
+.mt-hero-banner.doctor-theme {
+  background: linear-gradient(135deg, #064e3b 0%, #059669 65%, #0d9488 100%);
+}
+
+.mt-hero-banner.patient-theme {
+  background: linear-gradient(135deg, #075985 0%, #0284c7 65%, #38bdf8 100%);
+}
+
+.mt-hero-banner.admin-theme {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 65%, #334155 100%);
+}
+
+.mt-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.mt-hero-title {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+}
+
+.mt-hero-subtitle {
+  font-size: 16px;
+  color: #e0f2fe;
+  max-width: 680px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+}
+
+/* ============================================================================
+   TABS & BILLING TOGGLE
+   ============================================================================ */
+.mt-role-tabs {
+  display: inline-flex;
+  background: #f1f5f9;
+  padding: 6px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
+}
+
+.mt-role-tab {
+  padding: 10px 24px;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 12px;
+  color: #475569;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mt-role-tab.active {
+  background: #ffffff;
+  color: var(--mt-navy);
+  box-shadow: 0 4px 12px rgba(16, 52, 99, 0.1);
+}
+
+/* Monthly / Yearly Toggle */
+.mt-billing-toggle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.mt-toggle-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+}
+
+.mt-toggle-label.active {
+  color: var(--mt-primary);
+}
+
+.mt-switch {
+  position: relative;
+  display: inline-block;
+  width: 56px;
+  height: 30px;
+}
+
+.mt-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.mt-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #cbd5e1;
+  transition: .3s;
+  border-radius: 34px;
+}
+
+.mt-slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+input:checked + .mt-slider {
+  background-color: var(--mt-primary);
+}
+
+input:checked + .mt-slider:before {
+  transform: translateX(26px);
+}
+
+.mt-save-badge {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+  font-size: 11.5px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+/* ============================================================================
+   PRICING CARDS
+   ============================================================================ */
+.mt-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 28px;
+  margin-bottom: 50px;
+}
+
+.mt-plan-card {
+  background: var(--mt-card-bg);
+  border: 1.5px solid var(--mt-border);
+  border-radius: var(--mt-card-radius);
+  padding: 36px 30px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--mt-shadow);
+}
+
+.mt-plan-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--mt-shadow-hover);
+  border-color: #93c5fd;
+}
+
+.mt-plan-card.popular {
+  border-color: var(--mt-primary);
+  border-width: 2px;
+  box-shadow: 0 16px 36px rgba(8, 102, 245, 0.16);
+}
+
+.mt-popular-tag {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, #0866f5 0%, #0284c7 100%);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 16px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(8, 102, 245, 0.3);
+  text-transform: uppercase;
+}
+
+.mt-current-tag {
+  position: absolute;
+  top: -14px;
+  right: 24px;
+  background: #10b981;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+.mt-plan-header {
+  margin-bottom: 20px;
+}
+
+.mt-plan-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--mt-navy);
+  margin-bottom: 6px;
+}
+
+.mt-plan-desc {
+  font-size: 13.5px;
+  color: var(--mt-muted);
+  line-height: 1.5;
+  min-height: 40px;
+}
+
+.mt-plan-price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px dashed var(--mt-border);
+}
+
+.mt-price-currency {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--mt-navy);
+}
+
+.mt-price-amount {
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--mt-navy);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.mt-price-cycle {
+  font-size: 14px;
+  color: var(--mt-muted);
+  font-weight: 600;
+}
+
+.mt-price-savings {
+  font-size: 12px;
+  font-weight: 700;
+  color: #15803d;
+  margin-top: -16px;
+  margin-bottom: 16px;
+}
+
+.mt-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.mt-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  color: #334155;
+  line-height: 1.4;
+}
+
+.mt-check-icon {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: var(--mt-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 900;
+  margin-top: 2px;
+}
+
+.mt-cross-icon {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.mt-btn-subscribe {
+  width: 100%;
+  padding: 13px 20px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  background: #eff6ff;
+  color: var(--mt-primary);
+}
+
+.mt-btn-subscribe:hover {
+  background: var(--mt-primary);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(8, 102, 245, 0.25);
+  transform: translateY(-2px);
+}
+
+.mt-plan-card.popular .mt-btn-subscribe {
+  background: var(--mt-primary);
+  color: #ffffff;
+}
+
+.mt-plan-card.popular .mt-btn-subscribe:hover {
+  background: var(--mt-primary-hover);
+}
+
+.mt-btn-subscribed {
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+  cursor: default !important;
+  pointer-events: none;
+}
+
+/* ============================================================================
+   COMPARISON TABLE
+   ============================================================================ */
+.mt-table-card {
+  background: #ffffff;
+  border: 1.5px solid var(--mt-border);
+  border-radius: var(--mt-card-radius);
+  box-shadow: var(--mt-shadow);
+  overflow: hidden;
+  margin-bottom: 50px;
+}
+
+.mt-table-header {
+  padding: 24px 28px;
+  background: #f8fafc;
+  border-bottom: 1.5px solid var(--mt-border);
+}
+
+.mt-table-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--mt-navy);
+  margin: 0;
+}
+
+.mt-matrix-table {
+  width: 100%;
+  margin: 0;
+}
+
+.mt-matrix-table th {
+  padding: 16px 20px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: #f8fafc;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.mt-matrix-table td {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.mt-matrix-table tr:hover td {
+  background: #f8fafc;
+}
+
+/* ============================================================================
+   DASHBOARD & DETAILS CARDS
+   ============================================================================ */
+.mt-dash-card {
+  background: #ffffff;
+  border: 1.5px solid var(--mt-border);
+  border-radius: var(--mt-card-radius);
+  box-shadow: var(--mt-shadow);
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.mt-dash-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.mt-dash-card-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--mt-navy);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mt-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.mt-stat-box {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mt-stat-box.success {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.mt-stat-box.warning {
+  background: #fefce8;
+  border-color: #fef08a;
+}
+
+.mt-stat-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1e40af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mt-stat-box.success .mt-stat-label { color: #15803d; }
+.mt-stat-box.warning .mt-stat-label { color: #a16207; }
+
+.mt-stat-val {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--mt-navy);
+  line-height: 1.1;
+}
+
+/* ============================================================================
+   BADGES & STATUS PILLS
+   ============================================================================ */
+.mt-badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.mt-badge-status.active {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+.mt-badge-status.expired {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.mt-badge-status.grace {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+}
+
+.mt-badge-status.cancelled {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+/* ============================================================================
+   CHECKOUT & SUMMARY
+   ============================================================================ */
+.mt-checkout-summary {
+  background: #ffffff;
+  border: 1.5px solid var(--mt-border);
+  border-radius: var(--mt-card-radius);
+  padding: 28px;
+  box-shadow: var(--mt-shadow);
+  position: sticky;
+  top: 90px;
+}
+
+.mt-summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 14.5px;
+  color: #475569;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.mt-summary-row.total {
+  border-top: 2px solid #e2e8f0;
+  border-bottom: none;
+  padding-top: 16px;
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--mt-navy);
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+.mt-footer {
+  background: var(--mt-navy);
+  color: #94a3b8;
+  padding: 24px;
+  margin-top: auto;
+  border-top: 1px solid #1e427b;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mt-hero-title { font-size: 28px; }
+  .mt-pricing-grid { grid-template-columns: 1fr; }
+  .mt-role-tabs { flex-wrap: wrap; width: 100%; justify-content: center; }
+  .mt-stat-grid { grid-template-columns: 1fr; }
+}
+

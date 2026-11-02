@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <radialGradient id="infBgGlow" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#eff6ff" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </radialGradient>
+
+    <linearGradient id="infBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#0866f5" />
+    </linearGradient>
+
+    <linearGradient id="infMint" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <linearGradient id="infAmber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+
+    <filter id="shadow6" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0866f5" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <!-- Circular Outer Badge -->
+  <circle cx="250" cy="250" r="236" fill="url(#infBgGlow)" stroke="#dbeafe" stroke-width="4" filter="url(#shadow6)" />
+  <circle cx="250" cy="250" r="222" fill="none" stroke="#e0f2fe" stroke-width="2" />
+
+  <!-- Infinity Loop (Continuous Therapeutic Journey) -->
+  <!-- Left Loop (Therapist Guidance) -->
+  <path d="M 250 250
+           C 200 170 120 170 85 220
+           C 50 270 90 330 160 330
+           C 210 330 240 280 250 250 Z"
+        fill="none"
+        stroke="url(#infBlue)"
+        stroke-width="28"
+        stroke-linecap="round" />
+
+  <!-- Right Loop (Patient Milestone Progress) -->
+  <path d="M 250 250
+           C 300 330 380 330 415 280
+           C 450 230 410 170 340 170
+           C 290 170 260 220 250 250 Z"
+        fill="none"
+        stroke="url(#infMint)"
+        stroke-width="28"
+        stroke-linecap="round" />
+
+  <!-- Two Uplifted Human Heads at Loop Peaks -->
+  <!-- Left: Therapist / Caregiver -->
+  <circle cx="120" cy="170" r="18" fill="url(#infBlue)" />
+  <!-- Right: Patient / Child (Growing & Empowered) -->
+  <circle cx="380" cy="170" r="15" fill="url(#infMint)" />
+
+  <!-- Center Golden Star of Achievement -->
+  <g transform="translate(250, 250)">
+    <circle cx="0" cy="0" r="20" fill="url(#infAmber)" />
+    <!-- 4-point star -->
+    <path d="M 0 -12 L 3 -3 L 12 0 L 3 3 L 0 12 L -3 3 L -12 0 L -3 -3 Z" fill="#ffffff" />
+  </g>
+
+  <!-- Floating Therapy Energy Sparks -->
+  <circle cx="160" cy="115" r="7" fill="#38bdf8" />
+  <circle cx="340" cy="115" r="7" fill="#fbbf24" />
+  <circle cx="250" cy="380" r="9" fill="#10b981" />
+</svg>
+

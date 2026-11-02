@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Plans Management | MULTI THERAPY</title>
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Fonts & Bootstrap 5 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  
+  <!-- Custom Super Admin Styles -->
+  <link rel="stylesheet" href="./css/admin-subscription.css">
+</head>
+<body>
+
+  <!-- Super Admin Main Top Navigation -->
+  <header class="super-admin-header">
+    <div class="super-admin-header-inner">
+      <a href="./admin-subscription-dashboard.html" class="brand-badge-wrap">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy" class="brand-logo-img">
+        <div>
+          <div class="brand-title-main">MULTI THERAPY</div>
+          <div class="brand-sub-tag">Super Admin Subscription Engine</div>
+        </div>
+      </a>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-none d-md-flex align-items-center gap-2 bg-light px-3 py-1 rounded-pill border">
+          <span style="font-size: 14px;">🛡️</span>
+          <span class="small fw-bold text-dark">Super Admin: <span class="text-primary">superadmin</span></span>
+        </div>
+        <a href="./index.html" class="btn btn-sm btn-danger fw-bold">Exit Portal</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Super Admin Navigation Tabs (All 8 Modules) -->
+  <nav class="admin-subnav-bar">
+    <div class="admin-subnav-inner">
+      <a href="./admin-subscription-dashboard.html" class="admin-nav-tab">
+        <span>📊</span> <span>Dashboard</span>
+      </a>
+      <a href="./admin-subscription-list.html" class="admin-nav-tab">
+        <span>👥</span> <span>Subscriptions List</span>
+      </a>
+      <a href="./admin-plan-management.html" class="admin-nav-tab active">
+        <span>📋</span> <span>Plan Management</span>
+      </a>
+      <a href="./admin-payment-management.html" class="admin-nav-tab">
+        <span>💳</span> <span>Payments</span>
+      </a>
+      <a href="./admin-refund-management.html" class="admin-nav-tab">
+        <span>🔄</span> <span>Refunds</span>
+      </a>
+      <a href="./admin-coupon-management.html" class="admin-nav-tab">
+        <span>🏷️</span> <span>Coupons</span>
+      </a>
+      <a href="./admin-invoice-management.html" class="admin-nav-tab">
+        <span>📄</span> <span>Tax Invoices</span>
+      </a>
+      <a href="./admin-revenue-analytics.html" class="admin-nav-tab">
+        <span>📈</span> <span>Revenue Analytics</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="admin-hero-banner">
+    <div class="admin-hero-inner">
+      <div>
+        <div class="hero-pill-badge">
+          <span>📋</span> Dynamic Pricing Architecture
+        </div>
+        <h1 style="font-size: 28px; font-weight: 800; margin: 0 0 6px;">Subscription Plans &amp; Quotas Management</h1>
+        <p style="color: #cbd5e1; margin: 0; font-size: 14px;">
+          Configure monthly &amp; yearly rates, practitioner quotas, clinical features, and active/inactive status across all three user types.
+        </p>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn btn-primary fw-bold" id="btnOpenAddPlanModal" style="background:#0866F5;">➕ Add New Plan</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Area -->
+  <main class="admin-container">
+
+    <div class="dash-panel">
+      <!-- Role Tabs & Filter -->
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4 pb-3 border-bottom">
+        <div class="btn-group" role="group" aria-label="Role Filter">
+          <button type="button" class="btn btn-sm btn-primary fw-bold plan-tab-btn" data-role="all">All Plans</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary fw-bold plan-tab-btn" data-role="hospital">🏥 Hospital</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary fw-bold plan-tab-btn" data-role="doctor">🩺 Doctor</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary fw-bold plan-tab-btn" data-role="patient">👤 Patient</button>
+        </div>
+
+        <span class="badge bg-light text-dark border px-3 py-2 fw-bold" id="planCountBadge">8 Plans Configured</span>
+      </div>
+
+      <!-- Plan Cards Grid -->
+      <div class="row g-4" id="plansCardsContainer">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </main>
+
+  <!-- PLAN MODAL: ADD / EDIT PLAN -->
+  <div class="modal fade" id="planEditModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" style="border-radius: 16px;">
+        <div class="modal-header" style="background: #f8fafc; border-bottom: 1px solid var(--border-color); border-radius: 16px 16px 0 0;">
+          <h5 class="modal-title fw-bold" id="planModalTitle" style="color: var(--navy-dark);">✏️ Edit Subscription Plan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="planForm">
+            <input type="hidden" id="modalPlanId">
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="small text-muted fw-bold">PLAN UNIQUE CODE</label>
+                <input type="text" id="modalPlanCode" class="form-control font-monospace fw-bold" required placeholder="e.g. hosp_specialist">
+              </div>
+              <div class="col-md-6">
+                <label class="small text-muted fw-bold">DISPLAY NAME</label>
+                <input type="text" id="modalPlanName" class="form-control fw-bold" required placeholder="e.g. Hospital Specialist Care">
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <label class="small text-muted fw-bold">TARGET USER TYPE</label>
+                <select id="modalUserType" class="form-select fw-bold">
+                  <option value="hospital">Hospital / Clinic</option>
+                  <option value="doctor">Doctor / Practitioner</option>
+                  <option value="patient">Patient / Family</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="small text-muted fw-bold">MONTHLY PRICE (₹)</label>
+                <input type="number" id="modalMonthlyPrice" class="form-control fw-bold" min="0" step="1" required>
+              </div>
+              <div class="col-md-4">
+                <label class="small text-muted fw-bold">YEARLY PRICE (₹)</label>
+                <input type="number" id="modalYearlyPrice" class="form-control fw-bold" min="0" step="1" required>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="small text-muted fw-bold">MAX DOCTORS QUOTA (-1 = UNLIMITED)</label>
+                <input type="number" id="modalMaxDoctors" class="form-control" placeholder="e.g. 10">
+              </div>
+              <div class="col-md-6">
+                <label class="small text-muted fw-bold">MAX PATIENTS QUOTA (-1 = UNLIMITED)</label>
+                <input type="number" id="modalMaxPatients" class="form-control" placeholder="e.g. 100">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="small text-muted fw-bold">FEATURES (ONE BENEFIT PER LINE)</label>
+              <textarea id="modalFeaturesText" class="form-control" rows="5" placeholder="Full Clinical Care Matrix&#10;Automated PDF Progress Reports&#10;Tele-Therapy Consultations"></textarea>
+            </div>
+
+            <div class="form-check form-switch mb-2">
+              <input class="form-check-input" type="checkbox" id="modalIsActive" checked>
+              <label class="form-check-label fw-bold" for="modalIsActive">Plan is Active &amp; Available for Subscription</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer" style="background: #f8fafc; border-top: 1px solid var(--border-color); border-radius: 0 0 16px 16px;">
+          <button type="button" class="btn btn-secondary fw-bold" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary fw-bold" id="btnSavePlanModal" style="background:#0866F5;">💾 Save Plan Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="margin-top: auto; background: #ffffff; border-top: 1px solid var(--border-color); padding: 18px 28px; text-align: center;">
+    <div style="font-size: 13px; color: #64748b;">
+      © 2026 <strong>MULTI THERAPY</strong> • Super Admin Unified Subscription Infrastructure.
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/admin-subscription.js"></script>
+  <script>
+    let plansList = [];
+    let activeFilter = 'all';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadPlans();
+      setupPlanListeners();
+    });
+
+    async function loadPlans() {
+      try {
+        const res = await MultiTherapyAdmin.adminFetch('/api/super-admin/plans');
+        if (res && res.success) {
+          plansList = res.plans || [];
+          renderPlansGrid();
+          document.getElementById('planCountBadge').textContent = `${plansList.length} Plans Configured`;
+        }
+      } catch (err) {
+        MultiTherapyAdmin.showAdminToast(err.message, 'error');
+      }
+    }
+
+    function renderPlansGrid() {
+      const container = document.getElementById('plansCardsContainer');
+      const filtered = plansList.filter(p => activeFilter === 'all' || p.user_type === activeFilter);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="col-12 text-center py-5 text-muted">No plans found in this category.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(plan => {
+        const feats = Array.isArray(plan.features) ? plan.features : [];
+        const limits = plan.limits || {};
+        const maxDocs = limits.max_doctors !== undefined ? limits.max_doctors : (plan.user_type === 'doctor' ? 1 : '—');
+        const maxPats = limits.max_patients !== undefined ? limits.max_patients : '—';
+
+        return `
+          <div class="col-lg-4 col-md-6">
+            <div class="kpi-card h-100 d-flex flex-column justify-content-between">
+              <div>
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  ${MultiTherapyAdmin.getRoleBadge(plan.user_type)}
+                  <span class="badge ${plan.is_active ? 'bg-success' : 'bg-secondary'}" style="font-size:10px;">
+                    ${plan.is_active ? 'Active' : 'Inactive'}
+                  </span>
+                </div>
+
+                <h4 style="font-size: 19px; font-weight: 800; color: var(--navy-dark); margin: 0 0 2px;">
+                  ${MultiTherapyAdmin.escapeHtml(plan.name)}
+                </h4>
+                <div class="font-monospace text-muted small mb-3" style="font-size: 11px;">
+                  CODE: ${MultiTherapyAdmin.escapeHtml(plan.plan_code)}
+                </div>
+
+                <div class="p-3 bg-light rounded-3 border mb-3">
+                  <div class="d-flex align-items-baseline justify-content-between mb-1">
+                    <span class="small text-muted fw-bold">Monthly Price:</span>
+                    <span class="fw-bold fs-6 text-dark">${plan.monthly_price === 0 ? 'Free' : MultiTherapyAdmin.formatINR(plan.monthly_price)} /mo</span>
+                  </div>
+                  <div class="d-flex align-items-baseline justify-content-between">
+                    <span class="small text-muted fw-bold">Yearly Price:</span>
+                    <span class="fw-bold text-primary">${plan.yearly_price === 0 ? 'Free' : MultiTherapyAdmin.formatINR(plan.yearly_price)} /yr</span>
+                  </div>
+                </div>
+
+                <div class="small fw-bold text-muted mb-2 text-uppercase" style="font-size: 11px;">User Quotas:</div>
+                <div class="d-flex gap-2 flex-wrap mb-3">
+                  <span class="badge bg-light text-dark border">👨‍⚕️ Doctors: ${maxDocs === -1 ? 'Unlimited' : maxDocs}</span>
+                  <span class="badge bg-light text-dark border">🧒 Patients: ${maxPats === -1 ? 'Unlimited' : maxPats}</span>
+                </div>
+
+                <div class="small fw-bold text-muted mb-2 text-uppercase" style="font-size: 11px;">Features:</div>
+                <ul class="list-unstyled small mb-0" style="color: #475569; line-height: 1.6;">
+                  ${feats.slice(0, 4).map(f => `<li><span class="text-primary fw-bold">✓</span> ${MultiTherapyAdmin.escapeHtml(f.replace(/^[✓\s]+/, ''))}</li>`).join('')}
+                </ul>
+              </div>
+
+              <div class="pt-3 mt-3 border-top d-flex gap-2">
+                <button type="button" class="btn btn-sm btn-primary flex-fill fw-bold" onclick="openEditModal(${plan.plan_id})">
+                  ✏️ Edit Plan
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary fw-bold" onclick="togglePlanActive(${plan.plan_id})">
+                  ${plan.is_active ? 'Deactivate' : 'Activate'}
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function setupPlanListeners() {
+      document.querySelectorAll('.plan-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.plan-tab-btn').forEach(b => {
+            b.classList.remove('btn-primary');
+            b.classList.add('btn-outline-secondary');
+          });
+          btn.classList.add('btn-primary');
+          btn.classList.remove('btn-outline-secondary');
+          activeFilter = btn.getAttribute('data-role');
+          renderPlansGrid();
+        });
+      });
+
+      // Add Plan Button
+      document.getElementById('btnOpenAddPlanModal').addEventListener('click', () => {
+        document.getElementById('planModalTitle').textContent = '➕ Add New Subscription Plan';
+        document.getElementById('modalPlanId').value = '';
+        document.getElementById('modalPlanCode').readOnly = false;
+        document.getElementById('modalPlanCode').value = '';
+        document.getElementById('modalPlanName').value = '';
+        document.getElementById('modalUserType').value = 'hospital';
+        document.getElementById('modalMonthlyPrice').value = '499';
+        document.getElementById('modalYearlyPrice').value = '4990';
+        document.getElementById('modalMaxDoctors').value = '10';
+        document.getElementById('modalMaxPatients').value = '100';
+        document.getElementById('modalFeaturesText').value = 'Custom therapy regimen builder\nTele-consultation appointments\nClinical outcome reports';
+        document.getElementById('modalIsActive').checked = true;
+        new bootstrap.Modal(document.getElementById('planEditModal')).show();
+      });
+
+      // Save Modal
+      document.getElementById('btnSavePlanModal').addEventListener('click', handleSavePlan);
+    }
+
+    function openEditModal(planId) {
+      const plan = plansList.find(p => p.plan_id === planId);
+      if (!plan) return;
+
+      document.getElementById('planModalTitle').textContent = `✏️ Edit ${plan.name}`;
+      document.getElementById('modalPlanId').value = plan.plan_id;
+      document.getElementById('modalPlanCode').readOnly = true;
+      document.getElementById('modalPlanCode').value = plan.plan_code;
+      document.getElementById('modalPlanName').value = plan.name;
+      document.getElementById('modalUserType').value = plan.user_type;
+      document.getElementById('modalMonthlyPrice').value = plan.monthly_price;
+      document.getElementById('modalYearlyPrice').value = plan.yearly_price;
+      
+      const limits = plan.limits || {};
+      document.getElementById('modalMaxDoctors').value = limits.max_doctors !== undefined ? limits.max_doctors : '';
+      document.getElementById('modalMaxPatients').value = limits.max_patients !== undefined ? limits.max_patients : '';
+
+      const feats = Array.isArray(plan.features) ? plan.features.join('\n') : '';
+      document.getElementById('modalFeaturesText').value = feats;
+      document.getElementById('modalIsActive').checked = plan.is_active !== 0;
+
+      new bootstrap.Modal(document.getElementById('planEditModal')).show();
+    }
+
+    async function handleSavePlan() {
+      const planId = document.getElementById('modalPlanId').value;
+      const planCode = document.getElementById('modalPlanCode').value.trim();
+      const planName = document.getElementById('modalPlanName').value.trim();
+      const userType = document.getElementById('modalUserType').value;
+      const monthlyPrice = Number(document.getElementById('modalMonthlyPrice').value) || 0;
+      const yearlyPrice = Number(document.getElementById('modalYearlyPrice').value) || 0;
+      const maxDocs = Number(document.getElementById('modalMaxDoctors').value) || -1;
+      const maxPats = Number(document.getElementById('modalMaxPatients').value) || -1;
+      const rawFeatures = document.getElementById('modalFeaturesText').value.trim();
+      const isActive = document.getElementById('modalIsActive').checked;
+
+      const features = rawFeatures.split('\n').map(l => l.trim()).filter(Boolean);
+      const limits = { max_doctors: maxDocs, max_patients: maxPats };
+
+      const payload = {
+        plan_code: planCode,
+        name: planName,
+        user_type: userType,
+        monthly_price: monthlyPrice,
+        yearly_price: yearlyPrice,
+        features: features,
+        limits: limits,
+        is_active: isActive
+      };
+
+      const btn = document.getElementById('btnSavePlanModal');
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+
+      try {
+        let res;
+        if (planId) {
+          res = await MultiTherapyAdmin.adminFetch(`/api/super-admin/plans/${planId}`, {
+            method: 'PUT',
+            body: JSON.stringify(payload)
+          });
+        } else {
+          res = await MultiTherapyAdmin.adminFetch('/api/super-admin/plans', {
+            method: 'POST',
+            body: JSON.stringify(payload)
+          });
+        }
+
+        if (res && res.success) {
+          MultiTherapyAdmin.showAdminToast(res.message);
+          bootstrap.Modal.getInstance(document.getElementById('planEditModal')).hide();
+          await loadPlans();
+        }
+      } catch (err) {
+        MultiTherapyAdmin.showAdminToast(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '💾 Save Plan Changes';
+      }
+    }
+
+    async function togglePlanActive(planId) {
+      try {
+        const res = await MultiTherapyAdmin.adminFetch(`/api/super-admin/plans/${planId}/toggle`, {
+          method: 'POST'
+        });
+        if (res && res.success) {
+          MultiTherapyAdmin.showAdminToast(res.message);
+          await loadPlans();
+        }
+      } catch (err) {
+        MultiTherapyAdmin.showAdminToast(err.message, 'error');
+      }
+    }
+  </script>
+</body>
+</html>
+

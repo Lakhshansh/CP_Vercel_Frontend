@@ -3,455 +3,586 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exercises - Multi Therapy Management System</title>
-  <link rel="icon" href="./images/logo.png" type="image/png">
+  <title>Exercises | Multi Therapy</title>
+  <meta name="description" content="Personalized therapy exercises to improve mobility, strength, communication, and daily living skills.">
+  <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./css/style.css">
-  <style>
-    /* Top Navbar */
-    .mt-navbar {
-      min-height: 88px;
-      padding: 12px 24px;
-      background: linear-gradient(135deg, #0d6efd 0%, #0867e8 100%);
-      box-shadow: 0 4px 18px rgba(0, 80, 180, 0.20);
-      position: relative;
-      z-index: 1000;
-      width: 100%;
-    }
-    .mt-navbar-inner {
-      width: 100%;
-      min-height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-    .mt-brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      text-decoration: none;
-      color: #ffffff;
-    }
-    .mt-logo {
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: #ffffff;
-      padding: 3px;
-      border: 2px solid rgba(255, 255, 255, 0.85);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-      flex-shrink: 0;
-    }
-    .mt-brand-title {
-      font-size: 26px;
-      font-weight: 800;
-      line-height: 1.1;
-      white-space: nowrap;
-      color: #ffffff;
-    }
-    .mt-brand-subtitle {
-      margin-top: 4px;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.92);
-      letter-spacing: 0.4px;
-    }
-    .mt-nav-right {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-shrink: 0;
-    }
-    .mt-profile-btn,
-    .mt-logout-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 10px;
-      padding: 10px 18px;
-      font-size: 15px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      border: none;
-      cursor: pointer;
-    }
-    .mt-profile-btn {
-      background: #ffffff;
-      color: #1e293b;
-    }
-    .mt-profile-btn:hover {
-      background: #f8fafc;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      color: #0d6efd;
-    }
-    .mt-logout-btn {
-      background: #ffffff;
-      color: #dc3545;
-    }
-    .mt-logout-btn:hover {
-      background: #fff5f5;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
-      color: #b02a37;
-    }
-    .mt-user {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #ffffff;
-      padding-left: 14px;
-      border-left: 1px solid rgba(255, 255, 255, 0.35);
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .mt-user-photo,
-    .mt-user-default {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 2px solid #ffffff;
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-    .mt-user-default {
-      background: #ffffff;
-      color: #0d6efd;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-    }
-    .mt-user-text {
-      line-height: 1.2;
-    }
-    .mt-user-name {
-      font-size: 15px;
-      font-weight: 700;
-      white-space: nowrap;
-      color: #ffffff;
-    }
-    .mt-user-role {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.85);
-      text-transform: capitalize;
-    }
-    .mt-arrow {
-      font-size: 16px;
-      color: rgba(255, 255, 255, 0.85);
-      margin-left: 2px;
-    }
 
-    /* Sidebar */
-    .sidebar {
-      min-height: calc(100vh - 88px);
-      background: #ffffff;
-      border-right: 1px solid #e9ecef;
-      padding: 20px 14px !important;
-    }
-    .sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      text-decoration: none;
-      color: #475569;
-      border-radius: 10px;
-      margin-bottom: 6px;
-      font-size: 15px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-    .sidebar-link:hover {
-      background: #f1f5f9;
-      color: #0d6efd;
-      transform: translateX(3px);
-    }
-    .sidebar-link.active {
-      background: #e7f1ff;
-      color: #0d6efd;
-      font-weight: 700;
-    }
-    .sidebar-link .icon {
-      font-size: 18px;
-      width: 22px;
-      text-align: center;
-    }
-
-    /* Main Page Content */
-    .main-page {
-      padding: 30px;
-      background: #f8fafc;
-      min-height: calc(100vh - 88px);
-    }
-    .page-header h1 {
-      font-size: 30px;
-      font-weight: 800;
-      color: #0f172a;
-      margin-bottom: 22px;
-    }
-
-    /* Cards */
-    .content-box {
-      background: #ffffff;
-      border-radius: 16px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-
-    /* Form Grid */
-    .exercise-form-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    .exercise-form-grid .form-control {
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 14px;
-      height: 44px;
-      color: #1e293b;
-    }
-    .exercise-form-grid .form-control:focus {
-      border-color: #0d6efd;
-      box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
-    }
-    .btn-add-exercise {
-      background: #0d6efd;
-      color: #ffffff;
-      border: none;
-      border-radius: 8px;
-      padding: 9px 24px;
-      font-weight: 600;
-      font-size: 14px;
-      margin-top: 14px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: background 0.2s;
-    }
-    .btn-add-exercise:hover {
-      background: #0b5ed7;
-    }
-
-    /* Table */
-    .table-wrap {
-      overflow-x: auto;
-      position: relative;
-    }
-    .table thead th {
-      background: #f8fafc;
-      font-size: 13px;
-      font-weight: 700;
-      color: #475569;
-      border-bottom: 2px solid #e2e8f0;
-      padding: 12px 14px;
-      white-space: nowrap;
-    }
-    .table tbody td {
-      padding: 14px 14px;
-      vertical-align: middle;
-      font-size: 14px;
-      color: #1e293b;
-      border-bottom: 1px solid #f1f5f9;
-      white-space: nowrap;
-    }
-    .sticky-action {
-      position: sticky;
-      right: 0;
-      background: #ffffff;
-      box-shadow: -4px 0 10px rgba(0, 0, 0, 0.08);
-      z-index: 5;
-      text-align: center;
-      min-width: 95px;
-    }
-    thead th.sticky-action {
-      background: #f1f5f9 !important;
-    }
-    .btn-delete-outline {
-      border: 1px solid #dc3545;
-      background: #ffffff;
-      color: #dc3545;
-      border-radius: 6px;
-      padding: 5px 14px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .btn-delete-outline:hover {
-      background: #dc3545;
-      color: #ffffff;
-    }
-
-    @media (max-width: 1200px) {
-      .exercise-form-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 768px) {
-      .exercise-form-grid { grid-template-columns: 1fr; }
-      .sidebar { min-height: auto; border-right: none; border-bottom: 1px solid #e9ecef; }
-    }
-  </style>
+  <!-- Dedicated Exercises Stylesheet -->
+  <link rel="stylesheet" href="css/exercises.css">
 </head>
 <body>
 
-  <!-- Top Blue Navbar -->
-  <header class="mt-navbar">
-    <div class="mt-navbar-inner">
-      <a href="./dashboard.html" class="mt-brand">
-        <img src="./images/logo.png" alt="Multi Therapy Management System Logo" class="mt-logo">
+  <!-- Top Announcement / Portal Bar -->
+  <div style="background: linear-gradient(90deg, #eff6ff 0%, #ecfdf5 100%); border-bottom: 1px solid #bfdbfe; padding: 7px 24px; font-size: 13px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+    <div style="font-weight: 700; color: #103463; display: flex; align-items: center; gap: 6px;">
+      <span>🏃</span> Clinical Rehabilitation &amp; Therapy Exercise Hub
+    </div>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <a href="./appointments.html" style="text-decoration: none; font-weight: 700; font-size: 12.5px; padding: 4px 12px; background: #ffffff; color: #0866F5; border: 1px solid #bfdbfe; border-radius: 999px;">
+        📅 Book Appointment &rarr;
+      </a>
+      <a href="./therapists.html" style="text-decoration: none; font-weight: 700; font-size: 12.5px; padding: 4px 12px; background: #ffffff; color: #059669; border: 1px solid #a7f3d0; border-radius: 999px;">
+        🧑‍⚕️ Therapists Directory &rarr;
+      </a>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       1. HEADER NAVIGATION
+       ====================================================================== -->
+  <header class="ex-header">
+    <div class="ex-navbar-inner">
+
+      <!-- Multi Therapy Brand -->
+      <a href="./index.html" class="ex-brand" title="Multi Therapy Home">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" class="ex-brand-logo">
         <div>
-          <div class="mt-brand-title">Multi Therapy Management System</div>
-          <div class="mt-brand-subtitle">Care • Support • Progress • Together</div>
+          <span class="ex-brand-name">Multi Therapy</span>
+          <span class="ex-brand-tagline">Care • Support • Progress • Together</span>
         </div>
       </a>
 
-      <div class="mt-nav-right">
-        <a href="./profile.html" class="mt-profile-btn">
-          <span>👤</span> Profile
-        </a>
+      <!-- Center Navigation -->
+      <nav aria-label="Main Navigation">
+        <ul class="ex-nav-menu" id="exNavMenu">
+          <li><a href="./patient-home.html" class="ex-nav-link" id="navHome">Home</a></li>
+          <li><a href="./patients.html" class="ex-nav-link" id="navPatients">Patients</a></li>
+          <li><a href="./therapists.html" class="ex-nav-link" id="navTherapists">Therapists</a></li>
+          <li><a href="./appointments.html" class="ex-nav-link" id="navAppointments">Appointments</a></li>
+          <li><a href="./exercises.html" class="ex-nav-link active" id="navExercises">Exercises</a></li>
+        </ul>
+      </nav>
 
-        <a href="./profile.html" class="mt-user" title="View Profile">
-          <img id="navAvatarImg" src="./images/logo.png" class="mt-user-photo" alt="Profile" style="display:none;">
-          <div id="navAvatar" class="mt-user-default">👤</div>
-          <div class="mt-user-text">
-            <div class="mt-user-name" id="navUsername">User</div>
-            <div class="mt-user-role" id="navRole">Admin</div>
+      <!-- Right Actions: Notifications & Patient Profile -->
+      <div class="ex-nav-actions">
+
+        <!-- Notification Bell with indicator -->
+        <button type="button" class="ex-notification-btn" id="btnNotifications" title="Therapy reminders & notifications">
+          <span>🔔</span>
+          <span class="ex-notif-badge"></span>
+        </button>
+
+        <!-- Patient Profile Pill -->
+        <a href="./patient-profile.html" class="ex-user-profile" id="userProfileBtn" title="View Patient Profile">
+          <img id="navAvatarImg" src="./images/multi-therapy-logo.png" class="ex-user-avatar" alt="Avatar" style="display:none;">
+          <div id="navAvatar" class="ex-user-avatar">👤</div>
+          <div>
+            <div style="font-weight: 700; font-size: 13.5px; line-height: 1.1;" id="navUsername">Patient</div>
+            <div style="font-size: 11px; color: var(--ex-primary-blue); font-weight: 700; text-transform: capitalize;" id="navRole">Portal</div>
           </div>
-          <span class="mt-arrow">⌄</span>
         </a>
 
-        <button id="logoutBtn" class="mt-logout-btn">
+        <!-- Logout Button -->
+        <button type="button" id="logoutBtn" class="ex-logout-btn" title="Sign out of system">
           <span>🚪</span> Logout
         </button>
+
       </div>
+
     </div>
   </header>
 
-  <!-- Main Layout with Left Sidebar -->
-  <div class="container-fluid p-0">
-    <div class="row g-0">
+  <!-- ======================================================================
+       2. EXERCISES HERO SECTION
+       ====================================================================== -->
+  <section class="ex-hero-section">
+    <div class="ex-hero-container">
 
-      <!-- Left Sidebar Navigation -->
-      <aside class="col-12 col-md-3 col-lg-2 sidebar">
-        <nav>
-          <a href="./dashboard.html" class="sidebar-link">
-            <span class="icon">🏠</span>
-            <span>Dashboard</span>
-          </a>
-          <a href="./profile.html" class="sidebar-link">
-            <span class="icon">👤</span>
-            <span>My Profile</span>
-          </a>
-          <a href="./patients.html" class="sidebar-link">
-            <span class="icon">👥</span>
-            <span>Patients</span>
-          </a>
-          <a href="./doctors.html" class="sidebar-link">
-            <span class="icon">👨‍⚕️</span>
-            <span>Doctors</span>
-          </a>
-          <a href="./therapists.html" class="sidebar-link">
-            <span class="icon">🧑‍⚕️</span>
-            <span>Therapists</span>
-          </a>
-          <a href="./appointments.html" class="sidebar-link">
-            <span class="icon">📅</span>
-            <span>Appointments</span>
-          </a>
-          <a href="./therapy-sessions.html" class="sidebar-link">
-            <span class="icon">💪</span>
-            <span>Therapy Sessions</span>
-          </a>
-          <a href="./exercise-assignments.html" class="sidebar-link">
-            <span class="icon">🎯</span>
-            <span>Exercise Assignments</span>
-          </a>
-          <a href="./exercises.html" class="sidebar-link active">
-            <span class="icon">🏃</span>
-            <span>Exercises</span>
-          </a>
-          <a href="./caregivers.html" class="sidebar-link">
-            <span class="icon">👥</span>
-            <span>Caregivers</span>
-          </a>
-          <a href="./progress-reports.html" class="sidebar-link">
-            <span class="icon">📊</span>
-            <span>Progress Reports</span>
-          </a>
-        </nav>
-      </aside>
-
-      <!-- Main Content Area -->
-      <main class="col-12 col-md-9 col-lg-10 main-page">
-        <div class="page-header">
-          <h1>🏃 Exercises</h1>
+      <!-- Left Hero Text & Category Icons -->
+      <div>
+        <div class="ex-hero-badge">
+          <span>✨</span> Clinical Rehabilitation &amp; Motor Skills
         </div>
+        <h1 class="ex-hero-title">Exercises</h1>
+        <p class="ex-hero-subtitle">
+          Personalized therapy exercises to improve mobility, strength, communication, and daily living skills through evidence-based clinical routines.
+        </p>
 
-        <div id="exerciseAlert" class="alert alert-success mb-3" hidden></div>
+        <!-- Category Icons Row -->
+        <div style="font-size: 13px; font-weight: 800; color: var(--ex-navy); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+          Exercise Categories:
+        </div>
+        <div class="ex-categories-row" id="heroCategoryChips">
+          <button type="button" class="ex-category-chip pt" data-category="Physical Therapy" title="Mobility, gait, and strengthening exercises">
+            <span>🏃</span> Physical Exercises
+          </button>
+          <button type="button" class="ex-category-chip st" data-category="Speech Therapy" title="Articulation, speech motor, and vocal drills">
+            <span>🗣️</span> Speech Exercises
+          </button>
+          <button type="button" class="ex-category-chip ot" data-category="Occupational Therapy" title="Fine motor skills and sensory routines">
+            <span>🧩</span> Occupational Exercises
+          </button>
+          <button type="button" class="ex-category-chip bt" data-category="Behavior Therapy" title="Self-regulation and cognitive exercises">
+            <span>🧠</span> Behavior Exercises
+          </button>
+          <button type="button" class="ex-category-chip adl" data-category="Daily Activities" title="Activities of daily living & independence">
+            <span>🏠</span> Daily Activities
+          </button>
+        </div>
+      </div>
 
-        <!-- Add Exercise Form Card -->
-        <div class="content-box">
-          <form id="addExerciseForm" autocomplete="off">
-            <div class="exercise-form-grid">
-              <div>
-                <input type="text" id="exName" class="form-control" placeholder="Exercise Name" required>
-              </div>
-
-              <div>
-                <input type="text" id="exDesc" class="form-control" placeholder="Description" required>
-              </div>
-
-              <div>
-                <input type="text" id="exType" class="form-control" placeholder="Therapy Type" list="therapyTypeList" required>
-                <datalist id="therapyTypeList">
-                  <option value="Physical Therapy"></option>
-                  <option value="Occupational Therapy"></option>
-                  <option value="Speech Therapy"></option>
-                  <option value="Sensory Integration"></option>
-                  <option value="Behavioral Therapy"></option>
-                </datalist>
-              </div>
+      <!-- Right Hero Banner Illustration Card -->
+      <div class="ex-hero-illustration">
+        <div class="ex-illustration-card">
+          <img src="./images/cp-hero-bg.jpg" alt="Compassionate Multi Therapy clinician guiding a patient through rehabilitation exercises" class="ex-banner-img">
+          <div class="ex-floating-badge">
+            <div class="ex-badge-check">✓</div>
+            <div>
+              <div style="font-size: 13.5px; font-weight: 800; color: var(--ex-navy); line-height: 1.1;">Evidence-Based Exercises</div>
+              <div style="font-size: 11.5px; color: #475569; font-weight: 600;">Supervised Rehabilitation Plans</div>
             </div>
-
-            <button type="submit" id="btnAddExercise" class="btn-add-exercise">
-              + Add
-            </button>
-          </form>
-        </div>
-
-        <!-- Exercises Table Card -->
-        <div class="content-box">
-          <div class="table-wrap">
-            <table class="table mb-0">
-              <thead>
-                <tr>
-                  <th>Exercise Name</th>
-                  <th>Description</th>
-                  <th>Therapy Type</th>
-                  <th class="sticky-action">Action</th>
-                </tr>
-              </thead>
-              <tbody id="exercisesTableBody">
-                <tr>
-                  <td colspan="4" class="text-center text-muted py-4">Loading exercises...</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
-      </main>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       3. STATISTICS CARDS
+       ====================================================================== -->
+  <div class="ex-stats-wrapper">
+    <div class="ex-stats-grid">
+
+      <!-- Total Exercises -->
+      <div class="ex-stat-card">
+        <div class="ex-stat-icon-wrap icon-blue-bg">🏃</div>
+        <div>
+          <div class="ex-stat-num" id="statTotalExercises">24+</div>
+          <div class="ex-stat-label">Total Exercises</div>
+        </div>
+      </div>
+
+      <!-- Exercise Categories -->
+      <div class="ex-stat-card">
+        <div class="ex-stat-icon-wrap icon-mint-bg">📑</div>
+        <div>
+          <div class="ex-stat-num" id="statCategories">5</div>
+          <div class="ex-stat-label">Exercise Categories</div>
+        </div>
+      </div>
+
+      <!-- Assigned Exercises -->
+      <div class="ex-stat-card">
+        <div class="ex-stat-icon-wrap icon-purple-bg">📋</div>
+        <div>
+          <div class="ex-stat-num" id="statAssignedExercises">8</div>
+          <div class="ex-stat-label">Assigned Exercises</div>
+        </div>
+      </div>
+
+      <!-- Completion Rate -->
+      <div class="ex-stat-card">
+        <div class="ex-stat-icon-wrap icon-amber-bg">🎯</div>
+        <div>
+          <div class="ex-stat-num" id="statCompletionRate">87.5%</div>
+          <div class="ex-stat-label">Completion Rate</div>
+        </div>
+      </div>
 
     </div>
   </div>
 
+  <!-- ======================================================================
+       4. MAIN CONTAINER: SEARCH & FILTER
+       ====================================================================== -->
+  <main class="ex-main-container">
+
+    <!-- Global Alert Box -->
+    <div id="exerciseAlert" class="alert alert-success mb-3" hidden></div>
+
+    <!-- Search & Filter Card -->
+    <div class="ex-filter-card">
+      <div class="ex-filter-header">
+        <div class="ex-filter-title">
+          <span>🔍</span> Search &amp; Filter Exercises
+        </div>
+        <div>
+          <button type="button" class="ex-btn-add" data-bs-toggle="modal" data-bs-target="#addExerciseModal" id="btnAddExerciseModalTrigger" title="Add a custom exercise to database">
+            <span>+</span> <span>Add Exercise</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Grid -->
+      <div class="ex-filter-grid">
+
+        <!-- Search Input -->
+        <div class="ex-input-wrap">
+          <label class="ex-filter-label" for="searchExerciseInput">Search Exercises</label>
+          <input type="text" id="searchExerciseInput" class="ex-form-control" placeholder="Search by exercise name, body area, or keyword...">
+        </div>
+
+        <!-- Therapy Type Dropdown -->
+        <div class="ex-input-wrap">
+          <label class="ex-filter-label" for="filterTherapyType">Therapy Type</label>
+          <select id="filterTherapyType" class="ex-form-control">
+            <option value="all">All Therapy Types</option>
+            <option value="Physical Therapy">Physical Therapy</option>
+            <option value="Speech Therapy">Speech Therapy</option>
+            <option value="Occupational Therapy">Occupational Therapy</option>
+            <option value="Behavior Therapy">Behavior Therapy</option>
+            <option value="Daily Activities">Daily Activities (ADL)</option>
+          </select>
+        </div>
+
+        <!-- Body Area Dropdown -->
+        <div class="ex-input-wrap">
+          <label class="ex-filter-label" for="filterBodyArea">Body Area</label>
+          <select id="filterBodyArea" class="ex-form-control">
+            <option value="all">All Body Areas</option>
+            <option value="Upper Body">Upper Body (Arms &amp; Shoulders)</option>
+            <option value="Lower Body">Lower Body (Legs &amp; Hips)</option>
+            <option value="Core & Spine">Core &amp; Spine</option>
+            <option value="Full Body">Full Body / Balance</option>
+            <option value="Hand & Wrist">Hand &amp; Wrist (Fine Motor)</option>
+            <option value="Oral & Facial">Oral &amp; Facial (Speech)</option>
+          </select>
+        </div>
+
+        <!-- Difficulty Level Dropdown -->
+        <div class="ex-input-wrap">
+          <label class="ex-filter-label" for="filterDifficulty">Difficulty Level</label>
+          <select id="filterDifficulty" class="ex-form-control">
+            <option value="all">All Difficulty Levels</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+        </div>
+
+        <!-- Search Exercises Button -->
+        <div>
+          <button type="button" id="btnSearchExercises" class="ex-btn-search">
+            <span>🔍</span> <span>Search</span>
+          </button>
+        </div>
+
+        <!-- Reset Button -->
+        <div>
+          <button type="button" id="btnResetExercises" class="ex-btn-reset">
+            <span>🔄</span> <span>Reset</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         5. RECOMMENDED EXERCISES
+         ====================================================================== -->
+    <div class="ex-section-header">
+      <div>
+        <h2 class="ex-section-title">
+          <span>⭐</span> Recommended Exercises
+        </h2>
+        <div class="ex-section-subtitle">
+          Curated clinical exercises targeted for mobility, core stability, and motor coordination.
+        </div>
+      </div>
+      <div>
+        <span class="badge bg-light text-primary border px-3 py-2 fw-bold" id="recommendedCountBadge">
+          5 Core Exercises
+        </span>
+      </div>
+    </div>
+
+    <!-- Recommended Exercise Cards Grid -->
+    <div class="ex-recommended-grid" id="recommendedExercisesGrid">
+      <!-- Injected dynamically via js/exercises.js -->
+    </div>
+
+    <!-- ======================================================================
+         6. MY EXERCISE PLAN TABLE
+         ====================================================================== -->
+    <div class="ex-plan-box">
+      <div class="ex-plan-header">
+        <div>
+          <h2 class="ex-section-title mb-1">
+            <span>📋</span> My Exercise Plan
+          </h2>
+          <div class="ex-section-subtitle">
+            Weekly structured rehabilitation routines assigned by clinical specialists.
+          </div>
+        </div>
+
+        <!-- Weekly Plan Filter Tabs -->
+        <div class="ex-week-tabs" id="planWeekTabs">
+          <button type="button" class="ex-week-tab active" data-week="all">All Plans</button>
+          <button type="button" class="ex-week-tab" data-week="Week 1">Week 1</button>
+          <button type="button" class="ex-week-tab" data-week="Week 2">Week 2</button>
+          <button type="button" class="ex-week-tab" data-week="Week 3">Week 3</button>
+          <button type="button" class="ex-week-tab" data-week="completed">Completed</button>
+        </div>
+      </div>
+
+      <!-- Plan Table -->
+      <div class="ex-table-wrap">
+        <table class="ex-table">
+          <thead>
+            <tr>
+              <th>Exercise</th>
+              <th>Category</th>
+              <th>Duration</th>
+              <th>Frequency</th>
+              <th style="min-width: 170px;">Progress</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="exercisePlanTableBody">
+            <!-- Injected dynamically via js/exercises.js -->
+            <tr>
+              <td colspan="6" class="text-center text-muted py-4">Loading exercise plan...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ======================================================================
+       7. INTERACTIVE EXERCISE SESSION PLAYER MODAL
+       ====================================================================== -->
+  <div class="modal fade" id="exercisePlayerModal" tabindex="-1" aria-labelledby="exercisePlayerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 580px;">
+      <div class="modal-content ex-modal-content">
+        <div class="modal-header ex-modal-header">
+          <div class="d-flex align-items-center gap-2">
+            <span class="fs-4" id="playerModalIcon">🏃</span>
+            <div>
+              <h5 class="modal-title fw-bold mb-0 text-white" id="exercisePlayerModalLabel">Start Exercise Session</h5>
+              <div class="small text-white-50" id="playerModalSubtitle">Physical Therapy • Upper Body</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" id="btnDismissPlayer"></button>
+        </div>
+
+        <div class="ex-player-body">
+
+          <!-- Instructions & Target -->
+          <div class="p-3 bg-white rounded-3 border mb-3 text-start">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <strong class="text-dark" id="playerExerciseName">Arm Stretch</strong>
+              <span class="badge bg-primary" id="playerTargetDuration">Target: 10 mins</span>
+            </div>
+            <p class="text-secondary small mb-0" id="playerExerciseDesc">
+              Perform slow, gentle stretching movements. Maintain steady breathing and stop immediately if you feel sharp pain.
+            </p>
+          </div>
+
+          <!-- Digital Timer Display -->
+          <div>
+            <div class="small text-muted fw-bold text-uppercase">Session Stopwatch</div>
+            <div class="ex-timer-display" id="playerTimerDisplay">00:00</div>
+          </div>
+
+          <!-- Timer Controls -->
+          <div class="ex-timer-controls">
+            <button type="button" class="ex-btn-timer-action btn-timer-play" id="btnTimerStart">
+              <span>▶</span> <span>Start</span>
+            </button>
+            <button type="button" class="ex-btn-timer-action btn-timer-pause" id="btnTimerPause" style="display:none;">
+              <span>⏸</span> <span>Pause</span>
+            </button>
+            <button type="button" class="ex-btn-timer-action btn-timer-reset" id="btnTimerReset">
+              <span>🔄</span> <span>Reset</span>
+            </button>
+          </div>
+
+          <!-- Repetition / Set Tracker -->
+          <div class="ex-rep-counter-box">
+            <div>
+              <div class="fw-bold text-dark text-start">Completed Sets</div>
+              <div class="small text-muted text-start" id="playerRepsGoal">Target: 3 Sets of 10 Reps</div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <button type="button" class="ex-rep-btn" id="btnDecrementReps" title="Decrease completed sets">−</button>
+              <span class="fw-bold fs-5 px-2" id="playerCompletedSets">1</span>
+              <button type="button" class="ex-rep-btn" id="btnIncrementReps" title="Increase completed sets">+</button>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary w-50 fw-bold py-2" data-bs-dismiss="modal">
+              Cancel
+            </button>
+            <button type="button" class="btn btn-success w-50 fw-bold py-2 d-flex align-items-center justify-content-center gap-2" id="btnMarkCompleted">
+              <span>✓</span> <span>Complete Session</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       8. ADD EXERCISE MODAL (Preserves backend /api/exercises POST)
+       ====================================================================== -->
+  <div class="modal fade" id="addExerciseModal" tabindex="-1" aria-labelledby="addExerciseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content ex-modal-content">
+        <div class="modal-header ex-modal-header">
+          <div class="d-flex align-items-center gap-2">
+            <span class="fs-4">➕</span>
+            <div>
+              <h5 class="modal-title fw-bold mb-0 text-white" id="addExerciseModalLabel">Add New Therapy Exercise</h5>
+              <div class="small text-white-50">Saves exercise directly into Multi Therapy database</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-4 bg-light">
+          <form id="addExerciseForm" autocomplete="off">
+            <div class="mb-3">
+              <label class="form-label fw-bold small text-secondary" for="exName">Exercise Name *</label>
+              <input type="text" id="exName" class="form-control" placeholder="e.g. Quadriceps Isometric Stretch" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold small text-secondary" for="exType">Therapy Type *</label>
+              <select id="exType" class="form-select" required>
+                <option value="" disabled selected>Select Therapy Type</option>
+                <option value="Physical Therapy">Physical Therapy</option>
+                <option value="Occupational Therapy">Occupational Therapy</option>
+                <option value="Speech Therapy">Speech Therapy</option>
+                <option value="Behavior Therapy">Behavior Therapy</option>
+                <option value="Daily Activities">Daily Activities (ADL)</option>
+                <option value="Sensory Integration">Sensory Integration</option>
+              </select>
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label fw-bold small text-secondary" for="exBodyArea">Body Area</label>
+                <select id="exBodyArea" class="form-select">
+                  <option value="Upper Body">Upper Body</option>
+                  <option value="Lower Body">Lower Body</option>
+                  <option value="Core & Spine">Core &amp; Spine</option>
+                  <option value="Full Body">Full Body / Balance</option>
+                  <option value="Hand & Wrist">Hand &amp; Wrist</option>
+                  <option value="Oral & Facial">Oral &amp; Facial</option>
+                </select>
+              </div>
+              <div class="col-6">
+                <label class="form-label fw-bold small text-secondary" for="exDifficulty">Difficulty</label>
+                <select id="exDifficulty" class="form-select">
+                  <option value="Beginner">Beginner</option>
+                  <option value="Intermediate" selected>Intermediate</option>
+                  <option value="Advanced">Advanced</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label fw-bold small text-secondary" for="exDuration">Duration</label>
+                <input type="text" id="exDuration" class="form-control" placeholder="e.g. 15 Mins">
+              </div>
+              <div class="col-6">
+                <label class="form-label fw-bold small text-secondary" for="exFrequency">Frequency</label>
+                <input type="text" id="exFrequency" class="form-control" placeholder="e.g. Daily / 3x week">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold small text-secondary" for="exDesc">Clinical Instructions &amp; Description *</label>
+              <textarea id="exDesc" class="form-control" rows="3" placeholder="Provide step-by-step clinical cues for patient rehabilitation..." required></textarea>
+            </div>
+
+            <button type="submit" id="btnAddExercise" class="btn btn-primary w-100 py-2 fw-bold d-flex align-items-center justify-content-center gap-2 mt-3">
+              <span>💾</span> <span>Save Exercise to Database</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       9. NOTIFICATIONS MODAL
+       ====================================================================== -->
+  <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 480px;">
+      <div class="modal-content ex-modal-content">
+        <div class="modal-header bg-primary text-white p-3">
+          <h5 class="modal-title fw-bold fs-6 mb-0" id="notificationsModalLabel">🔔 Patient Exercise Notifications</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-3 bg-light">
+          <div class="list-group list-group-flush gap-2">
+            <div class="list-group-item bg-white rounded-3 border p-3">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <strong class="text-primary small">Daily Session Reminder</strong>
+                <span class="text-muted" style="font-size: 11px;">Today, 09:00 AM</span>
+              </div>
+              <p class="text-secondary small mb-0">Time to complete your Arm Stretch &amp; Grip Exercise routine for Week 2.</p>
+            </div>
+            <div class="list-group-item bg-white rounded-3 border p-3">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <strong class="text-success small">Milestone Achieved!</strong>
+                <span class="text-muted" style="font-size: 11px;">Yesterday</span>
+              </div>
+              <p class="text-secondary small mb-0">You achieved 85% completion rate on your Lower Body balance training.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       10. FOOTER
+       ====================================================================== -->
+  <footer style="background: #103463; color: #94a3b8; padding: 26px 24px; margin-top: auto; border-top: 1px solid #1e427b;">
+    <div style="max-width: 1380px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="./images/multi-therapy-logo.png" alt="Multi Therapy Logo" style="width: 44px; height: 44px; border-radius: 50%; background: #ffffff; padding: 2px;">
+        <div>
+          <div style="font-weight: 800; font-size: 16px; color: #ffffff;">Multi Therapy</div>
+          <div style="font-size: 12px; color: #38bdf8; font-weight: 600;">Care • Support • Progress • Together</div>
+        </div>
+      </div>
+      <div style="font-size: 13px; text-align: right;">
+        <div>&copy; 2026 Multi Therapy. All rights reserved.</div>
+        <div>
+          <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp" style="color: #ffffff; text-decoration: none; display: inline-flex; align-items: flex-start; gap: 8px; margin-top: 6px;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #25D366; flex-shrink: 0; margin-top: 2px;" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/></svg>
+            <span style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.35; margin-left: 2px;">
+              <strong style="color: #ffffff; font-size: 13px;">Help Desk:</strong>
+              <span style="font-size: 11.5px; color: #38bdf8; font-weight: 600;">📱 Only WhatsApp Us</span>
+              <strong style="color: #ffffff; font-size: 14px; letter-spacing: 0.3px;">+91 9468650893</strong>
+              <span style="display: block; margin-top: 6px;">
+                <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 32px; width: auto; display: block; border-radius: 9999px;">
+              </span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+  </a>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./js/api.js"></script>
+  <script src="./js/cdn.js"></script>
   <script src="./js/exercises.js"></script>
+
 </body>
 </html>
