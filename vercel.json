@@ -1,3 +1,15 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/api/send-doctor-otp", "destination": "/api/send-otp" },
+    { "source": "/api/send-patient-otp", "destination": "/api/send-otp" },
+    { "source": "/api/send-therapist-otp", "destination": "/api/send-otp" },
+    { "source": "/api/send-signup-otp", "destination": "/api/send-otp" },
+    { "source": "/api/resend-signup-otp", "destination": "/api/send-otp" },
+    { "source": "/api/send-otp-auth", "destination": "/api/send-otp" },
+    { "source": "/api/auth/send-otp", "destination": "/api/send-otp" },
+    { "source": "/api/upload-profile-photo", "destination": "/api/upload-photo" },
+    { "source": "/api/cloudinary-upload", "destination": "/api/upload-photo" },
+    { "source": "/api/cloudinary-delete", "destination": "/api/remove-profile-photo" }
+  ]
 }
