@@ -20,48 +20,12 @@
       "destination": "/patient-home.html"
     },
     {
-      "source": "/dashboard.html",
-      "destination": "/patient-home.html"
-    },
-    {
-      "source": "/progress-reports",
-      "destination": "/patient-home.html"
-    },
-    {
-      "source": "/progress-reports.html",
-      "destination": "/patient-home.html"
-    },
-    {
-      "source": "/exercise-assignments",
-      "destination": "/exercises.html"
-    },
-    {
-      "source": "/exercise-assignments.html",
-      "destination": "/exercises.html"
-    },
-    {
       "source": "/pricing",
-      "destination": "/subscription-pricing.html"
-    },
-    {
-      "source": "/pricing.html",
       "destination": "/subscription-pricing.html"
     },
     {
       "source": "/checkout",
       "destination": "/subscription-checkout.html"
-    },
-    {
-      "source": "/checkout.html",
-      "destination": "/subscription-checkout.html"
-    },
-    {
-      "source": "/doctor/profile",
-      "destination": "/doctor-profile.html"
-    },
-    {
-      "source": "/patient/profile",
-      "destination": "/patient-profile.html"
     },
     {
       "source": "/subscriptions/hospital",
@@ -122,7 +86,7 @@
   ],
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/:path*",
       "headers": [
         {
           "key": "X-Content-Type-Options",
@@ -139,15 +103,6 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
-        }
-      ]
-    },
-    {
-      "source": "/(css|js|images)/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=86400, stale-while-revalidate=604800"
         }
       ]
     }
