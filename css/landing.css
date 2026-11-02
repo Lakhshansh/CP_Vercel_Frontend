@@ -32,6 +32,10 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html, body {
   width: 100%;
   min-height: 100vh;
@@ -41,6 +45,12 @@ html, body {
   overflow-x: hidden;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+.cp-services-section,
+.cp-about-section,
+.cp-contact-section {
+  scroll-margin-top: 90px;
 }
 
 /* --------------------------------------------------------------------------
@@ -886,6 +896,408 @@ html, body {
 }
 
 /* --------------------------------------------------------------------------
+   CONTACT MULTI THERAPY & SUPPORT SECTION
+   -------------------------------------------------------------------------- */
+.cp-contact-section {
+  background: linear-gradient(180deg, #f8fbff 0%, #ffffff 50%, #f4f8fc 100%);
+  padding: 85px 0 95px;
+  border-top: 1px solid #e2e8f0;
+  position: relative;
+  z-index: 10;
+}
+
+.cp-contact-container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.cp-contact-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 50px;
+}
+
+.cp-contact-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: #e0f2fe;
+  color: #0875F9;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 9999px;
+  margin-bottom: 14px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(8, 117, 249, 0.08);
+}
+
+.cp-contact-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--cp-navy-dark);
+  letter-spacing: -0.5px;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+
+.cp-contact-subtitle {
+  font-size: 16px;
+  color: var(--cp-slate-text);
+  line-height: 1.6;
+}
+
+.cp-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 36px;
+  align-items: stretch;
+}
+
+.cp-contact-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cp-contact-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px 26px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 30px rgba(16, 52, 99, 0.05);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.cp-contact-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(16, 52, 99, 0.1);
+  border-color: #cbd5e1;
+}
+
+.cp-contact-card-whatsapp {
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+  border: 2px solid #86efac;
+}
+
+.cp-contact-card-whatsapp:hover {
+  border-color: #22c55e;
+}
+
+.cp-card-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cp-icon-whatsapp {
+  background: #25D366;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+}
+
+.cp-icon-blue {
+  background: #e0f2fe;
+  color: #0875F9;
+  box-shadow: 0 4px 12px rgba(8, 117, 249, 0.15);
+}
+
+.cp-icon-purple {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.cp-icon-navy {
+  background: #e2e8f0;
+  color: var(--cp-navy-primary);
+}
+
+.cp-card-details {
+  flex: 1;
+}
+
+.cp-card-badge-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #dcfce7;
+  color: #15803d;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.cp-card-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--cp-navy-dark);
+  margin-bottom: 6px;
+}
+
+.cp-card-desc {
+  font-size: 13.5px;
+  color: var(--cp-slate-text);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.cp-card-action-row {
+  margin-top: 6px;
+}
+
+.cp-contact-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: #ffffff !important;
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.cp-contact-wa-btn:hover {
+  background: #1eb855;
+  transform: translateY(-1px);
+}
+
+.cp-wa-badge-img {
+  height: 28px;
+  width: auto;
+  border-radius: 9999px;
+  display: block;
+}
+
+.cp-contact-link {
+  color: var(--cp-blue-brand);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.cp-contact-link:hover {
+  text-decoration: underline;
+  color: var(--cp-blue-btn-hover);
+}
+
+.cp-contact-mini-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.cp-mini-card {
+  padding: 18px 20px;
+  gap: 14px;
+  align-items: center;
+}
+
+.cp-card-title-sm {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--cp-navy-dark);
+  margin-bottom: 3px;
+}
+
+.cp-card-meta {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.cp-card-subtext {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.cp-contact-notice-box {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-left: 4px solid #0875F9;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #1e3a8a;
+  line-height: 1.55;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.cp-notice-icon {
+  width: 18px;
+  height: 18px;
+  color: #0875F9;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Contact Form Column */
+.cp-contact-form-col {
+  display: flex;
+}
+
+.cp-form-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 34px 34px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 16px 40px rgba(16, 52, 99, 0.07);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cp-form-header {
+  margin-bottom: 22px;
+}
+
+.cp-form-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--cp-navy-dark);
+  margin-bottom: 6px;
+}
+
+.cp-form-subtitle {
+  font-size: 14px;
+  color: var(--cp-slate-text);
+  line-height: 1.5;
+}
+
+.cp-form-alert {
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.cp-form-alert.success {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #166534;
+}
+
+.cp-form-alert.error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.cp-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.cp-form-group {
+  margin-bottom: 16px;
+}
+
+.cp-form-row .cp-form-group {
+  margin-bottom: 0;
+}
+
+.cp-form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cp-navy-primary);
+  margin-bottom: 6px;
+}
+
+.cp-required {
+  color: #ef4444;
+}
+
+.cp-form-control {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #1e293b;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.cp-form-control:focus {
+  border-color: #0875F9;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(8, 117, 249, 0.15);
+}
+
+.cp-select {
+  cursor: pointer;
+  appearance: auto;
+}
+
+.cp-textarea {
+  resize: vertical;
+  min-height: 105px;
+}
+
+.cp-btn-submit-contact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px 24px;
+  background: linear-gradient(135deg, #0875F9 0%, #0660d1 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(8, 117, 249, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  margin-top: 4px;
+}
+
+.cp-btn-submit-contact:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(8, 117, 249, 0.38);
+  background: linear-gradient(135deg, #097efd 0%, #0554b7 100%);
+}
+
+.cp-btn-submit-contact:active {
+  transform: translateY(0);
+}
+
+.cp-form-security-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 14px;
+  justify-content: center;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
    FOOTER (COMPREHENSIVE MULTI-COLUMN)
    -------------------------------------------------------------------------- */
 .cp-footer {
@@ -1395,5 +1807,32 @@ html, body {
   .cp-btn-signup {
     padding: 6px 14px;
     font-size: 12.5px;
+  }
+
+  .cp-contact-section {
+    padding: 60px 0 70px;
+  }
+
+  .cp-contact-title {
+    font-size: 28px;
+  }
+
+  .cp-contact-mini-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cp-form-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .cp-form-card {
+    padding: 24px 18px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .cp-contact-grid {
+    grid-template-columns: 1fr;
   }
 }
