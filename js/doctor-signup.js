@@ -4,6 +4,156 @@
  * and OTP verification flow via existing authentication endpoints.
  */
 
+
+// ============================================================================
+// 📄 Doctor Documents Upload & Verification Controller
+// ============================================================================
+const doctorDocuments = {
+  med_reg: null,
+  degree: null,
+  id_proof: null,
+  clinic_cert: null
+};
+
+const DOC_MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5 MB per document
+const DOC_ALLOWED_EXTS = ["pdf", "jpg", "jpeg", "png", "webp"];
+
+function setupDoctorDocumentUploads() {
+  const docKeys = ["med_reg", "degree", "id_proof", "clinic_cert"];
+
+  docKeys.forEach((key) => {
+    const input = document.getElementById(`doc_${key}`);
+    const dropzone = document.getElementById(`dropzone_${key}`);
+
+    if (input) {
+      input.addEventListener("change", function () {
+        if (this.files && this.files[0]) {
+          handleDoctorFileSelected(key, this.files[0]);
+        }
+      });
+    }
+
+    if (dropzone) {
+      ["dragenter", "dragover"].forEach((evtName) => {
+        dropzone.addEventListener(evtName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add("drag-over");
+        });
+      });
+
+      ["dragleave", "drop"].forEach((evtName) => {
+        dropzone.addEventListener(evtName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove("drag-over");
+        });
+      });
+
+      dropzone.addEventListener("drop", (e) => {
+        const files = e.dataTransfer && e.dataTransfer.files;
+        if (files && files[0]) {
+          handleDoctorFileSelected(key, files[0]);
+        }
+      });
+    }
+  });
+}
+
+function handleDoctorFileSelected(key, file) {
+  const card = document.getElementById(`card_${key}`);
+  const dropzone = document.getElementById(`dropzone_${key}`);
+  const promptEl = document.getElementById(`prompt_${key}`);
+  const selectedEl = document.getElementById(`selected_${key}`);
+  const statusEl = document.getElementById(`status_${key}`);
+  const errorEl = document.getElementById(`error_${key}`);
+  const nameEl = document.getElementById(`file_name_${key}`);
+  const sizeEl = document.getElementById(`file_size_${key}`);
+  const iconEl = document.getElementById(`file_icon_${key}`);
+
+  if (errorEl) {
+    errorEl.style.display = "none";
+    errorEl.textContent = "";
+  }
+  if (card) card.classList.remove("has-error");
+
+  const fileName = file.name || "document";
+  const ext = fileName.split(".").pop().toLowerCase();
+
+  // Validate file format
+  if (!DOC_ALLOWED_EXTS.includes(ext)) {
+    const msg = `Unsupported file format (.${ext}). Only PDF, JPG, and PNG documents are allowed.`;
+    if (errorEl) {
+      errorEl.textContent = msg;
+      errorEl.style.display = "block";
+    }
+    if (card) card.classList.add("has-error");
+    showDoctorMessage(msg);
+    return false;
+  }
+
+  // Validate size (max 5 MB)
+  if (file.size > DOC_MAX_SIZE_BYTES) {
+    const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+    const msg = `File "${fileName}" exceeds the 5 MB limit (${sizeMb} MB). Please upload a smaller file.`;
+    if (errorEl) {
+      errorEl.textContent = msg;
+      errorEl.style.display = "block";
+    }
+    if (card) card.classList.add("has-error");
+    showDoctorMessage(msg);
+    return false;
+  }
+
+  // Store validated file object
+  doctorDocuments[key] = file;
+
+  let formattedSize = "";
+  if (file.size < 1024 * 1024) {
+    formattedSize = `${Math.round(file.size / 1024)} KB`;
+  } else {
+    formattedSize = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+  }
+
+  if (nameEl) nameEl.textContent = fileName;
+  if (sizeEl) sizeEl.textContent = formattedSize;
+  if (iconEl) iconEl.textContent = ext === "pdf" ? "📄" : "🖼️";
+
+  if (promptEl) promptEl.style.display = "none";
+  if (selectedEl) selectedEl.style.display = "flex";
+  if (statusEl) statusEl.style.display = "inline-flex";
+  if (dropzone) dropzone.classList.add("has-file");
+  if (card) card.classList.add("has-file");
+
+  return true;
+}
+
+window.removeDoctorDocument = function (key) {
+  doctorDocuments[key] = null;
+  const input = document.getElementById(`doc_${key}`);
+  if (input) input.value = "";
+
+  const card = document.getElementById(`card_${key}`);
+  const dropzone = document.getElementById(`dropzone_${key}`);
+  const promptEl = document.getElementById(`prompt_${key}`);
+  const selectedEl = document.getElementById(`selected_${key}`);
+  const statusEl = document.getElementById(`status_${key}`);
+  const errorEl = document.getElementById(`error_${key}`);
+
+  if (promptEl) promptEl.style.display = "flex";
+  if (selectedEl) selectedEl.style.display = "none";
+  if (statusEl) statusEl.style.display = "none";
+  if (errorEl) {
+    errorEl.style.display = "none";
+    errorEl.textContent = "";
+  }
+  if (dropzone) dropzone.classList.remove("has-file");
+  if (card) {
+    card.classList.remove("has-file");
+    card.classList.remove("has-error");
+  }
+};
+
 function showDoctorMessage(message, type = "danger") {
   const el = document.getElementById("doctorMessage");
   if (!el) return;
@@ -28,6 +178,7 @@ function generateDoctorCaptcha() {
 
 document.addEventListener("DOMContentLoaded", () => {
   generateDoctorCaptcha();
+  setupDoctorDocumentUploads();
 
   const refreshBtn = document.getElementById("refreshCaptcha");
   if (refreshBtn) {
@@ -131,6 +282,27 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      // Doctor Documents Validation (Medical Registration & Degree Certificate are required)
+      if (!doctorDocuments.med_reg) {
+        showDoctorMessage("Please upload your Medical Registration Certificate (Required).");
+        const card = document.getElementById("card_med_reg");
+        if (card) {
+          card.classList.add("has-error");
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        return;
+      }
+
+      if (!doctorDocuments.degree) {
+        showDoctorMessage("Please upload your Doctor Degree / Qualification Certificate (Required).");
+        const card = document.getElementById("card_degree");
+        if (card) {
+          card.classList.add("has-error");
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        return;
+      }
+
       if (password.length < 6) {
         showDoctorMessage("Password must be at least 6 characters in length.");
         return;
@@ -164,6 +336,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const username = email.split("@")[0] || fullName.toLowerCase().replace(/[^a-z0-9]/g, "_");
       formData.set("username", username);
+
+      // Attach verified doctor credentials & documents to FormData
+      if (doctorDocuments.med_reg) {
+        formData.set("medical_reg_cert", doctorDocuments.med_reg);
+      }
+      if (doctorDocuments.degree) {
+        formData.set("degree_cert", doctorDocuments.degree);
+      }
+      if (doctorDocuments.id_proof) {
+        formData.set("id_proof", doctorDocuments.id_proof);
+      }
+      if (doctorDocuments.clinic_cert) {
+        formData.set("clinic_cert", doctorDocuments.clinic_cert);
+      }
+
+      // Metadata for admin verification audit
+      const docsMeta = {
+        has_documents: true,
+        medical_reg_cert_name: doctorDocuments.med_reg ? doctorDocuments.med_reg.name : null,
+        degree_cert_name: doctorDocuments.degree ? doctorDocuments.degree.name : null,
+        id_proof_name: doctorDocuments.id_proof ? doctorDocuments.id_proof.name : null,
+        clinic_cert_name: doctorDocuments.clinic_cert ? doctorDocuments.clinic_cert.name : null,
+        uploaded_at: new Date().toISOString()
+      };
+      formData.set("doctor_documents_meta", JSON.stringify(docsMeta));
 
       const submitBtn = document.getElementById("doctorSubmitBtn");
       if (submitBtn) {

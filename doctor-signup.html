@@ -957,6 +957,316 @@
         margin-top: 6px;
       }
     }
+
+    /* ======================================================================
+       📄 UPLOAD DOCTOR DOCUMENTS SECTION STYLES
+       ====================================================================== */
+    .doc-docs-section {
+      background: #f8fbff;
+      border: 1px solid #dbeafe;
+      border-radius: 16px;
+      padding: 22px;
+      margin: 8px 0 12px;
+    }
+
+    .doc-docs-header {
+      margin-bottom: 18px;
+    }
+
+    .doc-docs-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #0b3c73;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+
+    .doc-docs-subtitle {
+      font-size: 13px;
+      color: #64748b;
+      margin: 4px 0 0;
+      line-height: 1.45;
+    }
+
+    .doc-docs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .doc-upload-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .doc-upload-card:hover {
+      border-color: #93c5fd;
+      box-shadow: 0 4px 14px rgba(8, 102, 245, 0.06);
+    }
+
+    .doc-upload-card.has-file {
+      border-color: #a7f3d0;
+      background: #fcfdfc;
+    }
+
+    .doc-upload-card.has-error {
+      border-color: #fca5a5;
+      background: #fffafa;
+    }
+
+    .doc-upload-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .doc-upload-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .doc-upload-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0;
+    }
+
+    .doc-upload-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .doc-upload-badge.required {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+
+    .doc-upload-badge.optional {
+      background: #f1f5f9;
+      color: #64748b;
+      border: 1px solid #e2e8f0;
+    }
+
+    .doc-upload-status {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #059669;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 2px 8px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .doc-upload-desc {
+      font-size: 12px;
+      color: #64748b;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .doc-upload-dropzone {
+      border: 2px dashed #bfdbfe;
+      background: #f8fbff;
+      border-radius: 10px;
+      padding: 16px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .doc-upload-dropzone:hover,
+    .doc-upload-dropzone.drag-over {
+      border-color: #0866f5;
+      background: #eff6ff;
+    }
+
+    .doc-upload-dropzone.has-file {
+      border: 1.5px solid #a7f3d0;
+      background: #f0fdf4;
+      cursor: default;
+      padding: 12px;
+    }
+
+    .doc-upload-prompt {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .doc-upload-icon {
+      color: #0866f5;
+      opacity: 0.85;
+      margin-bottom: 2px;
+    }
+
+    .doc-upload-btn-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-choose-file {
+      background: #ffffff;
+      color: #0866f5;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .btn-choose-file:hover {
+      background: #0866f5;
+      color: #ffffff;
+      border-color: #0866f5;
+    }
+
+    .doc-upload-hint {
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .doc-upload-types {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .doc-upload-selected {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .doc-file-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .doc-file-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .doc-file-meta {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .doc-file-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .doc-file-size {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .doc-file-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-doc-replace {
+      background: #ffffff;
+      color: #0b3c73;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .btn-doc-replace:hover {
+      background: #eff6ff;
+      border-color: #0866f5;
+      color: #0866f5;
+    }
+
+    .btn-doc-remove {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      width: 26px;
+      height: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .btn-doc-remove:hover {
+      background: #dc2626;
+      color: #ffffff;
+      border-color: #dc2626;
+    }
+
+    .doc-upload-error {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #dc2626;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .doc-docs-grid {
+        grid-template-columns: 1fr;
+      }
+      .doc-docs-section {
+        padding: 16px;
+      }
+    }
   </style>
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
 </head>
@@ -1282,6 +1592,232 @@
                     <circle cx="12" cy="10" r="3"></circle>
                   </svg>
                   <input class="doc-input" type="text" id="doctorAddress" name="address" placeholder="Suite 400, Medical Plaza, City, State" autocomplete="street-address" required>
+                </div>
+              </div>
+
+              <!-- =========================================================
+                   📄 UPLOAD DOCTOR DOCUMENTS SECTION
+                   ========================================================= -->
+              <div class="doc-form-group col-span-2 doc-docs-section" id="doctorDocsSection">
+                <div class="doc-docs-header">
+                  <div class="doc-docs-title">
+                    <span>📄</span> Upload Doctor Documents
+                  </div>
+                  <p class="doc-docs-subtitle">
+                    Please provide your medical credentials and identification for clinical practitioner verification. Allowed formats: PDF, JPG, PNG, WEBP (Max 5 MB per document).
+                  </p>
+                </div>
+
+                <div class="doc-docs-grid">
+                  <!-- 1. Medical Registration Certificate (Required) -->
+                  <div class="doc-upload-card" id="card_med_reg">
+                    <div class="doc-upload-header">
+                      <div class="doc-upload-title-wrap">
+                        <span class="doc-upload-badge required">Required</span>
+                        <h4 class="doc-upload-title">Medical Registration Certificate</h4>
+                      </div>
+                      <span class="doc-upload-status" id="status_med_reg" style="display:none;">Uploaded ✓</span>
+                    </div>
+                    <p class="doc-upload-desc">State Medical Council or MCI / NMC registration certificate.</p>
+                    
+                    <div class="doc-upload-dropzone" id="dropzone_med_reg">
+                      <input type="file" id="doc_med_reg" name="medical_reg_cert" accept=".pdf,.jpg,.jpeg,.png,.webp" class="doc-file-input" style="display:none;">
+                      
+                      <!-- Empty / Prompt State -->
+                      <div class="doc-upload-prompt" id="prompt_med_reg">
+                        <div class="doc-upload-icon">
+                          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                          </svg>
+                        </div>
+                        <div class="doc-upload-btn-label">
+                          <button type="button" class="btn-choose-file" onclick="document.getElementById('doc_med_reg').click()">
+                            Choose File
+                          </button>
+                          <span class="doc-upload-hint">or drag &amp; drop</span>
+                        </div>
+                        <span class="doc-upload-types">PDF, JPG, PNG (Max 5 MB)</span>
+                      </div>
+
+                      <!-- Selected / Uploaded State -->
+                      <div class="doc-upload-selected" id="selected_med_reg" style="display:none;">
+                        <div class="doc-file-info">
+                          <span class="doc-file-icon" id="file_icon_med_reg">📄</span>
+                          <div class="doc-file-meta">
+                            <span class="doc-file-name" id="file_name_med_reg">—</span>
+                            <span class="doc-file-size" id="file_size_med_reg">—</span>
+                          </div>
+                        </div>
+                        <div class="doc-file-actions">
+                          <button type="button" class="btn-doc-replace" onclick="document.getElementById('doc_med_reg').click()" title="Replace file">
+                            Replace
+                          </button>
+                          <button type="button" class="btn-doc-remove" onclick="removeDoctorDocument('med_reg')" title="Remove file" aria-label="Remove document">
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="doc-upload-error" id="error_med_reg" style="display:none;"></div>
+                  </div>
+
+                  <!-- 2. Doctor Degree / Qualification Certificate (Required) -->
+                  <div class="doc-upload-card" id="card_degree">
+                    <div class="doc-upload-header">
+                      <div class="doc-upload-title-wrap">
+                        <span class="doc-upload-badge required">Required</span>
+                        <h4 class="doc-upload-title">Doctor Degree / Qualification</h4>
+                      </div>
+                      <span class="doc-upload-status" id="status_degree" style="display:none;">Uploaded ✓</span>
+                    </div>
+                    <p class="doc-upload-desc">MBBS / MD / MS / DM or recognized specialty qualification degree.</p>
+                    
+                    <div class="doc-upload-dropzone" id="dropzone_degree">
+                      <input type="file" id="doc_degree" name="degree_cert" accept=".pdf,.jpg,.jpeg,.png,.webp" class="doc-file-input" style="display:none;">
+                      
+                      <div class="doc-upload-prompt" id="prompt_degree">
+                        <div class="doc-upload-icon">
+                          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                          </svg>
+                        </div>
+                        <div class="doc-upload-btn-label">
+                          <button type="button" class="btn-choose-file" onclick="document.getElementById('doc_degree').click()">
+                            Choose File
+                          </button>
+                          <span class="doc-upload-hint">or drag &amp; drop</span>
+                        </div>
+                        <span class="doc-upload-types">PDF, JPG, PNG (Max 5 MB)</span>
+                      </div>
+
+                      <div class="doc-upload-selected" id="selected_degree" style="display:none;">
+                        <div class="doc-file-info">
+                          <span class="doc-file-icon" id="file_icon_degree">📄</span>
+                          <div class="doc-file-meta">
+                            <span class="doc-file-name" id="file_name_degree">—</span>
+                            <span class="doc-file-size" id="file_size_degree">—</span>
+                          </div>
+                        </div>
+                        <div class="doc-file-actions">
+                          <button type="button" class="btn-doc-replace" onclick="document.getElementById('doc_degree').click()" title="Replace file">
+                            Replace
+                          </button>
+                          <button type="button" class="btn-doc-remove" onclick="removeDoctorDocument('degree')" title="Remove file" aria-label="Remove document">
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="doc-upload-error" id="error_degree" style="display:none;"></div>
+                  </div>
+
+                  <!-- 3. Identity Proof (Aadhaar / PAN / Passport) -->
+                  <div class="doc-upload-card" id="card_id_proof">
+                    <div class="doc-upload-header">
+                      <div class="doc-upload-title-wrap">
+                        <span class="doc-upload-badge optional" style="background:#e0f2fe; color:#0369a1; border-color:#bae6fd;">Verification</span>
+                        <h4 class="doc-upload-title">Identity Proof (Aadhaar / PAN / Passport)</h4>
+                      </div>
+                      <span class="doc-upload-status" id="status_id_proof" style="display:none;">Uploaded ✓</span>
+                    </div>
+                    <p class="doc-upload-desc">Government-issued identity proof for medical practitioner authorization.</p>
+                    
+                    <div class="doc-upload-dropzone" id="dropzone_id_proof">
+                      <input type="file" id="doc_id_proof" name="id_proof" accept=".pdf,.jpg,.jpeg,.png,.webp" class="doc-file-input" style="display:none;">
+                      
+                      <div class="doc-upload-prompt" id="prompt_id_proof">
+                        <div class="doc-upload-icon">
+                          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                          </svg>
+                        </div>
+                        <div class="doc-upload-btn-label">
+                          <button type="button" class="btn-choose-file" onclick="document.getElementById('doc_id_proof').click()">
+                            Choose File
+                          </button>
+                          <span class="doc-upload-hint">or drag &amp; drop</span>
+                        </div>
+                        <span class="doc-upload-types">PDF, JPG, PNG (Max 5 MB)</span>
+                      </div>
+
+                      <div class="doc-upload-selected" id="selected_id_proof" style="display:none;">
+                        <div class="doc-file-info">
+                          <span class="doc-file-icon" id="file_icon_id_proof">📄</span>
+                          <div class="doc-file-meta">
+                            <span class="doc-file-name" id="file_name_id_proof">—</span>
+                            <span class="doc-file-size" id="file_size_id_proof">—</span>
+                          </div>
+                        </div>
+                        <div class="doc-file-actions">
+                          <button type="button" class="btn-doc-replace" onclick="document.getElementById('doc_id_proof').click()" title="Replace file">
+                            Replace
+                          </button>
+                          <button type="button" class="btn-doc-remove" onclick="removeDoctorDocument('id_proof')" title="Remove file" aria-label="Remove document">
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="doc-upload-error" id="error_id_proof" style="display:none;"></div>
+                  </div>
+
+                  <!-- 4. Hospital / Clinic Certificate (Optional) -->
+                  <div class="doc-upload-card" id="card_clinic_cert">
+                    <div class="doc-upload-header">
+                      <div class="doc-upload-title-wrap">
+                        <span class="doc-upload-badge optional">Optional</span>
+                        <h4 class="doc-upload-title">Hospital / Clinic Certificate</h4>
+                      </div>
+                      <span class="doc-upload-status" id="status_clinic_cert" style="display:none;">Uploaded ✓</span>
+                    </div>
+                    <p class="doc-upload-desc">Clinical establishment registration or hospital affiliation letter.</p>
+                    
+                    <div class="doc-upload-dropzone" id="dropzone_clinic_cert">
+                      <input type="file" id="doc_clinic_cert" name="clinic_cert" accept=".pdf,.jpg,.jpeg,.png,.webp" class="doc-file-input" style="display:none;">
+                      
+                      <div class="doc-upload-prompt" id="prompt_clinic_cert">
+                        <div class="doc-upload-icon">
+                          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                          </svg>
+                        </div>
+                        <div class="doc-upload-btn-label">
+                          <button type="button" class="btn-choose-file" onclick="document.getElementById('doc_clinic_cert').click()">
+                            Choose File
+                          </button>
+                          <span class="doc-upload-hint">or drag &amp; drop</span>
+                        </div>
+                        <span class="doc-upload-types">PDF, JPG, PNG (Max 5 MB)</span>
+                      </div>
+
+                      <div class="doc-upload-selected" id="selected_clinic_cert" style="display:none;">
+                        <div class="doc-file-info">
+                          <span class="doc-file-icon" id="file_icon_clinic_cert">📄</span>
+                          <div class="doc-file-meta">
+                            <span class="doc-file-name" id="file_name_clinic_cert">—</span>
+                            <span class="doc-file-size" id="file_size_clinic_cert">—</span>
+                          </div>
+                        </div>
+                        <div class="doc-file-actions">
+                          <button type="button" class="btn-doc-replace" onclick="document.getElementById('doc_clinic_cert').click()" title="Replace file">
+                            Replace
+                          </button>
+                          <button type="button" class="btn-doc-remove" onclick="removeDoctorDocument('clinic_cert')" title="Remove file" aria-label="Remove document">
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="doc-upload-error" id="error_clinic_cert" style="display:none;"></div>
+                  </div>
                 </div>
               </div>
 
