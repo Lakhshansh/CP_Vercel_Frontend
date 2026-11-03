@@ -315,7 +315,7 @@ function populateSpecialistDropdown() {
     html += `<optgroup label="Doctors / Physicians">`;
     doctorsList.forEach(d => {
       const spec = d.specialization ? ` - ${d.specialization}` : '';
-      html += `<option value="doc_${d.doctor_id}">Dr. ${escapeHtml(d.name)}${escapeHtml(spec)}</option>`;
+      html += `<option value="doc_${d.doctor_id}" data-fee="₹10,900">Dr. ${escapeHtml(d.name)}${escapeHtml(spec)} (Consultation: ₹10,900)</option>`;
     });
     html += `</optgroup>`;
   }
@@ -324,7 +324,7 @@ function populateSpecialistDropdown() {
     html += `<optgroup label="Certified Therapists">`;
     therapistsList.forEach(t => {
       const spec = t.specialization ? ` - ${t.specialization}` : ' - Therapist';
-      html += `<option value="ther_${t.therapist_id}">${escapeHtml(t.name)}${escapeHtml(spec)}</option>`;
+      html += `<option value="ther_${t.therapist_id}" data-fee="₹4,500">${escapeHtml(t.name)}${escapeHtml(spec)} (Session: ₹4,500)</option>`;
     });
     html += `</optgroup>`;
   }
@@ -376,7 +376,8 @@ function renderSpecialistsList() {
         specialization: d.specialization || "General Physician",
         type: "Doctor",
         location: d.city ? `${d.city} Clinic` : "Main Clinic (Building A)",
-        defaultType: "Consultation"
+        defaultType: "Consultation",
+        fee: "₹10,900"
       });
     });
   }
@@ -389,7 +390,8 @@ function renderSpecialistsList() {
         specialization: t.specialization || "Physiotherapy & Rehab",
         type: "Therapist",
         location: "Pediatric Therapy Wing",
-        defaultType: "Therapy"
+        defaultType: "Therapy",
+        fee: "₹4,500"
       });
     });
   }
@@ -428,7 +430,7 @@ function renderSpecialistsList() {
         <div class="apt-spec-name">${escapeHtml(s.name)}</div>
         <div class="apt-spec-meta">
           <span class="badge bg-light text-primary border me-1">${escapeHtml(s.type)}</span>
-          ${escapeHtml(s.specialization)} • <span class="text-secondary">${escapeHtml(s.location)}</span>
+          ${escapeHtml(s.specialization)} • <span class="text-secondary">${escapeHtml(s.location)}</span> • <span class="badge bg-light text-success border fw-bold">${escapeHtml(s.fee)}</span>
         </div>
       </div>
       <button type="button" class="apt-btn-select-spec" onclick="selectSpecialistForBooking('${escapeHtml(s.id)}', '${escapeHtml(s.defaultType)}')">
@@ -445,12 +447,22 @@ window.selectSpecialistForBooking = function(specialistId, defaultType) {
   const sSelect = document.getElementById("apptSpecialist");
   const typeSelect = document.getElementById("apptType");
   const formCard = document.getElementById("bookAppointmentCard");
+  const feeEl = document.getElementById("specialistFeeText");
 
   if (sSelect) {
     sSelect.value = specialistId;
   }
   if (typeSelect && defaultType) {
     typeSelect.value = defaultType;
+  }
+  if (feeEl) {
+    if (specialistId.startsWith("doc_")) {
+      feeEl.innerHTML = '<span class="text-success fw-bold">🩺 Consultation Fee: ₹10,900 (INR)</span>';
+    } else if (specialistId.startsWith("ther_")) {
+      feeEl.innerHTML = '<span class="text-success fw-bold">💪 Therapy Session Fee: ₹4,500 (INR)</span>';
+    } else {
+      feeEl.textContent = '';
+    }
   }
 
   if (formCard) {

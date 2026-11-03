@@ -1,3 +1,22 @@
+
+/**
+ * Format Doctor Consultation Fee in Indian Rupees (INR ₹)
+ * Ensures rounded Indian pricing and proper Indian numbering format (e.g. ₹10,900).
+ */
+function formatConsultationFee(fee) {
+  if (!fee) return "₹10,900";
+  if (typeof fee === "string" && fee.includes("₹")) return fee;
+  const num = parseFloat(String(fee).replace(/[^0-9.]/g, ""));
+  if (isNaN(num)) return "₹10,900";
+  // If in foreign currency range (<= 500), convert to INR (~94.78x, rounded to hundreds)
+  if (num <= 500) {
+    if (Math.round(num) === 115) return "₹10,900";
+    const inr = Math.round((num * 94.7826) / 100) * 100;
+    return "₹" + inr.toLocaleString("en-IN");
+  }
+  return "₹" + Math.round(num).toLocaleString("en-IN");
+}
+
 /**
  * Directory Page Client Logic - Multi Therapy
  * Handles doctor directory search, specialization/hospital/location filtering,
@@ -22,7 +41,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "./images/doctor-avatar.jpg",
     bio: "Dr. Sarah Mitchell is a senior neuro-rehabilitation specialist with over 15 years of experience treating pediatric and adult cerebral palsy, spasticity management, and neuromuscular mobility rehabilitation.",
-    consultationFee: "$120",
+    consultationFee: "₹11,400",
     timing: "Mon - Fri, 9:00 AM - 4:00 PM"
   },
   {
@@ -39,7 +58,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: false,
     photo: "",
     bio: "Dr. Robert Chen specializes in neuromuscular gait training, posture correction, and biomechanical physical therapy for children and adolescents with movement disorders.",
-    consultationFee: "$95",
+    consultationFee: "₹9,000",
     timing: "Tue - Sat, 8:30 AM - 5:00 PM"
   },
   {
@@ -56,7 +75,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Emily Rodriguez is a dedicated developmental pediatrician focused on early motor milestone screening, comprehensive CP developmental intervention, and family-centered pediatric care.",
-    consultationFee: "$130",
+    consultationFee: "₹12,300",
     timing: "Mon - Thu, 9:00 AM - 3:30 PM"
   },
   {
@@ -73,7 +92,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Marcus Vance helps pediatric patients achieve daily independence through fine motor skill coaching, adaptive sensory integration, and customized assistive equipment guidance.",
-    consultationFee: "$90",
+    consultationFee: "₹8,500",
     timing: "Mon - Fri, 10:00 AM - 6:00 PM"
   },
   {
@@ -90,7 +109,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: false,
     photo: "",
     bio: "Dr. Elena Rostova leads clinical speech and language pathology programs focusing on dysarthria, oral-motor rehabilitation, swallowing therapy, and AAC device integration.",
-    consultationFee: "$100",
+    consultationFee: "₹9,500",
     timing: "Wed - Sun, 9:00 AM - 4:00 PM"
   },
   {
@@ -107,7 +126,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. David Kumar specializes in surgical and conservative management of musculoskeletal deformities, joint contracture rehabilitation, and functional mobility restoration in cerebral palsy.",
-    consultationFee: "$140",
+    consultationFee: "₹13,300",
     timing: "Mon - Fri, 8:00 AM - 2:00 PM"
   },
 
@@ -126,7 +145,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Rachel Adams provides cutting-edge neuroplasticity-focused therapy regimens and medical evaluation for pediatric neurological conditions.",
-    consultationFee: "$125",
+    consultationFee: "₹11,900",
     timing: "Mon - Fri, 9:00 AM - 5:00 PM"
   },
   {
@@ -143,7 +162,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: false,
     photo: "",
     bio: "Dr. Anthony Brooks designs high-intensity functional mobility and robotic-assisted gait therapies that empower patients to take independent steps.",
-    consultationFee: "$85",
+    consultationFee: "₹8,100",
     timing: "Mon - Thu, 8:00 AM - 4:30 PM"
   },
   {
@@ -160,7 +179,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Clara Higgins is a passionate advocate for multi-disciplinary developmental care and personalized pediatric growth tracking.",
-    consultationFee: "$115",
+    consultationFee: "₹10,900",
     timing: "Tue - Sat, 9:30 AM - 4:00 PM"
   },
   {
@@ -177,7 +196,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Jonathan Myers specializes in upper-extremity constraint-induced movement therapy (CIMT) and sensory stimulation therapy.",
-    consultationFee: "$90",
+    consultationFee: "₹8,500",
     timing: "Mon - Fri, 10:00 AM - 5:00 PM"
   },
   {
@@ -194,7 +213,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Priya Patel focuses on augmentative communication systems, speech clarity improvement, and pediatric feeding therapies.",
-    consultationFee: "$105",
+    consultationFee: "₹9,900",
     timing: "Mon - Thu, 9:00 AM - 3:00 PM"
   },
   {
@@ -211,7 +230,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: false,
     photo: "",
     bio: "Dr. William Scott provides posture alignment surgery consultations, tendon lengthening assessments, and comprehensive post-op physical rehabilitation.",
-    consultationFee: "$150",
+    consultationFee: "₹14,200",
     timing: "Tue - Fri, 8:30 AM - 2:00 PM"
   },
 
@@ -230,7 +249,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Angela Foster is a physical medicine and rehabilitation (PM&R) specialist offering spasticity control and clinical neuro-muscular evaluation.",
-    consultationFee: "$110",
+    consultationFee: "₹10,500",
     timing: "Mon - Fri, 9:00 AM - 4:00 PM"
   },
   {
@@ -247,7 +266,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Brian Gallagher provides dynamic aquatic therapy, treadmill body-weight support gait training, and personalized strength recovery plans.",
-    consultationFee: "$95",
+    consultationFee: "₹9,000",
     timing: "Mon - Fri, 8:00 AM - 5:00 PM"
   },
   {
@@ -264,7 +283,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: false,
     photo: "",
     bio: "Dr. Lisa Wong evaluates holistic pediatric wellbeing, nutritional support for motor therapy, and integrated multi-specialty care protocols.",
-    consultationFee: "$120",
+    consultationFee: "₹11,400",
     timing: "Tue - Sat, 9:00 AM - 4:00 PM"
   },
   {
@@ -281,7 +300,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Kevin O'Connor specializes in school-based adaptive learning programs, sensory processing interventions, and ergonomic assistive aids.",
-    consultationFee: "$85",
+    consultationFee: "₹8,100",
     timing: "Mon - Thu, 9:00 AM - 5:30 PM"
   },
   {
@@ -298,7 +317,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Hannah Morales helps children improve articulation, breath support for phonation, and responsive conversational engagement.",
-    consultationFee: "$90",
+    consultationFee: "₹8,500",
     timing: "Mon - Fri, 10:00 AM - 5:00 PM"
   },
   {
@@ -315,7 +334,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: false,
     photo: "",
     bio: "Dr. George Peterson specializes in lower-extremity alignment, therapeutic splinting, and progressive post-surgical weight-bearing protocols.",
-    consultationFee: "$145",
+    consultationFee: "₹13,800",
     timing: "Mon - Thu, 8:00 AM - 3:00 PM"
   },
 
@@ -334,7 +353,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Stephanie Cole coordinates medical management of muscular spasticity, botulinum toxin clinical assessments, and ongoing neurological care.",
-    consultationFee: "$125",
+    consultationFee: "₹11,900",
     timing: "Mon - Fri, 9:00 AM - 4:00 PM"
   },
   {
@@ -351,7 +370,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: false,
     photo: "",
     bio: "Dr. Benjamin Ross applies vestibular rehabilitation, balance equilibrium training, and resistance conditioning for pediatric movement disorders.",
-    consultationFee: "$90",
+    consultationFee: "₹8,500",
     timing: "Mon - Fri, 8:30 AM - 5:00 PM"
   },
   {
@@ -368,7 +387,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Chloe Martin partners with parents to create nurturing, comprehensive clinical growth pathways for children with neuromuscular challenges.",
-    consultationFee: "$110",
+    consultationFee: "₹10,500",
     timing: "Mon - Thu, 9:00 AM - 4:30 PM"
   },
   {
@@ -385,7 +404,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Nathan Bailey specializes in bimanual training, computer-assisted communication devices, and home accessibility evaluations.",
-    consultationFee: "$85",
+    consultationFee: "₹8,100",
     timing: "Tue - Sat, 9:00 AM - 5:00 PM"
   },
   {
@@ -402,7 +421,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: false,
     photo: "",
     bio: "Dr. Samantha Hayes offers targeted phonological therapy, swallowing mechanics assessment, and expressive communication development.",
-    consultationFee: "$95",
+    consultationFee: "₹9,000",
     timing: "Mon - Fri, 9:30 AM - 4:00 PM"
   },
   {
@@ -419,7 +438,7 @@ const DIRECTORY_DOCTORS = [
     isAvailableToday: true,
     photo: "",
     bio: "Dr. Arthur Pendelton is a nationally acclaimed pediatric orthopedic consultant focusing on hip surveillance, spine alignment, and mobility preservation.",
-    consultationFee: "$160",
+    consultationFee: "₹15,200",
     timing: "Mon - Wed, 8:00 AM - 2:00 PM"
   }
 ];
@@ -596,7 +615,7 @@ async function fetchBackendDoctors() {
         isAvailableToday: true,
         photo: bd.photo || bd.profile_photo || "",
         bio: `Licensed clinical specialist practicing at ${bd.hospital_name || "Multi Therapy Healthcare Center"}. Direct consults for neurological care, motor milestone development, and patient therapy.`,
-        consultationFee: "$110",
+        consultationFee: "₹10,500",
         timing: "Mon - Fri, 9:00 AM - 5:00 PM"
       }));
 
@@ -770,6 +789,15 @@ function renderDoctorCards() {
               ${escapeHtml(doc.availability)}
             </span>
           </li>
+          <li class="doc-detail-item fee-item">
+            <svg class="detail-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <line x1="2" y1="10" x2="22" y2="10"></line>
+            </svg>
+            <span class="detail-text" style="color: #0b3c73; font-weight: 700;">
+              Consultation: ${escapeHtml(formatConsultationFee(doc.consultationFee))}
+            </span>
+          </li>
         </ul>
 
         <!-- Action Buttons -->
@@ -905,7 +933,7 @@ function openDoctorProfileModal(doctorId) {
   document.getElementById("modalDocExperience").textContent = `${doc.experienceYears}+ Years Clinical Practice`;
   document.getElementById("modalDocAvailability").textContent = doc.availability;
   document.getElementById("modalDocTiming").textContent = doc.timing || "Mon - Fri, 9:00 AM - 5:00 PM";
-  document.getElementById("modalDocFee").textContent = doc.consultationFee || "$110";
+  document.getElementById("modalDocFee").textContent = formatConsultationFee(doc.consultationFee);
   document.getElementById("modalDocBio").textContent = doc.bio;
 
   const bookBtn = document.getElementById("modalDocBookBtn");
