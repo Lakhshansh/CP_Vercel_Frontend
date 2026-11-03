@@ -1,0 +1,233 @@
+/* ==========================================================================
+   Multi Therapy - Clinical Management Navigation Dropdown
+   Reusable, responsive dropdown component for all project pages
+   ========================================================================== */
+
+/* Prevent any parent containers from clipping the dropdown */
+.cp-header-wrap, .ph-header, .doc-header, .pt-header, .tp-header, .ts-header, 
+.apt-header, .ex-header, .header-nav, .mt-navbar, .mt-sub-header, 
+.super-admin-header, .admin-nav {
+  overflow: visible !important;
+}
+
+.cp-navbar, .cp-navbar-inner, .ph-navbar-inner, .doc-navbar-inner, 
+.pt-navbar-inner, .tp-navbar-inner, .ts-navbar-inner, .apt-navbar-inner, 
+.ex-navbar-inner, .header-inner, .mt-navbar-inner, .super-admin-header-inner, 
+.admin-nav-inner, .container-xl, .container-fluid {
+  overflow: visible !important;
+}
+
+/* Dropdown Container */
+.nav-item-dropdown {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+/* Dropdown Toggle Button / Link */
+.nav-dropdown-toggle {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  transition: all 0.2s ease !important;
+  user-select: none !important;
+  background: transparent;
+  border: none;
+}
+
+/* Downward Arrow Icon */
+.dropdown-arrow-icon {
+  display: inline-block !important;
+  width: 12px !important;
+  height: 12px !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  vertical-align: middle !important;
+  flex-shrink: 0 !important;
+  opacity: 0.85;
+}
+
+.nav-item-dropdown.open .dropdown-arrow-icon {
+  transform: rotate(180deg) !important;
+  opacity: 1;
+}
+
+/* Dropdown Menu Card (Desktop Default) */
+.nav-dropdown-menu {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) translateY(8px) !important;
+  min-width: 230px !important;
+  background: #ffffff !important;
+  border: 1.5px solid rgba(191, 219, 254, 0.95) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 16px 38px rgba(16, 52, 99, 0.16), 0 4px 14px rgba(13, 110, 253, 0.08) !important;
+  padding: 8px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+  z-index: 99999 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-sizing: border-box !important;
+}
+
+/* Right-aligned variant when dropdown is located near viewport right edge */
+.nav-item-dropdown.align-right .nav-dropdown-menu {
+  left: auto !important;
+  right: 0 !important;
+  transform: translateY(8px) !important;
+}
+
+.nav-item-dropdown.align-right.open .nav-dropdown-menu {
+  transform: translateY(0) !important;
+}
+
+/* Small invisible hover bridge to prevent premature closing on mouse move */
+.nav-dropdown-menu::before {
+  content: "" !important;
+  position: absolute !important;
+  top: -10px !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 10px !important;
+  display: block !important;
+}
+
+/* Open State (Both Hover and Active/Click) */
+.nav-item-dropdown.open .nav-dropdown-menu {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateX(-50%) translateY(0) !important;
+  pointer-events: auto !important;
+}
+
+.nav-item-dropdown.align-right.open .nav-dropdown-menu {
+  transform: translateY(0) !important;
+}
+
+/* Desktop Hover Auto-Open */
+@media (min-width: 992px) {
+  .nav-item-dropdown:hover .nav-dropdown-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(-50%) translateY(0) !important;
+    pointer-events: auto !important;
+  }
+  .nav-item-dropdown.align-right:hover .nav-dropdown-menu {
+    left: auto !important;
+    right: 0 !important;
+    transform: translateY(0) !important;
+  }
+  .nav-item-dropdown:hover .dropdown-arrow-icon {
+    transform: rotate(180deg) !important;
+    opacity: 1;
+  }
+}
+
+/* Dropdown Menu Item Link */
+.nav-dropdown-link {
+  display: flex !important;
+  align-items: center !important;
+  gap: 11px !important;
+  padding: 8px 12px !important;
+  border-radius: 10px !important;
+  text-decoration: none !important;
+  color: #1e293b !important;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  transition: all 0.18s ease !important;
+  white-space: nowrap !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+}
+
+.nav-dropdown-link:hover,
+.nav-dropdown-link:focus,
+.nav-dropdown-link.active {
+  background-color: #f0f7ff !important;
+  color: #0d6efd !important;
+  transform: translateX(3px) !important;
+}
+
+/* Icon / Emoji in Dropdown Item */
+.nav-dropdown-icon {
+  font-size: 16px !important;
+  width: 22px !important;
+  height: 22px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  border-radius: 6px !important;
+}
+
+.nav-dropdown-text {
+  flex: 1 1 auto !important;
+  white-space: nowrap !important;
+}
+
+/* ==========================================================================
+   Mobile / Collapsed Menu Adaptation (Drawer Accordion View)
+   ========================================================================== */
+@media (max-width: 991px) {
+  .nav-item-dropdown {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+  }
+
+  .nav-dropdown-toggle {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+
+  .nav-dropdown-menu {
+    position: static !important;
+    transform: none !important;
+    min-width: 100% !important;
+    width: 100% !important;
+    margin-top: 6px !important;
+    box-shadow: none !important;
+    border: 1px solid rgba(191, 219, 254, 0.6) !important;
+    background: #f8fbff !important;
+    border-radius: 12px !important;
+    display: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  .nav-dropdown-menu::before {
+    display: none !important;
+  }
+
+  .nav-item-dropdown.open .nav-dropdown-menu {
+    display: flex !important;
+  }
+
+  .nav-dropdown-link {
+    font-size: 14px !important;
+    padding: 9px 12px !important;
+  }
+
+  .nav-dropdown-link:hover {
+    transform: none !important;
+  }
+}

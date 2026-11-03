@@ -15,6 +15,7 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="./css/landing.css?v=2.2">
   <link rel="stylesheet" href="./css/patient-home.css?v=2.2">
+  <link rel="stylesheet" href="./css/clinical-dropdown.css">
 </head>
 <body>
 
@@ -52,9 +53,40 @@
         <ul class="ph-nav-menu" id="navMenu">
           <li><a href="./patient-home.html" class="ph-nav-link active" aria-current="page" id="navHome">Home</a></li>
           <li><a href="./directory.html" class="ph-nav-link" id="navFindDoctors">Find Doctors</a></li>
-          <li><a href="#find-therapists" class="ph-nav-link" id="navFindTherapists">Find Therapists</a></li>
-          <li><a href="./patient-appointments.html" class="ph-nav-link" id="navAppointments">Appointments</a></li>
-          <li><a href="./exercises.html" class="ph-nav-link" id="navExercises">Exercises</a></li>
+                    <li class="nav-item-dropdown">
+            <a href="javascript:void(0)" class="nav-dropdown-toggle ph-nav-link" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
+              <span>Clinical Management</span>
+              <svg class="dropdown-arrow-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2.5 4.5L6 8L9.5 4.5"></path>
+              </svg>
+            </a>
+            <div class="nav-dropdown-menu" aria-label="Clinical Management Submenu">
+              <a href="./therapists.html" class="nav-dropdown-link" id="dropTherapists">
+                <span class="nav-dropdown-icon">🧑‍⚕️</span>
+                <span class="nav-dropdown-text">Therapists</span>
+              </a>
+              <a href="./patients.html" class="nav-dropdown-link" id="dropPatients">
+                <span class="nav-dropdown-icon">👥</span>
+                <span class="nav-dropdown-text">Patients</span>
+              </a>
+              <a href="./therapy-sessions.html" class="nav-dropdown-link" id="dropTherapySessions">
+                <span class="nav-dropdown-icon">📋</span>
+                <span class="nav-dropdown-text">Therapy Sessions</span>
+              </a>
+              <a href="./appointments.html" class="nav-dropdown-link" id="dropAppointments">
+                <span class="nav-dropdown-icon">📅</span>
+                <span class="nav-dropdown-text">Appointments</span>
+              </a>
+              <a href="./exercises.html" class="nav-dropdown-link" id="dropExercises">
+                <span class="nav-dropdown-icon">🏃</span>
+                <span class="nav-dropdown-text">Exercises</span>
+              </a>
+              <a href="./caregivers.html" class="nav-dropdown-link" id="dropCaregivers">
+                <span class="nav-dropdown-icon">🤝</span>
+                <span class="nav-dropdown-text">Caregivers</span>
+              </a>
+            </div>
+          </li>
           <li><a href="./patient-subscriptions.html" class="ph-nav-link" id="navSubscriptions">Plans &amp; Membership</a></li>
           <li><a href="./doctor-home.html" class="ph-nav-link" id="navDoctorSwitch">Doctor Portal</a></li>
           <li><a href="./index.html" class="ph-nav-link" id="navMainSite">Public Site</a></li>
@@ -903,6 +935,7 @@
     <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
   </a>
 
+  <script src="./js/clinical-dropdown.js"></script>
 </body>
 </html>
 
