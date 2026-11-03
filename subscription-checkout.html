@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout &amp; Payment | Multi Therapy</title>
-  <meta name="description" content="Secure Checkout for Multi Therapy Membership Plans - Powered by Razorpay with 18% GST calculation and instant subscription activation.">
+  <meta name="description"
+    content="Secure Checkout for Multi Therapy Membership Plans - Powered by Razorpay with 18% GST calculation and instant subscription activation.">
   <link rel="icon" href="./images/multi-therapy-logo.png" type="image/png">
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
   <!-- Bootstrap 5 CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/subscriptions.css">
 </head>
+
 <body>
 
   <!-- Header Navigation -->
@@ -45,11 +49,12 @@
 
   <!-- Checkout Container -->
   <main class="container-xl py-5" style="max-width: 1040px;">
-    
+
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
       <div>
         <h1 class="fw-bold mb-1" style="color: var(--mt-navy); font-size: 28px;">Complete Your Subscription</h1>
-        <p class="text-muted mb-0">Instant activation, automated GST invoices, and 100% secure payment through Razorpay.</p>
+        <p class="text-muted mb-0">Instant activation, automated GST invoices, and 100% secure payment through Razorpay.
+        </p>
       </div>
       <div class="d-flex align-items-center gap-2 text-success fw-bold small bg-light p-2 px-3 rounded-pill border">
         <span>🔒 256-bit SSL Encrypted Payment</span>
@@ -60,10 +65,10 @@
     <div id="checkoutAlert" class="alert alert-danger" style="display:none;" role="alert"></div>
 
     <div class="row g-4">
-      
+
       <!-- LEFT COLUMN: PLAN & CUSTOMER DETAILS -->
       <div class="col-lg-7">
-        
+
         <!-- 1. Plan Overview Card -->
         <div class="mt-dash-card">
           <div class="mt-dash-card-header">
@@ -75,8 +80,10 @@
 
           <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 border mb-3">
             <div>
-              <h3 class="fw-bold mb-1" id="checkoutPlanName" style="color: var(--mt-navy); font-size: 20px;">Doctor Pro</h3>
-              <div class="text-muted small" id="checkoutPlanDesc">Active clinical practice with tele-therapy &amp; prescriptions.</div>
+              <h3 class="fw-bold mb-1" id="checkoutPlanName" style="color: var(--mt-navy); font-size: 20px;">Doctor Pro
+              </h3>
+              <div class="text-muted small" id="checkoutPlanDesc">Active clinical practice with tele-therapy &amp;
+                prescriptions.</div>
             </div>
             <div class="text-end">
               <div class="fw-bold fs-4" style="color: var(--mt-primary);" id="displayPlanPrice">₹299</div>
@@ -109,7 +116,8 @@
           <div class="row g-3">
             <div class="col-md-6">
               <label class="form-label small fw-bold text-muted">Full Name / Clinic Name</label>
-              <input type="text" class="form-control" id="custName" placeholder="Dr. Lakhshansh Joshi" value="Dr. admin">
+              <input type="text" class="form-control" id="custName" placeholder="Dr. Lakhshansh Joshi"
+                value="Dr. admin">
             </div>
             <div class="col-md-6">
               <label class="form-label small fw-bold text-muted">Username</label>
@@ -117,7 +125,8 @@
             </div>
             <div class="col-md-6">
               <label class="form-label small fw-bold text-muted">Registered Email Address</label>
-              <input type="email" class="form-control" id="custEmail" placeholder="doctor@multitherapy.org" value="joshilakhshansh@gmail.com">
+              <input type="email" class="form-control" id="custEmail" placeholder="doctor@multitherapy.org"
+                value="joshilakhshansh@gmail.com">
             </div>
             <div class="col-md-6">
               <label class="form-label small fw-bold text-muted">Mobile / WhatsApp Number</label>
@@ -125,7 +134,8 @@
             </div>
             <div class="col-12">
               <label class="form-label small fw-bold text-muted">Billing Address &amp; State (for GST Invoice)</label>
-              <input type="text" class="form-control" id="custAddress" placeholder="Jaipur, Rajasthan, PIN 302001" value="Jaipur, Rajasthan">
+              <input type="text" class="form-control" id="custAddress" placeholder="Jaipur, Rajasthan, PIN 302001"
+                value="Jaipur, Rajasthan">
             </div>
           </div>
         </div>
@@ -136,12 +146,15 @@
             <span>🎟️</span> Have a Coupon or Institutional Code?
           </h2>
           <div class="input-group">
-            <input type="text" class="form-control text-uppercase fw-bold" id="couponCodeInput" placeholder="Enter coupon (e.g. WELCOME50)" aria-label="Coupon code">
+            <input type="text" class="form-control text-uppercase fw-bold" id="couponCodeInput"
+              placeholder="Enter coupon (e.g. WELCOME50)" aria-label="Coupon code">
             <button class="btn btn-outline-primary fw-bold px-4" type="button" id="btnApplyCoupon">Apply Code</button>
           </div>
           <div id="couponFeedback" class="small mt-2" style="display:none;"></div>
           <div class="small text-muted mt-2">
-            Suggested: <strong role="button" class="text-primary text-decoration-underline" id="suggestWelcome">WELCOME50</strong> (50% Off) or <strong role="button" class="text-primary text-decoration-underline" id="suggestHealth">HEALTH2026</strong> (20% Off)
+            Suggested: <strong role="button" class="text-primary text-decoration-underline"
+              id="suggestWelcome">WELCOME50</strong> (50% Off) or <strong role="button"
+              class="text-primary text-decoration-underline" id="suggestHealth">HEALTH2026</strong> (20% Off)
           </div>
         </div>
 
@@ -185,18 +198,22 @@
               <span class="small text-muted">Official Payment Gateway</span>
             </div>
             <div class="small text-muted">
-              Supports UPI (GPay, PhonePe, Paytm), Debit/Credit Cards (Visa, Mastercard, RuPay), NetBanking (50+ banks), and EMI.
+              Supports UPI (GPay, PhonePe, Paytm), Debit/Credit Cards (Visa, Mastercard, RuPay), NetBanking (50+ banks),
+              and EMI.
             </div>
           </div>
 
           <!-- Checkout Button -->
-          <button type="button" class="btn btn-primary w-100 py-3 rounded-3 fw-bold fs-5 shadow-sm d-flex align-items-center justify-content-center gap-2" id="btnPayNow">
+          <button type="button"
+            class="btn btn-primary w-100 py-3 rounded-3 fw-bold fs-5 shadow-sm d-flex align-items-center justify-content-center gap-2"
+            id="btnPayNow">
             <span>🔒</span>
             <span id="btnPayText">Pay Now with Razorpay</span>
           </button>
 
           <!-- Free Plan Direct Button -->
-          <button type="button" class="btn btn-success w-100 py-3 rounded-3 fw-bold fs-5 shadow-sm d-none" id="btnActivateFree">
+          <button type="button" class="btn btn-success w-100 py-3 rounded-3 fw-bold fs-5 shadow-sm d-none"
+            id="btnActivateFree">
             <span>✓</span>
             <span>Activate Free Plan Instantly</span>
           </button>
@@ -216,4 +233,5 @@
   <script src="./js/api.js"></script>
   <script src="./js/subscription-checkout.js"></script>
 </body>
+
 </html>

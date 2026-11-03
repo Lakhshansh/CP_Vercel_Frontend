@@ -721,6 +721,17 @@
           const illSpec = document.getElementById("docIllustrationSpec");
           if (illSpec) illSpec.textContent = user.doctor_specialization;
         }
+
+        // Display Doctor Profile Photo in Top Navigation if configured
+        const docPhoto = user.profile_photo || localStorage.getItem("mt_doc_photo_" + (user.username || "admin"));
+        if (docPhoto && !docPhoto.includes("doctor-avatar") && (docPhoto.startsWith("http://") || docPhoto.startsWith("https://") || docPhoto.startsWith("data:image/"))) {
+          const navAvatar = document.getElementById("docNavAvatar");
+          if (navAvatar) {
+            navAvatar.src = docPhoto;
+            navAvatar.style.borderRadius = "50%";
+            navAvatar.style.objectFit = "cover";
+          }
+        }
       }
 
       // Dropdown toggles

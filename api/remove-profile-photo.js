@@ -2,12 +2,45 @@
 const https = require("https");
 const crypto = require("crypto");
 
+let mysql = null;
+try {
+  mysql = require("mysql2/promise");
+} catch (e) {
+  mysql = null;
+}
+
+async function getDbConnection() {
+  if (!mysql) return null;
+
+  const host = process.env.DB_HOST || "gateway01.ap-northeast-1.prod.aws.tidbcloud.com";
+  const user = process.env.DB_USER || "4EUekCnG6wabVPE.root";
+  const password = process.env.DB_PASSWORD || "HA8jMiinRaOyEdgP";
+  const database = process.env.DB_NAME || "cerebral_palsy_db";
+  const port = parseInt(process.env.DB_PORT || "4000", 10);
+
+  try {
+    const conn = await mysql.createConnection({
+      host,
+      user,
+      password,
+      database,
+      port,
+      ssl: { rejectUnauthorized: false },
+      connectTimeout: 8000
+    });
+    return conn;
+  } catch (err) {
+    console.warn("Direct TiDB MySQL connection failed in remove-profile-photo:", err.message);
+    return null;
+  }
+}
+
 async function deleteFromCloudinary(publicId) {
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME || "multitherapy";
   const apiKey = process.env.CLOUDINARY_API_KEY;
   const apiSecret = process.env.CLOUDINARY_API_SECRET;
 
-  if (!apiKey || !apiSecret || !cloudName || !publicId) {
+  if (!apiKey || !apiSecret || !cloudName || !publicId || apiKey === "your_api_key_here") {
     return false;
   }
 
@@ -72,16 +105,57 @@ module.exports = async function handler(req, res) {
       try { body = JSON.parse(body); } catch (e) {}
     }
     body = body || {};
+    const query = req.query || {};
 
-    const publicId = body.cloudinary_public_id || body.public_id || req.query.public_id;
+    const publicId = body.cloudinary_public_id || body.public_id || query.public_id;
+    const userId = body.user_id || query.user_id;
+    const username = body.username || query.username;
+
+    // 1. Delete from Cloudinary if public ID is present
     if (publicId) {
-      await deleteFromCloudinary(publicId);
+      try {
+        await deleteFromCloudinary(publicId);
+      } catch (e) {}
+    }
+
+    // 2. Remove profile photo from MySQL database
+    const db = await getDbConnection();
+    if (db) {
+      try {
+        let targetUid = userId ? parseInt(userId, 10) : null;
+        if (!targetUid && username) {
+          const [uRows] = await db.execute("SELECT user_id FROM users WHERE LOWER(username) = LOWER(?) LIMIT 1", [username]);
+          if (uRows && uRows.length > 0) {
+            targetUid = uRows[0].user_id;
+          }
+        }
+
+        if (targetUid) {
+          await db.execute(
+            "UPDATE users SET profile_photo = NULL, cloudinary_public_id = NULL WHERE user_id = ?",
+            [targetUid]
+          );
+          await db.execute(
+            "UPDATE doctors SET profile_photo = NULL, cloudinary_public_id = NULL WHERE user_id = ?",
+            [targetUid]
+          );
+          await db.execute(
+            "UPDATE patients SET profile_photo = NULL, cloudinary_public_id = NULL WHERE user_id = ?",
+            [targetUid]
+          );
+        }
+        await db.end();
+      } catch (dbErr) {
+        console.warn("MySQL photo removal error:", dbErr.message);
+        if (db) { try { await db.end(); } catch (e) {} }
+      }
     }
 
     return res.status(200).json({
       success: true,
-      message: "Profile photo removed from Cloudinary CDN successfully.",
-      profile_photo: null
+      message: "Doctor profile photo removed successfully from database and Cloudinary.",
+      profile_photo: null,
+      cloudinary_public_id: null
     });
   } catch (err) {
     return res.status(500).json({

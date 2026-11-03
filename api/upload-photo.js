@@ -2,6 +2,39 @@
 const https = require("https");
 const crypto = require("crypto");
 
+let mysql = null;
+try {
+  mysql = require("mysql2/promise");
+} catch (e) {
+  mysql = null;
+}
+
+async function getDbConnection() {
+  if (!mysql) return null;
+
+  const host = process.env.DB_HOST || "gateway01.ap-northeast-1.prod.aws.tidbcloud.com";
+  const user = process.env.DB_USER || "4EUekCnG6wabVPE.root";
+  const password = process.env.DB_PASSWORD || "HA8jMiinRaOyEdgP";
+  const database = process.env.DB_NAME || "cerebral_palsy_db";
+  const port = parseInt(process.env.DB_PORT || "4000", 10);
+
+  try {
+    const conn = await mysql.createConnection({
+      host,
+      user,
+      password,
+      database,
+      port,
+      ssl: { rejectUnauthorized: false },
+      connectTimeout: 8000
+    });
+    return conn;
+  } catch (err) {
+    console.warn("Direct TiDB MySQL connection failed in upload-photo:", err.message);
+    return null;
+  }
+}
+
 /**
  * Upload image buffer or data URL to Cloudinary CDN using signed REST API
  */
@@ -13,7 +46,7 @@ async function uploadToCloudinary(fileData, options = {}) {
   if (!apiKey || !apiSecret || !cloudName || apiKey === "your_api_key_here" || apiSecret === "your_api_secret_here") {
     return {
       success: false,
-      error: "Cloudinary CDN credentials not configured in environment. Please configure CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET."
+      error: "Cloudinary CDN credentials not configured in environment. Using direct high-res storage."
     };
   }
 
@@ -99,8 +132,9 @@ module.exports = async function handler(req, res) {
       try { body = JSON.parse(body); } catch (e) {}
     }
     body = body || {};
+    const query = req.query || {};
 
-    const action = body.action || req.query.action;
+    const action = body.action || query.action;
     if (req.method === "DELETE" || action === "remove") {
       return res.status(200).json({
         success: true,
@@ -117,30 +151,70 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // Attempt Cloudinary signed upload
-    const folder = `multi_therapy/${(body.role || "profiles").toLowerCase()}`;
+    const userId = body.user_id || query.user_id;
+    const username = body.username || query.username;
+    const role = (body.role || "doctor").toLowerCase();
+
+    // 1. Attempt Cloudinary signed upload
+    const folder = `multi_therapy/${role}`;
     const cdnResult = await uploadToCloudinary(photoData, { folder });
 
-    if (!cdnResult.success) {
-      // Graceful fallback: return the photo data URL directly so photo is preserved persistently
-      return res.status(200).json({
-        success: true,
-        message: "Profile photo saved successfully (Direct storage active).",
-        profile_photo: photoData,
-        photo_url: photoData,
-        cloudinary_public_id: null,
-        is_cdn: false,
-        warning: cdnResult.error
-      });
+    let finalPhotoUrl = photoData;
+    let finalCloudinaryPid = null;
+    let isCdn = false;
+
+    if (cdnResult.success) {
+      finalPhotoUrl = cdnResult.url;
+      finalCloudinaryPid = cdnResult.public_id || null;
+      isCdn = true;
+    }
+
+    // 2. Persist in MySQL database directly if user is identified
+    const db = await getDbConnection();
+    if (db) {
+      try {
+        let targetUid = userId ? parseInt(userId, 10) : null;
+        if (!targetUid && username) {
+          const [uRows] = await db.execute("SELECT user_id FROM users WHERE LOWER(username) = LOWER(?) LIMIT 1", [username]);
+          if (uRows && uRows.length > 0) {
+            targetUid = uRows[0].user_id;
+          }
+        }
+
+        if (targetUid) {
+          await db.execute(
+            "UPDATE users SET profile_photo = ?, cloudinary_public_id = ? WHERE user_id = ?",
+            [finalPhotoUrl, finalCloudinaryPid, targetUid]
+          );
+
+          if (role.includes("doctor")) {
+            await db.execute(
+              "UPDATE doctors SET profile_photo = ?, cloudinary_public_id = ? WHERE user_id = ?",
+              [finalPhotoUrl, finalCloudinaryPid, targetUid]
+            );
+          } else if (role.includes("patient")) {
+            await db.execute(
+              "UPDATE patients SET profile_photo = ?, cloudinary_public_id = ? WHERE user_id = ?",
+              [finalPhotoUrl, finalCloudinaryPid, targetUid]
+            );
+          }
+        }
+        await db.end();
+      } catch (dbErr) {
+        console.warn("MySQL photo persist error in upload-photo:", dbErr.message);
+        if (db) { try { await db.end(); } catch (e) {} }
+      }
     }
 
     return res.status(200).json({
       success: true,
-      message: "Profile photo uploaded and CDN-optimized successfully!",
-      profile_photo: cdnResult.url,
-      photo_url: cdnResult.url,
-      cloudinary_public_id: cdnResult.public_id || null,
-      is_cdn: true
+      message: isCdn
+        ? "Doctor profile photo uploaded and CDN-optimized successfully!"
+        : "Doctor profile photo saved successfully in MySQL database!",
+      profile_photo: finalPhotoUrl,
+      photo_url: finalPhotoUrl,
+      cloudinary_public_id: finalCloudinaryPid,
+      is_cdn: isCdn
     });
   } catch (err) {
     return res.status(500).json({

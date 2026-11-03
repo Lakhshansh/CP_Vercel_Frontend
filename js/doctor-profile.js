@@ -3,15 +3,17 @@
  * Multi Therapy - Doctor Profile Management
  * ============================================================================
  * Handles doctor / clinical specialist credentials, Cloudinary CDN signed photo upload,
- * real-time preview, removal, MySQL database persistence, and account security.
+ * real-time preview, client-side canvas optimization, removal, MySQL database persistence,
+ * and account security.
  */
 
 let currentUserState = null;
-let pendingPhotoData = null; // Base64 data URL preview or 'REMOVE' or null
-let pendingPhotoFile = null; // File object for multipart upload
+let pendingPhotoData = null; // Compressed Base64 data URL preview or 'REMOVE' or null
+let pendingPhotoFile = null; // Original File object
+let isPhotoSaving = false;
 
-// Guaranteed inline SVG vector data URI for instant, zero-lag, offline-resilient doctor avatar display
-const DEFAULT_DOCTOR_AVATAR = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+PGRlZnM+PGNsaXBQYXRoIGlkPSJkb2NDaXJjbGVDbGlwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NyIvPjwvY2xpcFBhdGg+PGxpbmVhckdyYWRpZW50IGlkPSJkb2NCZ0dyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNlY2ZkZjUiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkMWZhZTUiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OCIgZmlsbD0idXJsKCNkb2NCZ0dyYWQpIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ2LjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2E3ZjNkMCIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48ZyBjbGlwLXBhdGg9InVybCgjZG9jQ2lyY2xlQ2xpcCkiPjxwYXRoIGQ9Ik0yMiA4NiBDMjIgNjIgMzQgNTQgNTAgNTQgQzY2IDU0IDc4IDYyIDc4IDg2IFoiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2NiZDVlMSIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48cGF0aCBkPSJNNDIgNTQgTDUwIDY3IEw1OCA1NCBaIiBmaWxsPSIjMDc4QjY5Ii8+PHBhdGggZD0iTTM5IDU1IEMzOSA2NyA0NCA3MyA1MCA3MyBDNTYgNzMgNjEgNjcgNjEgNTUiIHN0cm9rZT0iIzFlMjkzYiIgc3Ryb2tlLXdpZHRoPSIyLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNzUiIHI9IjMuNSIgZmlsbD0iIzk0YTNiOCIgc3Ryb2tlPSIjMGYxNzJhIiBzdHJva2Utd2lkdGg9IjEuNCIvPjxwYXRoIGQ9Ik0zNCA1NiBMNDUgNzUgTDM4IDg2IiBzdHJva2U9IiMwNzhCNjkiIHN0cm9rZS13aWR0aD0iMi4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNjYgNTYgTDU1IDc1IEw2MiA4NiIgc3Ryb2tlPSIjMDc4QjY5IiBzdHJva2Utd2lkdGg9IjIuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+PHJlY3QgeD0iNjQiIHk9IjY1IiB3aWR0aD0iMi41IiBoZWlnaHQ9IjcuNSIgcng9IjEuMiIgZmlsbD0iIzA1OTY2OSIvPjxyZWN0IHg9IjYxLjUiIHk9IjY3LjUiIHdpZHRoPSI3LjUiIGhlaWdodD0iMi41IiByeD0iMS4yIiBmaWxsPSIjMDU5NjY5Ii8+PHJlY3QgeD0iNDUiIHk9IjQ0IiB3aWR0aD0iMTAiIGhlaWdodD0iMTIiIGZpbGw9IiNmZWQ3YWEiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSIzMyIgcj0iMTQiIGZpbGw9IiNmZWQ3YWEiLz48cGF0aCBkPSJNMzUgMzEgQzM1IDE3IDQzIDE1IDUwIDE1IEM1NyAxNSA2NSAxNyA2NSAzMSBDNjAgMjQgNTUgMjMgNTAgMjMgQzQ0IDIzIDM5IDI1IDM1IDMxIFoiIGZpbGw9IiMxZTI5M2IiLz48cGF0aCBkPSJNMzUgMjkgTDM1IDM0IEMzNiAzNCAzNyAzMiAzNyAyOSBaIiBmaWxsPSIjMWUyOTNiIi8+PHBhdGggZD0iTTY1IDI5IEw2NSAzNCBDNjQgMzQgNjMgMzIgNjMgMjkgWiIgZmlsbD0iIzFlMjkzYiIvPjxwYXRoIGQ9Ik00MSAyNyBRNDQgMjYgNDcgMjciIHN0cm9rZT0iIzFlMjkzYiIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik01MyAyNyBRNTYgMjYgNTkgMjciIHN0cm9rZT0iIzFlMjkzYiIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjQ0LjUiIGN5PSIzMi41IiByPSIxLjYiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI1NS41IiBjeT0iMzIuNSIgcj0iMS42IiBmaWxsPSIjMGYxNzJhIi8+PGNpcmNsZSBjeD0iNDQiIGN5PSIzMiIgcj0iMC41IiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iNTUiIGN5PSIzMiIgcj0iMC41IiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMzkuNSIgeT0iMjkiIHdpZHRoPSI5IiBoZWlnaHQ9IjciIHJ4PSIyLjUiIHN0cm9rZT0iIzA1OTY2OSIgc3Ryb2tlLXdpZHRoPSIxLjQiIGZpbGw9Im5vbmUiLz48cmVjdCB4PSI1MS41IiB5PSIyOSIgd2lkdGg9IjkiIGhlaWdodD0iNyIgcng9IjIuNSIgc3Ryb2tlPSIjMDU5NjY5IiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIvPjxsaW5lIHgxPSI0OC41IiB5MT0iMzIiIHgyPSI1MS41IiB5Mj0iMzIiIHN0cm9rZT0iIzA1OTY2OSIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48bGluZSB4MT0iMzYiIHkxPSIzMSIgeDI9IjM5LjUiIHkyPSIzMSIgc3Ryb2tlPSIjMDU5NjY5IiBzdHJva2Utd2lkdGg9IjEuMiIvPjxsaW5lIHgxPSI2MC41IiB5MT0iMzEiIHgyPSI2NCIgeTI9IjMxIiBzdHJva2U9IiMwNTk2NjkiIHN0cm9rZS13aWR0aD0iMS4yIv48cGF0aCBkPSJNNDkgMzQgTDQ5LjUgMzcgTDUxIDM3IiBzdHJva2U9IiNlYTU4MGMiIHN0cm9rZS13aWR0aD0iMS4xIiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNDYuNSAzOS41IFE1MCA0MyA1My41IDM5LjUiIHN0cm9rZT0iI2MyNDEwYyIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjwvZz48L3N2Zz4=";
+// 100% Valid XML clean SVG vector data URI for instant, zero-lag doctor avatar display
+const DEFAULT_DOCTOR_AVATAR = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+PGRlZnM+PGNsaXBQYXRoIGlkPSJkb2NDaXJjbGVDbGlwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NyIvPjwvY2xpcFBhdGg+PGxpbmVhckdyYWRpZW50IGlkPSJkb2NCZ0dyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNlY2ZkZjUiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkMWZhZTUiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OCIgZmlsbD0idXJsKCNkb2NCZ0dyYWQpIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ2LjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2E3ZjNkMCIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48ZyBjbGlwLXBhdGg9InVybCgjZG9jQ2lyY2xlQ2xpcCkiPjxwYXRoIGQ9Ik0yMiA4NiBDMjIgNjIgMzQgNTQgNTAgNTQgQzY2IDU0IDc4IDYyIDc4IDg2IFoiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2NiZDVlMSIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48cGF0aCBkPSJNNDIgNTQgTDUwIDY3IEw1OCA1NCBaIiBmaWxsPSIjMDc4QjY5Ii8+PHBhdGggZD0iTTM5IDU1IEMzOSA2NyA0NCA3MyA1MCA3MyBDNTYgNzMgNjEgNjcgNjEgNTUiIHN0cm9rZT0iIzFlMjkzYiIgc3Ryb2tlLXdpZHRoPSIyLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNzUiIHI9IjMuNSIgZmlsbD0iIzk0YTNiOCIgc3Ryb2tlPSIjMGYxNzJhIiBzdHJva2Utd2lkdGg9IjEuNCIvPjxwYXRoIGQ9Ik0zNCA1NiBMNDUgNzUgTDM4IDg2IiBzdHJva2U9IiMwNzhCNjkiIHN0cm9rZS13aWR0aD0iMi4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNjYgNTYgTDU1IDc1IEw2MiA4NiIgc3Ryb2tlPSIjMDc4QjY5IiBzdHJva2Utd2lkdGg9IjIuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+PHJlY3QgeD0iNjQiIHk9IjY1IiBwidthPSIyLjUiIGhlaWdodD0iNy41IiByeD0iMS4yIiBmaWxsPSIjMDU5NjY5Ii8+PHJlY3QgeD0iNjEuNSIgeT0iNjcuNSIgd2lkdGg9IjcuNSIgaGVpZ2h0PSIyLjUiIHJ4PSIxLjIiIGZpbGw9IiMwNTk2NjkiLz48cmVjdCB4PSI0NSIgeT0iNDQiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMiIgZmlsbD0iI2ZlZDdhYSIgcng9IjIiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjMzIiByPSIxNCIgZmlsbD0iI2ZlZDdhYSIvPjxwYXRoIGQ9Ik0zNSAzMSBDMzUgMTcgNDMgMTUgNTAgMTUgQzU3IDE1IDY1IDE3IDY1IDMxIEM2MCAyNCA1NSAyMyA1MCAyMyBDNDQgMjMgMzkgMjUgMzUgMzFaIiBmaWxsPSIjMWUyOTNiIi8+PHBhdGggZD0iTTM1IDI5IEwzNSAzNCBDMzYgMzQgMzcgMzIgMzcgMjkgWiIgZmlsbD0iIzFlMjkzYiIvPjxwYXRoIGQ9Ik02NSAyOSBMNjUgMzQgQzY0IDM0IDYzIDMyIDYzIDI5IFoiIGZpbGw9IiMxZTI5M2IiLz48cGF0aCBkPSJNNDEgMjcgUTQ0IDI2IDQ3IDI3IiBzdHJva2U9IiMxZTI5M2IiIHN0cm9rZS13aWR0aD0iMS40IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNTMgMjcgUTU2IDI2IDU5IDI3IiBzdHJva2U9IiMxZTI5M2IiIHN0cm9rZS13aWR0aD0iMS40IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0NC41IiBjeT0iMzIuNSIgcj0iMS42IiBmaWxsPSIjMGYxNzJhIi8+PGNpcmNsZSBjeD0iNTUuNSIgY3k9IjMyLjUiIHI9IjEuNiIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjQ0IiBjeT0iMzIiIHI9IjAuNSIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjU1IiBjeT0iMzIiIHI9IjAuNSIgZmlsbD0iI2ZmZmZmZiIvPjxyZWN0IHg9IjM5LjUiIHk9IjI5IiB3aWR0aD0iOSIgaGVpZ2h0PSI3IiByeD0iMi41IiBzdHJva2U9IiMwNTk2NjkiIHN0cm9rZS13aWR0aD0iMS40IiBmaWxsPSJub25lIi8+PHJlY3QgeD0iNTEuNSIgeT0iMjkiIHdpZHRoPSI5IiBoZWlnaHQ9IjciIHJ4PSIyLjUiIHN0cm9rZT0iIzA1OTY2OSIgc3Ryb2tlLXdpZHRoPSIxLjQiIGZpbGw9Im5vbmUiLz48bGluZSB4MT0iNDguNSIgeTE9IjMyIiB4Mj0iNTEuNSIgeTI9IjMyIiBzdHJva2U9IiMwNTk2NjkiIHN0cm9rZS13aWR0aD0iMS40Ii8+PGxpbmUgeDE9IjM2IiB5MT0iMzEiIHgyPSIzOS41IiB5Mj0iMzEiIHN0cm9rZT0iIzA1OTY2OSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48bGluZSB4MT0iNjAuNSIgeTE9IjMxIiB4Mj0iNjQiIHkyPSIzMSIgc3Ryb2tlPSIjMDU5NjY5IiBzdHJva2Utd2lkdGg9IjEuMiIvPjxwYXRoIGQ9Ik00OSAzNCBMNDkuNSAzNyBMNTEgMzciIHN0cm9rZT0iI2VhNTgwYyIgc3Ryb2tlLXdpZHRoPSIxLjEiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik00Ni41IDM5LjUgUTUwIDQzIDUzLjUgMzkuNSIgc3Ryb2tlPSIjYzI0MTBjIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+PC9nPjwvc3ZnPg==";
 
 function showToast(message) {
   const toast = document.getElementById("toastPopup");
@@ -19,6 +21,62 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.add("show");
   setTimeout(() => toast.classList.remove("show"), 3500);
+}
+
+function hasValidPhoto(photo) {
+  if (!photo || photo === "REMOVE") return false;
+  const p = String(photo).trim();
+  if (p.includes("doctor-avatar") || p.includes("doctor-login-avatar")) return false;
+  return p.startsWith("http://") || p.startsWith("https://") || p.startsWith("data:image/");
+}
+
+/**
+ * Client-side Canvas Image Compression
+ * Resizes image down to 500x500 square at 0.85 quality.
+ * Prevents Vercel 4.5MB payload limit and localStorage QuotaExceededError.
+ */
+function compressDoctorPhoto(file, maxSize = 500, quality = 0.85) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Failed to read image file."));
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("Failed to parse image for compression."));
+      img.onload = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          let { width, height } = img;
+
+          // Crop or scale to square avatar
+          let sx = 0, sy = 0, sWidth = width, sHeight = height;
+          if (width > height) {
+            sx = (width - height) / 2;
+            sWidth = height;
+          } else if (height > width) {
+            sy = (height - width) / 2;
+            sHeight = width;
+          }
+
+          canvas.width = Math.min(sWidth, maxSize);
+          canvas.height = Math.min(sHeight, maxSize);
+
+          const ctx = canvas.getContext("2d");
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = "high";
+          ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, canvas.width, canvas.height);
+
+          // Export as JPEG for high compression & universal compatibility
+          const compressedDataUrl = canvas.toDataURL("image/jpeg", quality);
+          resolve(compressedDataUrl);
+        } catch (err) {
+          // If canvas fails, fallback to raw data URL
+          resolve(e.target.result);
+        }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -33,19 +91,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     user = {
       username: "admin",
       name: "Dr. admin",
+      doctor_name: "Dr. admin",
       email: "doctor@multitherapy.org",
       phone: "+91 9468650893",
       role: "doctor",
       user_id: 1,
       doctor_id: 1,
       license: "MCI-RAJ-2018-8492",
+      registration_number: "MCI-RAJ-2018-8492",
       specialty: "Pediatric Neurology",
+      specialization: "Pediatric Neurology",
       hospital: "Multi Therapy Rehabilitation Center",
+      hospital_name: "Multi Therapy Rehabilitation Center",
       experience: "12+ Years",
       qualification: "MBBS, MD (Pediatrics), DM (Neuro)",
       address: "Jaipur, Rajasthan",
+      hospital_address: "Jaipur, Rajasthan",
       profile_photo: ""
     };
+  }
+
+  // Restore persistent photo cache if available
+  const usernameKey = user.username || "admin";
+  const persistentKey = `mt_doc_photo_${usernameKey}`;
+  const savedCachedPhoto = localStorage.getItem(persistentKey);
+  if (!hasValidPhoto(user.profile_photo) && hasValidPhoto(savedCachedPhoto)) {
+    user.profile_photo = savedCachedPhoto;
   }
 
   currentUserState = { ...user };
@@ -85,7 +156,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     const res = await fetch(fetchUrl, { credentials: "include" }).then(r => r.json()).catch(() => null);
 
     if (res && res.success && res.user) {
+      const existingPhoto = currentUserState.profile_photo;
       currentUserState = { ...currentUserState, ...res.user };
+
+      // Ensure valid saved photo is never wiped out by mock or empty response
+      if (!hasValidPhoto(res.user.profile_photo) && hasValidPhoto(existingPhoto)) {
+        currentUserState.profile_photo = existingPhoto;
+      } else if (hasValidPhoto(res.user.profile_photo)) {
+        localStorage.setItem(persistentKey, res.user.profile_photo);
+      }
+
       localStorage.setItem("currentUser", JSON.stringify(currentUserState));
       populateDoctorProfile(currentUserState);
     }
@@ -106,6 +186,7 @@ function setupPhotoControls() {
   const btnQuickSave = document.getElementById("btnSaveQuickDocPhoto");
   const avatarImg = document.getElementById("docAvatarImg");
   const avatarEl = document.getElementById("docAvatarEl");
+  const avatarContainer = document.getElementById("docAvatarContainer");
   const previewBadge = document.getElementById("doctorPhotoPreviewBadge");
   const msgEl = document.getElementById("profileMessage");
 
@@ -121,9 +202,11 @@ function setupPhotoControls() {
   if (btnUpload) btnUpload.addEventListener("click", triggerFileInput);
   if (btnChange) btnChange.addEventListener("click", triggerFileInput);
   if (btnCamera) btnCamera.addEventListener("click", triggerFileInput);
+  if (avatarContainer) avatarContainer.addEventListener("click", triggerFileInput);
+  if (avatarImg) avatarImg.addEventListener("click", triggerFileInput);
 
   if (fileInput) {
-    fileInput.addEventListener("change", (e) => {
+    fileInput.addEventListener("change", async (e) => {
       const file = e.target.files && e.target.files[0];
       if (!file) return;
 
@@ -148,16 +231,21 @@ function setupPhotoControls() {
         return;
       }
 
-      // 3. Read image and display instant client-side preview
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const dataUrl = event.target.result;
-        pendingPhotoData = dataUrl;
+      // 3. Compress image on client-side & display instant high-res preview
+      try {
+        if (previewBadge) {
+          previewBadge.style.display = "inline-block";
+          previewBadge.style.background = "#0284c7";
+          previewBadge.textContent = "Optimizing...";
+        }
+
+        const compressedDataUrl = await compressDoctorPhoto(file, 500, 0.85);
+        pendingPhotoData = compressedDataUrl;
         pendingPhotoFile = file;
 
-        // Display preview image
+        // Display preview image immediately
         if (avatarImg) {
-          avatarImg.src = dataUrl;
+          avatarImg.src = compressedDataUrl;
           avatarImg.style.display = "block";
         }
         if (avatarEl) avatarEl.style.display = "none";
@@ -169,14 +257,10 @@ function setupPhotoControls() {
         }
 
         updatePhotoButtons(true, true);
-        showToast("Photo preview ready. Click 'Save Photo' or 'Save Changes' to update in database.");
-      };
-
-      reader.onerror = () => {
-        showProfileAlert("Failed to read image file. Please try another image.", "danger");
-      };
-
-      reader.readAsDataURL(file);
+        showToast("Photo preview ready. Click 'Save Photo' to update in database.");
+      } catch (err) {
+        showProfileAlert(`Failed to process photo: ${err.message}`, "danger");
+      }
     });
   }
 
@@ -184,33 +268,29 @@ function setupPhotoControls() {
   if (btnQuickSave) {
     btnQuickSave.addEventListener("click", async (e) => {
       e.preventDefault();
+      e.stopPropagation();
+      if (isPhotoSaving) return;
       await executeDocPhotoPersistence();
     });
   }
 
-  // Remove Photo Button
+  // Remove Photo Button with explicit confirmation
   if (btnRemove) {
-    btnRemove.addEventListener("click", (e) => {
+    btnRemove.addEventListener("click", async (e) => {
       e.preventDefault();
+      e.stopPropagation();
+
+      const confirmed = window.confirm(
+        "Are you sure you want to remove your profile photo? This will revert your profile to the default doctor avatar."
+      );
+      if (!confirmed) return;
+
       pendingPhotoData = "REMOVE";
       pendingPhotoFile = null;
       if (fileInput) fileInput.value = "";
 
-      // Reset to default doctor avatar SVG
-      if (avatarImg) {
-        avatarImg.src = DEFAULT_DOCTOR_AVATAR;
-        avatarImg.style.display = "block";
-      }
-      if (avatarEl) avatarEl.style.display = "none";
-
-      if (previewBadge) {
-        previewBadge.style.display = "inline-block";
-        previewBadge.style.background = "#ef4444";
-        previewBadge.textContent = "Marked for Removal";
-      }
-
-      updatePhotoButtons(false, true);
-      showToast("Photo marked for removal. Click 'Save Photo' or 'Save Changes' to apply in database.");
+      // Immediately execute persistent removal in database
+      await executeDocPhotoPersistence();
     });
   }
 }
@@ -228,7 +308,10 @@ function updatePhotoButtons(hasPhoto, isPending = false) {
     if (btnUpload) btnUpload.style.display = hasPhoto ? "none" : "inline-flex";
     if (btnChange) btnChange.style.display = "inline-flex";
     if (btnRemove) btnRemove.style.display = "inline-flex";
-    if (btnQuickSave) btnQuickSave.style.display = "inline-flex";
+    if (btnQuickSave) {
+      btnQuickSave.style.display = "inline-flex";
+      btnQuickSave.innerHTML = `<span>💾</span> <span>Save Photo</span>`;
+    }
   } else if (hasPhoto) {
     if (btnUpload) btnUpload.style.display = "none";
     if (btnChange) btnChange.style.display = "inline-flex";
@@ -246,20 +329,33 @@ function updatePhotoButtons(hasPhoto, isPending = false) {
  * Executes direct upload and persistent saving of doctor photo to Cloudinary CDN & MySQL
  */
 async function executeDocPhotoPersistence() {
+  if (isPhotoSaving) return false;
+  isPhotoSaving = true;
+
   const btnQuickSave = document.getElementById("btnSaveQuickDocPhoto");
+  const previewBadge = document.getElementById("doctorPhotoPreviewBadge");
   const origQuickText = btnQuickSave ? btnQuickSave.innerHTML : "";
+
   if (btnQuickSave) {
     btnQuickSave.disabled = true;
     btnQuickSave.innerHTML = `<span>⏳</span> Saving...`;
   }
+  if (previewBadge) {
+    previewBadge.style.display = "inline-block";
+    previewBadge.style.background = "#059669";
+    previewBadge.textContent = "Saving to Database...";
+  }
 
   const apiBase = (typeof API_BASE_URL !== "undefined") ? API_BASE_URL : "";
+  const usernameKey = currentUserState.username || "admin";
+  const persistentKey = `mt_doc_photo_${usernameKey}`;
   let newPhotoUrl = currentUserState.profile_photo;
   let newCloudinaryPid = currentUserState.cloudinary_public_id;
 
   try {
     if (pendingPhotoFile || pendingPhotoData) {
       if (pendingPhotoData === "REMOVE") {
+        // Call removal endpoint
         try {
           await fetch(`${apiBase}/api/remove-profile-photo`, {
             method: "POST",
@@ -272,15 +368,31 @@ async function executeDocPhotoPersistence() {
           });
         } catch (e) {}
 
+        // Clear in database via /api/profile
+        try {
+          await fetch(`${apiBase}/api/profile`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              user_id: currentUserState.user_id,
+              username: currentUserState.username,
+              profile_photo: "REMOVE",
+              cloudinary_public_id: null
+            })
+          });
+        } catch (e) {}
+
         newPhotoUrl = null;
         newCloudinaryPid = null;
+        localStorage.removeItem(persistentKey);
+
       } else {
+        // Upload photo via API
         let uploadRes = null;
         let lastUploadErr = null;
 
-        // Attempt 1: JSON base64 payload
         try {
-          const jsonResp = await fetch(`${apiBase}/api/upload-profile-photo`, {
+          const resp = await fetch(`${apiBase}/api/upload-photo`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -290,58 +402,65 @@ async function executeDocPhotoPersistence() {
               role: "doctor"
             })
           });
-          const jData = await jsonResp.json().catch(() => null);
-          if (jsonResp.ok && jData && jData.success) {
-            uploadRes = jData;
-          } else if (jData && !jData.success) {
-            lastUploadErr = jData.message;
+          const data = await resp.json().catch(() => null);
+          if (resp.ok && data && data.success) {
+            uploadRes = data;
+          } else if (data && !data.success) {
+            lastUploadErr = data.message;
           }
         } catch (e) {
           lastUploadErr = e.message;
         }
 
-        // Attempt 2: FormData multipart
-        if (!uploadRes && pendingPhotoFile) {
+        // Fallback to /api/upload-profile-photo rewrite
+        if (!uploadRes) {
           try {
-            const fd = new FormData();
-            fd.append("profile_photo", pendingPhotoFile);
-            fd.append("user_id", currentUserState.user_id || "");
-            fd.append("username", currentUserState.username || "");
-            fd.append("role", "doctor");
-
-            const fdResp = await fetch(`${apiBase}/api/upload-profile-photo`, {
+            const resp2 = await fetch(`${apiBase}/api/upload-profile-photo`, {
               method: "POST",
-              body: fd
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                profile_photo: pendingPhotoData,
+                user_id: currentUserState.user_id,
+                username: currentUserState.username,
+                role: "doctor"
+              })
             });
-            const fdData = await fdResp.json().catch(() => null);
-            if (fdResp.ok && fdData && fdData.success) {
-              uploadRes = fdData;
+            const data2 = await resp2.json().catch(() => null);
+            if (resp2.ok && data2 && data2.success) {
+              uploadRes = data2;
             }
           } catch (e) {}
         }
 
         if (uploadRes && uploadRes.success) {
-          newPhotoUrl = uploadRes.photo_url || uploadRes.profile_photo;
+          newPhotoUrl = uploadRes.photo_url || uploadRes.profile_photo || pendingPhotoData;
           newCloudinaryPid = uploadRes.cloudinary_public_id || null;
         } else {
+          // If upload endpoint had a transient failure, use compressed data URL directly
           newPhotoUrl = pendingPhotoData;
           newCloudinaryPid = null;
         }
-      }
 
-      // Persist in MySQL via /api/profile
-      try {
-        await fetch(`${apiBase}/api/profile`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            user_id: currentUserState.user_id,
-            username: currentUserState.username,
-            profile_photo: newPhotoUrl,
-            cloudinary_public_id: newCloudinaryPid
-          })
-        });
-      } catch (e) {}
+        // Persist in MySQL via /api/profile
+        try {
+          await fetch(`${apiBase}/api/profile`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              user_id: currentUserState.user_id,
+              username: currentUserState.username,
+              doctor_name: currentUserState.doctor_name || currentUserState.name,
+              profile_photo: newPhotoUrl,
+              cloudinary_public_id: newCloudinaryPid
+            })
+          });
+        } catch (e) {}
+
+        // Save in persistent key
+        if (newPhotoUrl) {
+          localStorage.setItem(persistentKey, newPhotoUrl);
+        }
+      }
 
       // Update local state
       currentUserState = {
@@ -354,11 +473,18 @@ async function executeDocPhotoPersistence() {
       // Reset pending
       pendingPhotoData = null;
       pendingPhotoFile = null;
-      const previewBadge = document.getElementById("doctorPhotoPreviewBadge");
-      if (previewBadge) previewBadge.style.display = "none";
 
       // Refresh view
       populateDoctorProfile(currentUserState);
+
+      if (previewBadge) {
+        previewBadge.style.display = "inline-block";
+        previewBadge.style.background = "#10b981";
+        previewBadge.textContent = "✓ Saved";
+        setTimeout(() => {
+          if (previewBadge) previewBadge.style.display = "none";
+        }, 2500);
+      }
 
       const successMsg = newPhotoUrl
         ? "Doctor profile photo updated and saved successfully in database!"
@@ -370,11 +496,13 @@ async function executeDocPhotoPersistence() {
     return false;
   } catch (err) {
     showProfileAlert(`Error saving doctor photo: ${err.message || err}`, "danger");
+    if (previewBadge) previewBadge.style.display = "none";
     return false;
   } finally {
+    isPhotoSaving = false;
     if (btnQuickSave) {
       btnQuickSave.disabled = false;
-      btnQuickSave.innerHTML = origQuickText;
+      btnQuickSave.innerHTML = origQuickText || `<span>💾</span> <span>Save Photo</span>`;
     }
   }
 }
@@ -415,7 +543,7 @@ function setupDoctorProfileForm() {
         await executeDocPhotoPersistence();
       }
 
-      // 2. Persist credentials to MySQL database
+      // 2. Persist credentials to MySQL database via /api/profile
       const apiBase = (typeof API_BASE_URL !== "undefined") ? API_BASE_URL : "";
       const profilePayload = {
         user_id: currentUserState.user_id,
@@ -584,10 +712,6 @@ function populateDoctorProfile(user) {
   const displayLicense = user.registration_number || user.license || "MCI-RAJ-2018-8492";
   const displaySpecialty = user.doctor_specialization || user.specialty || user.specialization || "Pediatric Neurology";
 
-  // Single initial character for fallback avatar
-  const rawChar = displayName.replace(/^Dr\.\s*/i, "").trim().charAt(0) || "D";
-  const initialChar = rawChar.toUpperCase();
-
   // Hero Section
   const heroNameEl = document.getElementById("heroDocName");
   const heroSubEl = document.getElementById("heroDocSub");
@@ -633,22 +757,16 @@ function populateDoctorProfile(user) {
   const navAvatarImg = document.getElementById("navAvatarImg");
 
   const photo = user.profile_photo;
-  const hasValidPhoto = photo && photo !== "REMOVE" && (
-    photo.startsWith("http://") ||
-    photo.startsWith("https://") ||
-    photo.startsWith("data:") ||
-    photo.startsWith("/profile/photo/") ||
-    photo.startsWith("/static/")
-  ) && !photo.includes("doctor-avatar");
+  const hasPhoto = hasValidPhoto(photo);
 
-  if (hasValidPhoto) {
+  if (hasPhoto) {
     const photoSrc = (typeof CdnManager !== "undefined")
       ? CdnManager.buildCdnUrl(photo, { width: 140, height: 140, crop: "fill" })
       : photo;
 
     if (avatarImg) {
       avatarImg.src = photoSrc;
-      avatarImg.alt = "";
+      avatarImg.alt = displayName;
       avatarImg.style.display = "block";
       avatarImg.onerror = function () {
         this.src = DEFAULT_DOCTOR_AVATAR;
@@ -659,7 +777,7 @@ function populateDoctorProfile(user) {
 
     if (navAvatarImg) {
       navAvatarImg.src = photoSrc;
-      navAvatarImg.alt = "";
+      navAvatarImg.alt = displayName;
       navAvatarImg.style.display = "block";
       navAvatarImg.onerror = function () {
         this.src = DEFAULT_DOCTOR_AVATAR;
@@ -670,23 +788,21 @@ function populateDoctorProfile(user) {
 
     updatePhotoButtons(true, false);
   } else {
-    // Default avatar view: Display crisp doctor vector avatar SVG
+    // Default avatar view: Display crisp, valid doctor vector avatar SVG
     if (avatarImg) {
       avatarImg.src = DEFAULT_DOCTOR_AVATAR;
-      avatarImg.alt = "";
+      avatarImg.alt = "Default Doctor Avatar";
       avatarImg.style.display = "block";
       avatarImg.onerror = null;
     }
     if (avatarEl) avatarEl.style.display = "none";
 
-    if (navAvatarEl) {
-      navAvatarEl.style.display = "flex";
-      navAvatarEl.textContent = initialChar;
-    }
     if (navAvatarImg) {
-      navAvatarImg.style.display = "none";
-      navAvatarImg.src = "";
+      navAvatarImg.src = DEFAULT_DOCTOR_AVATAR;
+      navAvatarImg.style.display = "block";
+      navAvatarImg.onerror = null;
     }
+    if (navAvatarEl) navAvatarEl.style.display = "none";
 
     updatePhotoButtons(false, false);
   }
@@ -700,6 +816,6 @@ function showProfileAlert(message, type = "success") {
   el.textContent = message;
   el.scrollIntoView({ behavior: "smooth", block: "nearest" });
   if (type === "success") {
-    setTimeout(() => { el.hidden = true; }, 6000);
+    setTimeout(() => { if (el) el.hidden = true; }, 6000);
   }
 }

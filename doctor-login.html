@@ -1365,10 +1365,13 @@
           showAlert(data.message || "Doctor authentication successful! Redirecting to Doctor Home...", "success");
 
           if (data.user) {
+            const uName = data.user.username || "admin";
+            const cachedPhoto = localStorage.getItem("mt_doc_photo_" + uName);
             localStorage.setItem("currentUser", JSON.stringify({
               ...data.user,
               role: "Doctor",
-              doctor_name: data.user.doctor_name || ("Dr. " + (data.user.username || "Practitioner"))
+              doctor_name: data.user.doctor_name || ("Dr. " + (data.user.username || "Practitioner")),
+              profile_photo: data.user.profile_photo || cachedPhoto || null
             }));
           }
 
@@ -1448,11 +1451,14 @@
 
         showAlert("Doctor OTP verified! Redirecting to Doctor Home...", "success");
 
+        const uName = doctorOtpEmail.value.split("@")[0];
+        const cachedPhoto = localStorage.getItem("mt_doc_photo_" + uName);
         const doctorUser = {
-          username: doctorOtpEmail.value.split("@")[0],
+          username: uName,
           email: doctorOtpEmail.value,
           role: "Doctor",
-          doctor_name: "Dr. " + doctorOtpEmail.value.split("@")[0]
+          doctor_name: "Dr. " + uName,
+          profile_photo: cachedPhoto || null
         };
         localStorage.setItem("currentUser", JSON.stringify(doctorUser));
 
