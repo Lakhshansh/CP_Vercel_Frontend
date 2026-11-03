@@ -42,6 +42,8 @@
         <!-- Center Navigation Links in one single horizontal row -->
         <ul class="cp-nav-menu" id="navMenu">
           <li><a href="./index.html" class="cp-nav-link active" id="navHome">Home</a></li>
+          <li><a href="./patient-home.html" class="cp-nav-link" id="navPatientHome">Patient Home</a></li>
+          <li><a href="./doctor-home.html" class="cp-nav-link" id="navDoctorHome">Doctor Home</a></li>
           <li><a href="#about" class="cp-nav-link" id="navAbout">About</a></li>
           <li><a href="#services" class="cp-nav-link" id="navServices">Services</a></li>
           <li><a href="./login.html" class="cp-nav-link" id="navPatientLogin">Patient Login</a></li>
@@ -322,12 +324,17 @@
           <div class="cp-access-badge blue">Patient Portal</div>
           <h3 class="cp-access-title">For Patients</h3>
           <p class="cp-access-desc">
-            Book appointments, track therapy, and view progress.
+            Book appointments, track therapy routines, and view clinical progress.
           </p>
-          <a href="./login.html" class="cp-access-btn btn-blue" id="btnPatientLogin">
-            <span>Patient Login</span>
-            <span class="btn-arrow" aria-hidden="true">&rarr;</span>
-          </a>
+          <div style="display: flex; gap: 10px; margin-top: auto; flex-wrap: wrap; width: 100%;">
+            <a href="./patient-home.html" class="cp-access-btn btn-blue" id="btnPatientHome" style="flex: 1; min-width: 140px; text-align: center; justify-content: center;">
+              <span>Patient Home</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            <a href="./login.html" class="cp-access-btn" id="btnPatientLogin" style="background: #f0f7ff; color: #0875F9; border: 1.5px solid #bfdbfe; font-weight: 700; padding: 11px 18px; border-radius: 9999px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.2s ease;">
+              <span>Login</span>
+            </a>
+          </div>
         </article>
 
         <!-- Card 2: For Doctors (Green Theme) -->
@@ -341,12 +348,17 @@
           <div class="cp-access-badge green">Doctor &amp; Therapist Portal</div>
           <h3 class="cp-access-title">For Doctors</h3>
           <p class="cp-access-desc">
-            Manage patients, appointments, and therapy plans.
+            Manage clinical patients, daily schedules, therapist assignments, and charts.
           </p>
-          <a href="./doctor-login.html" class="cp-access-btn btn-green" id="btnDoctorLogin">
-            <span>Doctor Login</span>
-            <span class="btn-arrow" aria-hidden="true">&rarr;</span>
-          </a>
+          <div style="display: flex; gap: 10px; margin-top: auto; flex-wrap: wrap; width: 100%;">
+            <a href="./doctor-home.html" class="cp-access-btn btn-green" id="btnDoctorHome" style="flex: 1; min-width: 140px; text-align: center; justify-content: center;">
+              <span>Doctor Dashboard</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            <a href="./doctor-login.html" class="cp-access-btn" id="btnDoctorLogin" style="background: #ecfdf5; color: #078B69; border: 1.5px solid #a7f3d0; font-weight: 700; padding: 11px 18px; border-radius: 9999px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.2s ease;">
+              <span>Login</span>
+            </a>
+          </div>
         </article>
 
         <!-- Card 3: Subscription Plans (Purple Theme) -->
@@ -774,6 +786,8 @@
           <h4 class="cp-footer-col-title">Quick Links</h4>
           <ul class="cp-footer-links-list">
             <li><a href="./index.html">Home</a></li>
+            <li><a href="./patient-home.html">Patient Home</a></li>
+            <li><a href="./doctor-home.html">Doctor Dashboard</a></li>
             <li><a href="#about">About Us</a></li>
             <li><a href="#services">Services</a></li>
             <li><a href="./subscription-pricing.html">Subscription Plans</a></li>
@@ -787,11 +801,12 @@
         <div class="cp-footer-col">
           <h4 class="cp-footer-col-title">Patient Portal</h4>
           <ul class="cp-footer-links-list">
+            <li><a href="./patient-home.html">Patient Home</a></li>
+            <li><a href="./doctor-home.html">Doctor Portal</a></li>
             <li><a href="./appointments.html">Appointments</a></li>
             <li><a href="./therapy-sessions.html">Therapy Sessions</a></li>
             <li><a href="./patients.html">Patients Directory</a></li>
             <li><a href="./signup.html">Patient Sign Up</a></li>
-            <li><a href="./doctor-login.html">Doctor Portal</a></li>
           </ul>
         </div>
 

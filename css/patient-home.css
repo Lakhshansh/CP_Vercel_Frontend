@@ -64,6 +64,13 @@ body {
   padding: 0 24px;
 }
 
+/* Preview Banner */
+.ph-preview-banner {
+  width: 100%;
+  z-index: 1050;
+  animation: fadeInDown 0.3s ease;
+}
+
 /* ==========================================================================
    1. MODERN WHITE HEADER & NAVBAR
    ========================================================================== */

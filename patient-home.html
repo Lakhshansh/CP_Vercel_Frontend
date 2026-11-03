@@ -18,6 +18,20 @@
 </head>
 <body>
 
+  <!-- Top Guest Preview Banner (Only visible when unauthenticated) -->
+  <div class="ph-preview-banner" id="guestPreviewBanner" style="display: none; background: #e0f2fe; border-bottom: 1px solid #bae6fd; padding: 9px 16px;">
+    <div class="ph-container" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: #0369a1; font-weight: 600;">
+        <span style="font-size: 15px;">👋</span>
+        <span><strong>Patient Portal Preview:</strong> You are exploring sample patient data. Log in or create an account to access personalized health records.</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <a href="./login.html" class="ph-btn-primary" style="padding: 5px 14px; font-size: 12.5px; text-decoration: none;">Patient Login</a>
+        <a href="./signup.html" class="ph-btn-outline" style="padding: 5px 14px; font-size: 12.5px; background: #ffffff; text-decoration: none;">Sign Up</a>
+      </div>
+    </div>
+  </div>
+
   <!-- ======================================================================
        1. PATIENT HEADER / NAVIGATION BAR
        ====================================================================== -->
@@ -40,7 +54,10 @@
           <li><a href="./directory.html" class="ph-nav-link" id="navFindDoctors">Find Doctors</a></li>
           <li><a href="#find-therapists" class="ph-nav-link" id="navFindTherapists">Find Therapists</a></li>
           <li><a href="./patient-appointments.html" class="ph-nav-link" id="navAppointments">Appointments</a></li>
+          <li><a href="./exercises.html" class="ph-nav-link" id="navExercises">Exercises</a></li>
           <li><a href="./patient-subscriptions.html" class="ph-nav-link" id="navSubscriptions">Plans &amp; Membership</a></li>
+          <li><a href="./doctor-home.html" class="ph-nav-link" id="navDoctorSwitch" style="color: #078B69; font-weight: 700;">Doctor Portal &rarr;</a></li>
+          <li><a href="./index.html" class="ph-nav-link" id="navMainSite" style="color: #64748b;">Public Site</a></li>
         </ul>
       </nav>
 
@@ -710,35 +727,90 @@
   <script src="./js/cdn.js"></script>
   <script src="./js/patient-home.js?v=2.2"></script>
   <script>
-    // Authentication & Role Check for Patient Portal
+    // Authentication & Demo Mode Controller for Patient Portal
     document.addEventListener("DOMContentLoaded", async () => {
       const rawUser = localStorage.getItem("currentUser");
-      if (!rawUser) {
-        // Redirect unauthorized access to login
-        window.location.href = "./login.html";
-        return;
-      }
-
       let user = null;
-      try {
-        user = JSON.parse(rawUser);
-      } catch (e) {
-        window.location.href = "./login.html";
-        return;
+      if (rawUser) {
+        try {
+          user = JSON.parse(rawUser);
+        } catch (e) {
+          user = null;
+        }
       }
 
-      // If a Doctor tries to access Patient Portal, redirect to Doctor Home
-      if (user.role && user.role.toLowerCase() === "doctor") {
-        window.location.href = "./doctor-home.html";
-        return;
-      }
+      const previewBanner = document.getElementById("guestPreviewBanner");
 
-      // Update patient display names
-      const pName = user.username || user.name || "Patient";
-      const nameEl = document.getElementById("heroPatientName");
-      if (nameEl) nameEl.textContent = pName;
-      const navName = document.getElementById("navPatientName");
-      if (navName) navName.textContent = pName;
+      if (!user) {
+        // GUEST / PREVIEW DEMO MODE
+        if (previewBanner) previewBanner.style.display = "block";
+        const nameEl = document.getElementById("heroPatientName");
+        if (nameEl) nameEl.textContent = "Liam";
+        const navName = document.getElementById("navPatientName");
+        if (navName) navName.textContent = "Guest Patient";
+        const navRole = document.getElementById("navPatientRole");
+        if (navRole) navRole.textContent = "Preview Mode";
+      } else {
+        // AUTHENTICATED PATIENT SESSION
+        if (previewBanner) previewBanner.style.display = "none";
+
+        // If a Doctor accidentally accesses Patient Portal, offer easy navigation
+        if (user.role && user.role.toLowerCase() === "doctor") {
+          const navDoctorSwitch = document.getElementById("navDoctorSwitch");
+          if (navDoctorSwitch) {
+            navDoctorSwitch.textContent = "Switch to Doctor Dashboard ↗";
+            navDoctorSwitch.style.backgroundColor = "#ecfdf5";
+            navDoctorSwitch.style.borderRadius = "8px";
+            navDoctorSwitch.style.padding = "4px 10px";
+          }
+        }
+
+        // Update patient display names
+        const pName = user.username || user.name || "Patient";
+        const nameEl = document.getElementById("heroPatientName");
+        if (nameEl) nameEl.textContent = pName;
+        const navName = document.getElementById("navPatientName");
+        if (navName) navName.textContent = pName;
+        const navRole = document.getElementById("navPatientRole");
+        if (navRole) navRole.textContent = "Patient Portal";
+
+        // Load real upcoming appointment from API
+        try {
+          if (typeof apiRequest === "function") {
+            const res = await apiRequest(`/api/patient/home?user_id=${encodeURIComponent(user.user_id || '')}`);
+            if (res && res.success && res.upcoming_appointment) {
+              const appt = res.upcoming_appointment;
+              if (appt.doctor_name) {
+                const docEl = document.getElementById("apptDoctorName");
+                if (docEl) docEl.textContent = `${appt.doctor_name} (${appt.doctor_specialization || 'Specialist'})`;
+              }
+              if (appt.appointment_date) {
+                const dateParts = String(appt.appointment_date).split(" ");
+                if (dateParts.length >= 2) {
+                  const dayEl = document.getElementById("apptDay");
+                  const monEl = document.getElementById("apptMonth");
+                  if (dayEl) dayEl.textContent = dateParts[1].replace(",", "");
+                  if (monEl) monEl.textContent = dateParts[0].toUpperCase();
+                }
+              }
+              if (appt.appointment_time) {
+                const timeEl = document.getElementById("apptTime");
+                if (timeEl) timeEl.textContent = appt.appointment_time;
+              }
+              if (appt.status) {
+                const statusEl = document.getElementById("apptStatus");
+                if (statusEl) statusEl.textContent = appt.status;
+              }
+            }
+            if (res && res.progress_score) {
+              const scoreEl = document.getElementById("heroMobilityScore");
+              if (scoreEl) scoreEl.textContent = `${res.progress_score}%`;
+            }
+          }
+        } catch (err) {
+          console.warn("[Patient Home] API data load notice:", err);
+        }
+      }
 
       // Handle Logout
       function handleLogout(e) {
@@ -756,43 +828,6 @@
       if (btnLogout) btnLogout.addEventListener("click", handleLogout);
       const footerLogoutBtn = document.getElementById("footerLogoutBtn");
       if (footerLogoutBtn) footerLogoutBtn.addEventListener("click", handleLogout);
-
-      // Load real upcoming appointment from API
-      try {
-        if (typeof apiRequest === "function") {
-          const res = await apiRequest(`/api/patient/home?user_id=${encodeURIComponent(user.user_id || '')}`);
-          if (res && res.success && res.upcoming_appointment) {
-            const appt = res.upcoming_appointment;
-            if (appt.doctor_name) {
-              const docEl = document.getElementById("apptDoctorName");
-              if (docEl) docEl.textContent = `${appt.doctor_name} (${appt.doctor_specialization || 'Specialist'})`;
-            }
-            if (appt.appointment_date) {
-              const dateParts = String(appt.appointment_date).split(" ");
-              if (dateParts.length >= 2) {
-                const dayEl = document.getElementById("apptDay");
-                const monEl = document.getElementById("apptMonth");
-                if (dayEl) dayEl.textContent = dateParts[1].replace(",", "");
-                if (monEl) monEl.textContent = dateParts[0].toUpperCase();
-              }
-            }
-            if (appt.appointment_time) {
-              const timeEl = document.getElementById("apptTime");
-              if (timeEl) timeEl.textContent = appt.appointment_time;
-            }
-            if (appt.status) {
-              const statusEl = document.getElementById("apptStatus");
-              if (statusEl) statusEl.textContent = appt.status;
-            }
-          }
-          if (res && res.progress_score) {
-            const scoreEl = document.getElementById("heroMobilityScore");
-            if (scoreEl) scoreEl.textContent = `${res.progress_score}%`;
-          }
-        }
-      } catch (err) {
-        console.warn("[Patient Home] API data load notice:", err);
-      }
     });
   </script>
 
