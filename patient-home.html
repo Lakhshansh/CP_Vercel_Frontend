@@ -40,24 +40,24 @@
       
       <!-- Brand Logo, Name & Tagline -->
       <a class="ph-brand" href="./patient-home.html" title="Multi Therapy Patient Portal">
-        <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="ph-brand-logo" width="54" height="54">
+        <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="ph-brand-logo" width="50" height="50">
         <div class="ph-brand-text">
           <span class="ph-brand-name">Multi Therapy</span>
-          <span class="ph-brand-tagline">Every Individual Deserves Better Care.</span>
+          <span class="ph-brand-tagline">EVERY INDIVIDUAL DESERVES BETTER CARE.</span>
         </div>
       </a>
 
       <!-- Center Navigation Links -->
-      <nav aria-label="Patient Navigation">
+      <nav aria-label="Patient Navigation" class="ph-nav-wrap">
         <ul class="ph-nav-menu" id="navMenu">
-          <li><a href="./patient-home.html" class="ph-nav-link active" aria-current="page">Home</a></li>
+          <li><a href="./patient-home.html" class="ph-nav-link active" aria-current="page" id="navHome">Home</a></li>
           <li><a href="./directory.html" class="ph-nav-link" id="navFindDoctors">Find Doctors</a></li>
           <li><a href="#find-therapists" class="ph-nav-link" id="navFindTherapists">Find Therapists</a></li>
           <li><a href="./patient-appointments.html" class="ph-nav-link" id="navAppointments">Appointments</a></li>
           <li><a href="./exercises.html" class="ph-nav-link" id="navExercises">Exercises</a></li>
           <li><a href="./patient-subscriptions.html" class="ph-nav-link" id="navSubscriptions">Plans &amp; Membership</a></li>
-          <li><a href="./doctor-home.html" class="ph-nav-link" id="navDoctorSwitch" style="color: #078B69; font-weight: 700;">Doctor Portal &rarr;</a></li>
-          <li><a href="./index.html" class="ph-nav-link" id="navMainSite" style="color: #64748b;">Public Site</a></li>
+          <li><a href="./doctor-home.html" class="ph-nav-link" id="navDoctorSwitch">Doctor Portal</a></li>
+          <li><a href="./index.html" class="ph-nav-link" id="navMainSite">Public Site</a></li>
         </ul>
       </nav>
 
@@ -171,7 +171,7 @@
           </div>
 
           <h1 class="ph-hero-title" id="heroHeading">
-            Welcome back, <span id="heroPatientName">Patient</span>!
+            Welcome back!
           </h1>
 
           <p class="ph-hero-subtitle">
@@ -739,17 +739,69 @@
         }
       }
 
+      function extractPatientDisplayName(u) {
+        if (!u) return "";
+        const candidates = [
+          u.patient_name,
+          u.first_name,
+          u.name,
+          u.full_name,
+          u.display_name,
+          u.username
+        ];
+        for (const c of candidates) {
+          if (typeof c === "string") {
+            const trimmed = c.trim();
+            const lower = trimmed.toLowerCase();
+            if (
+              trimmed.length > 0 &&
+              !["admin", "administrator", "patient", "user", "guest", "guest patient", "doctor", "dr.", "null", "undefined"].includes(lower) &&
+              !lower.startsWith("admin") &&
+              !lower.startsWith("patient portal")
+            ) {
+              const parts = trimmed.split(" ");
+              return parts[0] || trimmed;
+            }
+          }
+        }
+        const pending = sessionStorage.getItem("signup_pending_name");
+        if (pending && typeof pending === "string") {
+          const trimmed = pending.trim();
+          const lower = trimmed.toLowerCase();
+          if (trimmed.length > 0 && !["admin", "patient", "doctor"].includes(lower)) {
+            const parts = trimmed.split(" ");
+            return parts[0] || trimmed;
+          }
+        }
+        return "";
+      }
+
+      function updateWelcomeGreeting(patientName) {
+        const heroHeading = document.getElementById("heroHeading");
+        if (!heroHeading) return;
+        if (patientName && patientName.trim()) {
+          heroHeading.innerHTML = `Welcome back, <span id="heroPatientName">${escapeHtml(patientName.trim())}</span>!`;
+        } else {
+          heroHeading.innerHTML = `Welcome back!`;
+        }
+      }
+
+      function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, m => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[m]));
+      }
+
       const previewBanner = document.getElementById("guestPreviewBanner");
 
       if (!user) {
         // GUEST / PREVIEW DEMO MODE
         if (previewBanner) previewBanner.style.display = "block";
-        const nameEl = document.getElementById("heroPatientName");
-        if (nameEl) nameEl.textContent = "Liam";
+        updateWelcomeGreeting(""); // Shows "Welcome back!" without role name
         const navName = document.getElementById("navPatientName");
-        if (navName) navName.textContent = "Guest Patient";
+        if (navName) navName.textContent = "Patient";
         const navRole = document.getElementById("navPatientRole");
-        if (navRole) navRole.textContent = "Preview Mode";
+        if (navRole) navRole.textContent = "Patient Portal";
       } else {
         // AUTHENTICATED PATIENT SESSION
         if (previewBanner) previewBanner.style.display = "none";
@@ -765,18 +817,33 @@
           }
         }
 
-        // Update patient display names
-        const pName = user.username || user.name || "Patient";
-        const nameEl = document.getElementById("heroPatientName");
-        if (nameEl) nameEl.textContent = pName;
+        // Dynamically resolve and update patient display names
+        let patientName = extractPatientDisplayName(user);
+        updateWelcomeGreeting(patientName);
+
         const navName = document.getElementById("navPatientName");
-        if (navName) navName.textContent = pName;
+        if (navName) navName.textContent = patientName || "Patient";
         const navRole = document.getElementById("navPatientRole");
         if (navRole) navRole.textContent = "Patient Portal";
 
-        // Load real upcoming appointment from API
+        // Load real upcoming appointment from API & sync freshest patient profile
         try {
           if (typeof apiRequest === "function") {
+            // If patient name not in session, attempt quick profile sync
+            if (!patientName && (user.user_id || user.username)) {
+              try {
+                const profRes = await apiRequest(`/api/profile?user_id=${encodeURIComponent(user.user_id || '')}&username=${encodeURIComponent(user.username || '')}`);
+                if (profRes && profRes.user) {
+                  const fetchedName = extractPatientDisplayName(profRes.user);
+                  if (fetchedName) {
+                    patientName = fetchedName;
+                    updateWelcomeGreeting(patientName);
+                    if (navName) navName.textContent = patientName;
+                  }
+                }
+              } catch (_) {}
+            }
+
             const res = await apiRequest(`/api/patient/home?user_id=${encodeURIComponent(user.user_id || '')}`);
             if (res && res.success && res.upcoming_appointment) {
               const appt = res.upcoming_appointment;

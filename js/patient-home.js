@@ -11,6 +11,70 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
+ * Helper to escape HTML characters
+ */
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, m => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[m]));
+}
+
+/**
+ * Extracts a clean, dynamic patient name from session/profile data.
+ * Discards admin, placeholders, or generic roles.
+ */
+function extractPatientDisplayName(u) {
+  if (!u) return "";
+  const candidates = [
+    u.patient_name,
+    u.first_name,
+    u.name,
+    u.full_name,
+    u.display_name,
+    u.username
+  ];
+  for (const c of candidates) {
+    if (typeof c === "string") {
+      const trimmed = c.trim();
+      const lower = trimmed.toLowerCase();
+      if (
+        trimmed.length > 0 &&
+        !["admin", "administrator", "patient", "user", "guest", "guest patient", "doctor", "dr.", "null", "undefined"].includes(lower) &&
+        !lower.startsWith("admin") &&
+        !lower.startsWith("patient portal")
+      ) {
+        const parts = trimmed.split(" ");
+        return parts[0] || trimmed;
+      }
+    }
+  }
+  const pending = sessionStorage.getItem("signup_pending_name");
+  if (pending && typeof pending === "string") {
+    const trimmed = pending.trim();
+    const lower = trimmed.toLowerCase();
+    if (trimmed.length > 0 && !["admin", "patient", "doctor"].includes(lower)) {
+      const parts = trimmed.split(" ");
+      return parts[0] || trimmed;
+    }
+  }
+  return "";
+}
+
+/**
+ * Updates the hero greeting to either "Welcome back, {Name}!" or "Welcome back!".
+ */
+function updateWelcomeGreeting(patientName) {
+  const heroHeading = document.getElementById("heroHeading");
+  if (!heroHeading) return;
+  if (patientName && patientName.trim()) {
+    heroHeading.innerHTML = `Welcome back, <span id="heroPatientName">${escapeHtml(patientName.trim())}</span>!`;
+  } else {
+    // If the user's name is unavailable, display “Welcome back!” without a role name
+    heroHeading.innerHTML = `Welcome back!`;
+  }
+}
+
+/**
  * 1. Initialize Patient Session & User Info in Navbar
  */
 function initPatientSession() {
@@ -25,18 +89,11 @@ function initPatientSession() {
     }
   }
 
-  // Fallback if guest visit
-  if (!user) {
-    user = {
-      username: "Patient",
-      name: "Patient",
-      role: "Patient Portal",
-      profile_photo: ""
-    };
-  }
+  const patientName = extractPatientDisplayName(user);
+  updateWelcomeGreeting(patientName);
 
-  const displayName = user.username || user.name || "Patient";
-  const displayRole = user.role || "Patient Portal";
+  const displayName = patientName || "Patient";
+  const displayRole = "Patient Portal";
 
   // Navbar Elements
   const nameEl = document.getElementById("navPatientName");
@@ -47,7 +104,7 @@ function initPatientSession() {
   if (roleEl) roleEl.textContent = displayRole;
 
   if (avatarImg) {
-    if (user.profile_photo && (user.profile_photo.startsWith("http") || user.profile_photo.startsWith("data:"))) {
+    if (user && user.profile_photo && (user.profile_photo.startsWith("http") || user.profile_photo.startsWith("data:"))) {
       avatarImg.src = (typeof CdnManager !== "undefined")
         ? CdnManager.buildCdnUrl(user.profile_photo, { width: 80, height: 80, crop: "fill" })
         : user.profile_photo;
@@ -78,7 +135,7 @@ function initPatientSession() {
 }
 
 /**
- * 2. Header Dropdowns (Notifications & User Profile)
+ * 2. Header Dropdowns (Notifications & User Profile) & Responsive Mobile Navigation
  */
 function initHeaderInteractions() {
   const notifBtn = document.getElementById("btnNavNotifications");
@@ -124,8 +181,24 @@ function initHeaderInteractions() {
 
   // Mobile Menu Toggle
   if (navToggle && navMenu) {
-    navToggle.addEventListener("click", () => {
+    navToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeAllDropdowns();
       navMenu.classList.toggle("open");
+    });
+
+    // Close when clicking any nav link
+    navMenu.querySelectorAll(".ph-nav-link").forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+      });
+    });
+
+    // Close when clicking outside menu
+    document.addEventListener("click", (e) => {
+      if (!navMenu.contains(e.target) && e.target !== navToggle) {
+        navMenu.classList.remove("open");
+      }
     });
   }
 }

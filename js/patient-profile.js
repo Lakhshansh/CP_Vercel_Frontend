@@ -31,8 +31,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (!user) {
     user = {
-      username: "admin",
-      name: "admin",
+      username: "Lakhshansh",
+      name: "Lakhshansh Joshi",
       email: "joshilakhshansh@gmail.com",
       phone: "+919468650893",
       role: "patient",
@@ -570,8 +570,8 @@ function setupPasswordForm() {
  * Populate all fields, tags, and avatar in the Patient Profile DOM
  */
 function populatePatientProfile(user) {
-  const displayName = user.name || user.username || "admin";
-  const displayUsername = user.username || "admin";
+  const displayName = user.name || user.username || "Lakhshansh Joshi";
+  const displayUsername = user.username || "Lakhshansh";
   const displayEmail = user.email || "joshilakhshansh@gmail.com";
   const displayId = user.patient_id || user.user_id || 1;
 
