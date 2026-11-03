@@ -247,3 +247,66 @@ html, body {
     transform: none !important;
   }
 }
+
+/* ==========================================================================
+   Universal Floating WhatsApp Button & Footer Layout Safeguards
+   ========================================================================== */
+
+/* Universal Floating WhatsApp Button */
+.floating-whatsapp-btn {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 99999 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.22)) !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease !important;
+  cursor: pointer !important;
+  user-select: none !important;
+}
+
+.floating-whatsapp-btn:hover {
+  transform: scale(1.08) translateY(-2px) !important;
+  filter: drop-shadow(0 8px 24px rgba(37, 211, 102, 0.45)) !important;
+}
+
+.floating-whatsapp-btn:active {
+  transform: scale(0.96) !important;
+}
+
+.floating-whatsapp-btn img {
+  height: 48px !important;
+  width: auto !important;
+  display: block !important;
+  border-radius: 9999px !important;
+  pointer-events: none !important;
+}
+
+/* Responsive adjustments for mobile/tablet */
+@media (max-width: 768px) {
+  .floating-whatsapp-btn {
+    bottom: 18px !important;
+    right: 18px !important;
+  }
+  .floating-whatsapp-btn img {
+    height: 42px !important;
+  }
+}
+
+@media print {
+  .floating-whatsapp-btn, footer, .mt-footer, .mt-admin-footer {
+    display: none !important;
+  }
+}
+
+/* Universal Dark-Blue Footer Global Layout Safeguard */
+footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-footer, .cp-footer, .pt-footer, .curved-blue-footer {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  overflow-x: hidden !important;
+}
+

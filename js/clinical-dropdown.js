@@ -148,11 +148,82 @@
         });
       }
     });
+  // 7. Universal Single Floating WhatsApp Button Enforcer
+  function ensureSingleFloatingWhatsApp() {
+    try {
+      const waButtons = Array.from(document.querySelectorAll('.floating-whatsapp-btn'));
+      
+      // Also check any fixed anchor linking to wa.me that may lack the class
+      document.querySelectorAll('a[href*="wa.me"]').forEach((el) => {
+        const style = window.getComputedStyle(el);
+        if (style.position === 'fixed' && !waButtons.includes(el)) {
+          el.classList.add('floating-whatsapp-btn');
+          waButtons.push(el);
+        }
+      });
+
+      if (waButtons.length > 1) {
+        // Keep only the first one, remove duplicates
+        for (let i = 1; i < waButtons.length; i++) {
+          waButtons[i].remove();
+        }
+      } else if (waButtons.length === 0 && document.body) {
+        // Create standard floating WhatsApp button if not present in markup
+        const waLink = document.createElement('a');
+        waLink.href = 'https://wa.me/919468650893';
+        waLink.target = '_blank';
+        waLink.rel = 'noopener noreferrer';
+        waLink.className = 'floating-whatsapp-btn';
+        waLink.title = 'Chat with us on WhatsApp';
+        waLink.setAttribute('aria-label', 'Chat with us on WhatsApp');
+        waLink.innerHTML = '<img src="./images/whatsapp-us.png" alt="WhatsApp Us" width="48" height="48" style="height: 48px; width: auto; display: block; border-radius: 9999px;">';
+        document.body.appendChild(waLink);
+      } else if (waButtons.length === 1) {
+        const btn = waButtons[0];
+        btn.setAttribute('aria-label', 'Chat with us on WhatsApp');
+        if (!btn.getAttribute('target')) btn.setAttribute('target', '_blank');
+        if (!btn.getAttribute('rel')) btn.setAttribute('rel', 'noopener noreferrer');
+      }
+    } catch (e) {
+      console.warn("Floating WhatsApp singleton guard:", e);
+    }
+  }
+
+  // 8. Universal Single Page Footer Enforcer
+  function ensureSingleFooter() {
+    try {
+      const footers = document.querySelectorAll('footer');
+      if (footers.length > 1) {
+        // If multiple footers exist on the page, keep the last one (main page footer) or remove redundant ones
+        for (let i = 0; i < footers.length - 1; i++) {
+          // If previous footer is an inner card/dialog footer, convert tag to div
+          const f = footers[i];
+          const div = document.createElement('div');
+          Array.from(f.attributes).forEach(attr => div.setAttribute(attr.name, attr.value));
+          div.innerHTML = f.innerHTML;
+          div.classList.add('sub-footer-container');
+          f.parentNode.replaceChild(div, f);
+        }
+      }
+    } catch (e) {
+      console.warn("Footer singleton guard:", e);
+    }
+  }
+
+  function initPageStandards() {
+    initClinicalDropdowns();
+    ensureSingleFloatingWhatsApp();
+    ensureSingleFooter();
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initClinicalDropdowns);
+    document.addEventListener("DOMContentLoaded", initPageStandards);
   } else {
-    initClinicalDropdowns();
+    initPageStandards();
   }
+
+  window.addEventListener("load", function() {
+    ensureSingleFloatingWhatsApp();
+    ensureSingleFooter();
+  });
 })();
