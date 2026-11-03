@@ -299,6 +299,25 @@ body {
   transform: translateY(-1px);
 }
 
+/* Mobile Nav Toggle */
+.apt-nav-toggle {
+  display: none;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 18px;
+  color: var(--apt-navy);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+.apt-nav-toggle:hover {
+  border-color: var(--apt-blue);
+  color: var(--apt-blue);
+}
+
+
 /* ==========================================================================
    2. HERO SECTION
    ========================================================================== */
@@ -1130,3 +1149,29 @@ textarea.apt-form-control {
   transform: scale(1.08);
 }
 
+
+
+@media (max-width: 1280px) {
+  .apt-brand-tagline { display: none; }
+  .apt-nav-link { padding: 6px 8px; font-size: 13px; }
+}
+@media (max-width: 991px) {
+  .apt-nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+  .apt-nav-menu {
+    display: none;
+    position: absolute;
+    top: 84px;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    flex-direction: column;
+    padding: 16px 20px 24px;
+    border-bottom: 2px solid #bfdbfe;
+    box-shadow: 0 14px 30px rgba(16, 52, 99, 0.12);
+    gap: 6px;
+    z-index: 99998;
+    align-items: stretch;
+  }
+  .apt-nav-menu.active { display: flex; }
+  .apt-nav-link { padding: 10px 14px; font-size: 14.5px; border-radius: 8px; width: 100%; }
+}

@@ -197,6 +197,25 @@ body {
   border-color: #fca5a5;
 }
 
+/* Mobile Nav Toggle */
+.tp-nav-toggle {
+  display: none;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 18px;
+  color: var(--tp-navy-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+.tp-nav-toggle:hover {
+  border-color: var(--tp-primary-blue);
+  color: var(--tp-primary-blue);
+}
+
+
 /* ==========================================================================
    2. HERO SECTION ("Our Team – Therapists")
    ========================================================================== */
@@ -874,9 +893,29 @@ body {
   .tp-filter-grid { grid-template-columns: 1fr 1fr; }
 }
 
-@media (max-width: 992px) {
-  .tp-hero-container { grid-template-columns: 1fr; gap: 30px; }
-  .tp-nav-menu { display: none; }
+@media (max-width: 1280px) {
+  .tp-brand-tagline { display: none; }
+  .tp-nav-link { padding: 6px 8px; font-size: 13px; }
+}
+@media (max-width: 991px) {
+  .tp-nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+  .tp-nav-menu {
+    display: none;
+    position: absolute;
+    top: 82px;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    flex-direction: column;
+    padding: 16px 20px 24px;
+    border-bottom: 2px solid #bfdbfe;
+    box-shadow: 0 14px 30px rgba(16, 52, 99, 0.12);
+    gap: 6px;
+    z-index: 99998;
+    align-items: stretch;
+  }
+  .tp-nav-menu.active { display: flex; }
+  .tp-nav-link { padding: 10px 14px; font-size: 14.5px; border-radius: 8px; width: 100%; }
 }
 
 @media (max-width: 576px) {

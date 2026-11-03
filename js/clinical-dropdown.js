@@ -1,14 +1,15 @@
 /**
- * Multi Therapy - Clinical Management Navigation Dropdown Controller
+ * Multi Therapy - Clinical Management Navigation Dropdown & Header Controller
  * Handles click, tap, hover, keyboard navigation, outside-click dismissal,
- * viewport edge-alignment, and automatic active page highlighting.
+ * viewport edge-alignment, automatic active page highlighting, and
+ * universal mobile hamburger navigation toggle.
  */
 
 (function () {
   function initClinicalDropdowns() {
     const dropdowns = document.querySelectorAll(".nav-item-dropdown");
 
-    // Auto-highlight active link and toggle if current page matches any dropdown item
+    // 1. Auto-highlight active link and toggle if current page matches any dropdown item
     const currentPath = window.location.pathname.split("/").pop() || "index.html";
     document.querySelectorAll(".nav-dropdown-link").forEach((link) => {
       const href = link.getAttribute("href") ? link.getAttribute("href").split("/").pop().split("?")[0].split("#")[0] : "";
@@ -22,7 +23,7 @@
       }
     });
 
-    // Auto-detect if dropdown is near viewport right edge and align accordingly
+    // 2. Auto-detect if dropdown is near viewport right edge and align accordingly
     function adjustDropdownAlignment() {
       if (window.innerWidth >= 992) {
         dropdowns.forEach((dropdown) => {
@@ -39,20 +40,20 @@
     adjustDropdownAlignment();
     window.addEventListener("resize", adjustDropdownAlignment);
 
+    // 3. Dropdown Toggle (Click & Tap)
     dropdowns.forEach((dropdown) => {
       const toggle = dropdown.querySelector(".nav-dropdown-toggle");
       const menu = dropdown.querySelector(".nav-dropdown-menu");
 
       if (!toggle || !menu) return;
 
-      // Click / Tap Toggle
       toggle.addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
 
         const isOpen = dropdown.classList.contains("open");
 
-        // Close any other open dropdowns first
+        // Close other dropdowns first
         document.querySelectorAll(".nav-item-dropdown.open").forEach((other) => {
           if (other !== dropdown) {
             other.classList.remove("open");
@@ -79,8 +80,34 @@
       });
     });
 
-    // Close when clicking outside
+    // 4. Universal Mobile Navigation Hamburger Toggle
+    const navToggles = document.querySelectorAll(
+      ".pt-nav-toggle, .ts-nav-toggle, .tp-nav-toggle, .apt-nav-toggle, .ex-nav-toggle, .cp-nav-toggle, .ph-nav-toggle, .doc-nav-toggle, [data-nav-toggle], #navToggle, #docNavToggle"
+    );
+
+    navToggles.forEach((btn) => {
+      if (btn.dataset.universalNavAttached) return;
+      btn.dataset.universalNavAttached = "true";
+
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        const header = btn.closest("header, nav, .cp-navbar, .pt-header, .tp-header, .apt-header, .ex-header, .ts-header, .ph-header, .doc-header") || document;
+        const navMenu = header.querySelector(
+          ".pt-nav-menu, .ts-nav-menu, .tp-nav-menu, .apt-nav-menu, .ex-nav-menu, .cp-nav-menu, .ph-nav-menu, .doc-nav-menu, #navMenu, #tpNavMenu, #aptNavMenu, #exNavMenu, #docNavMenu"
+        );
+
+        if (navMenu) {
+          const isOpening = !navMenu.classList.contains("active") && !navMenu.classList.contains("open");
+          navMenu.classList.toggle("active");
+          navMenu.classList.toggle("open");
+          btn.setAttribute("aria-expanded", isOpening ? "true" : "false");
+        }
+      });
+    });
+
+    // 5. Close dropdowns & mobile menus when clicking outside
     document.addEventListener("click", function (e) {
+      // Close dropdowns
       document.querySelectorAll(".nav-item-dropdown.open").forEach((dropdown) => {
         if (!dropdown.contains(e.target)) {
           dropdown.classList.remove("open");
@@ -88,15 +115,36 @@
           if (toggle) toggle.setAttribute("aria-expanded", "false");
         }
       });
+
+      // Close mobile menus if clicked outside
+      if (window.innerWidth <= 991) {
+        const isToggleClick = e.target.closest(
+          ".pt-nav-toggle, .ts-nav-toggle, .tp-nav-toggle, .apt-nav-toggle, .ex-nav-toggle, .cp-nav-toggle, .ph-nav-toggle, .doc-nav-toggle, #navToggle, #docNavToggle"
+        );
+        if (!isToggleClick) {
+          document.querySelectorAll(
+            ".pt-nav-menu.active, .ts-nav-menu.active, .tp-nav-menu.active, .apt-nav-menu.active, .ex-nav-menu.active, .cp-nav-menu.open, .ph-nav-menu.open, .doc-nav-menu.open"
+          ).forEach((menu) => {
+            if (!menu.contains(e.target)) {
+              menu.classList.remove("active", "open");
+            }
+          });
+        }
+      }
     });
 
-    // Close when pressing Escape key
+    // 6. Close dropdowns & mobile menus on Escape key
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") {
         document.querySelectorAll(".nav-item-dropdown.open").forEach((dropdown) => {
           dropdown.classList.remove("open");
           const toggle = dropdown.querySelector(".nav-dropdown-toggle");
           if (toggle) toggle.setAttribute("aria-expanded", "false");
+        });
+        document.querySelectorAll(
+          ".pt-nav-menu.active, .ts-nav-menu.active, .tp-nav-menu.active, .apt-nav-menu.active, .ex-nav-menu.active, .cp-nav-menu.open, .ph-nav-menu.open, .doc-nav-menu.open"
+        ).forEach((menu) => {
+          menu.classList.remove("active", "open");
         });
       }
     });

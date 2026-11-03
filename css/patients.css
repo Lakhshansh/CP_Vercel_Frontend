@@ -57,13 +57,21 @@ body {
 .pt-announcement-bar {
   background: linear-gradient(90deg, #eff6ff 0%, #ecfdf5 100%);
   border-bottom: 1px solid #bfdbfe;
-  padding: 8px 30px;
-  font-size: 13px;
+  padding: 8px 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pt-announcement-inner {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
+  box-sizing: border-box;
 }
 
 .pt-announcement-title {
@@ -72,11 +80,12 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 13px;
 }
 
 .pt-announcement-links {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -117,7 +126,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 90px;
+  height: 82px;
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -126,40 +135,44 @@ body {
   box-shadow: 0 2px 14px rgba(16, 52, 99, 0.04);
   display: flex;
   align-items: center;
-  padding: 10px 30px;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
 .pt-navbar-inner {
   width: 100%;
-  max-width: 1440px;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 /* Brand */
 .pt-brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   text-decoration: none;
   cursor: pointer;
   flex-shrink: 0;
+  min-width: 0;
 }
 
 .pt-brand-logo {
-  width: 60px !important;
-  height: 60px !important;
-  max-width: 60px !important;
-  max-height: 60px !important;
+  width: 50px !important;
+  height: 50px !important;
+  max-width: 50px !important;
+  max-height: 50px !important;
   border-radius: 50% !important;
   object-fit: contain !important;
   background-color: #ffffff;
   padding: 2px;
   border: 2px solid rgba(8, 117, 249, 0.2);
-  box-shadow: 0 3px 12px rgba(8, 117, 249, 0.15);
+  box-shadow: 0 3px 10px rgba(8, 117, 249, 0.12);
   flex-shrink: 0 !important;
   display: block !important;
 }
@@ -167,38 +180,51 @@ body {
 .pt-brand-text {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .pt-brand-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--pt-navy-primary);
-  letter-spacing: -0.3px;
-  line-height: 1.1;
+  letter-spacing: -0.2px;
+  line-height: 1.15;
+  white-space: nowrap;
 }
 
 .pt-brand-tagline {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--pt-blue-brand);
-  letter-spacing: 0.3px;
-  margin-top: 3px;
+  letter-spacing: 0.2px;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+/* Nav Wrap */
+.pt-nav-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 /* Nav Menu (Single Horizontal Row) */
 .pt-nav-menu {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   list-style: none;
   margin: 0;
   padding: 0;
+  flex-wrap: nowrap;
 }
 
 .pt-nav-link {
   display: inline-block;
-  padding: 8px 14px;
-  font-size: 14.5px;
+  padding: 7px 11px;
+  font-size: 13.5px;
   font-weight: 600;
   color: var(--pt-slate-text);
   text-decoration: none;
@@ -222,17 +248,18 @@ body {
 .pt-nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 .pt-btn-contact,
 .pt-btn-signup {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 9px 18px;
-  font-size: 14px;
+  gap: 6px;
+  padding: 7px 15px;
+  font-size: 13px;
   font-weight: 700;
   border-radius: 999px;
   text-decoration: none;
@@ -252,6 +279,38 @@ body {
   border-color: var(--pt-blue-brand);
   color: var(--pt-blue-brand);
   transform: translateY(-1px);
+}
+
+.pt-btn-signup {
+  background: linear-gradient(135deg, var(--pt-blue-brand) 0%, #0284c7 100%);
+  color: #ffffff;
+  border: 1.5px solid transparent;
+  box-shadow: 0 4px 12px rgba(8, 117, 249, 0.22);
+}
+
+.pt-btn-signup:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(8, 117, 249, 0.3);
+  color: #ffffff;
+}
+
+/* Mobile Nav Toggle */
+.pt-nav-toggle {
+  display: none;
+  background: #ffffff;
+  border: 1.5px solid var(--pt-border-light);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 18px;
+  color: var(--pt-navy-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.pt-nav-toggle:hover {
+  border-color: var(--pt-blue-brand);
+  color: var(--pt-blue-brand);
 }
 
 .pt-btn-signup {
@@ -1073,27 +1132,81 @@ body {
   }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1280px) {
+  .pt-brand-tagline {
+    display: none;
+  }
+  .pt-nav-link {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+  .pt-nav-menu {
+    gap: 3px;
+  }
+  .pt-btn-contact,
+  .pt-btn-signup {
+    padding: 6px 12px;
+    font-size: 12.5px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .pt-brand-title {
+    font-size: 18px;
+  }
+  .pt-brand-logo {
+    width: 44px !important;
+    height: 44px !important;
+  }
+  .pt-nav-link {
+    padding: 5px 6px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 991px) {
+  .pt-nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pt-nav-wrap {
+    display: contents;
+  }
+
   .pt-nav-menu {
     display: none;
     position: absolute;
-    top: 90px;
+    top: 82px;
     left: 0;
     width: 100%;
     background: #ffffff;
     flex-direction: column;
     align-items: stretch;
-    padding: 16px 24px;
-    border-bottom: 1px solid var(--pt-border-light);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    padding: 16px 20px 24px;
+    border-bottom: 2px solid var(--pt-blue-subtle);
+    box-shadow: 0 14px 30px rgba(16, 52, 99, 0.12);
+    gap: 6px;
+    z-index: 99998;
   }
 
   .pt-nav-menu.active {
     display: flex;
   }
 
-  .pt-nav-toggle {
-    display: block;
+  .pt-nav-link {
+    padding: 10px 14px;
+    font-size: 14.5px;
+    border-radius: 8px;
+    width: 100%;
+  }
+
+  .pt-announcement-bar {
+    padding: 8px 16px;
+  }
+  .pt-announcement-title {
+    font-size: 12px;
   }
 }
 
@@ -1103,17 +1216,17 @@ body {
   }
 
   .pt-header {
-    height: 76px;
-    padding: 10px 16px;
+    height: 72px;
+    padding: 0 16px;
   }
 
   .pt-brand-logo {
-    width: 48px !important;
-    height: 48px !important;
+    width: 42px !important;
+    height: 42px !important;
   }
 
   .pt-brand-title {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .pt-main-wrapper {
@@ -1125,7 +1238,7 @@ body {
   }
 
   .pt-hero-title {
-    font-size: 28px;
+    font-size: 26px;
   }
 
   .pt-kpi-grid {
@@ -1146,6 +1259,27 @@ body {
 
   .pt-btn-contact {
     display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .pt-header {
+    height: 68px;
+    padding: 0 12px;
+  }
+
+  .pt-brand-title {
+    font-size: 16px;
+  }
+
+  .pt-brand-logo {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .pt-btn-signup {
+    padding: 6px 10px;
+    font-size: 12px;
   }
 }
 

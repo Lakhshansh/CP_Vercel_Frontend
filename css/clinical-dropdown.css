@@ -1,13 +1,27 @@
 /* ==========================================================================
    Multi Therapy - Clinical Management Navigation Dropdown
-   Reusable, responsive dropdown component for all project pages
+   Reusable, responsive dropdown & header layout safeguards
    ========================================================================== */
 
-/* Prevent any parent containers from clipping the dropdown */
+/* Universal Root Anti-Overflow Safeguard */
+html, body {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Prevent any parent containers from clipping the dropdown or cutting off on sides */
 .cp-header-wrap, .ph-header, .doc-header, .pt-header, .tp-header, .ts-header, 
 .apt-header, .ex-header, .header-nav, .mt-navbar, .mt-sub-header, 
 .super-admin-header, .admin-nav {
+  width: 100% !important;
+  max-width: 100% !important;
   overflow: visible !important;
+  box-sizing: border-box !important;
 }
 
 .cp-navbar, .cp-navbar-inner, .ph-navbar-inner, .doc-navbar-inner, 
@@ -15,6 +29,8 @@
 .ex-navbar-inner, .header-inner, .mt-navbar-inner, .super-admin-header-inner, 
 .admin-nav-inner, .container-xl, .container-fluid {
   overflow: visible !important;
+  box-sizing: border-box !important;
+  min-width: 0 !important;
 }
 
 /* Dropdown Container */

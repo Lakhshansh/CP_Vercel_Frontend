@@ -27,22 +27,24 @@
        1. TOP ANNOUNCEMENT / PORTAL BAR
        ====================================================================== -->
   <div class="ts-announcement-bar">
-    <div class="ts-announcement-title">
-      <span>🏥</span> Multi Therapy • Clinical Rehabilitation &amp; Therapy Sessions Hub
-    </div>
-    <div class="ts-announcement-links">
-      <a href="./appointments.html" class="ts-portal-pill blue">
-        📅 Appointments &rarr;
-      </a>
-      <a href="./patients.html" class="ts-portal-pill green">
-        👥 Patients Directory &rarr;
-      </a>
-      <a href="./therapists.html" class="ts-portal-pill blue">
-        🧑‍⚕️ Therapists Team &rarr;
-      </a>
-      <a href="./exercises.html" class="ts-portal-pill green">
-        🏃 Clinical Exercises &rarr;
-      </a>
+    <div class="ts-announcement-inner">
+      <div class="ts-announcement-title">
+        <span>🏥</span> Multi Therapy • Clinical Rehabilitation &amp; Therapy Sessions Hub
+      </div>
+      <div class="ts-announcement-links">
+        <a href="./appointments.html" class="ts-portal-pill blue">
+          📅 Appointments &rarr;
+        </a>
+        <a href="./patients.html" class="ts-portal-pill green">
+          👥 Patients Directory &rarr;
+        </a>
+        <a href="./therapists.html" class="ts-portal-pill blue">
+          🧑‍⚕️ Therapists Team &rarr;
+        </a>
+        <a href="./exercises.html" class="ts-portal-pill green">
+          🏃 Clinical Exercises &rarr;
+        </a>
+      </div>
     </div>
   </div>
 
@@ -61,13 +63,8 @@
         </div>
       </a>
 
-      <!-- Mobile Hamburger Toggle -->
-      <button class="ts-nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
-        ☰
-      </button>
-
       <!-- Center Navigation Links -->
-      <nav aria-label="Main Navigation">
+      <nav aria-label="Main Navigation" class="ts-nav-wrap">
         <ul class="ts-nav-menu" id="navMenu">
           <li><a href="./index.html" class="ts-nav-link" id="navHome">Home</a></li>
           <li><a href="./patient-home.html" class="ts-nav-link" id="navPatientHome">Patient Home</a></li>
@@ -108,11 +105,10 @@
           </li>
           <li><a href="./login.html" class="ts-nav-link" id="navPatientLogin">Patient Login</a></li>
           <li><a href="./doctor-login.html" class="ts-nav-link" id="navDoctorLogin">Doctor Login</a></li>
-          <li><a href="./index.html#contact" class="ts-nav-link" id="navContact">Contact</a></li>
         </ul>
       </nav>
 
-      <!-- Right Actions: User Profile / Contact / Sign Up -->
+      <!-- Right Actions: User Profile / Contact / Sign Up / Hamburger -->
       <div class="ts-nav-actions">
 
         <!-- User Profile Pill (Visible when logged in) -->
@@ -150,7 +146,11 @@
           </a>
         </div>
 
-      </div>
+        <!-- Mobile Hamburger Toggle -->
+        
+
+        <button class="ts-nav-toggle" id="navToggle" aria-label="Toggle navigation menu" type="button">☰</button>
+        </div>
 
     </div>
   </header>
