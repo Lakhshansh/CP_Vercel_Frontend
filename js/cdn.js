@@ -35,9 +35,9 @@
     doctor: "./images/doctor-avatar.svg",
     patient: "./images/patient-avatar.svg",
     therapist: "./images/doctor-avatar.svg",
-    logo: "./images/multi-therapy-logo.png",
-    exercise: "./images/multi-therapy-logo.png",
-    default: "./images/multi-therapy-logo.png"
+    logo: "./images/multi_therapy_logo_100x100.png",
+    exercise: "./images/multi_therapy_logo_100x100.png",
+    default: "./images/multi_therapy_logo_100x100.png"
   };
 
   /**

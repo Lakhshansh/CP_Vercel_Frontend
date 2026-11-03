@@ -169,7 +169,7 @@ async function startDoctorCheckout(planCode) {
       currency: checkoutRes.currency || "INR",
       name: "MULTI THERAPY",
       description: `${checkoutRes.plan_name} (${currentBillingCycle}) Membership`,
-      image: "./images/multi-therapy-logo.png",
+      image: "./images/multi_therapy_logo_100x100.png",
       order_id: checkoutRes.order_id,
       handler: async function (response) {
         await verifyDoctorPayment({

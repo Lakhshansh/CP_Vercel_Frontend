@@ -359,7 +359,7 @@ async function initiateRazorpayCheckout() {
       currency: res.currency || "INR",
       name: "MULTI THERAPY",
       description: `${selectedPlan.name} (${currentCycle.toUpperCase()}) Membership`,
-      image: "./images/multi-therapy-logo.png",
+      image: "./images/multi_therapy_logo_100x100.png",
       order_id: res.order_id,
       prefill: {
         name: custName,
