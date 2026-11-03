@@ -34,11 +34,6 @@
           </div>
         </a>
 
-        <!-- Mobile Navigation Hamburger Toggle -->
-        <button class="cp-nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
-          ☰
-        </button>
-
         <!-- Center Navigation Links in one single horizontal row -->
         <ul class="cp-nav-menu" id="navMenu">
           <li><a href="./index.html" class="cp-nav-link active" id="navHome">Home</a></li>
@@ -75,6 +70,11 @@
             <span>Sign Up</span>
           </a>
         </div>
+
+        <!-- Mobile Navigation Hamburger Toggle -->
+        <button class="cp-nav-toggle" id="navToggle" aria-label="Toggle navigation menu" type="button">
+          ☰
+        </button>
 
       </div>
     </nav>
@@ -923,8 +923,23 @@
       const navToggle = document.getElementById("navToggle");
       const navMenu = document.getElementById("navMenu");
       if (navToggle && navMenu) {
-        navToggle.addEventListener("click", () => {
+        navToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
           navMenu.classList.toggle("open");
+        });
+
+        // Close when clicking any nav link
+        navMenu.querySelectorAll(".cp-nav-link").forEach(link => {
+          link.addEventListener("click", () => {
+            navMenu.classList.remove("open");
+          });
+        });
+
+        // Close when clicking outside the menu
+        document.addEventListener("click", (e) => {
+          if (!navMenu.contains(e.target) && e.target !== navToggle) {
+            navMenu.classList.remove("open");
+          }
         });
       }
 
