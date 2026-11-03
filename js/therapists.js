@@ -1,5 +1,5 @@
 // ============================================================================
-// Multi Therapy Management System - Therapists Controller
+// Every Individual Deserves Better Care. - Therapists Controller
 // Matches the official Multi Therapy Therapists Team & Directory UI Design.
 // ============================================================================
 

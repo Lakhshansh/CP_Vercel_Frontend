@@ -1,5 +1,5 @@
 // ============================================================================
-// Multi Therapy Management System - Patient Login Handler
+// Every Individual Deserves Better Care. - Patient Login Handler
 // Handles validation, authentication with Python backend, session, and error handling.
 // ============================================================================
 

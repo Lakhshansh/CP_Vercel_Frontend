@@ -1,5 +1,5 @@
 // ============================================================================
-// Multi Therapy Management System - Admin Login Handler
+// Every Individual Deserves Better Care. - Admin Login Handler
 // Dedicated authentication handler for the Online Administration Portal.
 // ============================================================================
 

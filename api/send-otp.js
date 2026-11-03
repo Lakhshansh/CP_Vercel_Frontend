@@ -126,7 +126,7 @@ module.exports = async function handler(req, res) {
           <tr>
             <td style="background-color: #f8fafc; padding: 20px 32px; text-align: center; border-top: 1px solid #e2e8f0;">
               <p style="margin: 0; font-size: 12px; color: #94a3b8;">
-                &copy; 2026 Multi Therapy Management System. All rights reserved.
+                &copy; 2026 Every Individual Deserves Better Care.. All rights reserved.
               </p>
             </td>
           </tr>

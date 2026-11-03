@@ -1,5 +1,5 @@
 // ============================================================================
-// Multi Therapy Management System - Modern Appointments Controller
+// Every Individual Deserves Better Care. - Modern Appointments Controller
 // Matches the official Multi Therapy Appointment Page UI design reference.
 // ============================================================================
 

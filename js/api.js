@@ -1,5 +1,5 @@
 // ============================================================================
-// Multi Therapy Management System - API Client
+// Every Individual Deserves Better Care. - API Client
 // Handles robust backend communication, environment detection, and smart fallbacks.
 // ============================================================================
 

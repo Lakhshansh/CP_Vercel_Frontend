@@ -1,5 +1,5 @@
 // ============================================================================
-// Multi Therapy Management System - Exercises Controller
+// Every Individual Deserves Better Care. - Exercises Controller
 // Matches the official Multi Therapy Exercises Page UI Design reference.
 // ============================================================================
 

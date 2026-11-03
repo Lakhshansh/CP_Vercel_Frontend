@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * Multi Therapy - Centralized Cloudinary CDN Image Management System
+ * Multi Therapy - Centralized Cloudinary CDN Image Asset System
  * ============================================================================
  * Provides unified, secure, high-performance image optimization across ALL pages:
  * - Automatic format (WebP/AVIF) and quality optimization (f_auto, q_auto)
