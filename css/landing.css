@@ -71,19 +71,19 @@ html, body {
 .cp-navbar {
   pointer-events: auto;
   width: 100%;
-  max-width: 1440px;
+  max-width: 1380px;
   margin: 0 auto;
-  min-height: 80px;
+  min-height: 72px;
   background: #ffffff;
   border-radius: 9999px;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1.5px solid rgba(191, 219, 254, 0.75);
-  box-shadow: 0 10px 32px rgba(8, 117, 249, 0.08), 0 2px 8px rgba(16, 52, 99, 0.04);
+  box-shadow: 0 10px 30px rgba(8, 117, 249, 0.08), 0 2px 8px rgba(16, 52, 99, 0.04);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 20px;
+  padding: 6px 16px;
   box-sizing: border-box;
   position: relative;
   transition: all 0.25s ease;
@@ -104,7 +104,7 @@ html, body {
 .cp-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   text-decoration: none;
   cursor: pointer;
   flex-shrink: 0;
@@ -112,18 +112,18 @@ html, body {
 }
 
 .cp-brand-logo-img {
-  width: 56px !important;
-  height: 56px !important;
-  max-width: 56px !important;
-  max-height: 56px !important;
-  min-width: 56px !important;
-  min-height: 56px !important;
+  width: 50px !important;
+  height: 50px !important;
+  max-width: 50px !important;
+  max-height: 50px !important;
+  min-width: 50px !important;
+  min-height: 50px !important;
   border-radius: 50% !important;
   object-fit: contain !important;
   background-color: #ffffff;
   padding: 2px;
   border: 2px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 0 3px 10px rgba(0, 80, 180, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 80, 180, 0.15);
   flex-shrink: 0 !important;
   display: block !important;
 }
@@ -136,7 +136,7 @@ html, body {
 }
 
 .cp-brand-title {
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 800;
   color: var(--cp-navy-primary);
   line-height: 1.1;
@@ -146,11 +146,11 @@ html, body {
 }
 
 .cp-brand-subtitle {
-  font-size: 12px;
+  font-size: 10.5px;
   font-weight: 700;
   color: var(--cp-blue-brand);
-  line-height: 1.1;
-  letter-spacing: 0.2px;
+  line-height: 1.15;
+  letter-spacing: 0.1px;
   margin: 0;
   white-space: nowrap;
 }
@@ -169,11 +169,11 @@ html, body {
 .cp-nav-menu {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   list-style: none;
   margin: 0;
   padding: 0;
-  flex-shrink: 1;
+  flex-shrink: 0;
   box-sizing: border-box;
 }
 
@@ -182,7 +182,7 @@ html, body {
   font-size: 13.5px;
   font-weight: 600;
   color: #334e68;
-  padding: 6px 2px;
+  padding: 6px 3px;
   position: relative;
   white-space: nowrap;
   transition: color 0.2s ease;
@@ -199,6 +199,11 @@ html, body {
   border-bottom: 2px solid var(--cp-blue-btn);
 }
 
+/* Links shown only in mobile drawer */
+.cp-nav-item-mobile-only {
+  display: none;
+}
+
 /* Nav Action Buttons on Right */
 .cp-nav-actions {
   display: flex;
@@ -212,16 +217,16 @@ html, body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 8px 14px;
+  gap: 5px;
+  padding: 7px 13px;
   border-radius: 9999px;
   background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
   color: #ffffff;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.28);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
   border: none;
   cursor: pointer;
   line-height: 1;
@@ -233,20 +238,20 @@ html, body {
   background: linear-gradient(135deg, #6d28d9 0%, #4f46e5 100%);
   color: #ffffff;
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.40);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
 }
 
 .cp-btn-contact {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 8px 14px;
+  gap: 5px;
+  padding: 7px 13px;
   border-radius: 9999px;
   border: 1.5px solid var(--cp-blue-btn);
   background: #ffffff;
   color: var(--cp-blue-btn);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
@@ -267,17 +272,17 @@ html, body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
   background-color: var(--cp-blue-btn);
   color: #ffffff;
-  padding: 8px 16px;
+  padding: 7px 15px;
   border-radius: 9999px;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
   transition: all 0.25s ease;
-  box-shadow: 0 4px 14px rgba(8, 117, 249, 0.28);
+  box-shadow: 0 4px 12px rgba(8, 117, 249, 0.25);
   border: none;
   cursor: pointer;
   line-height: 1;
@@ -288,7 +293,7 @@ html, body {
   background-color: var(--cp-blue-btn-hover);
   color: #ffffff;
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(8, 117, 249, 0.38);
+  box-shadow: 0 6px 16px rgba(8, 117, 249, 0.35);
 }
 
 /* Mobile Toggle */
@@ -1905,40 +1910,48 @@ html, body {
     padding: 0 16px;
   }
   .cp-navbar {
-    padding: 7px 16px;
+    padding: 6px 14px;
   }
   .cp-brand {
-    gap: 10px;
+    gap: 9px;
   }
   .cp-brand-logo-img {
-    width: 52px !important;
-    height: 52px !important;
-    max-width: 52px !important;
-    max-height: 52px !important;
-    min-width: 52px !important;
-    min-height: 52px !important;
+    width: 48px !important;
+    height: 48px !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
   }
   .cp-brand-title {
-    font-size: 18px;
+    font-size: 17.5px;
+  }
+  .cp-brand-subtitle {
+    font-size: 10px;
   }
   .cp-brand-tagline {
     font-size: 9px;
   }
   .cp-nav-menu {
-    gap: 9px;
+    gap: 12px;
   }
   .cp-nav-link {
     font-size: 13px;
+    padding: 5px 3px;
   }
   .cp-nav-actions {
     gap: 6px;
   }
   .cp-btn-subscription,
-  .cp-btn-contact,
+  .cp-btn-contact {
+    padding: 6.5px 11px;
+    font-size: 12px;
+    gap: 4px;
+  }
   .cp-btn-signup {
-    padding: 7px 12px;
-    font-size: 12.5px;
-    gap: 5px;
+    padding: 6.5px 13px;
+    font-size: 12px;
+    gap: 4px;
   }
 }
 
@@ -1978,6 +1991,10 @@ html, body {
 
   .cp-nav-menu.open {
     display: flex;
+  }
+
+  .cp-nav-item-mobile-only {
+    display: block !important;
   }
 
   .cp-nav-menu .cp-nav-link {
