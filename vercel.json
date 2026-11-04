@@ -10,6 +10,9 @@
     { "source": "/api/auth/send-otp", "destination": "/api/send-otp" },
     { "source": "/api/upload-profile-photo", "destination": "/api/upload-photo" },
     { "source": "/api/cloudinary-upload", "destination": "/api/upload-photo" },
-    { "source": "/api/cloudinary-delete", "destination": "/api/remove-profile-photo" }
+    { "source": "/api/cloudinary-delete", "destination": "/api/remove-profile-photo" },
+    { "source": "/api/admin/login", "destination": "/api/admin-login" },
+    { "source": "/api/admin/stats", "destination": "/api/admin-stats" },
+    { "source": "/api/admin/analytics", "destination": "/api/admin-stats" }
   ]
 }

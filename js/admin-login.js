@@ -1,6 +1,7 @@
 // ============================================================================
-// Every Individual Deserves Better Care. - Admin Login Handler
-// Dedicated authentication handler for the Online Administration Portal.
+// Multi Therapy - Every Individual Deserves Better Care.
+// Dedicated Admin Login Handler
+// Enforces single authorized admin access without exposing credentials
 // ============================================================================
 
 function showAdminMessage(message, type = "danger") {
@@ -25,6 +26,21 @@ function generateAdminCaptcha() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // If already logged in as authorized admin, redirect to admin dashboard
+  try {
+    const existingUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+    const existingRole = (localStorage.getItem("adminRole") || (existingUser && existingUser.role) || "").toLowerCase();
+    if (existingUser && (existingRole === "admin" || existingRole === "superadmin")) {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (!urlParams.has("logout")) {
+        window.location.href = "./admin-dashboard.html";
+        return;
+      }
+    }
+  } catch (e) {
+    // Session parsing error, continue to login form
+  }
+
   // 1. Generate Security CAPTCHA
   generateAdminCaptcha();
 
@@ -51,21 +67,37 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
 
       // Check CAPTCHA
-      const expectedCaptcha = sessionStorage.getItem("admin_captcha") || "";
+      const expectedCaptcha = (sessionStorage.getItem("admin_captcha") || "").trim().toUpperCase();
       const enteredCaptcha = (document.getElementById("captchaInput")?.value || "").trim().toUpperCase();
 
-      if (!enteredCaptcha || enteredCaptcha !== expectedCaptcha.toUpperCase()) {
-        showAdminMessage("Incorrect security CAPTCHA code. Please re-enter the code shown.", "danger");
+      if (!enteredCaptcha || enteredCaptcha !== expectedCaptcha) {
+        showAdminMessage("Incorrect security verification code. Please re-enter the code shown.", "danger");
         generateAdminCaptcha();
+        document.getElementById("captchaInput")?.focus();
         return;
       }
 
-      const usernameVal = document.getElementById("username")?.value.trim() || "";
-      const passwordVal = document.getElementById("loginPassword")?.value || "";
+      const usernameVal = (document.getElementById("username")?.value || "").trim();
+      const passwordVal = (document.getElementById("loginPassword")?.value || "");
       const rememberVal = Boolean(document.getElementById("remember")?.checked);
 
-      if (!usernameVal || !passwordVal) {
-        showAdminMessage("Please enter your admin username/email and password.", "danger");
+      if (!usernameVal) {
+        showAdminMessage("Please enter your admin username or email address.", "danger");
+        document.getElementById("username")?.focus();
+        return;
+      }
+
+      if (!passwordVal) {
+        showAdminMessage("Please enter your admin password.", "danger");
+        document.getElementById("loginPassword")?.focus();
+        return;
+      }
+
+      // Client-side quick check: Requirement 3 - Only ONE authorized Admin account
+      const normalizedInput = usernameVal.toLowerCase();
+      if (normalizedInput !== "admin" && normalizedInput !== "admin@multitherapy.org") {
+        showAdminMessage("Access restricted. Only the single authorized Multi Therapy Administrator can access this portal.", "danger");
+        generateAdminCaptcha();
         return;
       }
 
@@ -73,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const originalText = submitBtn ? submitBtn.innerHTML : "";
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = `<span>Verifying administrative credentials...</span>`;
+        submitBtn.innerHTML = `<span>⏳ Verifying administrative credentials...</span>`;
       }
 
       try {
@@ -86,8 +118,10 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         let data = null;
-        if (typeof apiRequest === "function") {
-          data = await apiRequest("/api/login", {
+
+        // 1. Try dedicated serverless /api/admin/login
+        try {
+          const res = await fetch("/api/admin/login", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -95,22 +129,50 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             body: JSON.stringify(payload)
           });
+          const isJson = (res.headers.get("content-type") || "").includes("application/json");
+          data = isJson ? await res.json() : null;
+
+          if (!res.ok) {
+            throw new Error((data && data.message) || `Admin authentication failed (${res.status})`);
+          }
+        } catch (serverlessErr) {
+          // If serverless route not found (e.g. running on local python backend), try /api/login
+          if (typeof apiRequest === "function") {
+            data = await apiRequest("/api/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+          } else {
+            throw serverlessErr;
+          }
+        }
+
+        // Validate admin role in returned user object
+        const userRole = (data?.user?.role || "").toLowerCase();
+        if (userRole !== "admin" && userRole !== "superadmin") {
+          throw new Error("Access restricted: Logged in account does not possess Administrator privileges.");
         }
 
         showAdminMessage(data?.message || "Authentication successful! Redirecting to Administration Dashboard...", "success");
 
-        // Save admin session
+        // Save admin session securely in storage
         const adminUser = {
           user_id: data?.user?.user_id || 1,
-          username: data?.user?.username || usernameVal,
-          name: data?.user?.name || "Administrator",
-          role: "admin"
+          username: data?.user?.username || "admin",
+          name: data?.user?.name || "Multi Therapy Administrator",
+          email: data?.user?.email || "admin@multitherapy.org",
+          role: "admin",
+          profile_photo: data?.user?.profile_photo || null
         };
+
         localStorage.setItem("currentUser", JSON.stringify(adminUser));
         localStorage.setItem("adminRole", "superadmin");
+        localStorage.setItem("adminToken", data?.token || "mt_admin_session_active");
+        sessionStorage.setItem("admin_logged_in", "true");
 
         setTimeout(() => {
-          window.location.href = "./admin-subscription-dashboard.html";
+          window.location.href = "./admin-dashboard.html";
         }, 500);
 
       } catch (error) {
@@ -126,4 +188,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-
