@@ -65,46 +65,7 @@
       border-bottom-color: var(--doc-teal) !important;
     }
 
-    /* Role Switcher Pill Bar */
-    .role-switcher-banner-doc {
-      background: linear-gradient(90deg, #ecfdf5 0%, #f0fdf4 100%);
-      border-bottom: 1px solid #a7f3d0;
-      padding: 8px 24px;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .role-current-tag-doc {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 700;
-      color: #065f46;
-    }
-
-    .role-switch-link-doc {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: #0866F5;
-      font-weight: 700;
-      text-decoration: none;
-      padding: 4px 12px;
-      background: #ffffff;
-      border: 1px solid #bfdbfe;
-      border-radius: 999px;
-      transition: all 0.2s ease;
-    }
-
-    .role-switch-link-doc:hover {
-      background: #0866F5;
-      color: #ffffff;
-    }
-
+    
     /* Doctor Metrics Bar */
     .doc-metrics-grid {
       display: grid;
@@ -167,16 +128,6 @@
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
 </head>
 <body class="doctor-portal-theme">
-
-  <!-- Top Role Switcher Bar -->
-  <div class="role-switcher-banner-doc" role="complementary" aria-label="Portal Mode">
-    <div class="role-current-tag-doc">
-      <span>🩺</span> Doctor &amp; Clinical Specialist Roster
-    </div>
-    <a href="./patient-appointments.html" class="role-switch-link-doc" title="Open Patient Appointments Portal">
-      <span>👤 Switch to Patient Appointments &rarr;</span>
-    </a>
-  </div>
 
   <!-- ======================================================================
        1. HEADER (Multi Therapy logo | Doctor Home | Patients | Appointments | Sessions)

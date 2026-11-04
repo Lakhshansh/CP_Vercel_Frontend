@@ -55,85 +55,42 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   1. TOP ANNOUNCEMENT / PORTAL BAR
+   1. TOP ANNOUNCEMENT / PORTAL BAR (Deprecated - Hidden)
    -------------------------------------------------------------------------- */
 .doc-top-bar {
-  background: linear-gradient(90deg, #eff6ff 0%, #ecfdf5 100%);
-  border-bottom: 1px solid #bfdbfe;
-  padding: 7px 24px;
-  width: 100%;
-}
-
-.doc-top-bar-inner {
-  max-width: 1440px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.doc-top-bar-title {
-  font-weight: 700;
-  color: var(--doc-navy-primary);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-}
-
-.doc-top-bar-links {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.doc-top-pill {
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 12px;
-  padding: 4px 12px;
-  background: #ffffff;
-  border-radius: 999px;
-  color: var(--doc-navy-primary);
-  border: 1px solid #bfdbfe;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
-}
-
-.doc-top-pill:hover {
-  background: var(--doc-blue-brand);
-  color: #ffffff;
-  border-color: var(--doc-blue-brand);
-  transform: translateY(-1px);
+  display: none !important;
 }
 
 /* --------------------------------------------------------------------------
    2. TOP BLUE NAVBAR
    -------------------------------------------------------------------------- */
 .mt-navbar {
-  min-height: 84px;
-  padding: 10px 24px;
+  height: 90px;
+  min-height: 90px;
+  max-height: 90px;
+  padding: 0;
   background: linear-gradient(135deg, #0d6efd 0%, #0867e8 100%);
   box-shadow: 0 4px 18px rgba(0, 80, 180, 0.20);
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 1000;
   width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .mt-navbar-inner {
   width: 100%;
-  max-width: 1440px;
+  max-width: 1650px;
   margin: 0 auto;
-  min-height: 64px;
+  height: 90px;
+  min-height: 90px;
+  max-height: 90px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  padding: 0 24px;
 }
 
 .mt-brand {

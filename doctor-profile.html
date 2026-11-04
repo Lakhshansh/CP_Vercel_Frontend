@@ -46,43 +46,7 @@
       margin: 0;
     }
 
-    /* Top Role Switcher Banner */
-    .role-switcher-banner-doc {
-      background: linear-gradient(90deg, #ecfdf5 0%, #f0fdf4 100%);
-      border-bottom: 1px solid #a7f3d0;
-      padding: 8px 24px;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .role-current-tag-doc {
-      font-weight: 700;
-      color: #065f46;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .role-switch-link-doc {
-      color: #0866F5;
-      font-weight: 700;
-      text-decoration: none;
-      padding: 4px 12px;
-      background: #ffffff;
-      border: 1px solid #bfdbfe;
-      border-radius: 999px;
-      transition: all 0.2s ease;
-    }
-
-    .role-switch-link-doc:hover {
-      background: #0866F5;
-      color: #ffffff;
-    }
-
+    
     /* Header Nav */
     .header-nav {
       position: sticky;
@@ -91,7 +55,7 @@
       border-bottom: 1px solid #e2e8f0;
       z-index: 1000;
       padding: 0 28px;
-      height: 80px;
+      height: 90px; min-height: 90px; max-height: 90px;
       display: flex;
       align-items: center;
       box-shadow: 0 2px 12px rgba(16, 52, 99, 0.05);
@@ -99,7 +63,7 @@
 
     .header-inner {
       width: 100%;
-      max-width: 1320px;
+      max-width: 1650px; height: 90px; min-height: 90px; max-height: 90px;
       margin: 0 auto;
       display: flex;
       align-items: center;
@@ -615,16 +579,6 @@
 </head>
 
 <body>
-
-  <!-- Top Role Switcher -->
-  <div class="role-switcher-banner-doc" role="complementary" aria-label="Portal Role">
-    <div class="role-current-tag-doc">
-      <span>🩺</span> Doctor &amp; Healthcare Specialist Profile Portal
-    </div>
-    <a href="./patient-profile.html" class="role-switch-link-doc" title="Open Patient & Caregiver Profile Portal">
-      <span>👤 Switch to Patient Profile Portal &rarr;</span>
-    </a>
-  </div>
 
   <!-- Header Navigation -->
   <header class="header-nav" role="banner">

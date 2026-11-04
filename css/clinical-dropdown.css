@@ -599,14 +599,27 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
    admin profile, Contact, Logout, and Sign Up buttons across all viewports.
    ========================================================================== */
 
-/* 1. Header Containers (Desktop Height 90-100px, Flex Alignment) */
+/* Universal suppression of deprecated/duplicate top navigation and announcement bars */
+.doc-top-bar, .role-switcher-banner-doc, .role-switcher-banner, 
+.pt-announcement-bar, .ts-announcement-bar {
+  display: none !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  border: none !important;
+}
+
+/* 1. Header Containers (Desktop Height 90px, Flex Alignment, Vertically Centered) */
 .pt-header, .ts-header, .doc-header, .apt-header, .tp-header, .ex-header,
 .mt-navbar, .cp-header-wrap, .ph-header, .header-nav, .super-admin-header,
 .mt-sub-header, .admin-nav, .admin-dash-header {
   width: 100% !important;
   max-width: 100% !important;
+  height: 90px !important;
   min-height: 90px !important;
-  height: auto !important;
+  max-height: 90px !important;
   display: flex !important;
   align-items: center !important;
   position: sticky !important;
@@ -614,9 +627,11 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   z-index: 1000 !important;
   box-sizing: border-box !important;
   padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
 }
 
-/* 2. Navbar Inner Wrapper (Max 1650px, Single Horizontal Row, No Wrap) */
+/* 2. Navbar Inner Wrapper (Max 1650px, Single Horizontal Row, No Wrap, Vertically Centered) */
 .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .apt-navbar-inner,
 .tp-navbar-inner, .ex-navbar-inner, .mt-navbar-inner, .cp-navbar-inner,
 .ph-navbar-inner, .header-inner, .super-admin-header-inner, .admin-nav-inner,
@@ -624,8 +639,10 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   width: 100% !important;
   max-width: 1650px !important;
   margin: 0 auto !important;
-  padding: 10px 24px !important;
+  padding: 0 24px !important;
+  height: 90px !important;
   min-height: 90px !important;
+  max-height: 90px !important;
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
@@ -1237,10 +1254,4 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
     display: none !important;
   }
 }
-    padding: 6px 10px !important;
-  }
 
-  #userProfileWrap .d-sm-block, .mt-user-text {
-    display: none !important;
-  }
-}
