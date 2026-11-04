@@ -75,7 +75,11 @@ module.exports = async function handler(req, res) {
     }
 
     // 3. Server-side only: Read Resend credentials and verified sender from environment
-    const resendApiKey = process.env.RESEND_API_KEY || (req.headers && req.headers["x-resend-api-key"]) || body.apiKey;
+    const resendApiKey =
+      process.env.RESEND_API_KEY ||
+      (req.headers && req.headers["x-resend-api-key"]) ||
+      body.apiKey;
+
     if (!resendApiKey) {
       console.error("[send-otp] RESEND_API_KEY is not configured in environment variables.");
       return res.status(500).json({
