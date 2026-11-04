@@ -3,368 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doctors | Every Individual Deserves Better Care.</title>
+  <title>Doctors Management | Multi Therapy - Healthcare Specialist Roster</title>
   <link rel="icon" href="./images/multi_therapy_logo_100x100.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3 CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/style.css">
-  <style>
-    /* Top Navbar */
-    .mt-navbar {
-      min-height: 88px;
-      padding: 12px 24px;
-      background: linear-gradient(135deg, #0d6efd 0%, #0867e8 100%);
-      box-shadow: 0 4px 18px rgba(0, 80, 180, 0.20);
-      position: relative;
-      z-index: 1000;
-      width: 100%;
-    }
-    .mt-navbar-inner {
-      width: 100%;
-      min-height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-    .mt-brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      text-decoration: none;
-      color: #ffffff;
-    }
-    .mt-logo {
-      width: 60px !important;
-      height: 60px !important;
-      max-width: 60px !important;
-      max-height: 60px !important;
-      border-radius: 50% !important;
-      object-fit: contain !important;
-      background: #ffffff;
-      padding: 2px;
-      border: 2px solid rgba(255, 255, 255, 0.95);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-      flex-shrink: 0;
-      display: block;
-    }
-    .mt-brand-title {
-      font-size: 26px;
-      font-weight: 800;
-      line-height: 1.1;
-      white-space: nowrap;
-      color: #ffffff;
-    }
-    .mt-brand-subtitle {
-      margin-top: 4px;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.92);
-      letter-spacing: 0.4px;
-    }
-    .mt-nav-right {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-shrink: 0;
-    }
-    .mt-profile-btn,
-    .mt-logout-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 10px;
-      padding: 10px 18px;
-      font-size: 15px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      border: none;
-      cursor: pointer;
-    }
-    .mt-profile-btn {
-      background: #ffffff;
-      color: #1e293b;
-    }
-    .mt-profile-btn:hover {
-      background: #f8fafc;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      color: #0d6efd;
-    }
-    .mt-logout-btn {
-      background: #ffffff;
-      color: #dc3545;
-    }
-    .mt-logout-btn:hover {
-      background: #fff5f5;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
-      color: #b02a37;
-    }
-    .mt-user {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #ffffff;
-      padding-left: 14px;
-      border-left: 1px solid rgba(255, 255, 255, 0.35);
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .mt-user-photo,
-    .mt-user-default {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 2px solid #ffffff;
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-    .mt-user-default {
-      background: #ffffff;
-      color: #0d6efd;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-    }
-    .mt-user-text {
-      line-height: 1.2;
-    }
-    .mt-user-name {
-      font-size: 15px;
-      font-weight: 700;
-      white-space: nowrap;
-      color: #ffffff;
-    }
-    .mt-user-role {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.85);
-      text-transform: capitalize;
-    }
-    .mt-arrow {
-      font-size: 16px;
-      color: rgba(255, 255, 255, 0.85);
-      margin-left: 2px;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      min-height: calc(100vh - 88px);
-      background: #ffffff;
-      border-right: 1px solid #e9ecef;
-      padding: 20px 14px !important;
-    }
-    .sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      text-decoration: none;
-      color: #475569;
-      border-radius: 10px;
-      margin-bottom: 6px;
-      font-size: 15px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-    .sidebar-link:hover {
-      background: #f1f5f9;
-      color: #0d6efd;
-      transform: translateX(3px);
-    }
-    .sidebar-link.active {
-      background: #e7f1ff;
-      color: #0d6efd;
-      font-weight: 700;
-    }
-    .sidebar-link .icon {
-      font-size: 18px;
-      width: 22px;
-      text-align: center;
-    }
-
-    /* Main Page Content */
-    .main-page {
-      padding: 30px;
-      background: #f8fafc;
-      min-height: calc(100vh - 88px);
-    }
-    .page-header h1 {
-      font-size: 30px;
-      font-weight: 800;
-      color: #0f172a;
-      margin-bottom: 22px;
-    }
-
-    /* Cards */
-    .content-box {
-      background: #ffffff;
-      border-radius: 16px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-
-    /* Form Grid */
-    .doctor-form-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 14px;
-    }
-    .doctor-form-grid .form-control,
-    .doctor-form-grid .form-select {
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 14px;
-      height: 44px;
-      color: #1e293b;
-    }
-    .doctor-form-grid .form-control:focus,
-    .doctor-form-grid .form-select:focus {
-      border-color: #0d6efd;
-      box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
-    }
-    .btn-send-otp {
-      background: #0d6efd;
-      color: #ffffff;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 24px;
-      font-weight: 600;
-      font-size: 15px;
-      width: 100%;
-      margin-top: 16px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s;
-    }
-    .btn-send-otp:hover {
-      background: #0b5ed7;
-      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
-    }
-    .form-note {
-      font-size: 13px;
-      color: #64748b;
-      margin-top: 10px;
-    }
-
-    /* Table */
-    .table-wrap {
-      overflow-x: auto;
-      position: relative;
-    }
-    .table thead th {
-      background: #f8fafc;
-      font-size: 13px;
-      font-weight: 700;
-      color: #475569;
-      border-bottom: 2px solid #e2e8f0;
-      padding: 12px 14px;
-      white-space: nowrap;
-    }
-    .table tbody td {
-      padding: 14px 14px;
-      vertical-align: middle;
-      font-size: 14px;
-      color: #1e293b;
-      border-bottom: 1px solid #f1f5f9;
-      white-space: nowrap;
-    }
-    .sticky-action {
-      position: sticky;
-      right: 0;
-      background: #ffffff;
-      box-shadow: -4px 0 10px rgba(0, 0, 0, 0.08);
-      z-index: 5;
-      text-align: center;
-      min-width: 95px;
-    }
-    thead th.sticky-action {
-      background: #f1f5f9 !important;
-    }
-    .verified-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 12px;
-      border-radius: 20px;
-      background: #198754;
-      color: #ffffff;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .not-verified-pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 12px;
-      border-radius: 20px;
-      background: #ffc107;
-      color: #000000;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .btn-delete-outline {
-      border: 1px solid #dc3545;
-      background: #ffffff;
-      color: #dc3545;
-      border-radius: 6px;
-      padding: 5px 14px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .btn-delete-outline:hover {
-      background: #dc3545;
-      color: #ffffff;
-    }
-
-    @media (max-width: 1200px) {
-      .doctor-form-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (max-width: 900px) {
-      .doctor-form-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 600px) {
-      .doctor-form-grid { grid-template-columns: 1fr; }
-      .sidebar { min-height: auto; border-right: none; border-bottom: 1px solid #e9ecef; }
-    }
-  </style>
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
+  <link rel="stylesheet" href="./css/doctors.css">
 </head>
 <body>
 
-  <!-- Top Blue Navbar -->
-  <header class="mt-navbar">
+  <!-- ======================================================================
+       1. TOP ANNOUNCEMENT & ROLE PORTAL BAR
+       ====================================================================== -->
+  <div class="doc-top-bar" role="complementary" aria-label="Portal Navigation Bar">
+    <div class="doc-top-bar-inner">
+      <div class="doc-top-bar-title">
+        <span>👨‍⚕️</span>
+        <span>Doctor &amp; Clinical Specialist Administration Portal</span>
+      </div>
+      <div class="doc-top-bar-links">
+        <a href="./doctor-home.html" class="doc-top-pill" title="Doctor Dashboard">
+          <span>🩺</span> <span>Doctor Home</span>
+        </a>
+        <a href="./patient-home.html" class="doc-top-pill" title="Patient Home">
+          <span>👤</span> <span>Patient Home</span>
+        </a>
+        <a href="./admin-dashboard.html" class="doc-top-pill" title="Admin Analytics Center">
+          <span>📊</span> <span>Admin Dashboard</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       2. TOP BLUE NAVBAR
+       ====================================================================== -->
+  <header class="mt-navbar" role="banner">
     <div class="mt-navbar-inner">
-      <a href="./index.html" class="mt-brand">
-        <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-logo" width="60" height="60" style="width: 60px !important; height: 60px !important; max-width: 60px !important; max-height: 60px !important; object-fit: contain !important; border-radius: 50% !important; flex-shrink: 0 !important; display: block !important;">
+
+      <!-- Multi Therapy Brand Identity -->
+      <a href="./index.html" class="mt-brand" title="Multi Therapy Home">
+        <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-logo" width="56" height="56">
         <div>
           <div class="mt-brand-title">Multi Therapy</div>
           <div class="mt-brand-subtitle">Every Individual Deserves Better Care.</div>
         </div>
       </a>
 
-      
       <!-- Center Navigation Links -->
-      <nav aria-label="Main Navigation" style="display: flex; align-items: center; margin: 0 16px;">
-        <ul style="display: flex; align-items: center; gap: 14px; margin: 0; padding: 0; list-style: none;">
-          <li><a href="./index.html" class="mt-nav-link" style="color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14.5px; opacity: 0.95;">Home</a></li>
-          <li><a href="./patient-home.html" class="mt-nav-link" style="color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14.5px; opacity: 0.95;">Patient Home</a></li>
-          <li><a href="./doctor-home.html" class="mt-nav-link" style="color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14.5px; opacity: 0.95;">Doctor Home</a></li>
+      <nav class="mt-nav-center" aria-label="Main Navigation">
+        <ul class="mt-nav-list">
+          <li><a href="./index.html" class="mt-nav-link"><span>🏠</span> Home</a></li>
+          <li><a href="./patient-home.html" class="mt-nav-link">Patient Home</a></li>
+          <li><a href="./doctor-home.html" class="mt-nav-link">Doctor Home</a></li>
+
+          <!-- Clinical Management Dropdown -->
           <li class="nav-item-dropdown">
-            <a href="javascript:void(0)" class="nav-dropdown-toggle mt-nav-link" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
+            <a href="javascript:void(0)" class="nav-dropdown-toggle mt-nav-link active" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
               <span>Clinical Management</span>
               <svg class="dropdown-arrow-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M2.5 4.5L6 8L9.5 4.5"></path>
               </svg>
             </a>
             <div class="nav-dropdown-menu" aria-label="Clinical Management Submenu">
+              <a href="./doctors.html" class="nav-dropdown-link active" id="dropDoctors">
+                <span class="nav-dropdown-icon">👨‍⚕️</span>
+                <span class="nav-dropdown-text">Doctors</span>
+              </a>
               <a href="./therapists.html" class="nav-dropdown-link" id="dropTherapists">
                 <span class="nav-dropdown-icon">🧑‍⚕️</span>
                 <span class="nav-dropdown-text">Therapists</span>
@@ -387,12 +99,46 @@
               </a>
             </div>
           </li>
+
+          <li><a href="./subscription-pricing.html" class="mt-nav-link">Plans</a></li>
         </ul>
       </nav>
 
+      <!-- Right Header Actions: Contact, Notifications & Profile -->
       <div class="mt-nav-right">
 
-        <div class="mt-user" title="View Profile">
+        <!-- Contact Support Button -->
+        <a href="./index.html#contact" class="doc-btn-contact" title="Contact Multi Therapy Support">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <span>Contact</span>
+        </a>
+
+        <!-- Notifications Bell Button -->
+        <button type="button" class="doc-notif-btn" id="docNotifBtn" title="Clinical Notifications" aria-label="Notifications">
+          🔔
+          <span class="doc-notif-badge" aria-hidden="true"></span>
+        </button>
+
+        <!-- Notifications Dropdown Popup -->
+        <div class="doc-notif-dropdown" id="docNotifDropdown">
+          <div class="doc-notif-header">
+            <strong style="font-size: 13.5px; color: var(--doc-navy-dark);">System Notifications</strong>
+            <span class="badge bg-primary" style="font-size: 11px;">Active</span>
+          </div>
+          <div class="doc-notif-item">
+            <strong class="text-primary d-block">⚡ Resend Email Active</strong>
+            <span class="text-secondary small">Doctor OTP verification delivery configured for fast onboarding.</span>
+          </div>
+          <div class="doc-notif-item">
+            <strong class="text-success d-block">✓ Database Online</strong>
+            <span class="text-secondary small">Clinical specialist records synced with Multi Therapy cloud.</span>
+          </div>
+        </div>
+
+        <!-- User Profile Pill -->
+        <div class="mt-user" title="Doctor / Admin Profile">
           <img id="navAvatarImg" src="./images/multi_therapy_logo_100x100.png" class="mt-user-photo" alt="Profile" style="object-fit: contain; display:none;">
           <div id="navAvatar" class="mt-user-default">👤</div>
           <div class="mt-user-text">
@@ -402,69 +148,292 @@
           <span class="mt-arrow">⌄</span>
         </div>
 
-        <button id="logoutBtn" class="mt-logout-btn">
-          <span>🚪</span> Logout
+        <!-- Logout Button -->
+        <button id="logoutBtn" class="mt-logout-btn" title="Sign Out">
+          <span>🚪</span> <span>Logout</span>
         </button>
+
+        <!-- Mobile Navigation Drawer Toggle -->
+        <button type="button" class="doc-nav-toggle" id="docNavToggle" aria-label="Toggle Navigation Menu">
+          ☰
+        </button>
+
       </div>
     </div>
   </header>
 
-  <!-- Main Layout with Left Sidebar -->
-  <div class="container-fluid p-0">
-    <div class="row g-0">
+  <!-- Mobile Collapsible Navigation Menu -->
+  <div class="bg-primary text-white p-3 d-none border-bottom border-light" id="docMobileNavMenu">
+    <div class="d-flex flex-column gap-2">
+      <a href="./index.html" class="text-white text-decoration-none py-1">🏠 Home</a>
+      <a href="./patient-home.html" class="text-white text-decoration-none py-1">👤 Patient Home</a>
+      <a href="./doctor-home.html" class="text-white text-decoration-none py-1">🩺 Doctor Home</a>
+      <a href="./patients.html" class="text-white text-decoration-none py-1">👥 Patients</a>
+      <a href="./doctors.html" class="text-white text-decoration-none py-1 fw-bold">👨‍⚕️ Doctors (Active)</a>
+      <a href="./therapists.html" class="text-white text-decoration-none py-1">🧑‍⚕️ Therapists</a>
+      <a href="./appointments.html" class="text-white text-decoration-none py-1">📅 Appointments</a>
+      <a href="./therapy-sessions.html" class="text-white text-decoration-none py-1">💪 Therapy Sessions</a>
+      <a href="./exercises.html" class="text-white text-decoration-none py-1">🏃 Exercises</a>
+      <a href="./subscription-pricing.html" class="text-white text-decoration-none py-1">💎 Subscription Plans</a>
+    </div>
+  </div>
 
-      <!-- Left Sidebar Navigation -->
-      <aside class="col-12 col-md-3 col-lg-2 sidebar">
-        <nav>
-          <a href="./patients.html" class="sidebar-link">
+  <!-- ======================================================================
+       3. MAIN LAYOUT WITH LEFT SIDEBAR AND DASHBOARD
+       ====================================================================== -->
+  <div class="doc-dashboard-wrap">
+    <div class="doc-layout-grid">
+
+      <!-- ==================================================================
+           LEFT SIDEBAR NAVIGATION
+           ================================================================== -->
+      <aside class="doc-sidebar" aria-label="Doctors Module Sidebar">
+        <div class="doc-sidebar-header">
+          <div class="doc-sidebar-title">Clinical Navigation</div>
+        </div>
+
+        <nav class="doc-sidebar-nav">
+          <a href="./doctor-home.html" class="doc-sidebar-link">
+            <span class="icon">🏠</span>
+            <span>Home</span>
+          </a>
+
+          <a href="./patients.html" class="doc-sidebar-link">
             <span class="icon">👥</span>
             <span>Patients</span>
           </a>
-          <a href="./doctors.html" class="sidebar-link active">
-            <span class="icon">👨‍⚕️</span>
-            <span>Doctors</span>
-          </a>
-          <a href="./therapists.html" class="sidebar-link">
+
+          <a href="./therapists.html" class="doc-sidebar-link">
             <span class="icon">🧑‍⚕️</span>
             <span>Therapists</span>
           </a>
-          <a href="./appointments.html" class="sidebar-link">
+
+          <a href="./appointments.html" class="doc-sidebar-link">
             <span class="icon">📅</span>
             <span>Appointments</span>
           </a>
-          <a href="./therapy-sessions.html" class="sidebar-link">
+
+          <a href="./therapy-sessions.html" class="doc-sidebar-link">
             <span class="icon">💪</span>
             <span>Therapy Sessions</span>
           </a>
-          <a href="./exercises.html" class="sidebar-link">
+
+          <a href="./exercises.html" class="doc-sidebar-link">
             <span class="icon">🏃</span>
             <span>Exercises</span>
           </a>
+
+          <a href="./doctors.html" class="doc-sidebar-link active">
+            <span class="icon">👨‍⚕️</span>
+            <span>Doctors</span>
+            <span class="doc-sidebar-badge" id="sidebarBadgeDoc">Active</span>
+          </a>
+
+          <a href="javascript:void(0)" class="doc-sidebar-link" data-bs-toggle="modal" data-bs-target="#doctorReportsModal" title="View Clinical Analytics &amp; Reports">
+            <span class="icon">📊</span>
+            <span>Reports</span>
+          </a>
         </nav>
+
+        <!-- Live Infrastructure Status Box -->
+        <div class="doc-sidebar-status-box">
+          <div class="doc-status-item">
+            <span class="doc-status-dot"></span>
+            <span>Central DB Connected</span>
+          </div>
+          <div class="doc-status-item">
+            <span class="doc-status-dot" style="background: #0284c7; box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);"></span>
+            <span>Resend OTP Service</span>
+          </div>
+          <div class="doc-status-item">
+            <span class="doc-status-dot" style="background: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);"></span>
+            <span>HIPAA / 256-Bit SSL</span>
+          </div>
+        </div>
       </aside>
 
-      <!-- Main Content Area -->
-      <main class="col-12 col-md-9 col-lg-10 main-page">
-        <div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-          <h1>Doctors</h1>
-          <button type="button" class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-1 shadow-sm" data-bs-toggle="modal" data-bs-target="#resendConfigModal" title="Configure Resend.com API Key">
-            <span>⚡</span> <span>Resend API Settings</span>
-          </button>
-        </div>
+      <!-- ==================================================================
+           MAIN CONTENT AREA
+           ================================================================== -->
+      <main class="doc-main-content">
 
-        <div id="doctorAlert" class="alert alert-success mb-3" hidden></div>
+        <!-- Global Toast / Alert Box -->
+        <div id="doctorAlert" class="alert alert-success mb-2 shadow-sm" hidden role="alert"></div>
 
-        <!-- Add Doctor Form Card -->
-        <div class="content-box">
+        <!-- ================================================================
+             4. DOCTORS MANAGEMENT BANNER (HERO BANNER)
+             ================================================================ -->
+        <section class="doc-hero-banner" aria-label="Doctors Management Header">
+          <div>
+            <div class="doc-hero-badge">
+              <span>👨‍⚕️</span> Healthcare Specialists Directory
+            </div>
+
+            <h1 class="doc-hero-title">Doctors Management</h1>
+            <p class="doc-hero-subtitle">
+              Oversee certified medical practitioners, pediatric neurologists, and multidisciplinary specialists across the Multi Therapy healthcare network. Securely onboard practitioners with automated email OTP verification.
+            </p>
+
+            <!-- Trust / Security Tags -->
+            <div class="doc-hero-tags">
+              <span class="doc-hero-tag green">✓ 100% Certified Practitioners</span>
+              <span class="doc-hero-tag blue">⚡ Instant Email OTP Delivery</span>
+              <span class="doc-hero-tag">🔒 256-Bit SSL Secure Database</span>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="doc-hero-actions">
+              <button type="button" class="doc-btn-resend-settings" data-bs-toggle="modal" data-bs-target="#resendConfigModal" title="Configure Resend.com API Key">
+                <span>⚡</span> <span>Resend API Settings</span>
+              </button>
+              <a href="#addDoctorCard" class="doc-btn-scroll-add" title="Register New Doctor">
+                <span>➕</span> <span>Add New Doctor</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Professional Healthcare Doctor Illustration -->
+          <div class="doc-hero-illustration" aria-hidden="true">
+            <svg class="doc-hero-svg" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="docGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#eff6ff" />
+                  <stop offset="50%" stop-color="#ecfdf5" />
+                  <stop offset="100%" stop-color="#ffffff" />
+                </linearGradient>
+                <filter id="docShadow" x="-10%" y="-10%" width="120%" height="120%">
+                  <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#0c233c" flood-opacity="0.08" />
+                </filter>
+              </defs>
+
+              <!-- Backdrop Circle -->
+              <circle cx="120" cy="100" r="85" fill="url(#docGlow)" />
+
+              <!-- Decorative Crosses -->
+              <g opacity="0.2">
+                <rect x="25" y="45" width="6" height="18" rx="2" fill="#0875F9" />
+                <rect x="19" y="51" width="18" height="6" rx="2" fill="#0875F9" />
+                <rect x="205" y="60" width="6" height="18" rx="2" fill="#059669" />
+                <rect x="199" y="66" width="18" height="6" rx="2" fill="#059669" />
+              </g>
+
+              <!-- Doctor Silhouette / Coat -->
+              <g filter="url(#docShadow)">
+                <path d="M80 185 C80 135 98 122 120 122 C142 122 160 135 160 185 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2.5" />
+                <!-- Teal Scrub V-Neck -->
+                <path d="M108 122 L120 142 L132 122 Z" fill="#059669" />
+                <!-- ID Badge -->
+                <rect x="136" y="140" width="14" height="18" rx="3" fill="#0875F9" />
+                <rect x="138" y="143" width="10" height="2" fill="#ffffff" />
+                <circle cx="143" cy="150" r="2.5" fill="#ffffff" />
+                <!-- Stethoscope -->
+                <path d="M104 125 C104 145 110 154 120 154 C130 154 136 145 136 125" stroke="#1e293b" stroke-width="2.6" stroke-linecap="round" fill="none" />
+                <circle cx="120" cy="158" r="4.5" fill="#0875F9" stroke="#ffffff" stroke-width="1.5" />
+                <!-- Head -->
+                <circle cx="120" cy="94" r="18" fill="#fed7aa" />
+                <!-- Hair -->
+                <path d="M102 92 C102 74 112 70 120 70 C128 70 138 74 138 92 C132 84 126 80 120 80 C114 80 108 84 102 92 Z" fill="#1e293b" />
+              </g>
+
+              <!-- Floating Verified Badge -->
+              <g filter="url(#docShadow)">
+                <rect x="145" y="35" width="85" height="34" rx="8" fill="#ffffff" stroke="#bfdbfe" stroke-width="1.2" />
+                <circle cx="160" cy="52" r="8" fill="#ecfdf5" />
+                <path d="M156 52 L159 55 L164 49" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <text x="174" y="49" fill="#0c233c" font-size="10" font-weight="700" font-family="sans-serif">Specialist</text>
+                <text x="174" y="60" fill="#059669" font-size="8.5" font-weight="600" font-family="sans-serif">Verified ✓</text>
+              </g>
+            </svg>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             5. STATISTIC CARDS (4 KPI CARDS GRID)
+             ================================================================ -->
+        <section class="doc-stats-grid" aria-label="Doctor Statistics">
+
+          <!-- 1. Total Doctors -->
+          <div class="doc-stat-card">
+            <div class="doc-stat-icon-wrap blue">
+              👨‍⚕️
+            </div>
+            <div class="doc-stat-info">
+              <div class="doc-stat-number" id="statTotalDoctors">0</div>
+              <div class="doc-stat-label">Total Doctors</div>
+              <span class="doc-stat-badge blue">Registered Specialists</span>
+            </div>
+          </div>
+
+          <!-- 2. Verified Doctors -->
+          <div class="doc-stat-card">
+            <div class="doc-stat-icon-wrap green">
+              ✓
+            </div>
+            <div class="doc-stat-info">
+              <div class="doc-stat-number" id="statVerifiedDoctors">0</div>
+              <div class="doc-stat-label">Verified Doctors</div>
+              <span class="doc-stat-badge green" id="statVerifiedPctBadge">0% Verified</span>
+            </div>
+          </div>
+
+          <!-- 3. Pending Verification -->
+          <div class="doc-stat-card">
+            <div class="doc-stat-icon-wrap amber">
+              ⏳
+            </div>
+            <div class="doc-stat-info">
+              <div class="doc-stat-number" id="statPendingDoctors">0</div>
+              <div class="doc-stat-label">Pending Verification</div>
+              <span class="doc-stat-badge amber">Awaiting OTP</span>
+            </div>
+          </div>
+
+          <!-- 4. Specializations -->
+          <div class="doc-stat-card">
+            <div class="doc-stat-icon-wrap purple">
+              🩺
+            </div>
+            <div class="doc-stat-info">
+              <div class="doc-stat-number" id="statSpecializations">0</div>
+              <div class="doc-stat-label">Specializations</div>
+              <span class="doc-stat-badge purple">Clinical Disciplines</span>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             6. ADD NEW DOCTOR FORM CARD
+             ================================================================ -->
+        <section class="doc-card" id="addDoctorCard" aria-label="Add Doctor Section">
+          <div class="doc-card-header">
+            <div class="doc-card-title-wrap">
+              <div class="doc-card-icon-pill">➕</div>
+              <div>
+                <h2 class="doc-card-title">Add New Doctor</h2>
+                <div class="doc-card-subtitle">
+                  Enter doctor details to dispatch a 6-digit email OTP for verified clinical onboarding.
+                </div>
+              </div>
+            </div>
+            <span class="badge bg-light text-primary border px-3 py-2 fw-semibold" style="font-size: 12.5px;">
+              ⚡ Delivered via Resend.com API
+            </span>
+          </div>
+
+          <!-- Doctor Registration Form -->
           <form id="addDoctorForm" autocomplete="off">
             <div class="doctor-form-grid">
-              <div>
-                <label class="form-label fw-semibold text-secondary small">Doctor Name</label>
-                <input type="text" id="docName" class="form-control" placeholder="Doctor Name (e.g. Dr Priya Sharma)" required>
+
+              <!-- Doctor Name -->
+              <div class="doc-input-group">
+                <label for="docName">Doctor Name <span class="text-danger">*</span></label>
+                <input type="text" id="docName" class="form-control" placeholder="Dr. Priya Sharma" required>
               </div>
 
-              <div>
-                <label class="form-label fw-semibold text-secondary small">Gender</label>
+              <!-- Gender -->
+              <div class="doc-input-group">
+                <label for="docGender">Gender <span class="text-danger">*</span></label>
                 <select id="docGender" class="form-select" required>
                   <option value="" disabled selected>Select Gender</option>
                   <option value="Male">Male</option>
@@ -473,77 +442,147 @@
                 </select>
               </div>
 
-              <div>
-                <label class="form-label fw-semibold text-secondary small">Specialization</label>
+              <!-- Specialization -->
+              <div class="doc-input-group">
+                <label for="docSpecialization">Specialization <span class="text-danger">*</span></label>
                 <select id="docSpecialization" class="form-select" required>
                   <option value="" disabled selected>Select Specialization</option>
+                  <option value="Pediatric Neurologist">Pediatric Neurologist</option>
                   <option value="Physical Therapy">Physical Therapy</option>
                   <option value="Occupational Therapy">Occupational Therapy</option>
                   <option value="Speech Therapy">Speech Therapy</option>
-                  <option value="Pediatric Neurologist">Pediatric Neurologist</option>
                   <option value="Orthopedic Specialist">Orthopedic Specialist</option>
                   <option value="Neurologist">Neurologist</option>
+                  <option value="Rehabilitation Medicine">Rehabilitation Medicine</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
 
-              <div>
-                <label class="form-label fw-semibold text-secondary small">Contact</label>
-                <input type="tel" id="docContact" class="form-control" placeholder="10-digit Contact" maxlength="10" pattern="[0-9]{10}" inputmode="numeric" required>
+              <!-- Contact -->
+              <div class="doc-input-group">
+                <label for="docContact">Contact <span class="text-danger">*</span></label>
+                <input type="tel" id="docContact" class="form-control" placeholder="10-digit Mobile" maxlength="10" pattern="[0-9]{10}" inputmode="numeric" required>
               </div>
 
-              <div>
-                <label class="form-label fw-semibold text-secondary small">Doctor Email</label>
-                <input type="email" id="docEmail" class="form-control" placeholder="doctor@example.com" required>
+              <!-- Doctor Email -->
+              <div class="doc-input-group">
+                <label for="docEmail">Doctor Email <span class="text-danger">*</span></label>
+                <input type="email" id="docEmail" class="form-control" placeholder="doctor@hospital.org" required>
               </div>
+
             </div>
 
+            <!-- Send OTP & Add Doctor Button -->
             <button type="submit" id="btnSendDoctorOtp" class="btn-send-otp">
-              <span>📧</span> Send OTP &amp; Add Doctor
+              <span>📧</span> <span>Send OTP &amp; Add Doctor</span>
             </button>
-            <div class="form-note d-flex justify-content-between align-items-center flex-wrap gap-2">
-              <span>Doctor details are saved only after email OTP verification. OTP is valid for 10 minutes.</span>
-              <span class="badge bg-light text-primary border" style="font-weight: 500;">
-                ⚡ Sent via Resend.com API
+
+            <!-- Verification Info Footnote -->
+            <div class="form-note">
+              <span>
+                🔒 Doctor credentials are permanently saved only after email OTP confirmation. OTP code is valid for 10 minutes.
               </span>
+              <button type="button" class="btn btn-link btn-sm p-0 text-decoration-none fw-semibold" data-bs-toggle="modal" data-bs-target="#resendConfigModal">
+                Configure Resend Sender Settings &rarr;
+              </button>
             </div>
           </form>
-        </div>
+        </section>
 
-        <!-- Doctors Table Card -->
-        <div class="content-box">
+        <!-- ================================================================
+             7. DOCTORS LIST CARD WITH LIVE SEARCH & FILTERS
+             ================================================================ -->
+        <section class="doc-card" aria-label="Doctors Directory List">
+          <div class="doc-card-header">
+            <div class="doc-card-title-wrap">
+              <div class="doc-card-icon-pill" style="color: #059669; background: #ecfdf5; border-color: #a7f3d0;">🩺</div>
+              <div>
+                <h2 class="doc-card-title">Certified Doctors Roster</h2>
+                <div class="doc-card-subtitle">
+                  Active healthcare specialists in the Multi Therapy network with verified email credentials.
+                </div>
+              </div>
+            </div>
+            <span class="badge bg-primary px-3 py-2" id="tableCountBadge" style="font-size: 13px;">
+              Loading...
+            </span>
+          </div>
+
+          <!-- Search & Filter Controls Toolbar -->
+          <div class="doc-filter-toolbar">
+
+            <!-- Real-time Search Input -->
+            <div class="doc-search-wrap">
+              <span class="doc-search-icon">🔍</span>
+              <input type="text" id="searchDoctorInput" class="form-control doc-search-input" placeholder="Search doctor by name, specialization, contact, or email...">
+            </div>
+
+            <!-- Specialization Filter -->
+            <select id="filterSpecialization" class="form-select doc-filter-select" aria-label="Filter by specialization">
+              <option value="all">All Specializations</option>
+              <option value="Pediatric Neurologist">Pediatric Neurologist</option>
+              <option value="Physical Therapy">Physical Therapy</option>
+              <option value="Occupational Therapy">Occupational Therapy</option>
+              <option value="Speech Therapy">Speech Therapy</option>
+              <option value="Orthopedic Specialist">Orthopedic Specialist</option>
+              <option value="Neurologist">Neurologist</option>
+              <option value="Rehabilitation Medicine">Rehabilitation Medicine</option>
+              <option value="Other">Other</option>
+            </select>
+
+            <!-- Verification Status Filter -->
+            <select id="filterStatus" class="form-select doc-filter-select" aria-label="Filter by verification status">
+              <option value="all">All Verification Status</option>
+              <option value="verified">Verified Only</option>
+              <option value="pending">Pending OTP</option>
+            </select>
+
+            <!-- Reset Button -->
+            <button type="button" id="btnResetFilters" class="btn-reset-filters" title="Reset all search filters">
+              <span>🔄</span> <span>Reset</span>
+            </button>
+          </div>
+
+          <!-- Doctors Table -->
           <div class="table-wrap">
-            <table class="table mb-0">
+            <table class="doc-table">
               <thead>
                 <tr>
-                  <th>Name</th>
+                  <th>Doctor</th>
                   <th>Gender</th>
                   <th>Specialization</th>
                   <th>Contact</th>
                   <th>Email</th>
-                  <th>Email Verified</th>
+                  <th>Verification Status</th>
                   <th class="sticky-action">Action</th>
                 </tr>
               </thead>
               <tbody id="doctorsTableBody">
                 <tr>
-                  <td colspan="7" class="text-center text-muted py-4">Loading doctors...</td>
+                  <td colspan="7" class="text-center text-muted py-4">
+                    <div class="d-inline-flex align-items-center gap-2">
+                      <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                      <span>Loading doctor records...</span>
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </div>
+        </section>
+
       </main>
 
     </div>
   </div>
 
-  <!-- Footer -->
-    <!-- Unified Multi Therapy 4-Column Professional Healthcare Footer -->
+  <!-- ======================================================================
+       8. UNIFIED 4-COLUMN HEALTHCARE FOOTER
+       ====================================================================== -->
   <footer class="mt-unified-footer" role="contentinfo">
     <div class="mt-footer-container">
       <div class="mt-footer-grid">
-        
+
         <!-- Column 1: Brand -->
         <div class="mt-footer-col mt-col-divider">
           <div class="mt-footer-brand-wrap">
@@ -554,7 +593,7 @@
             </div>
           </div>
           <p class="mt-footer-desc">
-            A comprehensive clinical management platform empowering Cerebral Palsy patients, doctors, physiotherapists, and family caregivers.
+            A comprehensive clinical management platform empowering Cerebral Palsy patients, doctors, physiotherapists, and medical practitioners.
           </p>
         </div>
 
@@ -563,32 +602,33 @@
           <h4 class="mt-footer-heading">Quick Links</h4>
           <ul class="mt-footer-links">
             <li><a href="./index.html"><span class="mt-footer-link-bullet">›</span> Home</a></li>
-            <li><a href="./index.html#about"><span class="mt-footer-link-bullet">›</span> About Us</a></li>
-            <li><a href="./index.html#services"><span class="mt-footer-link-bullet">›</span> Services</a></li>
-            <li><a href="./subscription-pricing.html"><span class="mt-footer-link-bullet">›</span> Subscription Plans</a></li>
+            <li><a href="./patient-home.html"><span class="mt-footer-link-bullet">›</span> Patient Portal</a></li>
+            <li><a href="./doctor-home.html"><span class="mt-footer-link-bullet">›</span> Doctor Portal</a></li>
+            <li><a href="./subscription-pricing.html"><span class="mt-footer-link-bullet">›</span> Membership Plans</a></li>
             <li><a href="./login.html"><span class="mt-footer-link-bullet">›</span> Patient Login</a></li>
             <li><a href="./doctor-login.html"><span class="mt-footer-link-bullet">›</span> Doctor Login</a></li>
-            <li><a href="./index.html#contact" id="footerContactLink"><span class="mt-footer-link-bullet">›</span> Contact</a></li>
+            <li><a href="./index.html#contact"><span class="mt-footer-link-bullet">›</span> Contact Support</a></li>
           </ul>
         </div>
 
-        <!-- Column 3: Patient Portal -->
+        <!-- Column 3: Clinical Modules -->
         <div class="mt-footer-col mt-col-divider">
-          <h4 class="mt-footer-heading">Patient Portal</h4>
+          <h4 class="mt-footer-heading">Clinical Modules</h4>
           <ul class="mt-footer-links">
+            <li><a href="./doctors.html"><span class="mt-footer-link-bullet">›</span> Doctors Directory</a></li>
+            <li><a href="./therapists.html"><span class="mt-footer-link-bullet">›</span> Therapists Directory</a></li>
+            <li><a href="./patients.html"><span class="mt-footer-link-bullet">›</span> Patients Directory</a></li>
             <li><a href="./appointments.html"><span class="mt-footer-link-bullet">›</span> Appointments</a></li>
             <li><a href="./therapy-sessions.html"><span class="mt-footer-link-bullet">›</span> Therapy Sessions</a></li>
-            <li><a href="./patients.html"><span class="mt-footer-link-bullet">›</span> Patients Directory</a></li>
-            <li><a href="./signup.html"><span class="mt-footer-link-bullet">›</span> Patient Sign Up</a></li>
-            <li><a href="./doctor-home.html"><span class="mt-footer-link-bullet">›</span> Doctor Portal</a></li>
+            <li><a href="./exercises.html"><span class="mt-footer-link-bullet">›</span> Exercise Programs</a></li>
           </ul>
         </div>
 
-        <!-- Column 4: Support & Location -->
+        <!-- Column 4: Contact & Location -->
         <div class="mt-footer-col">
           <h4 class="mt-footer-heading">Support &amp; Location</h4>
           <div class="mt-footer-contact-list">
-            
+
             <div class="mt-footer-contact-item">
               <div class="mt-footer-icon-box">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
@@ -671,39 +711,45 @@
     </div>
   </footer>
 
+  <!-- ======================================================================
+       9. MODALS: OTP VERIFICATION, RESEND CONFIG & REPORTS
+       ====================================================================== -->
+
   <!-- OTP Verification Modal -->
   <div class="modal fade" id="doctorOtpModal" tabindex="-1" aria-labelledby="doctorOtpModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow">
-        <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title fw-bold" id="doctorOtpModalLabel">🔐 Verify Doctor Email OTP</h5>
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 18px; overflow: hidden;">
+        <div class="modal-header text-white" style="background: linear-gradient(135deg, #0d6efd 0%, #0867e8 100%);">
+          <h5 class="modal-title fw-bold d-flex align-items-center gap-2" id="doctorOtpModalLabel">
+            <span>🔐</span> <span>Verify Doctor Email OTP</span>
+          </h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body p-4">
           <p class="text-secondary mb-3">
-            A 6-digit verification code has been sent to: <br>
+            A 6-digit verification code has been dispatched to: <br>
             <strong id="modalTargetEmail" class="text-primary fs-6"></strong>
           </p>
 
-          <div id="modalResendSuccessAlert" class="alert alert-success py-2 small mb-3" hidden></div>
-          <div id="modalNoticeAlert" class="alert alert-info py-2 small mb-3" hidden></div>
-          <div id="modalErrorAlert" class="alert alert-danger py-2 small mb-3" hidden></div>
+          <div id="modalResendSuccessAlert" class="alert alert-success py-2 small mb-3 shadow-sm" hidden></div>
+          <div id="modalNoticeAlert" class="alert alert-info py-2 small mb-3 shadow-sm" hidden></div>
+          <div id="modalErrorAlert" class="alert alert-danger py-2 small mb-3 shadow-sm" hidden></div>
 
           <div class="mb-3">
-            <label class="form-label fw-semibold">Enter 6-Digit OTP Code</label>
-            <input type="text" id="doctorOtpInput" class="form-control form-control-lg text-center letter-spacing-2 fw-bold" placeholder="• • • • • •" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+            <label class="form-label fw-bold text-dark small" for="doctorOtpInput">Enter 6-Digit OTP Code</label>
+            <input type="text" id="doctorOtpInput" class="form-control form-control-lg text-center letter-spacing-2 fw-bold" placeholder="• • • • • •" maxlength="6" inputmode="numeric" autocomplete="one-time-code" style="letter-spacing: 6px; font-size: 24px; border-radius: 12px; border: 2px solid #cbd5e1;">
           </div>
 
           <div class="d-flex justify-content-between align-items-center mt-3">
-            <button type="button" id="btnResendDoctorOtp" class="btn btn-sm btn-outline-secondary">
+            <button type="button" id="btnResendDoctorOtp" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-semibold">
               🔄 Resend OTP
             </button>
             <span class="small text-muted">Expires in 10 minutes</span>
           </div>
         </div>
-        <div class="modal-footer bg-light">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" id="btnVerifyDoctorOtp" class="btn btn-primary px-4 fw-semibold">
+        <div class="modal-footer bg-light border-0">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" id="btnVerifyDoctorOtp" class="btn btn-primary px-4 fw-bold rounded-pill">
             ✓ Verify &amp; Add Doctor
           </button>
         </div>
@@ -714,9 +760,11 @@
   <!-- Resend Configuration Modal -->
   <div class="modal fade" id="resendConfigModal" tabindex="-1" aria-labelledby="resendConfigModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 18px; overflow: hidden;">
         <div class="modal-header bg-dark text-white">
-          <h5 class="modal-title fw-bold" id="resendConfigModalLabel">⚡ Resend.com Email Settings</h5>
+          <h5 class="modal-title fw-bold d-flex align-items-center gap-2" id="resendConfigModalLabel">
+            <span>⚡</span> <span>Resend.com Email Settings</span>
+          </h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body p-4">
@@ -727,7 +775,7 @@
           <div id="resendConfigAlert" class="alert alert-success py-2 small mb-3" hidden></div>
 
           <div class="mb-3">
-            <label class="form-label fw-semibold small text-secondary">Resend API Key</label>
+            <label class="form-label fw-semibold small text-secondary" for="inputResendApiKey">Resend API Key</label>
             <div class="input-group">
               <input type="password" id="inputResendApiKey" class="form-control font-monospace" placeholder="re_123456789...">
               <button class="btn btn-outline-secondary" type="button" id="btnToggleResendKey" title="Toggle visibility">👁️</button>
@@ -738,16 +786,16 @@
           </div>
 
           <div class="mb-3">
-            <label class="form-label fw-semibold small text-secondary">Sender "From" Email</label>
+            <label class="form-label fw-semibold small text-secondary" for="inputResendFromEmail">Sender "From" Email</label>
             <input type="text" id="inputResendFromEmail" class="form-control" placeholder="CP Healthcare <onboarding@resend.dev>">
             <div class="form-text small text-muted">
               Defaults to <code>CP Healthcare &lt;onboarding@resend.dev&gt;</code>. If you verified a domain in Resend, you can use your domain address (e.g. <code>no-reply@yourdomain.com</code>).
             </div>
           </div>
         </div>
-        <div class="modal-footer bg-light">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" id="btnSaveResendConfig" class="btn btn-primary px-4 fw-semibold">
+        <div class="modal-footer bg-light border-0">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Close</button>
+          <button type="button" id="btnSaveResendConfig" class="btn btn-primary px-4 fw-bold rounded-pill">
             Save Settings
           </button>
         </div>
@@ -755,16 +803,96 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="./js/api.js"></script>
-  <script src="./js/cdn.js"></script>
-  <script src="./js/resend.js"></script>
-  <script src="./js/doctors.js"></script>
+  <!-- Reports Modal -->
+  <div class="modal fade" id="doctorReportsModal" tabindex="-1" aria-labelledby="doctorReportsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 18px; overflow: hidden;">
+        <div class="modal-header text-white" style="background: linear-gradient(135deg, #0d6efd 0%, #0867e8 100%);">
+          <h5 class="modal-title fw-bold d-flex align-items-center gap-2" id="doctorReportsModalLabel">
+            <span>📊</span> <span>Clinical Doctors Roster &amp; Verification Report</span>
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+            <div>
+              <h6 class="fw-bold mb-1 text-dark">Multi Therapy Clinical Network</h6>
+              <span class="text-muted small">Generated on <span id="reportGenDate"></span></span>
+            </div>
+            <span class="badge bg-success-subtle text-success border border-success px-3 py-2 fw-bold">Live Data</span>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <div class="col-sm-4">
+              <div class="p-3 bg-light rounded-3 border text-center">
+                <div class="text-muted small">Specialist Roster</div>
+                <div class="fs-4 fw-bold text-primary" id="reportTotalDoctors">-</div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="p-3 bg-light rounded-3 border text-center">
+                <div class="text-muted small">Verified Doctors</div>
+                <div class="fs-4 fw-bold text-success" id="reportVerifiedDoctors">-</div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="p-3 bg-light rounded-3 border text-center">
+                <div class="text-muted small">Verification Rate</div>
+                <div class="fs-4 fw-bold text-dark" id="reportVerificationRate">-</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-secondary small mb-0">
+            This clinical report summarizes practitioners verified through the Multi Therapy platform. For detailed appointment schedules and rehabilitation logs, visit the <a href="./admin-dashboard.html">Admin Dashboard</a>.
+          </p>
+        </div>
+        <div class="modal-footer bg-light border-0">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold" onclick="window.print()">
+            🖨️ Print Report
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Floating WhatsApp Us Button -->
   <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
     <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
   </a>
 
+  <!-- JavaScript Libraries & Controllers -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/api.js"></script>
+  <script src="./js/cdn.js"></script>
+  <script src="./js/resend.js"></script>
+  <script src="./js/doctors.js"></script>
   <script src="./js/clinical-dropdown.js"></script>
+
+  <script>
+    // Sync report modal numbers with live statistics
+    const repModal = document.getElementById('doctorReportsModal');
+    if (repModal) {
+      repModal.addEventListener('show.bs.modal', () => {
+        const d = new Date();
+        const dateEl = document.getElementById('reportGenDate');
+        if (dateEl) dateEl.textContent = d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+        const totalEl = document.getElementById('statTotalDoctors');
+        const verEl = document.getElementById('statVerifiedDoctors');
+        const repTot = document.getElementById('reportTotalDoctors');
+        const repVer = document.getElementById('reportVerifiedDoctors');
+        const repRate = document.getElementById('reportVerificationRate');
+
+        const tot = totalEl ? parseInt(totalEl.textContent) || 0 : 0;
+        const ver = verEl ? parseInt(verEl.textContent) || 0 : 0;
+
+        if (repTot) repTot.textContent = tot;
+        if (repVer) repVer.textContent = ver;
+        if (repRate) repRate.textContent = tot > 0 ? `${Math.round((ver / tot) * 100)}%` : '0%';
+      });
+    }
+  </script>
 </body>
 </html>
