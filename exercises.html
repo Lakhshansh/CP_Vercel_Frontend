@@ -54,8 +54,10 @@
       <!-- Center Navigation -->
       <nav aria-label="Main Navigation">
         <ul class="ex-nav-menu" id="exNavMenu">
-          <li><a href="./patient-home.html" class="ex-nav-link" id="navHome">Home</a></li>
-                    <li class="nav-item-dropdown">
+          <li><a href="./index.html" class="ex-nav-link" id="navHome">Home</a></li>
+          <li><a href="./patient-home.html" class="ex-nav-link" id="navPatientHome">Patient Home</a></li>
+          <li><a href="./doctor-home.html" class="ex-nav-link" id="navDoctorHome">Doctor Home</a></li>
+          <li class="nav-item-dropdown">
             <a href="javascript:void(0)" class="nav-dropdown-toggle ex-nav-link" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
               <span>Clinical Management</span>
               <svg class="dropdown-arrow-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -85,10 +87,12 @@
               </a>
             </div>
           </li>
+          <li><a href="./login.html" class="ex-nav-link" id="navPatientLogin">Patient Login</a></li>
+          <li><a href="./doctor-login.html" class="ex-nav-link" id="navDoctorLogin">Doctor Login</a></li>
         </ul>
       </nav>
 
-      <!-- Right Actions: Notifications & Patient Profile -->
+      <!-- Right Actions: Notifications, Patient Profile, Logout, Contact & Sign Up -->
       <div class="ex-nav-actions">
 
         <!-- Notification Bell with indicator -->
@@ -98,19 +102,40 @@
         </button>
 
         <!-- Patient Profile Pill -->
-        <a href="./patient-profile.html" class="ex-user-profile" id="userProfileBtn" title="View Patient Profile">
-          <img id="navAvatarImg" src="./images/multi_therapy_logo_100x100.png" class="ex-user-avatar" alt="Avatar" style="object-fit: contain; display:none;">
-          <div id="navAvatar" class="ex-user-avatar">👤</div>
-          <div>
-            <div style="font-weight: 700; font-size: 13.5px; line-height: 1.1;" id="navUsername">Patient</div>
-            <div style="font-size: 11px; color: var(--ex-primary-blue); font-weight: 700; text-transform: capitalize;" id="navRole">Portal</div>
-          </div>
-        </a>
+        <div id="userProfileWrap" style="display: inline-flex;">
+          <a href="./patient-profile.html" class="ex-user-profile" id="userProfileBtn" title="View Patient Profile">
+            <img id="navAvatarImg" src="./images/multi_therapy_logo_100x100.png" class="ex-user-avatar" alt="Avatar" style="object-fit: contain; display:none;">
+            <div id="navAvatar" class="ex-user-avatar">👤</div>
+            <div>
+              <div style="font-weight: 700; font-size: 13.5px; line-height: 1.1;" id="navUsername">Patient</div>
+              <div style="font-size: 11px; color: var(--ex-primary-blue); font-weight: 700; text-transform: capitalize;" id="navRole">Admin</div>
+            </div>
+          </a>
+        </div>
 
         <!-- Logout Button -->
         <button type="button" id="logoutBtn" class="ex-logout-btn" title="Sign out of system">
           <span>🚪</span> Logout
         </button>
+
+        <div id="publicNavActions" class="d-flex align-items-center gap-2">
+          <!-- Contact Button -->
+          <a href="./index.html#contact" class="ex-btn-contact" id="btnHeaderContact" title="Contact Support">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span>Contact</span>
+          </a>
+
+          <!-- Sign Up Button -->
+          <a href="./signup.html" class="ex-btn-signup" id="btnHeaderSignup" title="Sign Up">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Sign Up</span>
+          </a>
+        </div>
 
         <button class="ex-nav-toggle" id="navToggle" aria-label="Toggle navigation menu" type="button">☰</button>
       </div>

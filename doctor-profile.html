@@ -638,9 +638,11 @@
       </a>
 
       <nav aria-label="Main Navigation">
-        <ul class="nav-links">
-          <li><a href="./doctor-home.html" class="nav-link-item">Dashboard</a></li>
-                    <li class="nav-item-dropdown">
+        <ul class="nav-links" id="navMenu">
+          <li><a href="./index.html" class="nav-link-item">Home</a></li>
+          <li><a href="./patient-home.html" class="nav-link-item">Patient Home</a></li>
+          <li><a href="./doctor-home.html" class="nav-link-item">Doctor Home</a></li>
+          <li class="nav-item-dropdown">
             <a href="javascript:void(0)" class="nav-dropdown-toggle nav-link-item" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
               <span>Clinical Management</span>
               <svg class="dropdown-arrow-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -670,24 +672,45 @@
               </a>
             </div>
           </li>
+          <li><a href="./login.html" class="nav-link-item" id="navPatientLogin">Patient Login</a></li>
+          <li><a href="./doctor-login.html" class="nav-link-item" id="navDoctorLogin">Doctor Login</a></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
-        <a href="./doctor-profile.html" class="user-pill-doc" id="navUserPill" title="My Doctor Profile (Active)">
-          <div class="user-pill-avatar-doc" id="navAvatar">🩺</div>
-          <img id="navAvatarImg"
-            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJkb2NHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMDY0ZTNiIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMwNTk2NjkiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwZDk0ODgiLz48L2xpbmVhckdyYWRpZW50PjxmZWRyb3BTaGFkb3cgaWQ9ImRvY1NoYWRvdyIgeD0iLTEwJSIgeT0iLTEwJSIgd2lkdGg9IjEyMCUiIGhlaWdodD0iMTIwJSI+PGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjQiIHN0ZERldmlhdGlvbj0iNCIgZmxvb2QtY29sb3I9IiMwMDAiIGZsb29kLW9wYWNpdHk9IjAuMTUiLz48L2ZpbHRlcj48L2RlZnM+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5NiIgZmlsbD0idXJsKCNkb2NHcmFkKSIvPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2Utb3BhY2l0eT0iMC4zIi8+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsdGVyPSJ1cmwoI2RvY1NoYWRvdykiPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjY4IiByPSIzMCIvPjxwYXRoIGQ9Ik0gNDYsMTY0IEMgNDYsMTIyIDcyLDExNCAxMDAsMTE0IEMgMTI4LDExNCAxNTQsMTIyIDE1NCwxNjQgQyAxNTQsMTcwIDE0OSwxNzQgMTQzLDE3NCBMIDU3LDE3NCBDIDUxLDE3NCA0NiwxNzAgNDYsMTY0IFoiLz48cG9seWdvbiBwb2ludHM9IjEwMCwxNDYgODgsMTE0IDExMiwxMTQiIGZpbGw9IiMwNjVmNDYiLz48cmVjdCB4PSI5NyIgeT0iMTI2IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOCIgZmlsbD0iIzM0ZDM5OSIgcng9IjIiLz48cmVjdCB4PSI5MSIgeT0iMTMyIiB3aWR0aD0iMTgiIGhlaWdodD0iNiIgZmlsbD0iIzM0ZDM5OSIgcng9IjIiLz48cGF0aCBkPSJNIDgwLDExOCBDIDgwLDEzNiA4NCwxNDYgOTIsMTU0IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGU3ZmYiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTSAxMjAsMTE4IEMgMTIwLDEzNiAxMTYsMTQ2IDEwOCwxNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2UwZTdmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxNTgiIHI9IjUiIGZpbGw9IiNmOGZhZmMiLz48L2c+PC9zdmc+"
-            class="user-pill-avatar-doc" alt="" style="display:none; object-fit:cover;">
-          <div>
-            <div style="font-size:13px; font-weight:800; line-height:1.1;" id="navUsername">Dr. admin</div>
-            <div style="font-size:11px; color:#059669; font-weight:600;" id="navRole">Clinical Specialist</div>
-          </div>
-        </a>
+        <div id="userProfileWrap" style="display: inline-flex;">
+          <a href="./doctor-profile.html" class="user-pill-doc active" id="navUserPill" title="My Doctor Profile (Active)">
+            <div class="user-pill-avatar-doc" id="navAvatar">🩺</div>
+            <img id="navAvatarImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJkb2NHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMDY0ZTNiIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMwNTk2NjkiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwZDk0ODgiLz48L2xpbmVhckdyYWRpZW50PjxmZWRyb3BTaGFkb3cgaWQ9ImRvY1NoYWRvdyIgeD0iLTEwJSIgeT0iLTEwJSIgd2lkdGg9IjEyMCUiIGhlaWdodD0iMTIwJSI+PGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjQiIHN0ZERldmlhdGlvbj0iNCIgZmxvb2QtY29sb3I9IiMwMDAiIGZsb29kLW9wYWNpdHk9IjAuMTUiLz48L2ZpbHRlcj48L2RlZnM+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5NiIgZmlsbD0idXJsKCNkb2NHcmFkKSIvPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2Utb3BhY2l0eT0iMC4zIi8+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsdGVyPSJ1cmwoI2RvY1NoYWRvdykiPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjY4IiByPSIzMCIvPjxwYXRoIGQ9Ik0gNDYsMTY0IEMgNDYsMTIyIDcyLDExNCAxMDAsMTE0IEMgMTI4LDExNCAxNTQsMTIyIDE1NCwxNjQgQyAxNTQsMTcwIDE0OSwxNzQgMTQzLDE3NCBMIDU3LDE3NCBDIDUxLDE3NCA0NiwxNzAgNDYsMTY0IFoiLz48cG9seWdvbiBwb2ludHM9IjEwMCwxNDYgODgsMTE0IDExMiwxMTQiIGZpbGw9IiMwNjVmNDYiLz48cmVjdCB4PSI5NyIgeT0iMTI2IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOCIgZmlsbD0iIzM0ZDM5OSIgcng9IjIiLz48cmVjdCB4PSI5MSIgeT0iMTMyIiB3aWR0aD0iMTgiIGhlaWdodD0iNiIgZmlsbD0iIzM0ZDM5OSIgcng9IjIiLz48cGF0aCBkPSJNIDgwLDExOCBDIDgwLDEzNiA4NCwxNDYgOTIsMTU0IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGU3ZmYiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTSAxMjAsMTE4IEMgMTIwLDEzNiAxMTYsMTQ2IDEwOCwxNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2UwZTdmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxNTgiIHI9IjUiIGZpbGw9IiNmOGZhZmMiLz48L2c+PC9zdmc+" class="user-pill-avatar-doc" alt="" style="display:none; object-fit:cover;">
+            <div>
+              <div style="font-size:13px; font-weight:800; line-height:1.1;" id="navUsername">Dr. admin</div>
+              <div style="font-size:11px; color:#059669; font-weight:600;" id="navRole">Clinical Specialist</div>
+            </div>
+          </a>
+        </div>
 
         <button type="button" class="logout-btn" id="logoutBtn" title="Logout">
           <span>🚪</span> Logout
         </button>
+
+        <div id="publicNavActions" class="d-flex align-items-center gap-2">
+          <a href="./index.html#contact" class="pt-btn-contact" id="btnHeaderContact" title="Contact Support">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span>Contact</span>
+          </a>
+
+          <a href="./signup.html" class="pt-btn-signup" id="btnHeaderSignup" title="Sign Up">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Sign Up</span>
+          </a>
+        </div>
+
+        <button class="pt-nav-toggle" id="navToggle" aria-label="Toggle navigation menu" type="button">☰</button>
       </div>
     </div>
   </header>

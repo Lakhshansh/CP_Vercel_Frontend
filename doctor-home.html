@@ -51,10 +51,9 @@
       <!-- Center Navigation Links -->
       <nav aria-label="Doctor Navigation">
         <ul class="doc-nav-menu" id="docNavMenu">
-          <li><a href="./doctor-home.html" class="doc-nav-link active" aria-current="page">Dashboard</a></li>
-          <li><a href="./doctor-appointments.html" class="doc-nav-link" id="navDocAppointments">Appointments</a></li>
-          <li><a href="./patients.html" class="doc-nav-link" id="navDocPatients">Patients</a></li>
-          <li><a href="./therapists.html" class="doc-nav-link" id="navDocTherapists">Therapists</a></li>
+          <li><a href="./index.html" class="doc-nav-link" id="navHome">Home</a></li>
+          <li><a href="./patient-home.html" class="doc-nav-link" id="navPatientHome">Patient Home</a></li>
+          <li><a href="./doctor-home.html" class="doc-nav-link active" aria-current="page" id="navDoctorHome">Doctor Home</a></li>
           <li class="nav-item-dropdown">
             <a href="javascript:void(0)" class="nav-dropdown-toggle doc-nav-link" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
               <span>Clinical Management</span>
@@ -85,12 +84,12 @@
               </a>
             </div>
           </li>
-          <li><a href="./doctor-subscriptions.html" class="doc-nav-link" id="navDocSubscriptions">Plans</a></li>
-          <li><a href="./patient-home.html" class="doc-nav-link" id="navPatientSwitch" style="color: #0875F9; font-weight: 700;">Patient Portal &rarr;</a></li>
+          <li><a href="./login.html" class="doc-nav-link" id="navPatientLogin">Patient Login</a></li>
+          <li><a href="./doctor-login.html" class="doc-nav-link" id="navDoctorLogin">Doctor Login</a></li>
         </ul>
       </nav>
 
-      <!-- Right Action Items: Notifications, Doctor Profile & Logout -->
+      <!-- Right Action Items: Notifications, Doctor Profile, Logout, Contact & Sign Up -->
       <div class="doc-nav-actions">
         
         <!-- Notifications with Badge -->
@@ -131,7 +130,7 @@
         </div>
 
         <!-- Doctor Profile Pill -->
-        <div style="position: relative;">
+        <div id="userProfileWrap" style="position: relative; display: inline-flex;">
           <div class="doc-user-pill" id="docUserPill" role="button" aria-haspopup="true" aria-expanded="false" title="Practitioner Account Menu">
             <img src="./images/doctor-avatar.jpg" alt="Doctor" onerror="this.src='./images/doctor-login-avatar.svg'; this.onerror=null;" class="doc-avatar" id="docNavAvatar" width="38" height="38">
             <div style="display: flex; flex-direction: column; line-height: 1.2;">
@@ -164,6 +163,30 @@
               <span>Log Out</span>
             </a>
           </div>
+        </div>
+
+        <!-- Logout Button -->
+        <button type="button" class="pt-logout-btn" id="logoutBtn" title="Logout of Doctor Portal">
+          <span>🚪</span> Logout
+        </button>
+
+        <div id="publicNavActions" class="d-flex align-items-center gap-2">
+          <!-- Contact Support Button -->
+          <a href="./index.html#contact" class="pt-btn-contact" id="btnHeaderContact" title="Contact Support">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span>Contact</span>
+          </a>
+
+          <!-- Sign Up Button -->
+          <a href="./signup.html" class="pt-btn-signup" id="btnHeaderSignup" title="Sign Up">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Sign Up</span>
+          </a>
         </div>
 
         <!-- Mobile Menu Toggle -->

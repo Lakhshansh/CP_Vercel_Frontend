@@ -325,11 +325,11 @@
 
       
       <!-- Center Navigation Links -->
-      <nav aria-label="Main Navigation" style="display: flex; align-items: center; margin: 0 16px;">
-        <ul style="display: flex; align-items: center; gap: 14px; margin: 0; padding: 0; list-style: none;">
-          <li><a href="./index.html" class="mt-nav-link" style="color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14.5px; opacity: 0.95;">Home</a></li>
-          <li><a href="./patient-home.html" class="mt-nav-link" style="color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14.5px; opacity: 0.95;">Patient Home</a></li>
-          <li><a href="./doctor-home.html" class="mt-nav-link" style="color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14.5px; opacity: 0.95;">Doctor Home</a></li>
+      <nav aria-label="Main Navigation">
+        <ul class="mt-nav-list" id="navMenu">
+          <li><a href="./index.html" class="mt-nav-link">Home</a></li>
+          <li><a href="./patient-home.html" class="mt-nav-link">Patient Home</a></li>
+          <li><a href="./doctor-home.html" class="mt-nav-link">Doctor Home</a></li>
           <li class="nav-item-dropdown">
             <a href="javascript:void(0)" class="nav-dropdown-toggle mt-nav-link" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
               <span>Clinical Management</span>
@@ -360,24 +360,46 @@
               </a>
             </div>
           </li>
+          <li><a href="./login.html" class="mt-nav-link" id="navPatientLogin">Patient Login</a></li>
+          <li><a href="./doctor-login.html" class="mt-nav-link" id="navDoctorLogin">Doctor Login</a></li>
         </ul>
       </nav>
 
       <div class="mt-nav-right">
-
-        <div class="mt-user" title="View Profile">
-          <img id="navAvatarImg" src="./images/multi_therapy_logo_100x100.png" class="mt-user-photo" alt="Profile" style="object-fit: contain; display:none;">
-          <div id="navAvatar" class="mt-user-default">👤</div>
-          <div class="mt-user-text">
-            <div class="mt-user-name" id="navUsername">User</div>
-            <div class="mt-user-role" id="navRole">Admin</div>
+        <div id="userProfileWrap" style="display: inline-flex;">
+          <div class="mt-user" title="View Profile">
+            <img id="navAvatarImg" src="./images/multi_therapy_logo_100x100.png" class="mt-user-photo" alt="Profile" style="object-fit: contain; display:none;">
+            <div id="navAvatar" class="mt-user-default">👤</div>
+            <div class="mt-user-text">
+              <div class="mt-user-name" id="navUsername">User</div>
+              <div class="mt-user-role" id="navRole">Admin</div>
+            </div>
+            <span class="mt-arrow">⌄</span>
           </div>
-          <span class="mt-arrow">⌄</span>
         </div>
 
         <button id="logoutBtn" class="mt-logout-btn">
           <span>🚪</span> Logout
         </button>
+
+        <div id="publicNavActions" class="d-flex align-items-center gap-2">
+          <a href="./index.html#contact" class="doc-btn-contact" id="btnHeaderContact" title="Contact Multi Therapy Support">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span>Contact</span>
+          </a>
+
+          <a href="./signup.html" class="doc-btn-signup" id="btnHeaderSignup" title="Sign Up">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Sign Up</span>
+          </a>
+        </div>
+
+        <button class="doc-nav-toggle" id="navToggle" aria-label="Toggle navigation menu" type="button">☰</button>
       </div>
     </div>
   </header>

@@ -254,7 +254,7 @@ function setupNavbarAuth(user) {
   const navAvatarImg = document.getElementById("navAvatarImg");
 
   if (user) {
-    if (userProfileWrap) userProfileWrap.style.display = "block";
+    if (userProfileWrap) userProfileWrap.style.display = "inline-flex";
     if (logoutBtn) {
       logoutBtn.style.display = "inline-flex";
       logoutBtn.addEventListener("click", async () => {
@@ -267,7 +267,7 @@ function setupNavbarAuth(user) {
         window.location.href = "./index.html";
       });
     }
-    if (publicNavActions) publicNavActions.style.display = "none";
+    if (publicNavActions) publicNavActions.style.display = "flex";
 
     const name = user.name || user.username || "User";
     if (navUsername) navUsername.textContent = name;
@@ -279,8 +279,8 @@ function setupNavbarAuth(user) {
       if (navAvatar) navAvatar.style.display = "none";
     }
   } else {
-    if (userProfileWrap) userProfileWrap.style.display = "none";
-    if (logoutBtn) logoutBtn.style.display = "none";
+    if (userProfileWrap) userProfileWrap.style.display = "inline-flex";
+    if (logoutBtn) logoutBtn.style.display = "inline-flex";
     if (publicNavActions) publicNavActions.style.display = "flex";
   }
 }

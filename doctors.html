@@ -100,58 +100,75 @@
             </div>
           </li>
 
-          <li><a href="./subscription-pricing.html" class="mt-nav-link">Plans</a></li>
+          <li><a href="./login.html" class="mt-nav-link" id="navPatientLogin">Patient Login</a></li>
+          <li><a href="./doctor-login.html" class="mt-nav-link" id="navDoctorLogin">Doctor Login</a></li>
         </ul>
       </nav>
 
-      <!-- Right Header Actions: Contact, Notifications & Profile -->
+      <!-- Right Header Actions: User Profile, Logout, Contact, Sign Up -->
       <div class="mt-nav-right">
 
-        <!-- Contact Support Button -->
-        <a href="./index.html#contact" class="doc-btn-contact" title="Contact Multi Therapy Support">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-          </svg>
-          <span>Contact</span>
-        </a>
-
-        <!-- Notifications Bell Button -->
-        <button type="button" class="doc-notif-btn" id="docNotifBtn" title="Clinical Notifications" aria-label="Notifications">
-          🔔
-          <span class="doc-notif-badge" aria-hidden="true"></span>
-        </button>
-
-        <!-- Notifications Dropdown Popup -->
-        <div class="doc-notif-dropdown" id="docNotifDropdown">
-          <div class="doc-notif-header">
-            <strong style="font-size: 13.5px; color: var(--doc-navy-dark);">System Notifications</strong>
-            <span class="badge bg-primary" style="font-size: 11px;">Active</span>
-          </div>
-          <div class="doc-notif-item">
-            <strong class="text-primary d-block">⚡ Resend Email Active</strong>
-            <span class="text-secondary small">Doctor OTP verification delivery configured for fast onboarding.</span>
-          </div>
-          <div class="doc-notif-item">
-            <strong class="text-success d-block">✓ Database Online</strong>
-            <span class="text-secondary small">Clinical specialist records synced with Multi Therapy cloud.</span>
-          </div>
-        </div>
-
         <!-- User Profile Pill -->
-        <div class="mt-user" title="Doctor / Admin Profile">
-          <img id="navAvatarImg" src="./images/multi_therapy_logo_100x100.png" class="mt-user-photo" alt="Profile" style="object-fit: contain; display:none;">
-          <div id="navAvatar" class="mt-user-default">👤</div>
-          <div class="mt-user-text">
-            <div class="mt-user-name" id="navUsername">User</div>
-            <div class="mt-user-role" id="navRole">Admin</div>
-          </div>
-          <span class="mt-arrow">⌄</span>
+        <div id="userProfileWrap" style="display: inline-flex; position: relative;">
+          <a href="./doctor-profile.html" class="mt-user" id="userProfileBtn" title="Doctor / Admin Profile" style="text-decoration: none;">
+            <img id="navAvatarImg" src="./images/multi_therapy_logo_100x100.png" class="mt-user-photo" alt="Profile" style="object-fit: contain; display:none;">
+            <div id="navAvatar" class="mt-user-default">👤</div>
+            <div class="mt-user-text">
+              <div class="mt-user-name" id="navUsername">User</div>
+              <div class="mt-user-role" id="navRole">Admin</div>
+            </div>
+            <span class="mt-arrow">⌄</span>
+          </a>
         </div>
 
         <!-- Logout Button -->
         <button id="logoutBtn" class="mt-logout-btn" title="Sign Out">
           <span>🚪</span> <span>Logout</span>
         </button>
+
+        <!-- Public Header Actions: Contact & Sign Up -->
+        <div id="publicNavActions" class="d-flex align-items-center gap-2">
+          <!-- Contact Support Button -->
+          <a href="./index.html#contact" class="doc-btn-contact" id="btnHeaderContact" title="Contact Multi Therapy Support">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span>Contact</span>
+          </a>
+
+          <!-- Sign Up Button -->
+          <a href="./signup.html" class="doc-btn-signup" id="btnHeaderSignup" title="Sign Up">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Sign Up</span>
+          </a>
+        </div>
+
+        <!-- Notifications Bell Button -->
+        <div style="position: relative; display: inline-flex;">
+          <button type="button" class="doc-notif-btn" id="docNotifBtn" title="Clinical Notifications" aria-label="Notifications">
+            🔔
+            <span class="doc-notif-badge" aria-hidden="true"></span>
+          </button>
+
+          <!-- Notifications Dropdown Popup -->
+          <div class="doc-notif-dropdown" id="docNotifDropdown">
+            <div class="doc-notif-header">
+              <strong style="font-size: 13.5px; color: var(--doc-navy-dark);">System Notifications</strong>
+              <span class="badge bg-primary" style="font-size: 11px;">Active</span>
+            </div>
+            <div class="doc-notif-item">
+              <strong class="text-primary d-block">⚡ Resend Email Active</strong>
+              <span class="text-secondary small">Doctor OTP verification delivery configured for fast onboarding.</span>
+            </div>
+            <div class="doc-notif-item">
+              <strong class="text-success d-block">✓ Database Online</strong>
+              <span class="text-secondary small">Clinical specialist records synced with Multi Therapy cloud.</span>
+            </div>
+          </div>
+        </div>
 
         <!-- Mobile Navigation Drawer Toggle -->
         <button type="button" class="doc-nav-toggle" id="docNavToggle" aria-label="Toggle Navigation Menu">
