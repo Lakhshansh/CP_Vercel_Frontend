@@ -25,10 +25,15 @@
 
 <body class="admin-login-body">
 
+  <!-- Ambient Healthcare Background Glows -->
+  <div class="admin-ambient-glow glow-blue-1" aria-hidden="true"></div>
+  <div class="admin-ambient-glow glow-green-1" aria-hidden="true"></div>
+  <div class="admin-ambient-glow glow-blue-2" aria-hidden="true"></div>
+
   <!-- ======================================================================
-       1. TOP NAVBAR
+       1. TOP NAVBAR / HEADER NAVIGATION
        ====================================================================== -->
-  <header class="mt-navbar">
+  <header class="mt-navbar" role="banner">
     <div class="mt-navbar-inner">
       <a class="mt-brand" href="./index.html" title="Multi Therapy Home">
         <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-logo" width="44" height="44">
@@ -37,8 +42,12 @@
           <div class="mt-brand-subtitle">Every Individual Deserves Better Care.</div>
         </div>
       </a>
-      <div class="ms-auto d-none d-md-flex align-items-center gap-3">
+
+      <!-- Desktop Header Actions -->
+      <nav class="ms-auto d-none d-md-flex align-items-center gap-3" aria-label="Main Navigation">
         <a href="./index.html" class="btn btn-outline-light btn-sm rounded-pill px-3">Public Home</a>
+        
+        <!-- Clinical Management Dropdown -->
         <div class="nav-item-dropdown">
           <a href="javascript:void(0)" class="nav-dropdown-toggle btn btn-outline-light btn-sm rounded-pill px-3" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
             <span>Clinical Management</span>
@@ -69,149 +78,89 @@
             </a>
           </div>
         </div>
+
         <a href="./login.html" class="btn btn-light btn-sm rounded-pill px-3 fw-bold text-primary">Patient Login</a>
         <a href="./doctor-login.html" class="btn btn-light btn-sm rounded-pill px-3 fw-bold text-success">Doctor Login</a>
+      </nav>
+
+      <!-- Mobile Quick Links -->
+      <div class="d-flex d-md-none align-items-center gap-2">
+        <a href="./login.html" class="btn btn-light btn-sm rounded-pill px-2 fw-bold text-primary" style="font-size: 11.5px;">Patient</a>
+        <a href="./doctor-login.html" class="btn btn-light btn-sm rounded-pill px-2 fw-bold text-success" style="font-size: 11.5px;">Doctor</a>
       </div>
     </div>
   </header>
 
   <!-- ======================================================================
-       2. CENTERED LOGO AND TAGLINE AT TOP
+       2. CENTERED ADMIN LOGIN CARD SECTION WITH SOFT WAVE SHAPES
        ====================================================================== -->
-  <section class="admin-login-top-header">
-    <a href="./index.html" class="admin-centered-brand" title="Multi Therapy Home">
-      <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="admin-centered-logo" width="84" height="84">
-      <h1 class="admin-centered-title">Multi Therapy</h1>
-      <div class="admin-centered-tagline">Every Individual Deserves Better Care.</div>
-    </a>
-    <div>
-      <span class="admin-centered-badge">
-        <span>🛡️</span> Online Administration Portal
-      </span>
+  <main class="admin-portal-hero" id="mainContent">
+
+    <!-- Soft Waves in Background -->
+    <div class="admin-wave-backdrop" aria-hidden="true">
+      <svg class="admin-wave-svg admin-wave-svg-top" viewBox="0 0 1440 280" fill="none" preserveAspectRatio="none">
+        <path d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,128C672,128,768,160,864,176C960,192,1056,192,1152,176C1248,160,1344,128,1392,112L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z" fill="rgba(219, 234, 254, 0.45)"></path>
+        <path d="M0,160L48,149.3C96,139,192,117,288,122.7C384,128,480,160,576,165.3C672,171,768,149,864,133.3C960,117,1056,107,1152,117.3C1248,128,1344,160,1392,176L1440,192L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z" fill="rgba(224, 242, 254, 0.3)"></path>
+      </svg>
+      <svg class="admin-wave-svg admin-wave-svg-bottom" viewBox="0 0 1440 220" fill="none" preserveAspectRatio="none">
+        <path d="M0,64L60,74.7C120,85,240,107,360,101.3C480,96,600,64,720,58.7C840,53,960,75,1080,85.3C1200,96,1320,96,1380,96L1440,96L1440,220L1380,220C1320,220,1200,220,1080,220C960,220,840,220,720,220C600,220,480,220,360,220C240,220,120,220,60,220L0,220Z" fill="rgba(236, 253, 245, 0.45)"></path>
+      </svg>
     </div>
-  </section>
 
-  <!-- ======================================================================
-       3. LARGE WHITE ROUNDED LOGIN CARD (SPLIT LAYOUT)
-       ====================================================================== -->
-  <main class="admin-card-wrapper">
-    <div class="admin-split-card">
+    <!-- Centered Admin Login Card Container -->
+    <div class="admin-centered-card-wrapper">
+      <div class="admin-login-card">
 
-      <!-- LEFT SIDE: ADMIN DASHBOARD & SECURITY ILLUSTRATION -->
-      <div class="admin-side-illustration-panel">
-        
-        <!-- Header Pill -->
-        <div class="admin-illus-header">
-          <span class="admin-illus-pill">
-            <span>⚡</span> Real-Time Clinical Command
-          </span>
-        </div>
-
-        <!-- Stylized Dashboard Mockup Frame -->
-        <div class="admin-illus-visual">
-          <div class="admin-mockup-frame">
-            <!-- Window Topbar -->
-            <div class="admin-mockup-topbar">
-              <div class="admin-mockup-dots">
-                <span class="admin-mockup-dot dot-red"></span>
-                <span class="admin-mockup-dot dot-yellow"></span>
-                <span class="admin-mockup-dot dot-green"></span>
-              </div>
-              <div class="admin-mockup-tag">ADMIN_CONSOLE // v2.6</div>
-            </div>
-
-            <!-- KPI Row -->
-            <div class="admin-mockup-kpi-row">
-              <div class="admin-mockup-kpi-box">
-                <div class="label">Patients Monitored</div>
-                <div class="val">140+ Active</div>
-              </div>
-              <div class="admin-mockup-kpi-box">
-                <div class="label">Doctor Reviews</div>
-                <div class="val" style="color: #38bdf8;">Queue Active</div>
-              </div>
-            </div>
-
-            <!-- Mock Chart Trend -->
-            <div class="admin-mockup-chart-box">
-              <div class="admin-mockup-bar" style="height: 35%;"></div>
-              <div class="admin-mockup-bar" style="height: 55%;"></div>
-              <div class="admin-mockup-bar" style="height: 45%;"></div>
-              <div class="admin-mockup-bar" style="height: 75%;"></div>
-              <div class="admin-mockup-bar" style="height: 65%;"></div>
-              <div class="admin-mockup-bar" style="height: 90%;"></div>
-              <div class="admin-mockup-bar" style="height: 100%;"></div>
-            </div>
-
-            <!-- Mockup Status Footer -->
-            <div class="admin-mockup-badge-footer">
-              <span class="d-inline-flex align-items-center gap-2">
-                <span class="admin-mockup-status-dot"></span>
-                <span>TiDB Cloud Connected</span>
+        <!-- Card Header: Logo, Heading, Tagline & Portal Badge -->
+        <div class="admin-card-head">
+          <div class="admin-card-logo-wrap">
+            <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="admin-card-logo" width="82" height="82">
+            <span class="admin-card-badge-dot" title="Online Administration Portal"></span>
+          </div>
+          <h1 class="admin-card-heading">Multi Therapy</h1>
+          <div class="admin-card-tagline">Every Individual Deserves Better Care.</div>
+          <div>
+            <span class="admin-portal-badge">
+              <span class="admin-badge-icon">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
               </span>
-              <span style="color: #67e8f9; font-weight: 700;">256-Bit SSL</span>
-            </div>
+              <span>Online Administration Portal</span>
+            </span>
           </div>
         </div>
 
-        <!-- Illustration Text & Checkpoints -->
-        <div class="admin-illus-footer">
-          <h2 class="admin-illus-heading">Centralized Healthcare Administration</h2>
-          <p class="admin-illus-subtext">
-            Enterprise command center enabling patient management, therapist schedules, doctor credential checks, and clinical analytics.
-          </p>
-          <ul class="admin-illus-checklist">
-            <li>
-              <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-              <span>Single Authorized Super Admin Access</span>
-            </li>
-            <li>
-              <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-              <span>Encrypted Werkzeug scrypt Credentials</span>
-            </li>
-            <li>
-              <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-              <span>Real-time Operational &amp; Clinical Telemetry</span>
-            </li>
-          </ul>
-        </div>
-
-      </div>
-
-      <!-- RIGHT SIDE: LOGIN FORM -->
-      <div class="admin-form-panel">
-        
-        <div class="admin-form-head">
-          <h2 class="admin-form-title">Admin Sign In</h2>
-          <p class="admin-form-subtitle">
-            Welcome back! Please enter your administrative credentials to access the analytics and management console.
-          </p>
-        </div>
-
         <!-- Login Form -->
-        <form id="adminLoginForm" autocomplete="off">
+        <form id="adminLoginForm" autocomplete="off" novalidate>
 
-          <!-- Username or Email -->
+          <!-- 1. Admin Username or Email -->
           <div class="admin-form-group">
             <label for="username" class="admin-form-label">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
               <span>Admin Username or Email</span>
             </label>
             <div class="admin-input-wrap">
-              <span class="admin-input-icon">👤</span>
+              <span class="admin-input-icon" aria-hidden="true">👤</span>
               <input class="form-control admin-form-control" type="text" id="username"
                      placeholder="e.g. admin or admin@multitherapy.org" autocomplete="username" required>
             </div>
           </div>
 
-          <!-- Password -->
+          <!-- 2. Password with Show/Hide Toggle -->
           <div class="admin-form-group">
             <label for="loginPassword" class="admin-form-label">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
               <span>Password</span>
             </label>
             <div class="admin-input-wrap">
-              <span class="admin-input-icon">🔒</span>
+              <span class="admin-input-icon" aria-hidden="true">🔒</span>
               <input id="loginPassword" class="form-control admin-form-control" type="password"
                      placeholder="Enter admin password" autocomplete="current-password" required>
               <button type="button" id="togglePassword" class="admin-password-toggle"
@@ -219,133 +168,204 @@
             </div>
           </div>
 
-          <!-- Security Check CAPTCHA -->
-          <div class="admin-captcha-section">
-            <label class="admin-form-label mb-1" style="font-size: 12px; color: #475569;">
-              <span>🔐 Security Verification Code</span>
-            </label>
-            <div class="admin-captcha-row">
-              <div id="captchaText" class="admin-captcha-text" aria-live="polite">•••••</div>
-              <button type="button" id="refreshCaptcha" class="admin-captcha-refresh" title="Refresh CAPTCHA Code">↻</button>
+          <!-- 3. Security Check / CAPTCHA -->
+          <div class="admin-captcha-card">
+            <div class="admin-captcha-header">
+              <span class="admin-captcha-title">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <span>Security Check / CAPTCHA</span>
+              </span>
+              <span style="font-size: 11px; color: #64748b; font-weight: 600;">5-Character Code</span>
             </div>
-            <input id="captchaInput" class="form-control admin-form-control admin-captcha-input mt-2" type="text"
-                   placeholder="Enter 5-character code shown above" autocomplete="off" maxlength="5" required>
+            
+            <div class="admin-captcha-row">
+              <div id="captchaText" class="admin-captcha-display" aria-live="polite">•••••</div>
+              <button type="button" id="refreshCaptcha" class="admin-captcha-refresh-btn" title="Refresh CAPTCHA Code" aria-label="Refresh security code">↻</button>
+            </div>
+
+            <input id="captchaInput" class="form-control admin-form-control admin-captcha-input-field" type="text"
+                   placeholder="Enter CAPTCHA shown above" autocomplete="off" maxlength="5" required>
           </div>
 
           <!-- Remember Me & Forgot Password -->
-          <div class="admin-login-options">
-            <label class="admin-remember-label">
+          <div class="admin-options-row">
+            <label class="admin-remember-box">
               <input type="checkbox" id="remember" checked class="form-check-input mt-0">
               <span>Remember Me</span>
             </label>
-            <a href="./forgot.html" id="forgotLink" class="admin-forgot-link">Forgot Password?</a>
+            <a href="./forgot.html" id="forgotLink" class="admin-forgot-btn">Forgot Password?</a>
           </div>
 
           <!-- Dynamic Status Message Container -->
-          <div id="loginMessage" class="alert py-2 small mb-3 text-start" hidden></div>
+          <div id="loginMessage" class="alert py-2 small mb-3 text-start" hidden role="alert"></div>
 
-          <!-- Submit Button -->
+          <!-- Full-width Blue Button: Login to Admin Portal -->
           <button type="submit" id="btnAdminSubmit" class="admin-btn-submit">
-            <span>Sign In to Administration</span>
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            <span>Login to Admin Portal</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+              <polyline points="10 17 15 12 10 7"></polyline>
+              <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
           </button>
         </form>
 
-        <!-- Secondary Portal Links -->
-        <div class="admin-secondary-links">
-          <a href="./index.html">← Public Homepage</a>
-          <span>•</span>
+        <!-- Card Foot Secondary Links -->
+        <div class="admin-card-foot-links">
+          <a href="./index.html">Public Home</a>
+          <span class="divider">•</span>
           <a href="./login.html">Patient Login</a>
-          <span>•</span>
+          <span class="divider">•</span>
           <a href="./doctor-login.html">Doctor Login</a>
         </div>
 
       </div>
-
     </div>
+
   </main>
 
+  <!-- Soft Wave Transition -->
+  <div class="admin-wave-transition" aria-hidden="true">
+    <svg viewBox="0 0 1440 60" fill="none" preserveAspectRatio="none">
+      <path d="M0,0 C320,50 640,10 960,40 C1280,70 1440,20 1440,20 L1440,60 L0,60 Z" fill="#ffffff"></path>
+    </svg>
+  </div>
+
   <!-- ======================================================================
-       4. BOTTOM FEATURE CARDS
+       3. BOTTOM HEALTHCARE-THEMED ILLUSTRATIONS & CAPABILITIES
        ====================================================================== -->
-  <section class="admin-features-container" aria-label="Administrative Capabilities">
-    <div class="admin-features-grid">
-      
-      <!-- Feature 1: Manage Users -->
-      <div class="admin-feature-card">
-        <div class="admin-feature-icon-wrap icon-blue-bg">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+  <section class="admin-bottom-section" aria-label="Healthcare Administration Capabilities">
+    <div class="admin-bottom-container">
+
+      <!-- Section Title & Badge -->
+      <div class="admin-bottom-header">
+        <span class="admin-bottom-badge">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
           </svg>
-        </div>
-        <h3 class="admin-feature-title">Manage Users</h3>
-        <p class="admin-feature-desc">
-          Review practitioner credentials, verify doctor certificates, and monitor registered patient accounts.
+          <span>Clinical Administration Infrastructure</span>
+        </span>
+        <h2 class="admin-bottom-title">Comprehensive Healthcare Management</h2>
+        <p class="admin-bottom-subtitle">
+          Centralized administrative governance delivering clinical oversight, verified doctor credentialing, and personalized Cerebral Palsy therapy tracking.
         </p>
       </div>
 
-      <!-- Feature 2: Manage Appointments -->
-      <div class="admin-feature-card">
-        <div class="admin-feature-icon-wrap icon-teal-bg">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
+      <!-- Healthcare Illustration Scene Banner -->
+      <div class="admin-bottom-illus-scene">
+        <div class="admin-scene-content">
+          <div class="admin-scene-tag">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 14 14"></polyline>
+            </svg>
+            <span>Live Clinical Telemetry // Real-Time Security</span>
+          </div>
+          <div class="admin-scene-heading">Connected Multi-Therapy Ecosystem</div>
+          <p class="admin-scene-desc">
+            Single authorized administrative console integrating pediatric neurologists, physiotherapists, speech specialists, and families for transparent rehabilitation care.
+          </p>
         </div>
-        <h3 class="admin-feature-title">Manage Appointments</h3>
-        <p class="admin-feature-desc">
-          Oversee clinical schedules, consultation bookings, and practitioner availability in real time.
-        </p>
+        <div class="admin-scene-badges">
+          <div class="admin-scene-pill pill-green">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <span>Verified Registry</span>
+          </div>
+          <div class="admin-scene-pill pill-blue">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>256-Bit SSL Encrypted</span>
+          </div>
+        </div>
       </div>
 
-      <!-- Feature 3: Analytics & Reports -->
-      <div class="admin-feature-card">
-        <div class="admin-feature-icon-wrap icon-purple-bg">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="20" x2="18" y2="10"></line>
-            <line x1="12" y1="20" x2="12" y2="4"></line>
-            <line x1="6" y1="20" x2="6" y2="14"></line>
-          </svg>
-        </div>
-        <h3 class="admin-feature-title">Analytics &amp; Reports</h3>
-        <p class="admin-feature-desc">
-          Track registration trends, therapy session completion rates, and demographic breakdowns.
-        </p>
-      </div>
+      <!-- 4 Healthcare Capability Cards (Blue, White, Light Green) -->
+      <div class="admin-bottom-grid">
 
-      <!-- Feature 4: System Settings -->
-      <div class="admin-feature-card">
-        <div class="admin-feature-icon-wrap icon-amber-bg">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-          </svg>
+        <!-- Card 1: Doctor Credentialing (Light Green Accent) -->
+        <div class="admin-capability-card card-accent-green">
+          <div class="admin-capability-icon icon-box-green" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="8.5" cy="7" r="4"></circle>
+              <polyline points="17 11 19 13 23 9"></polyline>
+            </svg>
+          </div>
+          <h3 class="admin-capability-title">Doctor Credentialing</h3>
+          <p class="admin-capability-desc">
+            Validate medical licenses, verify practitioner qualifications, and review clinical certifications before granting practice permissions.
+          </p>
+          <span class="admin-capability-tag tag-green">✓ Verified Medical Registry</span>
         </div>
-        <h3 class="admin-feature-title">System Settings</h3>
-        <p class="admin-feature-desc">
-          Manage platform security policies, TiDB database configurations, and audit telemetry logs.
-        </p>
+
+        <!-- Card 2: Patient Care & Milestones (Blue Accent) -->
+        <div class="admin-capability-card card-accent-blue">
+          <div class="admin-capability-icon icon-box-blue" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          </div>
+          <h3 class="admin-capability-title">Patient Care &amp; CP Milestones</h3>
+          <p class="admin-capability-desc">
+            Monitor Cerebral Palsy recovery pathways, therapist session assignments, and personalized rehabilitation roadmaps in real time.
+          </p>
+          <span class="admin-capability-tag tag-blue">👥 Multidisciplinary Care</span>
+        </div>
+
+        <!-- Card 3: Clinical Scheduling & Telemetry (Teal Accent) -->
+        <div class="admin-capability-card card-accent-teal">
+          <div class="admin-capability-icon icon-box-teal" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <h3 class="admin-capability-title">Appointment Operations</h3>
+          <p class="admin-capability-desc">
+            Coordinate therapy bookings, doctor consultations, and department capacity across physiotherapy, speech, and occupational therapies.
+          </p>
+          <span class="admin-capability-tag tag-teal">📅 Real-Time Telemetry</span>
+        </div>
+
+        <!-- Card 4: Administrative Governance (Emerald Green Accent) -->
+        <div class="admin-capability-card card-accent-emerald">
+          <div class="admin-capability-icon icon-box-emerald" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <h3 class="admin-capability-title">Single Super Admin Control</h3>
+          <p class="admin-capability-desc">
+            Protected single-administrator access model with cryptographic verification, encrypted session tokens, and strict audit telemetry.
+          </p>
+          <span class="admin-capability-tag tag-emerald">🛡️ 256-Bit SSL Protection</span>
+        </div>
+
       </div>
 
     </div>
   </section>
 
   <!-- ======================================================================
-       5. UNIFIED MULTI THERAPY 4-COLUMN FOOTER
+       4. UNIFIED MULTI THERAPY 4-COLUMN FOOTER
        ====================================================================== -->
   <footer class="mt-unified-footer" role="contentinfo">
     <div class="mt-footer-container">
       <div class="mt-footer-grid">
         
-        <!-- Column 1: Brand -->
+        <!-- Column 1: Multi Therapy Branding -->
         <div class="mt-footer-col mt-col-divider">
           <div class="mt-footer-brand-wrap">
-            <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-footer-logo" width="52" height="52">
+            <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-footer-logo" width="52" height="52" loading="lazy">
             <div>
               <div class="mt-footer-brand-title">Multi Therapy</div>
               <div class="mt-footer-brand-tagline">Care • Support • Progress • Together</div>
@@ -388,8 +408,8 @@
           <div class="mt-footer-contact-list">
             
             <div class="mt-footer-contact-item">
-              <div class="mt-footer-icon-box">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <div class="mt-footer-icon-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                   <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/>
                 </svg>
               </div>
@@ -400,8 +420,8 @@
             </div>
 
             <div class="mt-footer-contact-item">
-              <div class="mt-footer-icon-box">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <div class="mt-footer-icon-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                   <polyline points="22,6 12,13 2,6"/>
                 </svg>
@@ -413,8 +433,8 @@
             </div>
 
             <div class="mt-footer-contact-item">
-              <div class="mt-footer-icon-box">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <div class="mt-footer-icon-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"/>
                   <polyline points="12 6 12 12 16 14"/>
                 </svg>
@@ -426,8 +446,8 @@
             </div>
 
             <div class="mt-footer-contact-item">
-              <div class="mt-footer-icon-box">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <div class="mt-footer-icon-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                   <circle cx="12" cy="10" r="3"/>
                 </svg>
@@ -448,9 +468,9 @@
         <div class="mt-footer-copyright">
           <span>&copy; 2026 Multi Therapy. All rights reserved.</span>
           <span style="opacity: 0.5;">•</span>
-          <span style="color: #38bdf8; font-size: 12px;">Care • Support • Progress • Together</span>
+          <span style="color: #38bdf8; font-size: 12px; font-weight: 600;">Care • Support • Progress • Together</span>
         </div>
-        <div class="mt-footer-social-wrap">
+        <div class="mt-footer-social-wrap" aria-label="Social media links">
           <a href="https://www.youtube.com/@multitherapy" target="_blank" rel="noopener noreferrer" class="mt-social-btn" title="YouTube" aria-label="Multi Therapy on YouTube">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.376.55 9.376.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
           </a>

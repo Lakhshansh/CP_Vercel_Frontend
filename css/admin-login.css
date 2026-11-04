@@ -1,394 +1,331 @@
 /**
  * ============================================================================
- * Multi Therapy - Admin Login Stylesheet
- * Every Individual Deserves Better Care.
- * Exact visual implementation matching Admin Login design specification
+ * Multi Therapy - Online Administration Portal Stylesheet
+ * Brand Name: Multi Therapy
+ * Tagline: Every Individual Deserves Better Care.
+ * Color Theme: Healthcare Blue, White, and Light Green
  * ============================================================================
  */
 
 :root {
   --mt-primary: #0866f5;
   --mt-primary-hover: #0652c7;
+  --mt-primary-dark: #0348b6;
   --mt-primary-light: #eff6ff;
+  --mt-primary-soft: #e0f2fe;
+
   --mt-navy: #103463;
   --mt-navy-dark: #0a1f3b;
-  --mt-teal: #059669;
-  --mt-teal-light: #ecfdf5;
-  --mt-amber: #d97706;
-  --mt-amber-light: #fffbeb;
-  --mt-purple: #7c3aed;
-  --mt-purple-light: #f5f3ff;
+  --mt-navy-deep: #071932;
+
+  /* Healthcare Light Green Accents */
+  --mt-green-primary: #10b981;
+  --mt-green-dark: #059669;
+  --mt-green-light: #ecfdf5;
+  --mt-green-border: #a7f3d0;
+
+  /* Teals & Cyans */
+  --mt-cyan: #06b6d4;
+  --mt-cyan-light: #f0fdfa;
+  --mt-cyan-border: #99f6e4;
+
+  --mt-text-main: #1e293b;
+  --mt-text-muted: #64748b;
+  --mt-text-light: #94a3b8;
+
   --mt-border: #e2e8f0;
-  --mt-border-light: #f1f5f9;
-  --mt-card-radius: 24px;
-  --mt-shadow: 0 20px 50px rgba(16, 52, 99, 0.08), 0 2px 8px rgba(0, 0, 0, 0.02);
-  --mt-shadow-hover: 0 10px 28px rgba(8, 102, 245, 0.12);
+  --mt-border-subtle: #cbd5e1;
+
+  --mt-radius-xl: 28px;
+  --mt-radius-lg: 20px;
+  --mt-radius-md: 14px;
+  --mt-radius-sm: 8px;
+
+  --mt-shadow-card: 0 20px 50px rgba(16, 52, 99, 0.08), 0 4px 18px rgba(8, 102, 245, 0.04);
+  --mt-shadow-hover: 0 16px 36px rgba(8, 102, 245, 0.12), 0 4px 12px rgba(16, 185, 129, 0.06);
 }
 
+/* --------------------------------------------------------------------------
+   1. GLOBAL PAGE LAYOUT & GRADIENT BACKGROUND
+   -------------------------------------------------------------------------- */
 body.admin-login-body {
-  background: radial-gradient(circle at 10% 15%, rgba(8, 102, 245, 0.08) 0%, transparent 45%),
-              radial-gradient(circle at 90% 85%, rgba(5, 150, 105, 0.06) 0%, transparent 45%),
-              linear-gradient(135deg, #f0f6ff 0%, #edf4fc 40%, #f4f8fe 100%);
+  background: linear-gradient(180deg, #f0f7ff 0%, #e8f3fe 32%, #f5f9fd 65%, #edf6fd 100%);
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   margin: 0;
-  color: #1e293b;
+  color: var(--mt-text-main);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Ambient Healthcare Background Glows */
+.admin-ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(90px);
+  z-index: 0;
+}
+
+.glow-blue-1 {
+  width: 480px;
+  height: 480px;
+  background: rgba(8, 102, 245, 0.07);
+  top: 80px;
+  left: -120px;
+}
+
+.glow-green-1 {
+  width: 460px;
+  height: 460px;
+  background: rgba(16, 185, 129, 0.06);
+  top: 350px;
+  right: -100px;
+}
+
+.glow-blue-2 {
+  width: 520px;
+  height: 520px;
+  background: rgba(6, 182, 212, 0.06);
+  bottom: 200px;
+  left: 20%;
 }
 
 /* --------------------------------------------------------------------------
-   1. TOP CENTERED LOGO & BRANDING HEADER
+   2. TOP NAVBAR CUSTOM OVERRIDES
    -------------------------------------------------------------------------- */
-.admin-login-top-header {
-  text-align: center;
-  padding: 44px 20px 24px;
+.admin-login-body .mt-navbar {
+  background: linear-gradient(135deg, #0b1e3b 0%, #0d3268 60%, #0866f5 100%);
+  border-bottom: 1.5px solid rgba(56, 189, 248, 0.22);
+  box-shadow: 0 4px 20px rgba(11, 30, 59, 0.18);
+  position: relative;
+  z-index: 100;
+  padding: 12px 24px;
 }
 
-.admin-centered-brand {
-  display: inline-flex;
-  flex-direction: column;
+.admin-login-body .mt-navbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.admin-login-body .mt-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   text-decoration: none;
 }
 
-.admin-centered-logo {
-  width: 84px;
-  height: 84px;
+.admin-login-body .mt-logo {
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  object-fit: contain;
   background: #ffffff;
-  padding: 4px;
-  border: 2.5px solid #bfdbfe;
-  box-shadow: 0 8px 24px rgba(8, 102, 245, 0.18);
-  margin-bottom: 14px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  padding: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.admin-centered-logo:hover {
-  transform: scale(1.05);
-  box-shadow: 0 12px 28px rgba(8, 102, 245, 0.25);
-}
-
-.admin-centered-title {
-  font-size: 32px;
+.admin-login-body .mt-brand-title {
+  font-size: 19px;
   font-weight: 800;
-  color: var(--mt-navy-dark);
-  line-height: 1.15;
-  letter-spacing: -0.6px;
-  margin-bottom: 4px;
-}
-
-.admin-centered-tagline {
-  font-size: 14.5px;
-  font-weight: 700;
-  color: var(--mt-primary);
-  letter-spacing: 0.3px;
-  margin-bottom: 12px;
-}
-
-.admin-centered-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #ffffff;
-  color: var(--mt-primary);
-  border: 1px solid #bfdbfe;
-  padding: 5px 16px;
-  border-radius: 999px;
-  font-size: 12.5px;
-  font-weight: 700;
-  box-shadow: 0 2px 10px rgba(8, 102, 245, 0.08);
-}
-
-/* --------------------------------------------------------------------------
-   2. MAIN 2-COLUMN LOGIN CARD
-   -------------------------------------------------------------------------- */
-.admin-card-wrapper {
-  max-width: 1040px;
-  width: 100%;
-  margin: 0 auto 36px;
-  padding: 0 20px;
-  flex: 1;
-}
-
-.admin-split-card {
-  background: #ffffff;
-  border-radius: var(--mt-card-radius);
-  border: 1px solid var(--mt-border);
-  box-shadow: var(--mt-shadow);
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 1fr 1.05fr;
-  transition: box-shadow 0.3s ease;
-}
-
-@media (max-width: 900px) {
-  .admin-split-card {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   3. LEFT SIDE: ADMIN DASHBOARD & SECURITY ILLUSTRATION PANEL
-   -------------------------------------------------------------------------- */
-.admin-side-illustration-panel {
-  background: linear-gradient(145deg, #071932 0%, #0d284e 50%, #0866f5 100%);
   color: #ffffff;
-  padding: 44px 38px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-}
-
-.admin-side-illustration-panel::before {
-  content: '';
-  position: absolute;
-  top: -80px;
-  right: -80px;
-  width: 240px;
-  height: 240px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.admin-side-illustration-panel::after {
-  content: '';
-  position: absolute;
-  bottom: -60px;
-  left: -60px;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.16) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.admin-illus-header {
-  position: relative;
-  z-index: 2;
-  margin-bottom: 22px;
-}
-
-.admin-illus-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #e0f2fe;
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-}
-
-.admin-illus-visual {
-  position: relative;
-  z-index: 2;
-  margin: 10px 0 24px;
-}
-
-/* Stylized Healthcare Admin Dashboard Mockup */
-.admin-mockup-frame {
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 16px;
-  padding: 16px 18px;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
-}
-
-.admin-mockup-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.admin-mockup-dots {
-  display: flex;
-  gap: 6px;
-}
-
-.admin-mockup-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-}
-
-.dot-red { background: #ef4444; }
-.dot-yellow { background: #f59e0b; }
-.dot-green { background: #10b981; }
-
-.admin-mockup-tag {
-  font-size: 11px;
-  font-family: monospace;
-  color: #38bdf8;
-  font-weight: 600;
-}
-
-.admin-mockup-kpi-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.admin-mockup-kpi-box {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  padding: 8px 10px;
-}
-
-.admin-mockup-kpi-box .label {
-  font-size: 10px;
-  color: #94a3b8;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-
-.admin-mockup-kpi-box .val {
-  font-size: 17px;
-  color: #ffffff;
-  font-weight: 800;
   line-height: 1.1;
+  letter-spacing: -0.3px;
 }
 
-.admin-mockup-chart-box {
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-  padding: 10px;
-  display: flex;
-  align-items: flex-end;
-  gap: 6px;
-  height: 64px;
-  margin-bottom: 10px;
-}
-
-.admin-mockup-bar {
-  flex: 1;
-  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
-  border-radius: 4px 4px 0 0;
-  transition: height 0.3s ease;
-}
-
-.admin-mockup-badge-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.admin-login-body .mt-brand-subtitle {
   font-size: 11px;
-  color: #cbd5e1;
-}
-
-.admin-mockup-status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #10b981;
-  display: inline-block;
-  box-shadow: 0 0 8px #10b981;
-}
-
-.admin-illus-footer {
-  position: relative;
-  z-index: 2;
-}
-
-.admin-illus-heading {
-  font-size: 20px;
-  font-weight: 800;
-  color: #ffffff;
-  margin: 0 0 8px;
-  line-height: 1.25;
-}
-
-.admin-illus-subtext {
-  font-size: 13.5px;
-  color: #e0f2fe;
-  line-height: 1.5;
-  margin: 0 0 14px;
-}
-
-.admin-illus-checklist {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  font-size: 12.5px;
-  color: #e2e8f0;
-}
-
-.admin-illus-checklist li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.admin-illus-checklist li svg {
-  color: #34d399;
-  flex-shrink: 0;
+  font-weight: 600;
+  color: #38bdf8;
+  letter-spacing: 0.2px;
 }
 
 /* --------------------------------------------------------------------------
-   4. RIGHT SIDE: LOGIN FORM PANEL
+   3. HERO WRAPPER WITH SOFT WAVE SHAPES
    -------------------------------------------------------------------------- */
-.admin-form-panel {
-  padding: 44px 42px 36px;
+.admin-portal-hero {
+  position: relative;
+  z-index: 2;
+  padding: 48px 20px 40px;
+  flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
+/* Background Soft SVG Waves */
+.admin-wave-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.admin-wave-svg {
+  position: absolute;
+  width: 100%;
+  min-width: 1200px;
+  height: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.7;
+}
+
+.admin-wave-svg-top {
+  top: 0;
+}
+
+.admin-wave-svg-bottom {
+  bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   4. CENTERED ADMIN LOGIN CARD
+   -------------------------------------------------------------------------- */
+.admin-centered-card-wrapper {
+  max-width: 520px;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  margin: 0 auto;
+}
+
+.admin-login-card {
+  background: #ffffff;
+  border-radius: var(--mt-radius-xl);
+  border: 1px solid rgba(191, 219, 254, 0.75);
+  box-shadow: var(--mt-shadow-card);
+  padding: 44px 40px 38px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.admin-login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #0866f5 0%, #10b981 50%, #38bdf8 100%);
+}
+
 @media (max-width: 576px) {
-  .admin-form-panel {
-    padding: 32px 22px;
+  .admin-login-card {
+    padding: 32px 22px 28px;
+    border-radius: 22px;
   }
 }
 
-.admin-form-head {
-  margin-bottom: 24px;
+/* Card Header Section */
+.admin-card-head {
+  text-align: center;
+  margin-bottom: 28px;
 }
 
-.admin-form-title {
-  font-size: 24px;
+.admin-card-logo-wrap {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 14px;
+}
+
+.admin-card-logo {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 5px;
+  border: 3px solid #bfdbfe;
+  box-shadow: 0 8px 24px rgba(8, 102, 245, 0.16);
+  transition: transform 0.25s ease;
+}
+
+.admin-card-logo:hover {
+  transform: scale(1.05);
+}
+
+.admin-card-badge-dot {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--mt-green-primary);
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+}
+
+.admin-card-heading {
+  font-size: 30px;
   font-weight: 800;
   color: var(--mt-navy-dark);
-  margin: 0 0 6px;
-  letter-spacing: -0.4px;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin: 0 0 4px;
 }
 
-.admin-form-subtitle {
+.admin-card-tagline {
   font-size: 13.5px;
-  color: #64748b;
-  margin: 0;
-  line-height: 1.45;
+  font-weight: 700;
+  color: var(--mt-primary);
+  letter-spacing: 0.3px;
+  margin: 0 0 14px;
 }
 
+/* Online Administration Portal Badge */
+.admin-portal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: linear-gradient(135deg, #eff6ff 0%, #ecfdf5 100%);
+  color: var(--mt-navy);
+  border: 1px solid #bfdbfe;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  box-shadow: 0 2px 8px rgba(8, 102, 245, 0.06);
+}
+
+.admin-badge-icon {
+  color: var(--mt-primary);
+  display: inline-flex;
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   5. LOGIN FORM ELEMENTS
+   -------------------------------------------------------------------------- */
 .admin-form-group {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .admin-form-label {
   font-size: 13px;
   font-weight: 700;
   color: #334155;
-  margin-bottom: 6px;
+  margin-bottom: 7px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
+}
+
+.admin-form-label svg {
+  color: var(--mt-primary);
 }
 
 .admin-input-wrap {
@@ -397,28 +334,31 @@ body.admin-login-body {
 
 .admin-input-icon {
   position: absolute;
-  left: 14px;
+  left: 15px;
   top: 50%;
   transform: translateY(-50%);
   color: #94a3b8;
   pointer-events: none;
-  font-size: 15px;
+  font-size: 16px;
   display: flex;
   align-items: center;
 }
 
 .admin-form-control {
-  height: 48px;
-  border-radius: 12px;
+  height: 50px;
+  border-radius: var(--mt-radius-md);
   border: 1.5px solid #cbd5e1;
-  font-size: 14px;
-  padding: 10px 14px 10px 40px;
+  font-size: 14.5px;
+  padding: 10px 14px 10px 42px;
   transition: all 0.2s ease;
   width: 100%;
+  background-color: #ffffff;
+  color: #1e293b;
 }
 
 .admin-form-control:focus {
   border-color: var(--mt-primary);
+  background-color: #ffffff;
   box-shadow: 0 0 0 4px rgba(8, 102, 245, 0.12);
   outline: none;
 }
@@ -430,128 +370,160 @@ body.admin-login-body {
   transform: translateY(-50%);
   background: none;
   border: none;
-  font-size: 16px;
+  font-size: 17px;
   cursor: pointer;
   color: #64748b;
-  padding: 4px;
+  padding: 6px;
   display: flex;
   align-items: center;
+  border-radius: 6px;
+  transition: background 0.15s ease;
 }
 
-/* Security CAPTCHA Box */
-.admin-captcha-section {
+.admin-password-toggle:hover {
+  background: #f1f5f9;
+  color: var(--mt-primary);
+}
+
+/* Security CAPTCHA Section */
+.admin-captcha-card {
   background: #f8fafc;
   border: 1.5px dashed #cbd5e1;
-  border-radius: 12px;
-  padding: 12px 14px;
-  margin-bottom: 18px;
+  border-radius: var(--mt-radius-md);
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.admin-captcha-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.admin-captcha-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .admin-captcha-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 6px;
+  margin-bottom: 10px;
 }
 
-.admin-captcha-text {
+.admin-captcha-display {
   flex: 1;
-  height: 44px;
+  height: 46px;
   background: #0f172a;
   color: #38bdf8;
-  border-radius: 8px;
+  border-radius: 10px;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 800;
-  letter-spacing: 6px;
+  letter-spacing: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(56, 189, 248, 0.3);
 }
 
-.admin-captcha-refresh {
+.admin-captcha-refresh-btn {
   background: #ffffff;
   border: 1.5px solid #cbd5e1;
-  border-radius: 8px;
-  width: 44px;
-  height: 44px;
-  font-size: 18px;
+  border-radius: 10px;
+  width: 46px;
+  height: 46px;
+  font-size: 20px;
   cursor: pointer;
   transition: all 0.25s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #334155;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
-.admin-captcha-refresh:hover {
-  background: #eff6ff;
+.admin-captcha-refresh-btn:hover {
+  background: var(--mt-primary-light);
   border-color: #bfdbfe;
   color: var(--mt-primary);
   transform: rotate(90deg);
 }
 
-.admin-captcha-input {
+.admin-captcha-input-field {
   padding-left: 14px;
+  height: 44px;
+  font-size: 14px;
+  letter-spacing: 1px;
 }
 
-/* Login Options (Remember & Forgot) */
-.admin-login-options {
+/* Login Options: Remember Me & Forgot Password */
+.admin-options-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 13.5px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
-.admin-remember-label {
+.admin-remember-box {
   display: flex;
   align-items: center;
   gap: 7px;
-  margin: 0;
   cursor: pointer;
   color: #475569;
   font-weight: 500;
   user-select: none;
+  margin: 0;
 }
 
-.admin-forgot-link {
+.admin-forgot-btn {
   color: var(--mt-primary);
   text-decoration: none;
   font-weight: 700;
   transition: color 0.2s ease;
 }
 
-.admin-forgot-link:hover {
+.admin-forgot-btn:hover {
   color: var(--mt-primary-hover);
   text-decoration: underline;
 }
 
-/* Submit Button */
+/* Full-width Blue Submit Button */
 .admin-btn-submit {
-  height: 50px;
+  height: 52px;
   background: linear-gradient(135deg, #0866f5 0%, #0348b6 100%);
   color: #ffffff;
   font-weight: 700;
-  font-size: 15px;
-  border-radius: 12px;
+  font-size: 15.5px;
+  border-radius: var(--mt-radius-md);
   border: none;
-  box-shadow: 0 4px 14px rgba(8, 102, 245, 0.25);
+  box-shadow: 0 6px 20px rgba(8, 102, 245, 0.28);
   transition: all 0.25s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 9px;
   width: 100%;
   cursor: pointer;
+  letter-spacing: 0.2px;
 }
 
 .admin-btn-submit:hover {
-  background: linear-gradient(135deg, #075bdc 0%, #023a94 100%);
-  transform: translateY(-1.5px);
-  box-shadow: 0 8px 20px rgba(8, 102, 245, 0.35);
+  background: linear-gradient(135deg, #0652c7 0%, #02388e 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(8, 102, 245, 0.38);
 }
 
 .admin-btn-submit:active {
@@ -559,15 +531,15 @@ body.admin-login-body {
 }
 
 .admin-btn-submit:disabled {
-  opacity: 0.7;
+  opacity: 0.72;
   cursor: not-allowed;
   transform: none;
 }
 
-/* Secondary Portal Links */
-.admin-secondary-links {
-  margin-top: 22px;
-  padding-top: 18px;
+/* Card Footer Navigation & Security Assurance */
+.admin-card-foot-links {
+  margin-top: 24px;
+  padding-top: 20px;
   border-top: 1px solid var(--mt-border);
   display: flex;
   justify-content: center;
@@ -577,84 +549,288 @@ body.admin-login-body {
   flex-wrap: wrap;
 }
 
-.admin-secondary-links a {
+.admin-card-foot-links a {
   color: #475569;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s ease;
 }
 
-.admin-secondary-links a:hover {
+.admin-card-foot-links a:hover {
   color: var(--mt-primary);
   text-decoration: underline;
 }
 
-.admin-secondary-links span {
+.admin-card-foot-links .divider {
   color: #cbd5e1;
 }
 
 /* --------------------------------------------------------------------------
-   5. BOTTOM FEATURE CARDS (MANAGE USERS, APPOINTMENTS, ANALYTICS, SETTINGS)
+   6. SOFT WAVE DIVIDER
    -------------------------------------------------------------------------- */
-.admin-features-container {
-  max-width: 1040px;
+.admin-wave-transition {
   width: 100%;
-  margin: 0 auto 50px;
-  padding: 0 20px;
+  line-height: 0;
+  overflow: hidden;
+  margin-top: -1px;
 }
 
-.admin-features-grid {
+.admin-wave-transition svg {
+  display: block;
+  width: 100%;
+  height: 60px;
+}
+
+/* --------------------------------------------------------------------------
+   7. BOTTOM HEALTHCARE-THEMED ILLUSTRATIONS & CAPABILITIES
+   -------------------------------------------------------------------------- */
+.admin-bottom-section {
+  background: #ffffff;
+  padding: 60px 20px 70px;
+  position: relative;
+  border-top: 1px solid rgba(191, 219, 254, 0.4);
+}
+
+.admin-bottom-container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.admin-bottom-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 46px;
+}
+
+.admin-bottom-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--mt-green-light);
+  border: 1px solid var(--mt-green-border);
+  color: var(--mt-green-dark);
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.admin-bottom-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--mt-navy-dark);
+  line-height: 1.2;
+  letter-spacing: -0.4px;
+  margin-bottom: 8px;
+}
+
+.admin-bottom-subtitle {
+  font-size: 14px;
+  color: var(--mt-text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Healthcare Illustration Banner Scene */
+.admin-bottom-illus-scene {
+  background: linear-gradient(135deg, #f0f7ff 0%, #ecfdf5 50%, #f0fdfa 100%);
+  border: 1.5px solid #bfdbfe;
+  border-radius: var(--mt-radius-lg);
+  padding: 24px 30px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  box-shadow: 0 6px 20px rgba(16, 52, 99, 0.04);
+}
+
+@media (max-width: 820px) {
+  .admin-bottom-illus-scene {
+    flex-direction: column;
+    text-align: center;
+    padding: 22px 18px;
+  }
+}
+
+.admin-scene-content {
+  flex: 1;
+}
+
+.admin-scene-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--mt-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.admin-scene-heading {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--mt-navy);
+  margin-bottom: 4px;
+}
+
+.admin-scene-desc {
+  font-size: 13.5px;
+  color: #475569;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.admin-scene-badges {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-scene-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.pill-green {
+  border-color: var(--mt-green-border);
+  color: var(--mt-green-dark);
+}
+
+.pill-blue {
+  border-color: #bfdbfe;
+  color: var(--mt-primary);
+}
+
+/* 4-Card Healthcare Capability Grid (Blue, White, Light Green) */
+.admin-bottom-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  gap: 20px;
 }
 
 @media (max-width: 992px) {
-  .admin-features-grid {
+  .admin-bottom-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 576px) {
-  .admin-features-grid {
+  .admin-bottom-grid {
     grid-template-columns: 1fr;
   }
 }
 
-.admin-feature-card {
+.admin-capability-card {
   background: #ffffff;
   border: 1px solid var(--mt-border);
-  border-radius: 16px;
-  padding: 22px 20px;
+  border-radius: var(--mt-radius-lg);
+  padding: 24px 22px;
   box-shadow: 0 4px 16px rgba(16, 52, 99, 0.04);
   transition: all 0.25s ease;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
-.admin-feature-card:hover {
-  transform: translateY(-3px);
+.admin-capability-card:hover {
+  transform: translateY(-4px);
   border-color: #bfdbfe;
   box-shadow: var(--mt-shadow-hover);
 }
 
-.admin-feature-icon-wrap {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+/* Top Accent Line on Cards */
+.card-accent-blue::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3.5px;
+  background: var(--mt-primary);
+}
+
+.card-accent-green::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3.5px;
+  background: var(--mt-green-primary);
+}
+
+.card-accent-teal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3.5px;
+  background: var(--mt-cyan);
+}
+
+.card-accent-emerald::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3.5px;
+  background: #059669;
+}
+
+.admin-capability-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--mt-radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
+  flex-shrink: 0;
 }
 
-.icon-blue-bg { background: #eff6ff; color: #0866f5; }
-.icon-teal-bg { background: #ecfdf5; color: #059669; }
-.icon-purple-bg { background: #f5f3ff; color: #7c3aed; }
-.icon-amber-bg { background: #fffbeb; color: #d97706; }
+.icon-box-blue {
+  background: var(--mt-primary-light);
+  color: var(--mt-primary);
+  border: 1px solid #bfdbfe;
+}
 
-.admin-feature-title {
+.icon-box-green {
+  background: var(--mt-green-light);
+  color: var(--mt-green-dark);
+  border: 1px solid var(--mt-green-border);
+}
+
+.icon-box-teal {
+  background: var(--mt-cyan-light);
+  color: #0891b2;
+  border: 1px solid var(--mt-cyan-border);
+}
+
+.icon-box-emerald {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+
+.admin-capability-title {
   font-size: 16px;
   font-weight: 800;
   color: var(--mt-navy);
@@ -662,9 +838,41 @@ body.admin-login-body {
   line-height: 1.25;
 }
 
-.admin-feature-desc {
+.admin-capability-desc {
   font-size: 13px;
-  color: #64748b;
+  color: var(--mt-text-muted);
   line-height: 1.5;
-  margin: 0;
+  margin: 0 0 14px;
+  flex: 1;
+}
+
+.admin-capability-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.tag-blue {
+  background: var(--mt-primary-light);
+  color: var(--mt-primary);
+}
+
+.tag-green {
+  background: var(--mt-green-light);
+  color: var(--mt-green-dark);
+}
+
+.tag-teal {
+  background: var(--mt-cyan-light);
+  color: #0e7490;
+}
+
+.tag-emerald {
+  background: #ecfdf5;
+  color: #047857;
 }
