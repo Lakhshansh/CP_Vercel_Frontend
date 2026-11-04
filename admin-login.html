@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Login | Every Individual Deserves Better Care.</title>
-  <meta name="description" content="Every Individual Deserves Better Care. - Online Administration Portal Secure Sign In">
+  <title>Admin Login | Multi Therapy - Every Individual Deserves Better Care.</title>
+  <meta name="description" content="Multi Therapy Online Administration Portal - Secure sign-in for clinical oversight, doctor verification, and healthcare analytics.">
   <link rel="icon" href="./images/multi_therapy_logo_100x100.png" type="image/png">
 
   <!-- Google Fonts: Plus Jakarta Sans -->
@@ -12,229 +12,26 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Bootstrap 5 -->
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Custom Styles -->
+  <!-- Base Custom & Navigation Styles -->
   <link rel="stylesheet" href="./css/style.css">
-
-  <style>
-    body {
-      background: radial-gradient(circle at 10% 20%, rgba(13, 110, 253, 0.05) 0%, transparent 40%),
-                  radial-gradient(circle at 90% 80%, rgba(16, 52, 99, 0.06) 0%, transparent 40%),
-                  linear-gradient(180deg, #f8fafc 0%, #edf4fc 100%);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .admin-login-wrapper {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-    }
-
-    .admin-login-card {
-      width: 100%;
-      max-width: 440px;
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 36px 32px;
-      box-shadow: 0 16px 40px rgba(16, 52, 99, 0.08), 0 2px 10px rgba(0, 0, 0, 0.03);
-      border: 1px solid #e2e8f0;
-      text-align: center;
-    }
-
-    .admin-logo-box {
-      margin-bottom: 18px;
-    }
-
-    .admin-logo {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      object-fit: contain;
-      background: #ffffff;
-      padding: 2px;
-      border: 2px solid #bfdbfe;
-      box-shadow: 0 4px 14px rgba(13, 110, 253, 0.15);
-    }
-
-    .admin-login-title {
-      font-size: 24px;
-      font-weight: 800;
-      color: #0c233c;
-      margin-bottom: 4px;
-      line-height: 1.2;
-    }
-
-    .admin-portal-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #eff6ff;
-      color: #0d6efd;
-      border: 1px solid #bfdbfe;
-      padding: 4px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 22px;
-    }
-
-    .admin-form-group {
-      text-align: left;
-      margin-bottom: 16px;
-    }
-
-    .admin-form-label {
-      font-size: 13px;
-      font-weight: 700;
-      color: #334155;
-      margin-bottom: 6px;
-      display: block;
-    }
-
-    .admin-form-control {
-      height: 48px;
-      border-radius: 12px;
-      border: 1.5px solid #cbd5e1;
-      font-size: 14.5px;
-      padding: 10px 16px;
-      transition: all 0.2s ease;
-    }
-
-    .admin-form-control:focus {
-      border-color: #0d6efd;
-      box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.12);
-    }
-
-    .admin-password-wrap {
-      position: relative;
-    }
-
-    .admin-password-toggle {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-      color: #64748b;
-      padding: 4px;
-    }
-
-    .admin-captcha-section {
-      background: #f8fafc;
-      border: 1px dashed #cbd5e1;
-      border-radius: 12px;
-      padding: 12px;
-      margin-bottom: 18px;
-      text-align: left;
-    }
-
-    .admin-captcha-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    .admin-captcha-text {
-      flex: 1;
-      height: 42px;
-      background: #1e293b;
-      color: #38bdf8;
-      border-radius: 8px;
-      font-family: monospace;
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      user-select: none;
-    }
-
-    .admin-captcha-refresh {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      width: 42px;
-      height: 42px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .admin-captcha-refresh:hover {
-      background: #f1f5f9;
-      transform: rotate(45deg);
-    }
-
-    .admin-login-options {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13.5px;
-      margin-bottom: 20px;
-    }
-
-    .admin-btn-submit {
-      height: 48px;
-      background: linear-gradient(135deg, #0d6efd 0%, #0867e8 100%);
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 15px;
-      border-radius: 12px;
-      border: none;
-      box-shadow: 0 4px 14px rgba(13, 110, 253, 0.25);
-      transition: all 0.2s ease;
-    }
-
-    .admin-btn-submit:hover {
-      background: linear-gradient(135deg, #0b5ed7 0%, #0752c4 100%);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(13, 110, 253, 0.35);
-    }
-
-    .admin-portal-footer-links {
-      margin-top: 22px;
-      padding-top: 16px;
-      border-top: 1px solid #e2e8f0;
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      font-size: 13px;
-    }
-
-    .admin-portal-footer-links a {
-      color: #0d6efd;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .admin-portal-footer-links a:hover {
-      text-decoration: underline;
-    }
-  </style>
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
-</head>
-<body>
 
-  <!-- Top Blue Navbar -->
+  <!-- Dedicated Admin Login Stylesheet -->
+  <link rel="stylesheet" href="./css/admin-login.css">
+</head>
+
+<body class="admin-login-body">
+
+  <!-- ======================================================================
+       1. TOP NAVBAR
+       ====================================================================== -->
   <header class="mt-navbar">
     <div class="mt-navbar-inner">
       <a class="mt-brand" href="./index.html" title="Multi Therapy Home">
-        <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-logo">
+        <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-logo" width="44" height="44">
         <div>
           <div class="mt-brand-title">Multi Therapy</div>
           <div class="mt-brand-subtitle">Every Individual Deserves Better Care.</div>
@@ -282,102 +79,293 @@
     </div>
   </header>
 
-  <!-- Main Login Card Area -->
-  <main class="admin-login-wrapper">
-    <div class="admin-login-card">
-
-      <!-- Logo -->
-      <div class="admin-logo-box">
-        <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="admin-logo">
-      </div>
-
-      <!-- Title & Portal Badge -->
-      <h1 class="admin-login-title">Multi Therapy</h1>
-      <div class="admin-portal-badge">
+  <!-- ======================================================================
+       2. CENTERED LOGO AND TAGLINE AT TOP
+       ====================================================================== -->
+  <section class="admin-login-top-header">
+    <a href="./index.html" class="admin-centered-brand" title="Multi Therapy Home">
+      <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="admin-centered-logo" width="84" height="84">
+      <h1 class="admin-centered-title">Multi Therapy</h1>
+      <div class="admin-centered-tagline">Every Individual Deserves Better Care.</div>
+    </a>
+    <div>
+      <span class="admin-centered-badge">
         <span>🛡️</span> Online Administration Portal
+      </span>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       3. LARGE WHITE ROUNDED LOGIN CARD (SPLIT LAYOUT)
+       ====================================================================== -->
+  <main class="admin-card-wrapper">
+    <div class="admin-split-card">
+
+      <!-- LEFT SIDE: ADMIN DASHBOARD & SECURITY ILLUSTRATION -->
+      <div class="admin-side-illustration-panel">
+        
+        <!-- Header Pill -->
+        <div class="admin-illus-header">
+          <span class="admin-illus-pill">
+            <span>⚡</span> Real-Time Clinical Command
+          </span>
+        </div>
+
+        <!-- Stylized Dashboard Mockup Frame -->
+        <div class="admin-illus-visual">
+          <div class="admin-mockup-frame">
+            <!-- Window Topbar -->
+            <div class="admin-mockup-topbar">
+              <div class="admin-mockup-dots">
+                <span class="admin-mockup-dot dot-red"></span>
+                <span class="admin-mockup-dot dot-yellow"></span>
+                <span class="admin-mockup-dot dot-green"></span>
+              </div>
+              <div class="admin-mockup-tag">ADMIN_CONSOLE // v2.6</div>
+            </div>
+
+            <!-- KPI Row -->
+            <div class="admin-mockup-kpi-row">
+              <div class="admin-mockup-kpi-box">
+                <div class="label">Patients Monitored</div>
+                <div class="val">140+ Active</div>
+              </div>
+              <div class="admin-mockup-kpi-box">
+                <div class="label">Doctor Reviews</div>
+                <div class="val" style="color: #38bdf8;">Queue Active</div>
+              </div>
+            </div>
+
+            <!-- Mock Chart Trend -->
+            <div class="admin-mockup-chart-box">
+              <div class="admin-mockup-bar" style="height: 35%;"></div>
+              <div class="admin-mockup-bar" style="height: 55%;"></div>
+              <div class="admin-mockup-bar" style="height: 45%;"></div>
+              <div class="admin-mockup-bar" style="height: 75%;"></div>
+              <div class="admin-mockup-bar" style="height: 65%;"></div>
+              <div class="admin-mockup-bar" style="height: 90%;"></div>
+              <div class="admin-mockup-bar" style="height: 100%;"></div>
+            </div>
+
+            <!-- Mockup Status Footer -->
+            <div class="admin-mockup-badge-footer">
+              <span class="d-inline-flex align-items-center gap-2">
+                <span class="admin-mockup-status-dot"></span>
+                <span>TiDB Cloud Connected</span>
+              </span>
+              <span style="color: #67e8f9; font-weight: 700;">256-Bit SSL</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Illustration Text & Checkpoints -->
+        <div class="admin-illus-footer">
+          <h2 class="admin-illus-heading">Centralized Healthcare Administration</h2>
+          <p class="admin-illus-subtext">
+            Enterprise command center enabling patient management, therapist schedules, doctor credential checks, and clinical analytics.
+          </p>
+          <ul class="admin-illus-checklist">
+            <li>
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Single Authorized Super Admin Access</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Encrypted Werkzeug scrypt Credentials</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              <span>Real-time Operational &amp; Clinical Telemetry</span>
+            </li>
+          </ul>
+        </div>
+
       </div>
 
-      <!-- Login Form -->
-      <form id="adminLoginForm" autocomplete="off">
-
-        <!-- Username or Email -->
-        <div class="admin-form-group">
-          <label for="username" class="admin-form-label">Admin Username or Email</label>
-          <input class="form-control admin-form-control" type="text" id="username"
-                 placeholder="e.g. admin or admin@multitherapy.org" autocomplete="username" required>
+      <!-- RIGHT SIDE: LOGIN FORM -->
+      <div class="admin-form-panel">
+        
+        <div class="admin-form-head">
+          <h2 class="admin-form-title">Admin Sign In</h2>
+          <p class="admin-form-subtitle">
+            Welcome back! Please enter your administrative credentials to access the analytics and management console.
+          </p>
         </div>
 
-        <!-- Password -->
-        <div class="admin-form-group">
-          <label for="loginPassword" class="admin-form-label">Password</label>
-          <div class="admin-password-wrap">
-            <input id="loginPassword" class="form-control admin-form-control" type="password"
-                   placeholder="Enter admin password" autocomplete="current-password" required>
-            <button type="button" id="togglePassword" class="admin-password-toggle"
-                    aria-label="Toggle password visibility">👁️</button>
+        <!-- Login Form -->
+        <form id="adminLoginForm" autocomplete="off">
+
+          <!-- Username or Email -->
+          <div class="admin-form-group">
+            <label for="username" class="admin-form-label">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span>Admin Username or Email</span>
+            </label>
+            <div class="admin-input-wrap">
+              <span class="admin-input-icon">👤</span>
+              <input class="form-control admin-form-control" type="text" id="username"
+                     placeholder="e.g. admin or admin@multitherapy.org" autocomplete="username" required>
+            </div>
           </div>
-        </div>
 
-        <!-- Security Check CAPTCHA -->
-        <div class="admin-captcha-section">
-          <label class="admin-form-label" style="margin-bottom: 2px;">🔐 Security Check</label>
-          <div class="admin-captcha-box">
-            <div id="captchaText" class="admin-captcha-text" aria-live="polite">•••••</div>
-            <button type="button" id="refreshCaptcha" class="admin-captcha-refresh" title="Refresh CAPTCHA">↻</button>
+          <!-- Password -->
+          <div class="admin-form-group">
+            <label for="loginPassword" class="admin-form-label">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>Password</span>
+            </label>
+            <div class="admin-input-wrap">
+              <span class="admin-input-icon">🔒</span>
+              <input id="loginPassword" class="form-control admin-form-control" type="password"
+                     placeholder="Enter admin password" autocomplete="current-password" required>
+              <button type="button" id="togglePassword" class="admin-password-toggle"
+                      aria-label="Toggle password visibility">👁️</button>
+            </div>
           </div>
-          <input id="captchaInput" class="form-control admin-form-control mt-2" type="text"
-                 placeholder="Enter 5-character code above" autocomplete="off" maxlength="5" required>
+
+          <!-- Security Check CAPTCHA -->
+          <div class="admin-captcha-section">
+            <label class="admin-form-label mb-1" style="font-size: 12px; color: #475569;">
+              <span>🔐 Security Verification Code</span>
+            </label>
+            <div class="admin-captcha-row">
+              <div id="captchaText" class="admin-captcha-text" aria-live="polite">•••••</div>
+              <button type="button" id="refreshCaptcha" class="admin-captcha-refresh" title="Refresh CAPTCHA Code">↻</button>
+            </div>
+            <input id="captchaInput" class="form-control admin-form-control admin-captcha-input mt-2" type="text"
+                   placeholder="Enter 5-character code shown above" autocomplete="off" maxlength="5" required>
+          </div>
+
+          <!-- Remember Me & Forgot Password -->
+          <div class="admin-login-options">
+            <label class="admin-remember-label">
+              <input type="checkbox" id="remember" checked class="form-check-input mt-0">
+              <span>Remember Me</span>
+            </label>
+            <a href="./forgot.html" id="forgotLink" class="admin-forgot-link">Forgot Password?</a>
+          </div>
+
+          <!-- Dynamic Status Message Container -->
+          <div id="loginMessage" class="alert py-2 small mb-3 text-start" hidden></div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="btnAdminSubmit" class="admin-btn-submit">
+            <span>Sign In to Administration</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+        </form>
+
+        <!-- Secondary Portal Links -->
+        <div class="admin-secondary-links">
+          <a href="./index.html">← Public Homepage</a>
+          <span>•</span>
+          <a href="./login.html">Patient Login</a>
+          <span>•</span>
+          <a href="./doctor-login.html">Doctor Login</a>
         </div>
 
-        <div class="admin-login-options">
-          <label class="d-flex align-items-center gap-2 m-0 cursor-pointer text-muted">
-            <input type="checkbox" id="remember" checked class="form-check-input mt-0">
-            <span>Remember Me</span>
-          </label>
-          <a href="./forgot.html" id="forgotLink" class="text-primary text-decoration-none fw-semibold">Forgot Password?</a>
-        </div>
-
-        <div id="loginMessage" class="alert py-2 small mb-3 text-start" hidden></div>
-
-        <button type="submit" id="btnAdminSubmit" class="btn admin-btn-submit w-100">
-          Sign In to Administration
-        </button>
-      </form>
-
-      <!-- Portal Navigation Footer Links -->
-      <div class="admin-portal-footer-links">
-        <a href="./index.html">← Public Homepage</a>
-        <span>•</span>
-        <a href="./login.html">Patient Login</a>
-        <span>•</span>
-        <a href="./doctor-login.html">Doctor Login</a>
       </div>
 
     </div>
   </main>
 
-    <!-- Dark-Blue Admin Footer -->
-    <!-- Unified Multi Therapy 4-Column Professional Healthcare Footer -->
-  <footer class="mt-unified-footer" role="contentinfo">
+  <!-- ======================================================================
+       4. BOTTOM FEATURE CARDS
+       ====================================================================== -->
+  <section class="admin-features-container" aria-label="Administrative Capabilities">
+    <div class="admin-features-grid">
+      
+      <!-- Feature 1: Manage Users -->
+      <div class="admin-feature-card">
+        <div class="admin-feature-icon-wrap icon-blue-bg">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <h3 class="admin-feature-title">Manage Users</h3>
+        <p class="admin-feature-desc">
+          Review practitioner credentials, verify doctor certificates, and monitor registered patient accounts.
+        </p>
+      </div>
+
+      <!-- Feature 2: Manage Appointments -->
+      <div class="admin-feature-card">
+        <div class="admin-feature-icon-wrap icon-teal-bg">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </div>
+        <h3 class="admin-feature-title">Manage Appointments</h3>
+        <p class="admin-feature-desc">
+          Oversee clinical schedules, consultation bookings, and practitioner availability in real time.
+        </p>
+      </div>
+
+      <!-- Feature 3: Analytics & Reports -->
+      <div class="admin-feature-card">
+        <div class="admin-feature-icon-wrap icon-purple-bg">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+        </div>
+        <h3 class="admin-feature-title">Analytics &amp; Reports</h3>
+        <p class="admin-feature-desc">
+          Track registration trends, therapy session completion rates, and demographic breakdowns.
+        </p>
+      </div>
+
+      <!-- Feature 4: System Settings -->
+      <div class="admin-feature-card">
+        <div class="admin-feature-icon-wrap icon-amber-bg">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </div>
+        <h3 class="admin-feature-title">System Settings</h3>
+        <p class="admin-feature-desc">
+          Manage platform security policies, TiDB database configurations, and audit telemetry logs.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       5. UNIFIED MULTI THERAPY 4-COLUMN FOOTER
+       ====================================================================== -->
+  <footer class="mt-footer-wrap" aria-label="Multi Therapy Global Footer">
     <div class="mt-footer-container">
+      
       <div class="mt-footer-grid">
         
-        <!-- Column 1: Brand -->
-        <div class="mt-footer-col mt-col-divider">
-          <div class="mt-footer-brand-wrap">
-            <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-footer-logo" width="52" height="52">
-            <div>
-              <div class="mt-footer-brand-title">Multi Therapy</div>
-              <div class="mt-footer-brand-tagline">Care • Support • Progress • Together</div>
+        <!-- Column 1: Brand Info -->
+        <div class="mt-footer-col">
+          <a href="./index.html" class="mt-footer-brand">
+            <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-footer-logo" width="56" height="56">
+            <div class="mt-footer-brand-text">
+              <span class="mt-footer-brand-title">Multi Therapy</span>
+              <span class="mt-footer-tagline">Care • Support • Progress • Together</span>
             </div>
-          </div>
+          </a>
           <p class="mt-footer-desc">
-            A comprehensive clinical management platform empowering Cerebral Palsy patients, doctors, physiotherapists, and family caregivers.
+            Multi Therapy is a dedicated healthcare platform delivering specialized rehabilitation, patient clinical support, therapy scheduling, and certified professional coordination.
           </p>
+          <div class="mt-footer-motto">
+            <span>&hearts;</span> Every Individual Deserves Better Care.
+          </div>
         </div>
 
         <!-- Column 2: Quick Links -->
-        <div class="mt-footer-col mt-col-divider">
+        <div class="mt-footer-col">
           <h4 class="mt-footer-heading">Quick Links</h4>
           <ul class="mt-footer-links">
             <li><a href="./index.html"><span class="mt-footer-link-bullet">›</span> Home</a></li>
@@ -386,12 +374,12 @@
             <li><a href="./subscription-pricing.html"><span class="mt-footer-link-bullet">›</span> Subscription Plans</a></li>
             <li><a href="./login.html"><span class="mt-footer-link-bullet">›</span> Patient Login</a></li>
             <li><a href="./doctor-login.html"><span class="mt-footer-link-bullet">›</span> Doctor Login</a></li>
-            <li><a href="./index.html#contact" id="footerContactLink"><span class="mt-footer-link-bullet">›</span> Contact</a></li>
+            <li><a href="./index.html#contact"><span class="mt-footer-link-bullet">›</span> Contact</a></li>
           </ul>
         </div>
 
         <!-- Column 3: Patient Portal -->
-        <div class="mt-footer-col mt-col-divider">
+        <div class="mt-footer-col">
           <h4 class="mt-footer-heading">Patient Portal</h4>
           <ul class="mt-footer-links">
             <li><a href="./appointments.html"><span class="mt-footer-link-bullet">›</span> Appointments</a></li>
@@ -489,13 +477,14 @@
     </div>
   </footer>
 
-  <script src="./js/api.js"></script>
-  <script src="./js/admin-login.js"></script>
-  <script src="./js/clinical-dropdown.js"></script>
-  <!-- Floating WhatsApp Us Button -->
+  <!-- Floating WhatsApp Us Button (Exactly 1 per page) -->
   <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
     <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
   </a>
+
+  <!-- Scripts -->
+  <script src="./js/api.js"></script>
+  <script src="./js/clinical-dropdown.js"></script>
+  <script src="./js/admin-login.js"></script>
 </body>
 </html>
-

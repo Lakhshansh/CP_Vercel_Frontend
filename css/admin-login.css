@@ -1,0 +1,670 @@
+/**
+ * ============================================================================
+ * Multi Therapy - Admin Login Stylesheet
+ * Every Individual Deserves Better Care.
+ * Exact visual implementation matching Admin Login design specification
+ * ============================================================================
+ */
+
+:root {
+  --mt-primary: #0866f5;
+  --mt-primary-hover: #0652c7;
+  --mt-primary-light: #eff6ff;
+  --mt-navy: #103463;
+  --mt-navy-dark: #0a1f3b;
+  --mt-teal: #059669;
+  --mt-teal-light: #ecfdf5;
+  --mt-amber: #d97706;
+  --mt-amber-light: #fffbeb;
+  --mt-purple: #7c3aed;
+  --mt-purple-light: #f5f3ff;
+  --mt-border: #e2e8f0;
+  --mt-border-light: #f1f5f9;
+  --mt-card-radius: 24px;
+  --mt-shadow: 0 20px 50px rgba(16, 52, 99, 0.08), 0 2px 8px rgba(0, 0, 0, 0.02);
+  --mt-shadow-hover: 0 10px 28px rgba(8, 102, 245, 0.12);
+}
+
+body.admin-login-body {
+  background: radial-gradient(circle at 10% 15%, rgba(8, 102, 245, 0.08) 0%, transparent 45%),
+              radial-gradient(circle at 90% 85%, rgba(5, 150, 105, 0.06) 0%, transparent 45%),
+              linear-gradient(135deg, #f0f6ff 0%, #edf4fc 40%, #f4f8fe 100%);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+   1. TOP CENTERED LOGO & BRANDING HEADER
+   -------------------------------------------------------------------------- */
+.admin-login-top-header {
+  text-align: center;
+  padding: 44px 20px 24px;
+}
+
+.admin-centered-brand {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+}
+
+.admin-centered-logo {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 4px;
+  border: 2.5px solid #bfdbfe;
+  box-shadow: 0 8px 24px rgba(8, 102, 245, 0.18);
+  margin-bottom: 14px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.admin-centered-logo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 28px rgba(8, 102, 245, 0.25);
+}
+
+.admin-centered-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--mt-navy-dark);
+  line-height: 1.15;
+  letter-spacing: -0.6px;
+  margin-bottom: 4px;
+}
+
+.admin-centered-tagline {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--mt-primary);
+  letter-spacing: 0.3px;
+  margin-bottom: 12px;
+}
+
+.admin-centered-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  color: var(--mt-primary);
+  border: 1px solid #bfdbfe;
+  padding: 5px 16px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(8, 102, 245, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   2. MAIN 2-COLUMN LOGIN CARD
+   -------------------------------------------------------------------------- */
+.admin-card-wrapper {
+  max-width: 1040px;
+  width: 100%;
+  margin: 0 auto 36px;
+  padding: 0 20px;
+  flex: 1;
+}
+
+.admin-split-card {
+  background: #ffffff;
+  border-radius: var(--mt-card-radius);
+  border: 1px solid var(--mt-border);
+  box-shadow: var(--mt-shadow);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  transition: box-shadow 0.3s ease;
+}
+
+@media (max-width: 900px) {
+  .admin-split-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. LEFT SIDE: ADMIN DASHBOARD & SECURITY ILLUSTRATION PANEL
+   -------------------------------------------------------------------------- */
+.admin-side-illustration-panel {
+  background: linear-gradient(145deg, #071932 0%, #0d284e 50%, #0866f5 100%);
+  color: #ffffff;
+  padding: 44px 38px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-side-illustration-panel::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.admin-side-illustration-panel::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  left: -60px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.16) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.admin-illus-header {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 22px;
+}
+
+.admin-illus-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #e0f2fe;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.admin-illus-visual {
+  position: relative;
+  z-index: 2;
+  margin: 10px 0 24px;
+}
+
+/* Stylized Healthcare Admin Dashboard Mockup */
+.admin-mockup-frame {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+}
+
+.admin-mockup-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-mockup-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.admin-mockup-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ef4444; }
+.dot-yellow { background: #f59e0b; }
+.dot-green { background: #10b981; }
+
+.admin-mockup-tag {
+  font-size: 11px;
+  font-family: monospace;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.admin-mockup-kpi-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.admin-mockup-kpi-box {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+
+.admin-mockup-kpi-box .label {
+  font-size: 10px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.admin-mockup-kpi-box .val {
+  font-size: 17px;
+  color: #ffffff;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.admin-mockup-chart-box {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 64px;
+  margin-bottom: 10px;
+}
+
+.admin-mockup-bar {
+  flex: 1;
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s ease;
+}
+
+.admin-mockup-badge-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+.admin-mockup-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  display: inline-block;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.admin-illus-footer {
+  position: relative;
+  z-index: 2;
+}
+
+.admin-illus-heading {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 8px;
+  line-height: 1.25;
+}
+
+.admin-illus-subtext {
+  font-size: 13.5px;
+  color: #e0f2fe;
+  line-height: 1.5;
+  margin: 0 0 14px;
+}
+
+.admin-illus-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 12.5px;
+  color: #e2e8f0;
+}
+
+.admin-illus-checklist li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-illus-checklist li svg {
+  color: #34d399;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   4. RIGHT SIDE: LOGIN FORM PANEL
+   -------------------------------------------------------------------------- */
+.admin-form-panel {
+  padding: 44px 42px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (max-width: 576px) {
+  .admin-form-panel {
+    padding: 32px 22px;
+  }
+}
+
+.admin-form-head {
+  margin-bottom: 24px;
+}
+
+.admin-form-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--mt-navy-dark);
+  margin: 0 0 6px;
+  letter-spacing: -0.4px;
+}
+
+.admin-form-subtitle {
+  font-size: 13.5px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.admin-form-group {
+  margin-bottom: 18px;
+}
+
+.admin-form-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-input-wrap {
+  position: relative;
+}
+
+.admin-input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.admin-form-control {
+  height: 48px;
+  border-radius: 12px;
+  border: 1.5px solid #cbd5e1;
+  font-size: 14px;
+  padding: 10px 14px 10px 40px;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.admin-form-control:focus {
+  border-color: var(--mt-primary);
+  box-shadow: 0 0 0 4px rgba(8, 102, 245, 0.12);
+  outline: none;
+}
+
+.admin-password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #64748b;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+/* Security CAPTCHA Box */
+.admin-captcha-section {
+  background: #f8fafc;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+}
+
+.admin-captcha-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.admin-captcha-text {
+  flex: 1;
+  height: 44px;
+  background: #0f172a;
+  color: #38bdf8;
+  border-radius: 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.admin-captcha-refresh {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #334155;
+}
+
+.admin-captcha-refresh:hover {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: var(--mt-primary);
+  transform: rotate(90deg);
+}
+
+.admin-captcha-input {
+  padding-left: 14px;
+}
+
+/* Login Options (Remember & Forgot) */
+.admin-login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13.5px;
+  margin-bottom: 20px;
+}
+
+.admin-remember-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  cursor: pointer;
+  color: #475569;
+  font-weight: 500;
+  user-select: none;
+}
+
+.admin-forgot-link {
+  color: var(--mt-primary);
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.2s ease;
+}
+
+.admin-forgot-link:hover {
+  color: var(--mt-primary-hover);
+  text-decoration: underline;
+}
+
+/* Submit Button */
+.admin-btn-submit {
+  height: 50px;
+  background: linear-gradient(135deg, #0866f5 0%, #0348b6 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 15px;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 4px 14px rgba(8, 102, 245, 0.25);
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.admin-btn-submit:hover {
+  background: linear-gradient(135deg, #075bdc 0%, #023a94 100%);
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 20px rgba(8, 102, 245, 0.35);
+}
+
+.admin-btn-submit:active {
+  transform: translateY(0);
+}
+
+.admin-btn-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Secondary Portal Links */
+.admin-secondary-links {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--mt-border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+
+.admin-secondary-links a {
+  color: #475569;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.admin-secondary-links a:hover {
+  color: var(--mt-primary);
+  text-decoration: underline;
+}
+
+.admin-secondary-links span {
+  color: #cbd5e1;
+}
+
+/* --------------------------------------------------------------------------
+   5. BOTTOM FEATURE CARDS (MANAGE USERS, APPOINTMENTS, ANALYTICS, SETTINGS)
+   -------------------------------------------------------------------------- */
+.admin-features-container {
+  max-width: 1040px;
+  width: 100%;
+  margin: 0 auto 50px;
+  padding: 0 20px;
+}
+
+.admin-features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 992px) {
+  .admin-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin-feature-card {
+  background: #ffffff;
+  border: 1px solid var(--mt-border);
+  border-radius: 16px;
+  padding: 22px 20px;
+  box-shadow: 0 4px 16px rgba(16, 52, 99, 0.04);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-feature-card:hover {
+  transform: translateY(-3px);
+  border-color: #bfdbfe;
+  box-shadow: var(--mt-shadow-hover);
+}
+
+.admin-feature-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+
+.icon-blue-bg { background: #eff6ff; color: #0866f5; }
+.icon-teal-bg { background: #ecfdf5; color: #059669; }
+.icon-purple-bg { background: #f5f3ff; color: #7c3aed; }
+.icon-amber-bg { background: #fffbeb; color: #d97706; }
+
+.admin-feature-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--mt-navy);
+  margin: 0 0 6px;
+  line-height: 1.25;
+}
+
+.admin-feature-desc {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
