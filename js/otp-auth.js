@@ -109,18 +109,34 @@
       throw new Error("Both email and OTP code are required.");
     }
 
-    // Try /api/auth/verify-otp, fallback to /api/verify-signup-otp
+    const payload = JSON.stringify({ email: email.trim(), email_otp: otp.trim(), otp: otp.trim() });
+
+    // 1. Try local serverless /api/verify-signup-otp directly
+    try {
+      const localRes = await fetch("/api/verify-signup-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload
+      });
+      if (localRes.ok) {
+        return await localRes.json();
+      }
+    } catch (e) {
+      // Continue to API request fallback
+    }
+
+    // 2. Try apiRequest fallbacks
     try {
       return await apiRequest("/api/auth/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), email_otp: otp.trim() })
+        body: payload
       });
     } catch (err) {
       return await apiRequest("/api/verify-signup-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), email_otp: otp.trim() })
+        body: payload
       });
     }
   }

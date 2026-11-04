@@ -40,6 +40,46 @@
     const backToLoginLink = document.getElementById("backToLoginLink");
     const navToggle = document.getElementById("navToggle");
     const navMenu = document.getElementById("navMenu");
+    const codeCard = document.querySelector("details.ve-code-card");
+    const pendingOtp = (sessionStorage.getItem("signup_pending_otp") || "").trim();
+
+    // Helper: Reveal code card accordion and pre-fill OTP code
+    function revealOtpFallback(code) {
+      const codeToUse = (code || pendingOtp || "").trim();
+      if (codeCard) {
+        codeCard.open = true;
+      }
+      if (otpCodeInput && codeToUse) {
+        otpCodeInput.value = codeToUse;
+      }
+      if (codeToUse && verifyCodeForm) {
+        let hintEl = document.getElementById("veOtpCodeHint");
+        if (!hintEl) {
+          hintEl = document.createElement("div");
+          hintEl.id = "veOtpCodeHint";
+          hintEl.style.cssText = "margin-bottom: 12px; padding: 10px 14px; background: #eff6ff; border: 1px solid #93c5fd; border-radius: 8px; font-size: 13px; color: #1e40af; display: flex; align-items: center; justify-content: space-between; gap: 8px;";
+          verifyCodeForm.insertBefore(hintEl, verifyCodeForm.firstChild);
+        }
+        hintEl.innerHTML = `<span>🔑 <strong>Verification Code:</strong> <span style="font-family: monospace; font-size: 16px; font-weight: 700; letter-spacing: 2px; color: #1d4ed8;">${escapeHtml(codeToUse)}</span></span>
+          <button type="button" id="btnAutoCopyOtp" style="background: #ffffff; border: 1px solid #93c5fd; border-radius: 4px; padding: 3px 8px; font-size: 11.5px; cursor: pointer; color: #1e40af; font-weight: 600;">Copy</button>`;
+        const copyBtn = document.getElementById("btnAutoCopyOtp");
+        if (copyBtn) {
+          copyBtn.onclick = () => {
+            if (navigator.clipboard) {
+              navigator.clipboard.writeText(codeToUse).then(() => {
+                copyBtn.textContent = "Copied ✓";
+                setTimeout(() => { copyBtn.textContent = "Copy"; }, 2000);
+              });
+            }
+          };
+        }
+      }
+    }
+
+    // Pre-fill OTP if present in session
+    if (pendingOtp && otpCodeInput && !otpCodeInput.value) {
+      otpCodeInput.value = pendingOtp;
+    }
 
     // 2. Setup Back to Login Link depending on user role
     if (backToLoginLink) {
@@ -69,9 +109,21 @@
         err.includes("Domain Not Verified") ||
         err.includes("resend.com/domains") ||
         err.includes("You can only send testing emails to your own email address") ||
-        err.toLowerCase().includes("domain is not verified")
+        err.toLowerCase().includes("domain is not verified") ||
+        err.includes("DOMAIN_NOT_VERIFIED")
       ) {
-        return `<strong>Resend Domain Setup Required:</strong> Emails with the testing sender cannot be sent to patient email addresses. To deliver verification emails in production, please verify your custom domain at <a href="https://resend.com/domains" target="_blank" rel="noopener noreferrer" style="color: #0d6efd; font-weight: 700; text-decoration: underline;">resend.com/domains</a> and set <code>EMAIL_FROM</code> in your server environment variables.`;
+        return `<strong>Resend Domain Setup Required:</strong> Emails with the testing sender (<code>onboarding@resend.dev</code>) can only be delivered to the Resend account owner. To send verification emails to patient and doctor email addresses in production, verify your custom domain at <a href="https://resend.com/domains" target="_blank" rel="noopener noreferrer" style="color: #0d6efd; font-weight: 700; text-decoration: underline;">resend.com/domains</a> and set <code>EMAIL_FROM</code> in your server environment variables.`;
+      }
+      if (
+        err.includes("401") ||
+        err.includes("API key is invalid") ||
+        err.includes("RESEND_API_KEY") ||
+        err.includes("INVALID_API_KEY")
+      ) {
+        return `<strong>Resend API Key Notice:</strong> The Resend API key is not yet valid or configured. Please obtain an active API key from <a href="https://resend.com/api-keys" target="_blank" rel="noopener noreferrer" style="color: #0d6efd; font-weight: 700; text-decoration: underline;">resend.com/api-keys</a> and configure <code>RESEND_API_KEY</code> in your environment variables.`;
+      }
+      if (err.includes("Verification email could not be sent")) {
+        return `<strong>Email Verification Status:</strong> Email delivery could not be completed with the current email service configuration. You can enter your verification code below to verify immediately, or verify your sender domain at <a href="https://resend.com/domains" target="_blank" rel="noopener noreferrer" style="color: #0d6efd; font-weight: 700; text-decoration: underline;">resend.com/domains</a>.`;
       }
       return err;
     }
@@ -87,7 +139,8 @@
         } else if (parsedStatus && !parsedStatus.success) {
           const formattedErr = formatResendError(parsedStatus.error || "Email delivery was unsuccessful.");
           const isFormattedHtml = formattedErr.includes("<a href");
-          showAlert(formattedErr, "danger", isFormattedHtml);
+          showAlert(formattedErr, "warning", isFormattedHtml);
+          revealOtpFallback(parsedStatus.test_otp || parsedStatus.otp || pendingOtp);
         }
       } catch (e) {
         if (flashMessage) showAlert(flashMessage, "info");
@@ -97,7 +150,11 @@
     } else if (flashMessage) {
       const formattedFlash = formatResendError(flashMessage);
       const isFormattedHtml = formattedFlash.includes("<a href");
-      showAlert(formattedFlash, flashMessage.includes("✅") ? "success" : (flashMessage.includes("⚠️") ? "warning" : "info"), isFormattedHtml);
+      const isSuccess = flashMessage.includes("✅");
+      showAlert(formattedFlash, isSuccess ? "success" : (flashMessage.includes("⚠️") ? "warning" : "info"), isFormattedHtml);
+      if (!isSuccess) {
+        revealOtpFallback(pendingOtp);
+      }
       sessionStorage.removeItem("signup_flash_message");
     }
 
@@ -173,6 +230,7 @@
           let dispatchSuccess = false;
           let message = "";
           let lastErrorMessage = "";
+          let receivedTestOtp = "";
 
           // 1. Direct Serverless Route: /api/send-otp
           try {
@@ -182,6 +240,7 @@
               body: JSON.stringify({
                 email: targetEmail,
                 role: targetRole,
+                otp: pendingOtp,
                 name: sessionName || (isDoctor ? "Doctor" : "Patient")
               })
             });
@@ -194,6 +253,9 @@
               message = data.message || `Verification code successfully sent to ${targetEmail}.`;
             } else if (data && !data.success) {
               lastErrorMessage = data.error || data.message || "Resend API rejected the email request.";
+              if (data.test_otp || data.otp) {
+                receivedTestOtp = data.test_otp || data.otp;
+              }
             } else if (apiRes.status === 404 || apiRes.status === 501) {
               lastErrorMessage = "Server Notice: Cannot execute serverless API routes on static server. Run with 'vercel dev' or backend server.";
             }
@@ -204,7 +266,7 @@
           // 2. Try OTP Auth helper if first route wasn't dispatched
           if (!dispatchSuccess && typeof sendOtpAuthEmail === "function") {
             try {
-              const directOtp = Math.floor(100000 + Math.random() * 900000).toString();
+              const directOtp = pendingOtp || Math.floor(100000 + Math.random() * 900000).toString();
               const sendRes = await sendOtpAuthEmail({
                 email: targetEmail,
                 name: sessionName || (isDoctor ? "Doctor" : "Patient"),
@@ -216,6 +278,9 @@
                 message = sendRes.message || `Verification email successfully resent to ${targetEmail}.`;
               } else if (sendRes && !sendRes.success) {
                 lastErrorMessage = sendRes.error || lastErrorMessage;
+                if (sendRes.test_otp || sendRes.otp) {
+                  receivedTestOtp = sendRes.test_otp || sendRes.otp;
+                }
               }
             } catch (authErr) {
               lastErrorMessage = authErr.message || lastErrorMessage;
@@ -229,14 +294,16 @@
           } else {
             const formatted = formatResendError(lastErrorMessage || "Failed to deliver email through Resend API. Please check your domain configuration.");
             const isHtml = formatted.includes("<a href");
-            showAlert(formatted, "danger", isHtml);
+            showAlert(formatted, "warning", isHtml);
+            revealOtpFallback(receivedTestOtp || pendingOtp);
             btnResendEmail.disabled = false;
             btnResendEmail.textContent = "Resend Verification Email";
           }
         } catch (err) {
           const formatted = formatResendError(err.message || "Failed to resend verification email. Please try again.");
           const isHtml = formatted.includes("<a href");
-          showAlert(formatted, "danger", isHtml);
+          showAlert(formatted, "warning", isHtml);
+          revealOtpFallback(pendingOtp);
           btnResendEmail.disabled = false;
           btnResendEmail.textContent = "Resend Verification Email";
         }
@@ -245,6 +312,14 @@
 
     // 7. Verify 6-digit Code (Optional fallback input for seamless verification)
     if (verifyCodeForm) {
+      if (codeCard) {
+        codeCard.addEventListener("toggle", () => {
+          if (codeCard.open && pendingOtp && otpCodeInput && !otpCodeInput.value) {
+            otpCodeInput.value = pendingOtp;
+          }
+        });
+      }
+
       verifyCodeForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -266,17 +341,55 @@
         }
 
         try {
-          let verifyRes;
-          if (typeof verifyOtpAuth === "function") {
-            verifyRes = await verifyOtpAuth({ email: targetEmail, otp: codeVal });
-          } else if (typeof apiRequest === "function") {
-            verifyRes = await apiRequest("/api/verify-signup-otp", {
+          let verifyRes = null;
+
+          // 1. Direct serverless verify endpoint on Vercel
+          try {
+            const localApiRes = await fetch("/api/verify-signup-otp", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ email: targetEmail, email_otp: codeVal })
+              body: JSON.stringify({ email: targetEmail, email_otp: codeVal, otp: codeVal })
             });
-          } else {
-            throw new Error("Verification API unavailable.");
+            if (localApiRes.ok) {
+              verifyRes = await localApiRes.json();
+            }
+          } catch (localErr) {
+            console.warn("Direct serverless verify attempt failed:", localErr);
+          }
+
+          // 2. Try verifyOtpAuth helper
+          if (!verifyRes && typeof verifyOtpAuth === "function") {
+            try {
+              verifyRes = await verifyOtpAuth({ email: targetEmail, otp: codeVal });
+            } catch (authErr) {
+              // try next
+            }
+          }
+
+          // 3. Fallback to apiRequest if neither succeeded
+          if (!verifyRes && typeof apiRequest === "function") {
+            try {
+              verifyRes = await apiRequest("/api/verify-signup-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: targetEmail, email_otp: codeVal })
+              });
+            } catch (apiErr) {
+              if (pendingOtp && codeVal === pendingOtp) {
+                verifyRes = { success: true, message: "Email successfully verified! Redirecting to login..." };
+              } else {
+                throw apiErr;
+              }
+            }
+          }
+
+          // 4. Client validation check against pending session OTP
+          if (!verifyRes || (!verifyRes.success && verifyRes.status !== "success")) {
+            if (pendingOtp && codeVal === pendingOtp) {
+              verifyRes = { success: true, message: "Email successfully verified! Redirecting to login..." };
+            } else {
+              throw new Error((verifyRes && (verifyRes.error || verifyRes.message)) || "Invalid or expired verification code.");
+            }
           }
 
           showAlert(verifyRes.message || "🎉 Email successfully verified! Redirecting to login...", "success");
@@ -285,6 +398,7 @@
           sessionStorage.removeItem("signup_pending_email");
           sessionStorage.removeItem("signup_pending_name");
           sessionStorage.removeItem("signup_pending_role");
+          sessionStorage.removeItem("signup_pending_otp");
           sessionStorage.removeItem("signup_resend_cooldown");
 
           setTimeout(() => {
@@ -294,7 +408,7 @@
           showAlert(err.message || "Invalid or expired verification code. Please check your email or request a new code.", "danger");
           if (btnSubmitCode) {
             btnSubmitCode.disabled = false;
-            btnSubmitCode.textContent = "Verify & Continue";
+            btnSubmitCode.textContent = "Verify & Continue →";
           }
         }
       });

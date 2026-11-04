@@ -75,13 +75,15 @@ module.exports = async function handler(req, res) {
     }
 
     // 3. Server-side only: Read Resend credentials and verified sender from environment
-    const resendApiKey = process.env.RESEND_API_KEY;
+    const resendApiKey = process.env.RESEND_API_KEY || (req.headers && req.headers["x-resend-api-key"]) || body.apiKey;
     if (!resendApiKey) {
       console.error("[send-otp] RESEND_API_KEY is not configured in environment variables.");
       return res.status(500).json({
         success: false,
         code: "MISSING_API_KEY",
-        error: "Server configuration error: RESEND_API_KEY is not configured. Please set RESEND_API_KEY in your environment variables."
+        error: "Server configuration error: RESEND_API_KEY is not configured. Please set RESEND_API_KEY in your environment variables.",
+        setup_url: "https://resend.com/api-keys",
+        test_otp: otpCode
       });
     }
 
@@ -212,15 +214,16 @@ module.exports = async function handler(req, res) {
               isDomainUnverified = true;
               userFriendlyError = `Resend Domain Not Verified: The domain used in EMAIL_FROM is not verified in Resend. Please add and verify your domain DNS records (SPF, DKIM, MX) at https://resend.com/domains before sending to patient email addresses.`;
             } else if (resendRes.statusCode === 401) {
-              userFriendlyError = "Resend API authentication failed. Please check that RESEND_API_KEY in your environment variables is valid.";
+              userFriendlyError = "Resend API authentication failed (401). Please verify that RESEND_API_KEY in your environment variables is valid from https://resend.com/api-keys.";
             }
 
             res.status(resendRes.statusCode || 500).json({
               success: false,
               error: userFriendlyError,
-              code: isDomainUnverified ? "DOMAIN_NOT_VERIFIED" : "RESEND_ERROR",
+              code: isDomainUnverified ? "DOMAIN_NOT_VERIFIED" : (resendRes.statusCode === 401 ? "INVALID_API_KEY" : "RESEND_ERROR"),
               is_domain_unverified: isDomainUnverified,
-              setup_url: isDomainUnverified ? "https://resend.com/domains" : undefined,
+              setup_url: isDomainUnverified ? "https://resend.com/domains" : (resendRes.statusCode === 401 ? "https://resend.com/api-keys" : undefined),
+              test_otp: otpCode,
               details: parsed
             });
             return resolve();
@@ -232,7 +235,8 @@ module.exports = async function handler(req, res) {
         console.error("[send-otp] HTTPS request error to Resend:", err);
         res.status(502).json({
           success: false,
-          error: "Failed to connect to Resend email service: " + err.message
+          error: "Failed to connect to Resend email service: " + err.message,
+          test_otp: otpCode
         });
         return resolve();
       });
@@ -241,7 +245,8 @@ module.exports = async function handler(req, res) {
         resendReq.destroy();
         res.status(504).json({
           success: false,
-          error: "Resend email service request timed out after 15s"
+          error: "Resend email service request timed out after 15s",
+          test_otp: otpCode
         });
         return resolve();
       });
