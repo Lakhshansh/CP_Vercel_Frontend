@@ -823,6 +823,8 @@
         <!-- Hidden Role Fields for Patient Account -->
         <input type="hidden" name="account_type" value="Patient">
         <input type="hidden" name="role" value="patient">
+        <input type="hidden" name="hospital_name" value="Multi Therapy Rehabilitation">
+        <input type="hidden" name="doctor_specialization" value="Patient Care">
 
         <!-- Two Columns on Desktop Where Appropriate, One Column on Mobile -->
         <div class="form-grid-2col patient-form-grid">
@@ -973,7 +975,7 @@
             <button type="button" id="refreshCaptcha" class="captcha-refresh-btn" title="Refresh CAPTCHA code" aria-label="Refresh code">
               ↻
             </button>
-            <input id="captchaInput" class="field-input captcha-input" type="text" placeholder="Enter code" autocomplete="off" maxlength="5" required>
+            <input id="captchaInput" name="captcha_code" class="field-input captcha-input" type="text" placeholder="Enter code" autocomplete="off" maxlength="5" required>
           </div>
         </div>
 

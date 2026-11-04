@@ -63,79 +63,140 @@ document.addEventListener("DOMContentLoaded", () => {
       const alertEl = document.getElementById("signupMessage");
       if (alertEl) alertEl.hidden = true;
 
-      // Security CAPTCHA Check (if present in DOM)
+      // Direct DOM element references by ID
+      const fullNameInput = document.getElementById("signupFullName");
+      const emailInput = document.getElementById("signupEmail");
+      const phoneInput = document.getElementById("signupPhone");
+      const dobInput = document.getElementById("signupDob");
+      const genderSelect = document.getElementById("signupGender");
+      const addressInput = document.getElementById("signupAddress");
+      const passwordInput = document.getElementById("signupPassword");
+      const confirmInput = document.getElementById("signupConfirm");
       const captchaInput = document.getElementById("captchaInput");
-      if (captchaInput) {
-        const enteredCaptcha = captchaInput.value.trim().toUpperCase();
-        const expectedCaptcha = sessionStorage.getItem("signup_captcha");
-
-        if (!enteredCaptcha || enteredCaptcha !== expectedCaptcha) {
-          showSignupMessage("Invalid Security Verification code. Please enter the characters shown.");
-          generateCaptcha();
-          return;
-        }
-      }
+      const agreeTermsCheck = document.getElementById("agreeTerms");
 
       const form = event.currentTarget;
       const data = new FormData(form);
 
-      // Extract 8 Patient Fields
-      const fullName = (data.get("full_name") || "").toString().trim();
-      const email = (data.get("email") || "").toString().trim();
-      const phone = (data.get("phone") || "").toString().trim();
-      const dob = (data.get("dob") || "").toString().trim();
-      const gender = (data.get("gender") || "").toString().trim();
-      const address = (data.get("address") || "").toString().trim();
-      const password = (data.get("password") || "").toString();
-      const confirm = (data.get("confirm_password") || "").toString();
+      // Extract and trim values from DOM elements, falling back to FormData
+      const fullName = (fullNameInput ? fullNameInput.value : data.get("full_name") || "").toString().trim();
+      const email = (emailInput ? emailInput.value : data.get("email") || "").toString().trim();
+      const phone = (phoneInput ? phoneInput.value : data.get("phone") || "").toString().trim();
+      const dob = (dobInput ? dobInput.value : data.get("dob") || "").toString().trim();
+      const gender = (genderSelect ? genderSelect.value : data.get("gender") || "").toString().trim();
+      const address = (addressInput ? addressInput.value : data.get("address") || "").toString().trim();
+      const password = (passwordInput ? passwordInput.value : data.get("password") || "").toString();
+      const confirm = (confirmInput ? confirmInput.value : data.get("confirm_password") || "").toString();
+      const captchaVal = (captchaInput ? captchaInput.value : data.get("captcha_code") || data.get("captcha") || "").toString().trim();
 
-      // Field Validations
-      if (!fullName || fullName.length < 2) {
-        showSignupMessage("Please enter your Full Name (minimum 2 characters).");
+      // Field-by-Field Specific Validation (Requirement 10: Display specific missing field name instead of a generic message)
+      if (!fullName) {
+        showSignupMessage("Please fill all required fields: Full Name is required.");
+        fullNameInput?.focus();
+        return;
+      }
+      if (fullName.length < 2) {
+        showSignupMessage("Full Name must be at least 2 characters.");
+        fullNameInput?.focus();
         return;
       }
 
+      if (!email) {
+        showSignupMessage("Please fill all required fields: Email Address is required.");
+        emailInput?.focus();
+        return;
+      }
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!email || !emailRegex.test(email)) {
+      if (!emailRegex.test(email)) {
         showSignupMessage("Please enter a valid email address (e.g. name@example.com).");
+        emailInput?.focus();
         return;
       }
 
+      if (!phone) {
+        showSignupMessage("Please fill all required fields: 10-Digit Mobile Number is required.");
+        phoneInput?.focus();
+        return;
+      }
       if (!/^[0-9]{10}$/.test(phone)) {
-        showSignupMessage("Please enter a valid 10-digit mobile number.");
+        showSignupMessage("Mobile number must be exactly 10 digits.");
+        phoneInput?.focus();
         return;
       }
 
       if (!dob) {
-        showSignupMessage("Please enter your Date of Birth.");
+        showSignupMessage("Please fill all required fields: Date of Birth is required.");
+        dobInput?.focus();
         return;
       }
 
+      if (!gender) {
+        showSignupMessage("Please fill all required fields: Gender is required. Please select an option.");
+        genderSelect?.focus();
+        return;
+      }
       const validGenders = ["Male", "Female", "Other", "Prefer not to say"];
-      if (!gender || !validGenders.includes(gender)) {
-        showSignupMessage("Please select a valid Gender option.");
+      if (!validGenders.includes(gender)) {
+        showSignupMessage("Please select a valid Gender option from the list.");
+        genderSelect?.focus();
         return;
       }
 
-      if (!address || address.length < 3) {
-        showSignupMessage("Please provide your Address.");
+      if (!address) {
+        showSignupMessage("Please fill all required fields: Address is required.");
+        addressInput?.focus();
+        return;
+      }
+      if (address.length < 3) {
+        showSignupMessage("Address must be at least 3 characters in length.");
+        addressInput?.focus();
         return;
       }
 
+      if (!password) {
+        showSignupMessage("Please fill all required fields: Create Password is required.");
+        passwordInput?.focus();
+        return;
+      }
       if (password.length < 6) {
-        showSignupMessage("Password must be at least 6 characters in length.");
+        showSignupMessage("Create Password must be at least 6 characters in length.");
+        passwordInput?.focus();
         return;
       }
 
+      if (!confirm) {
+        showSignupMessage("Please fill all required fields: Confirm Password is required.");
+        confirmInput?.focus();
+        return;
+      }
       if (password !== confirm) {
         showSignupMessage("Create Password and Confirm Password do not match.");
+        confirmInput?.focus();
         return;
+      }
+
+      // Security CAPTCHA Check
+      if (captchaInput) {
+        if (!captchaVal) {
+          showSignupMessage("Please fill all required fields: Security Verification code is required.");
+          captchaInput.focus();
+          return;
+        }
+        const enteredCaptcha = captchaVal.toUpperCase();
+        const expectedCaptcha = (sessionStorage.getItem("signup_captcha") || "").trim().toUpperCase();
+
+        if (enteredCaptcha !== expectedCaptcha) {
+          showSignupMessage("Invalid Security Verification code. Please enter the characters shown.");
+          generateCaptcha();
+          captchaInput.focus();
+          return;
+        }
       }
 
       // Terms & Conditions Check
-      const agreeTerms = document.getElementById("agreeTerms");
-      if (agreeTerms && !agreeTerms.checked) {
-        showSignupMessage("Please accept the Terms and Conditions to proceed.");
+      if (agreeTermsCheck && !agreeTermsCheck.checked) {
+        showSignupMessage("Please agree to the Terms and Conditions and Privacy Policy to proceed.");
+        agreeTermsCheck.focus();
         return;
       }
 
@@ -151,6 +212,13 @@ document.addEventListener("DOMContentLoaded", () => {
       data.set("date_of_birth", dob);
       data.set("gender", gender);
       data.set("address", address);
+      data.set("password", password);
+      data.set("confirm_password", confirm);
+
+      // Backend route compatibility: /api/signup historically checked doctor fields
+      data.set("doctor_name", fullName);
+      data.set("hospital_name", "Multi Therapy Rehabilitation");
+      data.set("doctor_specialization", "Patient Care");
 
       // Auto-generate fallback username if backend requires it
       const defaultUsername = email.split("@")[0] || fullName.toLowerCase().replace(/[^a-z0-9]/g, "_");
