@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (resendStatus && resendStatus.success) {
         showAlert(`Verification OTP sent to ${email}. Please check your inbox or spam folder.`, "success");
       } else if (resendStatus && !resendStatus.success) {
-        showAlert(resendStatus.error || "Unable to deliver email.", "warning");
+        showAlert(resendStatus.error || "Unable to deliver verification email.", "danger");
       }
       sessionStorage.removeItem("signup_resend_status");
     } catch (e) {
@@ -106,11 +106,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (deliveryResult && deliveryResult.success) {
           showAlert(`6-digit OTP code has been sent directly to your email (${targetEmail}). Please check your inbox or spam folder.`, "success");
         } else if (deliveryResult && !deliveryResult.success) {
-          showAlert(deliveryResult.error || "Email delivery failed.", "warning");
+          showAlert(deliveryResult.error || "Email delivery failed. Please check your domain configuration.", "danger");
+        } else if (response && response.delivered) {
+          showAlert(`Verification code sent to ${targetEmail}. Please check your inbox.`, "success");
         } else {
           showAlert(
-            "Please check your email for the verification code.",
-            "success"
+            "Could not deliver verification email. Please check your email configuration and try again.",
+            "danger"
           );
         }
 

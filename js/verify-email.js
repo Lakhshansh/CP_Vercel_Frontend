@@ -62,6 +62,20 @@
       }
     }
 
+    // Helper: Format Resend setup error messages with actionable guide link
+    function formatResendError(errorText) {
+      const err = (errorText || "").toString();
+      if (
+        err.includes("Domain Not Verified") ||
+        err.includes("resend.com/domains") ||
+        err.includes("You can only send testing emails to your own email address") ||
+        err.toLowerCase().includes("domain is not verified")
+      ) {
+        return `<strong>Resend Domain Setup Required:</strong> Emails with the testing sender cannot be sent to patient email addresses. To deliver verification emails in production, please verify your custom domain at <a href="https://resend.com/domains" target="_blank" rel="noopener noreferrer" style="color: #0d6efd; font-weight: 700; text-decoration: underline;">resend.com/domains</a> and set <code>EMAIL_FROM</code> in your server environment variables.`;
+      }
+      return err;
+    }
+
     // Check recent signup dispatch status from sessionStorage
     const rawResendStatus = sessionStorage.getItem("signup_resend_status");
     const flashMessage = sessionStorage.getItem("signup_flash_message");
@@ -71,7 +85,9 @@
         if (parsedStatus && parsedStatus.success) {
           showAlert(flashMessage || `Verification email successfully sent to ${targetEmail}. Please check your inbox and spam folder.`, "success");
         } else if (parsedStatus && !parsedStatus.success) {
-          showAlert(parsedStatus.error || "Email delivery was unsuccessful. Testing emails can only be sent to joshilakhshansh@gmail.com on the unverified Resend domain.", "danger");
+          const formattedErr = formatResendError(parsedStatus.error || "Email delivery was unsuccessful.");
+          const isFormattedHtml = formattedErr.includes("<a href");
+          showAlert(formattedErr, "danger", isFormattedHtml);
         }
       } catch (e) {
         if (flashMessage) showAlert(flashMessage, "info");
@@ -79,7 +95,9 @@
       sessionStorage.removeItem("signup_resend_status");
       sessionStorage.removeItem("signup_flash_message");
     } else if (flashMessage) {
-      showAlert(flashMessage, flashMessage.includes("✅") ? "success" : (flashMessage.includes("⚠️") ? "warning" : "info"));
+      const formattedFlash = formatResendError(flashMessage);
+      const isFormattedHtml = formattedFlash.includes("<a href");
+      showAlert(formattedFlash, flashMessage.includes("✅") ? "success" : (flashMessage.includes("⚠️") ? "warning" : "info"), isFormattedHtml);
       sessionStorage.removeItem("signup_flash_message");
     }
 
@@ -156,9 +174,9 @@
           let message = "";
           let lastErrorMessage = "";
 
-          // 1. Direct Serverless Route: /api/resend-signup-otp
+          // 1. Direct Serverless Route: /api/send-otp
           try {
-            const apiRes = await fetch("/api/resend-signup-otp", {
+            const apiRes = await fetch("/api/send-otp", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -177,70 +195,48 @@
             } else if (data && !data.success) {
               lastErrorMessage = data.error || data.message || "Resend API rejected the email request.";
             } else if (apiRes.status === 404 || apiRes.status === 501) {
-              lastErrorMessage = "Server Notice: Python static server (port 8080) cannot execute serverless API routes. Run with 'vercel dev' or the Flask backend server.";
+              lastErrorMessage = "Server Notice: Cannot execute serverless API routes on static server. Run with 'vercel dev' or backend server.";
             }
           } catch (netErr) {
             lastErrorMessage = netErr.message;
           }
 
           // 2. Try OTP Auth helper if first route wasn't dispatched
-          if (!dispatchSuccess && typeof requestOtpAuth === "function") {
+          if (!dispatchSuccess && typeof sendOtpAuthEmail === "function") {
             try {
-              const reqRes = await requestOtpAuth({ email: targetEmail });
-              const otpCode = reqRes && (reqRes.otp || reqRes.email_otp);
-
-              if (otpCode && typeof sendOtpAuthEmail === "function") {
-                const sendRes = await sendOtpAuthEmail({
-                  email: targetEmail,
-                  name: sessionName || (isDoctor ? "Doctor" : "Patient"),
-                  otp: otpCode
-                });
-                if (sendRes && sendRes.success) {
-                  dispatchSuccess = true;
-                  message = sendRes.message || `Verification email successfully resent to ${targetEmail}.`;
-                } else if (sendRes && !sendRes.success) {
-                  lastErrorMessage = sendRes.error || lastErrorMessage;
-                }
-              } else if (reqRes && reqRes.success && reqRes.delivered) {
+              const directOtp = Math.floor(100000 + Math.random() * 900000).toString();
+              const sendRes = await sendOtpAuthEmail({
+                email: targetEmail,
+                name: sessionName || (isDoctor ? "Doctor" : "Patient"),
+                otp: directOtp,
+                role: targetRole
+              });
+              if (sendRes && sendRes.success) {
                 dispatchSuccess = true;
-                message = reqRes.message || `Verification link sent to ${targetEmail}.`;
-              } else if (reqRes && !reqRes.success) {
-                lastErrorMessage = reqRes.message || reqRes.error || lastErrorMessage;
+                message = sendRes.message || `Verification email successfully resent to ${targetEmail}.`;
+              } else if (sendRes && !sendRes.success) {
+                lastErrorMessage = sendRes.error || lastErrorMessage;
               }
             } catch (authErr) {
               lastErrorMessage = authErr.message || lastErrorMessage;
             }
           }
 
-          // 3. Fallback to client-side Resend helper
-          if (!dispatchSuccess && typeof sendSignupOtpViaResend === "function") {
-            try {
-              const directOtp = Math.floor(100000 + Math.random() * 900000).toString();
-              const sendRes = await sendSignupOtpViaResend({
-                email: targetEmail,
-                name: sessionName || (isDoctor ? "Doctor" : "Patient"),
-                otp: directOtp
-              });
-              if (sendRes && sendRes.success) {
-                dispatchSuccess = true;
-                message = sendRes.message || `Verification code sent to ${targetEmail}.`;
-              } else if (sendRes && !sendRes.success) {
-                lastErrorMessage = sendRes.error || lastErrorMessage;
-              }
-            } catch (directErr) {
-              lastErrorMessage = directErr.message || lastErrorMessage;
-            }
-          }
-
-          // 4. Strict check: only show success if delivery is confirmed
+          // 3. Strict check: only show success if delivery is confirmed (Requirement 10)
           if (dispatchSuccess) {
             showAlert(message || `Verification email successfully sent to ${targetEmail}. Please check your inbox and spam folder.`, "success");
             startCooldownTimer(COOLDOWN_SECONDS);
           } else {
-            throw new Error(lastErrorMessage || "Failed to deliver email through Resend API. Please check your email configuration.");
+            const formatted = formatResendError(lastErrorMessage || "Failed to deliver email through Resend API. Please check your domain configuration.");
+            const isHtml = formatted.includes("<a href");
+            showAlert(formatted, "danger", isHtml);
+            btnResendEmail.disabled = false;
+            btnResendEmail.textContent = "Resend Verification Email";
           }
         } catch (err) {
-          showAlert(err.message || "Failed to resend verification email. Please try again.", "danger");
+          const formatted = formatResendError(err.message || "Failed to resend verification email. Please try again.");
+          const isHtml = formatted.includes("<a href");
+          showAlert(formatted, "danger", isHtml);
           btnResendEmail.disabled = false;
           btnResendEmail.textContent = "Resend Verification Email";
         }
@@ -322,11 +318,12 @@
     }
 
     // Helper: Show Alert Box
-    function showAlert(msg, type = "info") {
+    function showAlert(msg, type = "info", isHtml = false) {
       if (!verifyAlert) return;
       verifyAlert.hidden = false;
       verifyAlert.className = `ve-alert ve-alert-${type}`;
-      verifyAlert.innerHTML = `<span>${getAlertIcon(type)}</span> <div>${escapeHtml(msg)}</div>`;
+      const content = isHtml ? msg : escapeHtml(msg);
+      verifyAlert.innerHTML = `<span>${getAlertIcon(type)}</span> <div>${content}</div>`;
       verifyAlert.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 

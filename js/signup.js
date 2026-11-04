@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (result && result.requires_otp) {
           const emailVal = (result.email || email).toString().trim();
           const nameVal = fullName || "Patient";
-          const otpCode = result.otp;
+          const otpCode = result.otp || result.email_otp || result.demo_otp;
 
           sessionStorage.setItem("signup_pending_email", emailVal);
           sessionStorage.setItem("signup_pending_name", nameVal);
@@ -249,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // Never display demo OTP in production - OTP is sent via email
           sessionStorage.removeItem("signup_demo_otp");
 
-          // Dispatch OTP email to patient using OTP Auth API
+          // Dispatch OTP email to patient using server-side Resend API
           const sendOtpFn = (typeof sendOtpAuthEmail === "function")
             ? sendOtpAuthEmail
             : (typeof sendSignupOtpViaResend === "function" ? sendSignupOtpViaResend : null);
@@ -283,8 +283,19 @@ document.addEventListener("DOMContentLoaded", () => {
             } catch (otpAuthErr) {
               console.warn("OTP Auth email dispatch notice:", otpAuthErr);
             }
-          } else if (result.message) {
-            sessionStorage.setItem("signup_flash_message", result.message);
+          } else {
+            // Strict Requirement 10: Do not claim email was sent unless Resend confirms success
+            if (result.delivered === true) {
+              sessionStorage.setItem(
+                "signup_flash_message",
+                `✅ Verification code sent to ${emailVal}. Please check your inbox.`
+              );
+            } else {
+              sessionStorage.setItem(
+                "signup_flash_message",
+                `⚠️ Verification email could not be sent. Please click "Resend Verification Email" or check your Resend domain configuration.`
+              );
+            }
           }
 
           window.location.href = `./verify-email.html?email=${encodeURIComponent(emailVal)}&role=patient`;

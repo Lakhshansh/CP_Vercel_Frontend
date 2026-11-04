@@ -37,9 +37,10 @@
    * @param {string} params.email - Recipient email
    * @param {string} [params.name] - User or Doctor display name
    * @param {string|number} params.otp - 6-digit OTP code
-   * @returns {Promise<{success: boolean, message?: string, error?: string, id?: string}>}
+   * @param {string} [params.role] - Account role (patient, doctor, therapist, signup)
+   * @returns {Promise<{success: boolean, message?: string, error?: string, id?: string, is_domain_unverified?: boolean, setup_url?: string}>}
    */
-  async function sendOtpAuthEmail({ email, name, otp }) {
+  async function sendOtpAuthEmail({ email, name, otp, role }) {
     if (!email || !otp) {
       return { success: false, error: "Missing email address or OTP code." };
     }
@@ -47,11 +48,12 @@
     const payload = {
       email: email.trim(),
       name: name ? name.trim() : "",
-      otp: String(otp).trim()
+      otp: String(otp).trim(),
+      role: role || "signup"
     };
 
-    // 1. Try Vercel Serverless /api/send-otp-auth
-    const endpoints = ["/api/send-otp-auth", "/api/auth/send-otp", "/api/send-signup-otp"];
+    // 1. Try Vercel Serverless /api/send-otp
+    const endpoints = ["/api/send-otp", "/api/send-otp-auth", "/api/auth/send-otp", "/api/send-signup-otp"];
     for (const ep of endpoints) {
       try {
         const res = await fetch(ep, {
@@ -67,14 +69,16 @@
           return {
             success: true,
             id: data.id,
-            message: data.message || `OTP sent to ${email} via OTP AUTH API.`
+            message: data.message || `OTP sent to ${email} via Resend.`
           };
         }
 
-        if (res.status !== 404 && res.status !== 405 && data.error) {
+        if (res.status !== 404 && res.status !== 405 && data) {
           return {
             success: false,
-            error: data.error || data.message || `Delivery failed (${res.status})`
+            error: data.error || data.message || `Delivery failed (${res.status})`,
+            is_domain_unverified: data.is_domain_unverified || false,
+            setup_url: data.setup_url
           };
         }
       } catch (e) {
@@ -84,12 +88,12 @@
 
     // 2. Fallback to client-side resend helper if available
     if (typeof window.sendSignupOtpViaResend === "function") {
-      return await window.sendSignupOtpViaResend({ email, name, otp });
+      return await window.sendSignupOtpViaResend({ email, name, otp, role });
     }
 
     return {
       success: false,
-      error: "Unable to connect to OTP Auth API. Please try again."
+      error: "Unable to connect to email verification service. Please try again."
     };
   }
 

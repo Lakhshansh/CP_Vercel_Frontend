@@ -1,487 +1,135 @@
-// Resend.com Client & Serverless Helper for OTP Delivery
-const RESEND_STORAGE_KEY = "RESEND_API_KEY";
-const RESEND_FROM_STORAGE_KEY = "RESEND_FROM_EMAIL";
-const DEFAULT_RESEND_KEY = typeof atob === "function" ? atob("cmVfWU1ocncxTFJfNEtycjZvVXJLalc0NGtjZHFGUnJINlB3") : "";
-const DEFAULT_RESEND_FROM = "Multi Therapy <onboarding@resend.dev>";
+// ============================================================================
+// Multi Therapy - Resend Email Dispatch Helper (Client Interface)
+// Dispatches verification OTPs securely through server-side serverless endpoints
+// Never exposes API keys or secrets on the client side
+// ============================================================================
 
-function getResendConfig() {
+/**
+ * Sends OTP email via server-side /api/send-otp endpoint
+ * @param {Object} options
+ * @param {string} options.endpoint - API route e.g. /api/send-signup-otp
+ * @param {string} options.email - Recipient email
+ * @param {string} [options.name] - User or Doctor display name
+ * @param {string|number} options.otp - 6-digit OTP code
+ * @param {string} options.role - Role context ("doctor", "patient", "therapist", "signup")
+ * @returns {Promise<{success: boolean, message?: string, error?: string, id?: string, is_domain_unverified?: boolean, setup_url?: string}>}
+ */
+async function dispatchServerOtp({ endpoint, email, name, otp, role }) {
+  if (!email || !otp) {
+    return { success: false, error: "Missing recipient email address or verification code." };
+  }
+
+  const payload = {
+    email: String(email).trim().toLowerCase(),
+    name: name ? String(name).trim() : "",
+    otp: String(otp).trim(),
+    role: role || "signup"
+  };
+
+  const endpointsToTry = [endpoint, "/api/send-otp"];
+
+  for (const ep of endpointsToTry) {
+    try {
+      const res = await fetch(ep, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const isJson = (res.headers.get("content-type") || "").includes("application/json");
+      const data = isJson ? await res.json() : { message: await res.text() };
+
+      if (res.ok && data.success) {
+        return {
+          success: true,
+          id: data.id,
+          message: data.message || `Verification OTP sent to ${email}.`
+        };
+      }
+
+      if (res.status !== 404 && res.status !== 405 && data) {
+        return {
+          success: false,
+          error: data.error || data.message || `Delivery failed with HTTP status ${res.status}`,
+          code: data.code,
+          is_domain_unverified: data.is_domain_unverified || false,
+          setup_url: data.setup_url,
+          details: data.details
+        };
+      }
+    } catch (netErr) {
+      console.warn(`[resend.js] Failed connecting to ${ep}:`, netErr.message);
+    }
+  }
+
   return {
-    apiKey: localStorage.getItem(RESEND_STORAGE_KEY) || (typeof window !== "undefined" && window.RESEND_API_KEY) || DEFAULT_RESEND_KEY,
-    fromEmail: localStorage.getItem(RESEND_FROM_STORAGE_KEY) || (typeof window !== "undefined" && window.RESEND_FROM_EMAIL) || DEFAULT_RESEND_FROM
+    success: false,
+    error: "Unable to connect to email verification service. Please make sure the server is reachable and try again."
   };
 }
 
-function saveResendConfig(apiKey, fromEmail) {
-  if (typeof apiKey === "string") {
-    const trimmed = apiKey.trim();
-    if (trimmed) {
-      localStorage.setItem(RESEND_STORAGE_KEY, trimmed);
-    } else {
-      localStorage.removeItem(RESEND_STORAGE_KEY);
-    }
-  }
-
-  if (typeof fromEmail === "string") {
-    const trimmed = fromEmail.trim();
-    if (trimmed) {
-      localStorage.setItem(RESEND_FROM_STORAGE_KEY, trimmed);
-    } else {
-      localStorage.removeItem(RESEND_FROM_STORAGE_KEY);
-    }
-  }
-}
-
 /**
- * Dispatches an OTP verification email to the doctor using Resend.com APIs
- * @param {Object} params
- * @param {string} params.email - Doctor recipient email
- * @param {string} params.name - Doctor name
- * @param {string|number} params.otp - 6-digit OTP code
- * @returns {Promise<{success: boolean, message?: string, error?: string, id?: string}>}
+ * Dispatches an OTP verification email to the doctor
  */
 async function sendDoctorOtpViaResend({ email, name, otp }) {
-  if (!email || !otp) {
-    return { success: false, error: "Missing email address or OTP code." };
-  }
-
-  const config = getResendConfig();
-  const payload = {
-    email: email.trim(),
-    name: name ? name.trim() : "",
-    otp: String(otp).trim(),
-    apiKey: config.apiKey || undefined,
-    fromEmail: config.fromEmail || DEFAULT_RESEND_FROM
-  };
-
-  // 1. Attempt delivery via Vercel Serverless Function (/api/send-doctor-otp)
-  try {
-    const serverlessUrl = "/api/send-doctor-otp";
-    const res = await fetch(serverlessUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const isJson = (res.headers.get("content-type") || "").includes("application/json");
-    const data = isJson ? await res.json() : { message: await res.text() };
-
-    if (res.ok && data.success) {
-      return {
-        success: true,
-        id: data.id,
-        message: data.message || `OTP sent to ${email} via Resend.`
-      };
-    }
-
-    // If serverless endpoint exists and returned an explicit error (e.g. 400 bad request, 401 invalid key, 403 unverified domain)
-    if (res.status !== 404 && res.status !== 405) {
-      return {
-        success: false,
-        error: data.error || data.message || `Resend delivery failed with status ${res.status}`,
-        details: data
-      };
-    }
-  } catch (err) {
-    console.warn("Vercel serverless /api/send-doctor-otp request not completed:", err);
-  }
-
-  // 2. Direct browser call fallback if user entered an API key
-  if (config.apiKey) {
-    try {
-      const doctorDisplayName = name ? `Dr. ${name.replace(/^Dr\.?\s*/i, "")}` : "Doctor";
-      const htmlContent = `
-        <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 10px; background: #ffffff;">
-          <h2 style="color: #0d6efd; margin-top: 0;">🏥 Multi Therapy</h2>
-          <p>Hello <strong>${doctorDisplayName}</strong>,</p>
-          <p>Please use the following 6-digit verification code to complete your doctor profile registration:</p>
-          <div style="background: #f1f5f9; padding: 18px; text-align: center; border-radius: 8px; margin: 20px 0;">
-            <span style="font-size: 32px; font-weight: bold; letter-spacing: 6px; color: #0d6efd; font-family: monospace;">${otp}</span>
-            <div style="font-size: 12px; color: #64748b; margin-top: 6px;">⏰ Valid for 10 minutes</div>
-          </div>
-          <p style="font-size: 13px; color: #64748b;">If you did not request this, please ignore this email.</p>
-          <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-          <p style="font-size: 11px; color: #94a3b8; text-align: center;">Sent via Resend.com API</p>
-        </div>
-      `;
-
-      const directRes = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${config.apiKey}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          from: config.fromEmail || DEFAULT_RESEND_FROM,
-          to: [email.trim()],
-          subject: `Doctor Verification OTP: ${otp} - Multi Therapy`,
-          html: htmlContent
-        })
-      });
-
-      const dData = await directRes.json();
-      if (directRes.ok) {
-        return {
-          success: true,
-          id: dData.id,
-          message: `OTP sent to ${email} via Resend direct API.`
-        };
-      }
-
-      return {
-        success: false,
-        error: dData.message || "Resend API returned an error."
-      };
-    } catch (directErr) {
-      return {
-        success: false,
-        error: "Direct Resend request blocked by browser CORS. Please use the Vercel deployed endpoint or configure RESEND_API_KEY."
-      };
-    }
-  }
-
-  return {
-    success: false,
-    error: "Resend API key is not configured. Please click '⚡ Resend API Settings' or set RESEND_API_KEY in Vercel."
-  };
+  return await dispatchServerOtp({
+    endpoint: "/api/send-doctor-otp",
+    email,
+    name,
+    otp,
+    role: "doctor"
+  });
 }
 
 /**
- * Dispatches an OTP verification email to the patient using Resend.com APIs
- * @param {Object} params
- * @param {string} params.email - Patient recipient email
- * @param {string} params.name - Patient name
- * @param {string|number} params.otp - 6-digit OTP code
- * @returns {Promise<{success: boolean, message?: string, error?: string, id?: string}>}
+ * Dispatches an OTP verification email to the patient
  */
 async function sendPatientOtpViaResend({ email, name, otp }) {
-  if (!email || !otp) {
-    return { success: false, error: "Missing email address or OTP code." };
-  }
-
-  const config = getResendConfig();
-  const payload = {
-    email: email.trim(),
-    name: name ? name.trim() : "",
-    otp: String(otp).trim(),
-    apiKey: config.apiKey || undefined,
-    fromEmail: config.fromEmail || DEFAULT_RESEND_FROM
-  };
-
-  // 1. Attempt delivery via Vercel Serverless Function (/api/send-patient-otp)
-  try {
-    const serverlessUrl = "/api/send-patient-otp";
-    const res = await fetch(serverlessUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const isJson = (res.headers.get("content-type") || "").includes("application/json");
-    const data = isJson ? await res.json() : { message: await res.text() };
-
-    if (res.ok && data.success) {
-      return {
-        success: true,
-        id: data.id,
-        message: data.message || `OTP sent to ${email} via Resend.`
-      };
-    }
-
-    if (res.status !== 404 && res.status !== 405) {
-      return {
-        success: false,
-        error: data.error || data.message || `Resend delivery failed with status ${res.status}`,
-        details: data
-      };
-    }
-  } catch (err) {
-    console.warn("Vercel serverless /api/send-patient-otp request not completed:", err);
-  }
-
-  // 2. Direct browser call fallback if user entered an API key
-  if (config.apiKey) {
-    try {
-      const patientDisplayName = name ? name.trim() : "Patient";
-      const htmlContent = `
-        <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 10px; background: #ffffff;">
-          <h2 style="color: #0d6efd; margin-top: 0;">🏥 Multi Therapy</h2>
-          <p>Hello <strong>${patientDisplayName}</strong>,</p>
-          <p>Please use the following 6-digit verification code to complete your patient profile registration:</p>
-          <div style="background: #f1f5f9; padding: 18px; text-align: center; border-radius: 8px; margin: 20px 0;">
-            <span style="font-size: 32px; font-weight: bold; letter-spacing: 6px; color: #0d6efd; font-family: monospace;">${otp}</span>
-            <div style="font-size: 12px; color: #64748b; margin-top: 6px;">⏰ Valid for 10 minutes</div>
-          </div>
-          <p style="font-size: 13px; color: #64748b;">If you did not request this, please ignore this email.</p>
-          <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-          <p style="font-size: 11px; color: #94a3b8; text-align: center;">Sent via Resend.com API</p>
-        </div>
-      `;
-
-      const directRes = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${config.apiKey}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          from: config.fromEmail || DEFAULT_RESEND_FROM,
-          to: [email.trim()],
-          subject: `Patient Verification OTP: ${otp} - Multi Therapy`,
-          html: htmlContent
-        })
-      });
-
-      const dData = await directRes.json();
-      if (directRes.ok) {
-        return {
-          success: true,
-          id: dData.id,
-          message: `OTP sent to ${email} via Resend direct API.`
-        };
-      }
-
-      return {
-        success: false,
-        error: dData.message || "Resend API returned an error."
-      };
-    } catch (directErr) {
-      return {
-        success: false,
-        error: "Direct Resend request blocked by browser CORS. Please use the Vercel deployed endpoint or configure RESEND_API_KEY."
-      };
-    }
-  }
-
-  return {
-    success: false,
-    error: "Resend API key is not configured. Please click '⚡ Resend API Settings' or set RESEND_API_KEY in Vercel."
-  };
+  return await dispatchServerOtp({
+    endpoint: "/api/send-patient-otp",
+    email,
+    name,
+    otp,
+    role: "patient"
+  });
 }
 
 /**
- * Dispatches an OTP verification email for new account signup using Resend.com APIs
- * @param {Object} params
- * @param {string} params.email - Recipient email
- * @param {string} [params.name] - User or Doctor name
- * @param {string|number} params.otp - 6-digit OTP code
- * @returns {Promise<{success: boolean, message?: string, error?: string, id?: string}>}
+ * Dispatches an OTP verification email for new account signup
  */
 async function sendSignupOtpViaResend({ email, name, otp }) {
-  if (!email || !otp) {
-    return { success: false, error: "Missing email address or OTP code." };
-  }
-
-  const config = getResendConfig();
-  const payload = {
-    email: email.trim(),
-    name: name ? name.trim() : "",
-    otp: String(otp).trim(),
-    apiKey: config.apiKey || undefined,
-    fromEmail: config.fromEmail || DEFAULT_RESEND_FROM
-  };
-
-  // 1. Attempt delivery via Vercel Serverless Function (/api/send-signup-otp)
-  try {
-    const serverlessUrl = "/api/send-signup-otp";
-    const res = await fetch(serverlessUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const isJson = (res.headers.get("content-type") || "").includes("application/json");
-    const data = isJson ? await res.json() : { message: await res.text() };
-
-    if (res.ok && data.success) {
-      return {
-        success: true,
-        id: data.id,
-        message: data.message || `OTP sent to ${email} via Resend.`
-      };
-    }
-
-    if (res.status !== 404 && res.status !== 405) {
-      return {
-        success: false,
-        error: data.error || data.message || `Resend delivery failed with status ${res.status}`,
-        details: data
-      };
-    }
-  } catch (err) {
-    console.warn("Vercel serverless /api/send-signup-otp request not completed:", err);
-  }
-
-  // 2. Direct browser call fallback if user entered an API key
-  if (config.apiKey) {
-    try {
-      const displayName = name ? (name.startsWith("Dr.") ? name : `Dr. ${name}`) : "Doctor";
-      const htmlContent = `
-        <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 10px; background: #ffffff;">
-          <h2 style="color: #0d6efd; margin-top: 0;">🏥 Multi Therapy</h2>
-          <p>Hello <strong>${displayName}</strong>,</p>
-          <p>Please use the following 6-digit verification code to complete your account registration:</p>
-          <div style="background: #f1f5f9; padding: 18px; text-align: center; border-radius: 8px; margin: 20px 0;">
-            <span style="font-size: 32px; font-weight: bold; letter-spacing: 6px; color: #0d6efd; font-family: monospace;">${otp}</span>
-            <div style="font-size: 12px; color: #64748b; margin-top: 6px;">⏰ Valid for 5 minutes</div>
-          </div>
-          <p style="font-size: 13px; color: #64748b;">If you did not request this, please ignore this email.</p>
-          <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-          <p style="font-size: 11px; color: #94a3b8; text-align: center;">Sent via Resend.com API</p>
-        </div>
-      `;
-
-      const directRes = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${config.apiKey}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          from: config.fromEmail || DEFAULT_RESEND_FROM,
-          to: [email.trim()],
-          subject: `Signup Verification OTP: ${otp} - Multi Therapy`,
-          html: htmlContent
-        })
-      });
-
-      const dData = await directRes.json();
-      if (directRes.ok) {
-        return {
-          success: true,
-          id: dData.id,
-          message: `OTP sent to ${email} via Resend direct API.`
-        };
-      }
-
-      return {
-        success: false,
-        error: dData.message || "Resend API returned an error."
-      };
-    } catch (directErr) {
-      return {
-        success: false,
-        error: "Direct Resend request blocked by browser CORS. Please use the Vercel deployed endpoint or configure RESEND_API_KEY."
-      };
-    }
-  }
-
-  return {
-    success: false,
-    error: "Resend API key is not configured. Please configure RESEND_API_KEY in Vercel or environment."
-  };
+  return await dispatchServerOtp({
+    endpoint: "/api/send-signup-otp",
+    email,
+    name,
+    otp,
+    role: "signup"
+  });
 }
 
 /**
- * Dispatches an OTP verification email to the therapist using Resend.com APIs
- * @param {Object} params
- * @param {string} params.email - Therapist recipient email
- * @param {string} params.name - Therapist name
- * @param {string|number} params.otp - 6-digit OTP code
- * @returns {Promise<{success: boolean, message?: string, error?: string, id?: string}>}
+ * Dispatches an OTP verification email to the therapist
  */
 async function sendTherapistOtpViaResend({ email, name, otp }) {
-  if (!email || !otp) {
-    return { success: false, error: "Missing email address or OTP code." };
-  }
+  return await dispatchServerOtp({
+    endpoint: "/api/send-therapist-otp",
+    email,
+    name,
+    otp,
+    role: "therapist"
+  });
+}
 
-  const config = getResendConfig();
-  const payload = {
-    email: email.trim(),
-    name: name ? name.trim() : "",
-    otp: String(otp).trim(),
-    apiKey: config.apiKey || undefined,
-    fromEmail: config.fromEmail || DEFAULT_RESEND_FROM
-  };
-
-  // 1. Attempt delivery via Vercel Serverless Function (/api/send-therapist-otp)
-  try {
-    const serverlessUrl = "/api/send-therapist-otp";
-    const res = await fetch(serverlessUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const isJson = (res.headers.get("content-type") || "").includes("application/json");
-    const data = isJson ? await res.json() : { message: await res.text() };
-
-    if (res.ok && data.success) {
-      return {
-        success: true,
-        id: data.id,
-        message: data.message || `OTP sent to ${email} via Resend.`
-      };
-    }
-
-    if (res.status !== 404 && res.status !== 405) {
-      return {
-        success: false,
-        error: data.error || data.message || `Resend delivery failed with status ${res.status}`,
-        details: data
-      };
-    }
-  } catch (err) {
-    console.warn("Vercel serverless /api/send-therapist-otp request not completed:", err);
-  }
-
-  // 2. Direct browser call fallback if user entered an API key
-  if (config.apiKey) {
-    try {
-      const therapistDisplayName = name ? name.trim() : "Therapist";
-      const htmlContent = `
-        <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 10px; background: #ffffff;">
-          <h2 style="color: #0d6efd; margin-top: 0;">🏥 Multi Therapy</h2>
-          <p>Hello <strong>${therapistDisplayName}</strong>,</p>
-          <p>Please use the following 6-digit verification code to complete your therapist profile registration:</p>
-          <div style="background: #f1f5f9; padding: 18px; text-align: center; border-radius: 8px; margin: 20px 0;">
-            <span style="font-size: 32px; font-weight: bold; letter-spacing: 6px; color: #0d6efd; font-family: monospace;">${otp}</span>
-            <div style="font-size: 12px; color: #64748b; margin-top: 6px;">⏰ Valid for 10 minutes</div>
-          </div>
-          <p style="font-size: 13px; color: #64748b;">If you did not request this, please ignore this email.</p>
-          <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-          <p style="font-size: 11px; color: #94a3b8; text-align: center;">Sent via Resend.com API</p>
-        </div>
-      `;
-
-      const directRes = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${config.apiKey}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          from: config.fromEmail || DEFAULT_RESEND_FROM,
-          to: [email.trim()],
-          subject: `Therapist Verification OTP: ${otp} - Multi Therapy`,
-          html: htmlContent
-        })
-      });
-
-      const dData = await directRes.json();
-      if (directRes.ok) {
-        return {
-          success: true,
-          id: dData.id,
-          message: `OTP sent to ${email} via Resend direct API.`
-        };
-      }
-
-      return {
-        success: false,
-        error: dData.message || "Resend API returned an error."
-      };
-    } catch (directErr) {
-      return {
-        success: false,
-        error: "Direct Resend request blocked by browser CORS. Please use the Vercel deployed endpoint or configure RESEND_API_KEY."
-      };
-    }
-  }
-
+// Backward compatibility stubs for UI settings modals
+function getResendConfig() {
   return {
-    success: false,
-    error: "Resend API key is not configured. Please click '⚡ Resend API Settings' or set RESEND_API_KEY in Vercel."
+    fromEmail: "Configured via EMAIL_FROM on server"
   };
+}
+
+function saveResendConfig() {
+  // Credentials are now configured securely on the server side via environment variables
+  console.info("[resend.js] Resend configuration is managed via server environment variables.");
 }
 
 if (typeof window !== "undefined") {
@@ -492,4 +140,3 @@ if (typeof window !== "undefined") {
   window.sendSignupOtpViaResend = sendSignupOtpViaResend;
   window.sendTherapistOtpViaResend = sendTherapistOtpViaResend;
 }
-
