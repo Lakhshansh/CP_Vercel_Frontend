@@ -315,10 +315,10 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
    ========================================================================== */
 
 .mt-unified-footer {
-  background: #0a192f !important;
-  background: linear-gradient(180deg, #0f1e38 0%, #071224 100%) !important;
+  background: #0B1930 !important;
+  background: linear-gradient(180deg, #0B1930 0%, #071224 100%) !important;
   color: #cbd5e1 !important;
-  border-top: 1.5px solid rgba(0, 210, 255, 0.28) !important;
+  border-top: 1.5px solid rgba(0, 217, 255, 0.28) !important;
   padding: 56px 0 28px !important;
   margin-top: auto !important;
   width: 100% !important;
@@ -386,7 +386,7 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
 .mt-footer-brand-tagline {
   font-size: 11.5px !important;
   font-weight: 700 !important;
-  color: #00d2ff !important;
+  color: #00D9FF !important;
   letter-spacing: 0.6px !important;
   text-transform: uppercase !important;
   margin-top: 3px !important;
@@ -418,7 +418,7 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   left: 0 !important;
   width: 32px !important;
   height: 2.5px !important;
-  background: #00d2ff !important;
+  background: #00D9FF !important;
   border-radius: 2px !important;
 }
 
@@ -448,12 +448,12 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
 }
 
 .mt-footer-links a:hover {
-  color: #00d2ff !important;
+  color: #00D9FF !important;
   transform: translateX(4px) !important;
 }
 
 .mt-footer-link-bullet {
-  color: #00d2ff !important;
+  color: #00D9FF !important;
   font-size: 14px !important;
   font-weight: bold !important;
   line-height: 1 !important;
@@ -479,13 +479,13 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   width: 28px !important;
   height: 28px !important;
   border-radius: 6px !important;
-  background: rgba(0, 210, 255, 0.1) !important;
-  border: 1px solid rgba(0, 210, 255, 0.25) !important;
+  background: rgba(0, 217, 255, 0.1) !important;
+  border: 1px solid rgba(0, 217, 255, 0.25) !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   flex-shrink: 0 !important;
-  color: #00d2ff !important;
+  color: #00D9FF !important;
   margin-top: 2px !important;
 }
 
@@ -501,7 +501,7 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
 }
 
 .mt-footer-contact-item a:hover {
-  color: #00d2ff !important;
+  color: #00D9FF !important;
 }
 
 /* Bottom Bar */
@@ -546,11 +546,11 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
 }
 
 .mt-social-btn:hover {
-  background: #00d2ff !important;
-  border-color: #00d2ff !important;
-  color: #0a192f !important;
+  background: #00D9FF !important;
+  border-color: #00D9FF !important;
+  color: #0B1930 !important;
   transform: translateY(-3px) !important;
-  box-shadow: 0 4px 14px rgba(0, 210, 255, 0.45) !important;
+  box-shadow: 0 4px 14px rgba(0, 217, 255, 0.45) !important;
 }
 
 /* Responsive Adaptations */

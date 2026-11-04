@@ -464,31 +464,26 @@
   <!-- ======================================================================
        9. UNIFIED 4-COLUMN MULTI THERAPY FOOTER
        ====================================================================== -->
-  <footer class="mt-footer-wrap" aria-label="Multi Therapy Global Footer">
+  <footer class="mt-unified-footer" role="contentinfo">
     <div class="mt-footer-container">
-      
-      <!-- Footer Main Columns -->
       <div class="mt-footer-grid">
         
-        <!-- Column 1: Brand Info -->
-        <div class="mt-footer-col">
-          <a href="./index.html" class="mt-footer-brand">
-            <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-footer-logo" width="56" height="56">
-            <div class="mt-footer-brand-text">
-              <span class="mt-footer-brand-title">Multi Therapy</span>
-              <span class="mt-footer-tagline">Care • Support • Progress • Together</span>
+        <!-- Column 1: Brand -->
+        <div class="mt-footer-col mt-col-divider">
+          <div class="mt-footer-brand-wrap">
+            <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-footer-logo" width="52" height="52">
+            <div>
+              <div class="mt-footer-brand-title">Multi Therapy</div>
+              <div class="mt-footer-brand-tagline">Care • Support • Progress • Together</div>
             </div>
-          </a>
-          <p class="mt-footer-desc">
-            Multi Therapy is a dedicated healthcare platform delivering specialized rehabilitation, patient clinical support, therapy scheduling, and certified professional coordination.
-          </p>
-          <div class="mt-footer-motto">
-            <span>&hearts;</span> Every Individual Deserves Better Care.
           </div>
+          <p class="mt-footer-desc">
+            A comprehensive clinical management platform empowering Cerebral Palsy patients, doctors, physiotherapists, and family caregivers.
+          </p>
         </div>
 
         <!-- Column 2: Quick Links -->
-        <div class="mt-footer-col">
+        <div class="mt-footer-col mt-col-divider">
           <h4 class="mt-footer-heading">Quick Links</h4>
           <ul class="mt-footer-links">
             <li><a href="./index.html"><span class="mt-footer-link-bullet">›</span> Home</a></li>
@@ -497,12 +492,12 @@
             <li><a href="./subscription-pricing.html"><span class="mt-footer-link-bullet">›</span> Subscription Plans</a></li>
             <li><a href="./login.html"><span class="mt-footer-link-bullet">›</span> Patient Login</a></li>
             <li><a href="./doctor-login.html"><span class="mt-footer-link-bullet">›</span> Doctor Login</a></li>
-            <li><a href="./index.html#contact"><span class="mt-footer-link-bullet">›</span> Contact</a></li>
+            <li><a href="./index.html#contact" id="footerContactLink"><span class="mt-footer-link-bullet">›</span> Contact</a></li>
           </ul>
         </div>
 
         <!-- Column 3: Patient Portal -->
-        <div class="mt-footer-col">
+        <div class="mt-footer-col mt-col-divider">
           <h4 class="mt-footer-heading">Patient Portal</h4>
           <ul class="mt-footer-links">
             <li><a href="./appointments.html"><span class="mt-footer-link-bullet">›</span> Appointments</a></li>
@@ -610,5 +605,6 @@
   <script src="./js/api.js"></script>
   <script src="./js/clinical-dropdown.js"></script>
   <script src="./js/admin-dashboard.js"></script>
+  <script src="./js/footer.js"></script>
 </body>
 </html>
