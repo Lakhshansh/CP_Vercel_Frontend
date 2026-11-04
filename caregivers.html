@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    // Immediate redirect to Patients module as Caregivers module has been retired
+    window.location.replace("./patients.html");
+  </script>
+  <meta http-equiv="refresh" content="0; url=./patients.html">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Caregivers | Every Individual Deserves Better Care.</title>
@@ -352,10 +358,6 @@
                 <span class="nav-dropdown-icon">🏃</span>
                 <span class="nav-dropdown-text">Exercises</span>
               </a>
-              <a href="./caregivers.html" class="nav-dropdown-link" id="dropCaregivers">
-                <span class="nav-dropdown-icon">🤝</span>
-                <span class="nav-dropdown-text">Caregivers</span>
-              </a>
             </div>
           </li>
         </ul>
@@ -410,10 +412,6 @@
           <a href="./exercises.html" class="sidebar-link">
             <span class="icon">🏃</span>
             <span>Exercises</span>
-          </a>
-          <a href="./caregivers.html" class="sidebar-link active">
-            <span class="icon">👥</span>
-            <span>Caregivers</span>
           </a>
         </nav>
       </aside>
