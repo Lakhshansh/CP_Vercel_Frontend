@@ -611,15 +611,15 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   border: none !important;
 }
 
-/* 1. Header Containers (Desktop Height 90px, Flex Alignment, Vertically Centered) */
+/* 1. Header Containers (Desktop Height 90-100px, Flex Alignment, Vertically Centered) */
 .pt-header, .ts-header, .doc-header, .apt-header, .tp-header, .ex-header,
 .mt-navbar, .cp-header-wrap, .ph-header, .header-nav, .super-admin-header,
 .mt-sub-header, .admin-nav, .admin-dash-header {
   width: 100% !important;
   max-width: 100% !important;
-  height: 90px !important;
+  height: 94px !important;
   min-height: 90px !important;
-  max-height: 90px !important;
+  max-height: 100px !important;
   display: flex !important;
   align-items: center !important;
   position: sticky !important;
@@ -631,18 +631,18 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   overflow: visible !important;
 }
 
-/* 2. Navbar Inner Wrapper (Max 1650px, Single Horizontal Row, No Wrap, Vertically Centered) */
+/* 2. Navbar Inner Wrapper (Max 1720px, Single Horizontal Row, No Wrap, Vertically Centered, Space-Between) */
 .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .apt-navbar-inner,
 .tp-navbar-inner, .ex-navbar-inner, .mt-navbar-inner, .cp-navbar-inner,
 .ph-navbar-inner, .header-inner, .super-admin-header-inner, .admin-nav-inner,
 .admin-dash-header-inner {
   width: 100% !important;
-  max-width: 1650px !important;
+  max-width: 1720px !important;
   margin: 0 auto !important;
-  padding: 0 24px !important;
-  height: 90px !important;
+  padding: 0 20px !important;
+  height: 94px !important;
   min-height: 90px !important;
-  max-height: 90px !important;
+  max-height: 100px !important;
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
@@ -663,31 +663,32 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   background: transparent !important;
 }
 
-/* 3. Left: Logo & Branding Section (Max-width ~350px, No Shrink) */
+/* 3. Left: Logo & Branding Section (Max-width ~280px, No Shrink, Aligned Left) */
 .pt-brand, .ts-brand, .doc-brand, .apt-brand, .tp-brand, .ex-brand,
 .mt-brand, .cp-brand, .ph-brand, .header-brand, .brand-wrap, .admin-brand,
-a[class*="-brand"] {
-  max-width: 350px !important;
+.admin-dash-brand, a[class*="-brand"] {
+  max-width: 280px !important;
   width: auto !important;
   flex: 0 0 auto !important;
   flex-shrink: 0 !important;
   display: flex !important;
   align-items: center !important;
-  gap: 12px !important;
+  gap: 10px !important;
   text-decoration: none !important;
   min-width: 0 !important;
   cursor: pointer !important;
+  margin: 0 !important;
 }
 
 /* Logo Image */
 .pt-brand-logo, .ts-brand-logo, .mt-logo, .cp-brand-logo-img, .header-logo,
-img[class*="brand-logo"], img[class*="mt-logo"] {
-  width: 52px !important;
-  height: 52px !important;
-  max-width: 52px !important;
-  max-height: 52px !important;
-  min-width: 52px !important;
-  min-height: 52px !important;
+.brand-logo, .admin-dash-logo, img[class*="brand-logo"], img[class*="mt-logo"] {
+  width: 48px !important;
+  height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
   border-radius: 50% !important;
   object-fit: contain !important;
   flex-shrink: 0 !important;
@@ -695,7 +696,7 @@ img[class*="brand-logo"], img[class*="mt-logo"] {
 
 /* Brand Text Container */
 .pt-brand-text, .ts-brand-text, .cp-brand-text, .brand-text,
-div[class*="brand-text"] {
+div[class*="brand-text"], .mt-brand > div, .doc-brand > div, .brand-wrap > div {
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
@@ -705,8 +706,9 @@ div[class*="brand-text"] {
 
 /* Website Title */
 .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title,
+.brand-title, .apt-brand-name, .admin-dash-title, .doc-brand-title,
 span[class*="brand-title"], div[class*="brand-title"] {
-  font-size: 20px !important;
+  font-size: 19px !important;
   font-weight: 800 !important;
   line-height: 1.15 !important;
   letter-spacing: -0.2px !important;
@@ -717,8 +719,9 @@ span[class*="brand-title"], div[class*="brand-title"] {
 
 /* Website Tagline */
 .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle,
+.brand-tagline, .apt-brand-tagline, .admin-dash-subtitle, .doc-brand-tagline,
 span[class*="brand-tagline"], span[class*="brand-subtitle"], div[class*="brand-subtitle"] {
-  font-size: 11.5px !important;
+  font-size: 11px !important;
   font-weight: 600 !important;
   line-height: 1.2 !important;
   letter-spacing: 0.2px !important;
@@ -729,7 +732,7 @@ span[class*="brand-tagline"], span[class*="brand-subtitle"], div[class*="brand-s
   margin-top: 2px !important;
 }
 
-/* 4. Center: Navigation Links Container (Flex 0 1 auto, Centered, No Wrap) */
+/* 4. Center: Navigation Links Container (Flex 0 1 auto, Centered, No Wrap, min-width 0) */
 .pt-nav-wrap, .ts-nav-wrap, .doc-nav-wrap, .ph-nav-wrap, .mt-nav-center,
 .nav-links-wrap, .nav-links, nav[aria-label="Main Navigation"],
 nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
@@ -737,15 +740,16 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   align-items: center !important;
   justify-content: center !important;
   flex: 0 1 auto !important;
-  margin: 0 auto !important;
   min-width: 0 !important;
-  padding: 0 8px !important;
+  margin: 0 !important;
+  padding: 0 4px !important;
   overflow: visible !important;
 }
 
 /* Nav Menu (UL) */
 .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .apt-nav-menu, .tp-nav-menu,
-.ex-nav-menu, .mt-nav-list, .cp-nav-menu, #navMenu, #aptNavMenu, #tpNavMenu, #exNavMenu, #docNavMenu {
+.ex-nav-menu, .mt-nav-list, .cp-nav-menu, .nav-links,
+#navMenu, #aptNavMenu, #tpNavMenu, #exNavMenu, #docNavMenu {
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
@@ -754,14 +758,14 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   margin: 0 !important;
   padding: 0 !important;
   flex-wrap: nowrap !important;
-  gap: 6px !important;
+  gap: 16px !important;
   overflow: visible !important;
 }
 
 /* Nav Menu Items (LI) */
 .pt-nav-menu > li, .ts-nav-menu > li, .doc-nav-menu > li, .apt-nav-menu > li,
 .tp-nav-menu > li, .ex-nav-menu > li, .mt-nav-list > li, .cp-nav-menu > li,
-#navMenu > li {
+.nav-links > li, #navMenu > li {
   flex-shrink: 0 !important;
   list-style: none !important;
   margin: 0 !important;
@@ -773,13 +777,13 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 
 /* Navigation Links (A) */
 .pt-nav-link, .ts-nav-link, .doc-nav-link, .apt-nav-link, .tp-nav-link,
-.ex-nav-link, .mt-nav-link, .cp-nav-link, .ph-nav-link,
-.pt-nav-menu a, .ts-nav-menu a, .mt-nav-list a, #navMenu a {
+.ex-nav-link, .mt-nav-link, .cp-nav-link, .ph-nav-link, .nav-link-item,
+.pt-nav-menu a, .ts-nav-menu a, .mt-nav-list a, .nav-links a, #navMenu a {
   white-space: nowrap !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 5px !important;
-  padding: 7px 11px !important;
+  padding: 6px 10px !important;
   font-size: 13.5px !important;
   font-weight: 600 !important;
   text-decoration: none !important;
@@ -792,14 +796,15 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 /* 5. Right: User Profile, Logout, Contact, Sign Up Container */
 .pt-nav-actions, .ts-nav-actions, .doc-nav-actions, .apt-nav-actions,
 .tp-nav-actions, .ex-nav-actions, .mt-nav-right, .cp-nav-actions,
-.ph-nav-actions, .header-actions {
+.ph-nav-actions, .header-actions, .nav-actions, .admin-header-actions {
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
   justify-content: flex-end !important;
-  gap: 10px !important;
+  gap: 8px !important;
+  flex: 0 0 auto !important;
   flex-shrink: 0 !important;
-  margin-left: auto !important;
+  margin: 0 !important;
   min-width: 0 !important;
   flex-wrap: nowrap !important;
   overflow: visible !important;
@@ -810,24 +815,26 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
-  gap: 10px !important;
+  gap: 8px !important;
   flex-shrink: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
   flex-wrap: nowrap !important;
 }
 
-/* User Profile Pill */
+/* User Profile Pill - Strict 220px max-width */
 #userProfileWrap, .header-profile-wrap,
 .pt-user-pill, .ts-user-pill, .tp-user-profile, .ex-user-profile,
-.apt-user-profile, .mt-user, .user-pill {
+.apt-user-profile, .mt-user, .user-pill, .admin-profile-pill, .user-pill-doc {
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
+  max-width: 220px !important;
+  width: auto !important;
   flex-shrink: 0 !important;
   white-space: nowrap !important;
   text-decoration: none !important;
-  padding: 6px 12px !important;
+  padding: 5px 10px !important;
   border-radius: 999px !important;
   border: 1px solid rgba(13, 110, 253, 0.2) !important;
   background: #f0f7ff !important;
@@ -836,34 +843,53 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   transition: all 0.2s ease !important;
   cursor: pointer !important;
   margin: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
 }
 
 /* Profile Avatars */
 .pt-user-avatar, .ts-user-avatar, .tp-user-avatar, .ex-user-avatar,
-.apt-user-avatar, .mt-user-photo, .mt-user-default {
-  width: 36px !important;
-  height: 36px !important;
-  min-width: 36px !important;
-  min-height: 36px !important;
+.apt-user-avatar, .mt-user-photo, .mt-user-default, .admin-avatar,
+.user-pill-avatar-doc, .user-pill-avatar {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  max-width: 34px !important;
+  max-height: 34px !important;
   border-radius: 50% !important;
   object-fit: cover !important;
   flex-shrink: 0 !important;
 }
 
 /* User Profile Texts */
-#navUsername, .mt-user-name, .apt-user-name {
-  font-size: 13.5px !important;
+.mt-user-text, .apt-user-name, #userProfileWrap > a > div, #userProfileWrap div {
+  max-width: 140px !important;
+  overflow: hidden !important;
+  min-width: 0 !important;
+}
+
+#navUsername, .mt-user-name, .apt-user-name, #headerAdminName {
+  font-size: 13px !important;
   font-weight: 700 !important;
   line-height: 1.15 !important;
   white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: 130px !important;
+  display: block !important;
 }
 
 #navRole, .mt-user-role {
-  font-size: 11px !important;
-  font-weight: 700 !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
   line-height: 1 !important;
   text-transform: capitalize !important;
   white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: 130px !important;
+  display: block !important;
 }
 
 /* Logout Button */
@@ -871,12 +897,12 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 .ex-logout-btn, .mt-logout-btn, .apt-logout-btn, .logout-btn {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 6px !important;
+  gap: 5px !important;
   flex-shrink: 0 !important;
   white-space: nowrap !important;
-  padding: 7px 14px !important;
+  padding: 6px 12px !important;
   border-radius: 999px !important;
-  font-size: 13px !important;
+  font-size: 12.5px !important;
   font-weight: 700 !important;
   border: 1.5px solid #cbd5e1 !important;
   background: #ffffff !important;
@@ -903,12 +929,12 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 .cp-btn-contact, .apt-btn-contact, .tp-btn-contact, .ex-btn-contact {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 6px !important;
+  gap: 5px !important;
   flex-shrink: 0 !important;
   white-space: nowrap !important;
-  padding: 7px 14px !important;
+  padding: 6px 12px !important;
   border-radius: 999px !important;
-  font-size: 13px !important;
+  font-size: 12.5px !important;
   font-weight: 700 !important;
   border: 1.5px solid #bfdbfe !important;
   background: #eff6ff !important;
@@ -935,12 +961,12 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 .btn-header-signup {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 6px !important;
+  gap: 5px !important;
   flex-shrink: 0 !important;
   white-space: nowrap !important;
-  padding: 7px 15px !important;
+  padding: 6px 14px !important;
   border-radius: 999px !important;
-  font-size: 13px !important;
+  font-size: 12.5px !important;
   font-weight: 700 !important;
   border: 1.5px solid #0d6efd !important;
   background: #0d6efd !important;
@@ -960,6 +986,18 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   border-color: #0b5ed7 !important;
   color: #ffffff !important;
   transform: translateY(-1px) !important;
+}
+
+/* Notifications Button */
+.doc-notif-btn, .apt-icon-btn {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
 }
 
 /* Anti-Overlap Safeguards for Profile and Notification Dropdowns */
@@ -1023,29 +1061,36 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .apt-navbar-inner,
   .tp-navbar-inner, .ex-navbar-inner, .mt-navbar-inner, .cp-navbar-inner,
   .ph-navbar-inner, .header-inner {
-    padding: 8px 18px !important;
-    gap: 12px !important;
-  }
-
-  .pt-brand, .ts-brand, .doc-brand, .mt-brand, .cp-brand, a[class*="-brand"] {
-    max-width: 300px !important;
+    padding: 0 16px !important;
     gap: 10px !important;
   }
 
+  .pt-brand, .ts-brand, .doc-brand, .mt-brand, .cp-brand, a[class*="-brand"] {
+    max-width: 250px !important;
+    gap: 8px !important;
+  }
+
+  .pt-brand-logo, .ts-brand-logo, .mt-logo, img[class*="brand-logo"] {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+
   .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title {
-    font-size: 18.5px !important;
+    font-size: 18px !important;
   }
 
   .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle {
-    font-size: 11px !important;
+    font-size: 10.5px !important;
   }
 
-  .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .mt-nav-list, .apt-nav-menu, .tp-nav-menu, .ex-nav-menu, .cp-nav-menu, #navMenu, #aptNavMenu, #tpNavMenu, #exNavMenu, #docNavMenu {
-    gap: 4px !important;
+  .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .mt-nav-list, .apt-nav-menu, .tp-nav-menu, .ex-nav-menu, .cp-nav-menu, .nav-links, #navMenu, #aptNavMenu, #tpNavMenu, #exNavMenu, #docNavMenu {
+    gap: 12px !important;
   }
 
-  .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link, .apt-nav-link, .tp-nav-link, .ex-nav-link, #navMenu a {
-    padding: 6px 8px !important;
+  .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link, .apt-nav-link, .tp-nav-link, .ex-nav-link, .nav-link-item, #navMenu a {
+    padding: 5px 8px !important;
     font-size: 12.5px !important;
   }
 
@@ -1053,17 +1098,22 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
     gap: 8px !important;
   }
 
+  #userProfileWrap, .pt-user-pill, .ts-user-pill, .mt-user, .doc-user-pill, .ph-user-profile, .apt-user-profile, .tp-user-profile, .ex-user-profile, .admin-profile-pill {
+    max-width: 190px !important;
+    padding: 4px 8px !important;
+  }
+
+  #userProfileWrap .mt-user-text, #userProfileWrap div {
+    max-width: 115px !important;
+  }
+
   #btnHeaderContact, #btnHeaderSignup, #logoutBtn,
   .pt-btn-contact, .pt-btn-signup, .pt-logout-btn, .ts-logout-btn,
   .doc-btn-contact, .doc-btn-signup, .apt-btn-contact, .apt-btn-signup,
   .apt-logout-btn, .tp-btn-contact, .tp-btn-signup, .tp-logout-btn,
   .ex-btn-contact, .ex-btn-signup, .ex-logout-btn, .mt-logout-btn, .logout-btn {
-    padding: 6px 11px !important;
-    font-size: 12px !important;
-  }
-
-  #userProfileWrap, .pt-user-pill, .ts-user-pill, .mt-user, .doc-user-pill, .ph-user-profile, .apt-user-profile, .tp-user-profile, .ex-user-profile {
     padding: 5px 10px !important;
+    font-size: 12px !important;
   }
 }
 
@@ -1072,34 +1122,36 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .mt-navbar-inner,
   .header-inner, .apt-navbar-inner, .tp-navbar-inner, .ex-navbar-inner,
   .cp-navbar-inner, .ph-navbar-inner {
-    padding: 6px 14px !important;
+    padding: 0 12px !important;
     gap: 8px !important;
   }
 
   .pt-brand, .ts-brand, .doc-brand, .mt-brand, .cp-brand, .ph-brand, a[class*="-brand"] {
-    max-width: 250px !important;
+    max-width: 210px !important;
     gap: 8px !important;
   }
 
   .pt-brand-logo, .ts-brand-logo, .mt-logo, img[class*="brand-logo"] {
-    width: 44px !important;
-    height: 44px !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
   }
 
   .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title, .ph-brand-name {
-    font-size: 17px !important;
+    font-size: 16.5px !important;
   }
 
   .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle, .ph-brand-tagline {
     display: none !important;
   }
 
-  .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .mt-nav-list, .apt-nav-menu, .tp-nav-menu, .ex-nav-menu, .cp-nav-menu, #navMenu, #aptNavMenu, #tpNavMenu, #exNavMenu, #docNavMenu {
-    gap: 2px !important;
+  .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .mt-nav-list, .apt-nav-menu, .tp-nav-menu, .ex-nav-menu, .cp-nav-menu, .nav-links, #navMenu, #aptNavMenu, #tpNavMenu, #exNavMenu, #docNavMenu {
+    gap: 8px !important;
   }
 
-  .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link, .apt-nav-link, .tp-nav-link, .ex-nav-link, #navMenu a {
-    padding: 5px 6px !important;
+  .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link, .apt-nav-link, .tp-nav-link, .ex-nav-link, .nav-link-item, #navMenu a {
+    padding: 4px 6px !important;
     font-size: 11.5px !important;
   }
 
@@ -1107,17 +1159,9 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
     gap: 6px !important;
   }
 
-  #btnHeaderContact, #btnHeaderSignup, #logoutBtn,
-  .pt-btn-contact, .pt-btn-signup, .pt-logout-btn, .ts-logout-btn,
-  .doc-btn-contact, .doc-btn-signup, .apt-btn-contact, .apt-btn-signup,
-  .apt-logout-btn, .tp-btn-contact, .tp-btn-signup, .tp-logout-btn,
-  .ex-btn-contact, .ex-btn-signup, .ex-logout-btn, .mt-logout-btn, .logout-btn {
-    padding: 5px 9px !important;
-    font-size: 11.5px !important;
-  }
-
-  #userProfileWrap, .pt-user-pill, .ts-user-pill, .mt-user, .doc-user-pill, .ph-user-profile, .apt-user-profile, .tp-user-profile, .ex-user-profile {
-    padding: 4px 8px !important;
+  #userProfileWrap, .pt-user-pill, .ts-user-pill, .mt-user, .doc-user-pill, .ph-user-profile, .apt-user-profile, .tp-user-profile, .ex-user-profile, .admin-profile-pill {
+    max-width: 145px !important;
+    padding: 3px 6px !important;
   }
 
   #userProfileWrap .d-sm-block, .mt-user-text, .doc-user-role, .ph-user-role, #navRole {
@@ -1142,8 +1186,8 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   .tp-btn-contact, .tp-btn-signup,
   .ex-btn-contact, .ex-btn-signup,
   .cp-btn-contact, .cp-btn-signup {
-    padding: 6px 10px !important;
-    min-width: 36px !important;
+    padding: 5px 8px !important;
+    min-width: 32px !important;
     justify-content: center !important;
   }
 }
