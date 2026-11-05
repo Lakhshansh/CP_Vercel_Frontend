@@ -202,8 +202,8 @@ function renderNavbarUser(user) {
   }
   if (!user) return;
 
-  const displayName = user.username || user.name || "User";
-  const displayRole = user.role || "Admin";
+  const displayName = user.doctor_name || user.name || user.username || "User";
+  const displayRole = user.doctor_specialization || user.specialization || user.role || "Admin";
 
   const navUsernameEl = document.getElementById("navUsername") || document.getElementById("navPatientName") || document.getElementById("docNavName");
   const navRoleEl = document.getElementById("navRole") || document.getElementById("navPatientRole") || document.getElementById("docNavRole");
@@ -211,69 +211,93 @@ function renderNavbarUser(user) {
   const navAvatarImg = document.getElementById("navAvatarImg");
   const navPatientAvatar = document.getElementById("navPatientAvatar");
   const docNavAvatar = document.getElementById("docNavAvatar");
+  const userProfileBtn = document.getElementById("userProfileBtn");
+  const userProfileWrap = document.getElementById("userProfileWrap");
 
   if (navUsernameEl) navUsernameEl.textContent = displayName;
   if (navRoleEl) navRoleEl.textContent = displayRole;
 
-  let photoSrc = "";
-  if (user.profile_photo) {
+  // Clean initial: ignore "Dr. " prefix to get real first letter
+  const cleanName = displayName.replace(/^Dr\.?\s*/i, "").trim();
+  const initial = (cleanName.charAt(0) || displayName.charAt(0) || "U").toUpperCase();
+  if (navAvatarEl) {
+    navAvatarEl.textContent = initial;
+  }
+
+  const rawPhoto = user.profile_photo || user.photo || user.profile_photo_url || localStorage.getItem("mt_doc_photo_" + (user.username || "doctor"));
+  const hasValidPhoto = rawPhoto && typeof rawPhoto === "string" && rawPhoto.trim() !== "" &&
+    !rawPhoto.includes("doctor-avatar.svg") && !rawPhoto.includes("patient-avatar.svg") && !rawPhoto.includes("undefined") && !rawPhoto.includes("null");
+
+  if (hasValidPhoto) {
+    let photoSrc = rawPhoto;
     if (typeof CdnManager !== "undefined" && CdnManager.buildCdnUrl) {
-      photoSrc = CdnManager.buildCdnUrl(user.profile_photo, { width: 90, height: 90, crop: "fill" });
-    } else {
-      photoSrc = (user.profile_photo.startsWith("http") || user.profile_photo.startsWith("data:"))
-        ? user.profile_photo
-        : (user.profile_photo.startsWith("/") ? `${API_BASE_URL}${user.profile_photo}` : `${API_BASE_URL}/static/profile_photos/${user.profile_photo}`);
+      photoSrc = CdnManager.buildCdnUrl(rawPhoto, { width: 90, height: 90, crop: "fill" });
+    } else if (!rawPhoto.startsWith("http") && !rawPhoto.startsWith("data:")) {
+      photoSrc = rawPhoto.startsWith("/") ? `${API_BASE_URL}${rawPhoto}` : `${API_BASE_URL}/static/profile_photos/${rawPhoto}`;
     }
 
     if (navAvatarImg) {
-      navAvatarImg.src = photoSrc;
-      navAvatarImg.style.setProperty("display", "block", "important");
-      navAvatarImg.classList.remove("d-none");
-      navAvatarImg.removeAttribute("hidden");
-      navAvatarImg.onerror = function () {
-        this.style.setProperty("display", "none", "important");
-        this.classList.add("d-none");
-        this.setAttribute("hidden", "true");
+      navAvatarImg.alt = "";
+      navAvatarImg.onload = function () {
+        // Image loaded successfully -> show photo, hide fallback circle
+        if (userProfileBtn) userProfileBtn.classList.add("has-photo");
+        if (userProfileWrap) userProfileWrap.classList.add("has-photo");
+        this.classList.remove("d-none", "img-error");
+        this.removeAttribute("hidden");
+        this.style.setProperty("display", "block", "important");
         if (navAvatarEl) {
-          navAvatarEl.style.setProperty("display", "flex", "important");
-          navAvatarEl.classList.remove("d-none");
-          navAvatarEl.removeAttribute("hidden");
-          navAvatarEl.textContent = (displayName.charAt(0) || "👤").toUpperCase();
+          navAvatarEl.classList.add("d-none");
+          navAvatarEl.setAttribute("hidden", "true");
+          navAvatarEl.style.setProperty("display", "none", "important");
         }
       };
-      if (navAvatarEl) {
-        navAvatarEl.style.setProperty("display", "none", "important");
-        navAvatarEl.classList.add("d-none");
-        navAvatarEl.setAttribute("hidden", "true");
-      }
+      navAvatarImg.onerror = function () {
+        // Image failed -> hide img immediately, show fallback letter circle
+        if (userProfileBtn) userProfileBtn.classList.remove("has-photo");
+        if (userProfileWrap) userProfileWrap.classList.remove("has-photo");
+        this.classList.add("d-none", "img-error");
+        this.setAttribute("hidden", "true");
+        this.style.setProperty("display", "none", "important");
+        this.removeAttribute("src");
+        if (navAvatarEl) {
+          navAvatarEl.classList.remove("d-none");
+          navAvatarEl.removeAttribute("hidden");
+          navAvatarEl.style.setProperty("display", "flex", "important");
+          navAvatarEl.textContent = initial;
+        }
+      };
+      navAvatarImg.src = photoSrc;
     }
 
     if (navPatientAvatar) {
       navPatientAvatar.src = photoSrc;
-      navPatientAvatar.onerror = function () {
-        this.src = "./images/patient-avatar.svg";
-      };
+      navPatientAvatar.onerror = function () { this.src = "./images/patient-avatar.svg"; };
     }
     if (docNavAvatar) {
       docNavAvatar.src = photoSrc;
-      docNavAvatar.onerror = function () {
-        this.src = "./images/doctor-avatar.svg";
-      };
+      docNavAvatar.onerror = function () { this.src = "./images/doctor-avatar.svg"; };
     }
   } else {
-    if (navAvatarEl) {
-      navAvatarEl.style.setProperty("display", "flex", "important");
-      navAvatarEl.classList.remove("d-none");
-      navAvatarEl.removeAttribute("hidden");
-      navAvatarEl.textContent = (displayName.charAt(0) || "👤").toUpperCase();
-    }
+    // No photo -> strictly fallback mode
+    if (userProfileBtn) userProfileBtn.classList.remove("has-photo");
+    if (userProfileWrap) userProfileWrap.classList.remove("has-photo");
     if (navAvatarImg) {
-      navAvatarImg.style.setProperty("display", "none", "important");
       navAvatarImg.classList.add("d-none");
       navAvatarImg.setAttribute("hidden", "true");
+      navAvatarImg.style.setProperty("display", "none", "important");
+      navAvatarImg.removeAttribute("src");
     }
+    if (navAvatarEl) {
+      navAvatarEl.classList.remove("d-none");
+      navAvatarEl.removeAttribute("hidden");
+      navAvatarEl.style.setProperty("display", "flex", "important");
+      navAvatarEl.textContent = initial;
+    }
+    if (navPatientAvatar) navPatientAvatar.src = "./images/patient-avatar.svg";
+    if (docNavAvatar) docNavAvatar.src = "./images/doctor-avatar.svg";
   }
 }
+window.renderNavbarUser = renderNavbarUser;
 
 // Background sync to ensure profile photo and freshest user data are cached
 async function syncUserProfile() {

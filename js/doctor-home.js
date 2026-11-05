@@ -59,15 +59,13 @@
       if (cardSpec) cardSpec.textContent = spec;
       if (navRole) navRole.textContent = spec;
 
-      // Doctor Profile Photo
+      // Doctor Profile Photo & Navbar Sync
+      if (typeof renderNavbarUser === "function") {
+        renderNavbarUser(user);
+      }
       const docPhoto = user.profile_photo || localStorage.getItem("mt_doc_photo_" + (user.username || "doctor"));
       if (docPhoto && !docPhoto.includes("doctor-avatar.svg") && (docPhoto.startsWith("http://") || docPhoto.startsWith("https://") || docPhoto.startsWith("data:image/"))) {
         if (heroAvatar) heroAvatar.src = docPhoto;
-        if (navAvatar) {
-          navAvatar.src = docPhoto;
-          navAvatar.style.borderRadius = "50%";
-          navAvatar.style.objectFit = "cover";
-        }
       }
     }
 
@@ -168,6 +166,7 @@
           }
         } catch (_) {}
         renderSchedule(schedule);
+        renderPendingAppointmentRequests(user);
 
         // Render Patient Overview
         renderPatientOverview(res.patient_overview || []);
@@ -485,3 +484,195 @@
   window.showGenerateReportDialog = () => openModal("reportModal");
 
 })(typeof window !== "undefined" ? window : globalThis);
+
+
+  /**
+   * Render New Appointment Requests waiting for Doctor Approval
+   */
+  function renderPendingAppointmentRequests(user) {
+    const listEl = document.getElementById("appointmentRequestsList");
+    const badgeEl = document.getElementById("pendingRequestsCountBadge");
+    if (!listEl) return;
+
+    let localAppts = [];
+    try {
+      localAppts = JSON.parse(localStorage.getItem("patient_appointments") || "[]");
+    } catch (_) {}
+
+    const pendingRequests = localAppts.filter(a => {
+      const s = (a.status || "").toLowerCase();
+      return s.includes("pending") || s.includes("approval");
+    });
+
+    if (badgeEl) {
+      badgeEl.textContent = `${pendingRequests.length} Pending`;
+      badgeEl.className = pendingRequests.length > 0 ? "badge bg-danger rounded-pill px-3 py-2" : "badge bg-secondary rounded-pill px-3 py-2";
+    }
+
+    if (pendingRequests.length === 0) {
+      listEl.innerHTML = `
+        <div style="text-align: center; padding: 24px; color: #64748b;">
+          <div style="font-size: 28px; margin-bottom: 6px;">🎉</div>
+          <div style="font-weight: 700; color: #103463; font-size: 14px;">All Caught Up!</div>
+          <div style="font-size: 12.5px;">You have no pending appointment requests waiting for review.</div>
+        </div>
+      `;
+      return;
+    }
+
+    listEl.innerHTML = pendingRequests.map(item => {
+      const pName = escapeHtml(item.patient_name || "Patient Record");
+      const pId = escapeHtml(String(item.patient_id || "101"));
+      const aptDate = formatDateString(item.appointment_date);
+      const aptTime = formatTimeString(item.appointment_time);
+      const aptType = escapeHtml(item.appointment_type || "Consultation");
+      const reason = escapeHtml(item.reason || item.notes || "Clinical consultation and mobility review.");
+
+      return `
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px; border: 1.5px solid #e2e8f0; border-radius: 12px; margin-bottom: 10px; background: #f8fafc; gap: 14px; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 12px; min-width: 220px;">
+            <div style="width: 42px; height: 42px; border-radius: 50%; background: #0875F9; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; flex-shrink: 0;">
+              ${getInitials(pName)}
+            </div>
+            <div>
+              <div style="font-weight: 800; color: #103463; font-size: 14.5px;">${pName}</div>
+              <div style="font-size: 11.5px; color: #64748b;">Patient ID: #PT-${pId} • <span class="badge bg-light text-primary border">${aptType}</span></div>
+            </div>
+          </div>
+
+          <div style="flex: 1; min-width: 200px;">
+            <div style="font-size: 12.5px; font-weight: 700; color: #1e293b; margin-bottom: 3px;">
+              🗓️ ${aptDate} &bull; 🕒 ${aptTime}
+            </div>
+            <div style="font-size: 12px; color: #475569; background: #ffffff; padding: 4px 8px; border-radius: 6px; border: 1px solid #e2e8f0; max-width: 450px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+              <strong>Reason:</strong> ${reason}
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button type="button" class="btn btn-sm btn-success px-3 py-1 fw-bold" style="border-radius: 8px; font-size: 12.5px;" onclick="window.NotificationManager ? window.NotificationManager.acceptAppointment(${item.appointment_id}) : acceptAppt(${item.appointment_id})">
+              ✓ Accept
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-danger px-3 py-1 fw-bold" style="border-radius: 8px; font-size: 12.5px;" onclick="window.NotificationManager ? window.NotificationManager.rejectAppointment(${item.appointment_id}) : rejectAppt(${item.appointment_id})">
+              ✕ Reject
+            </button>
+            <button type="button" class="btn btn-sm btn-light border px-2 py-1" style="border-radius: 8px; font-size: 12px;" onclick="openDoctorPatientModal('${pId}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">
+              👤 View Profile
+            </button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function openDoctorPatientModal(patientId, appt) {
+    const modal = document.getElementById("doctorPatientModal");
+    const body = document.getElementById("doctorPatientModalBody");
+    if (!modal || !body) return;
+
+    const patientName = appt.patient_name || `Patient #${patientId}`;
+    const aptDate = formatDateString(appt.appointment_date);
+    const aptTime = formatTimeString(appt.appointment_time);
+    const aptType = appt.appointment_type || "Consultation";
+    const reason = appt.reason || appt.notes || "Not specified";
+    const status = appt.status || "Pending Approval";
+
+    body.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid #e2e8f0;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #0875F9; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800;">
+          ${getInitials(patientName)}
+        </div>
+        <div>
+          <h4 style="margin: 0; font-size: 17px; font-weight: 800; color: #103463;">${escapeHtml(patientName)}</h4>
+          <div style="font-size: 12px; color: #64748b;">Patient Record ID: #PT-${escapeHtml(patientId)} &bull; Verified Patient</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; font-size: 12.5px;">
+        <div style="background: #f8fafc; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <strong style="color: #64748b; font-size: 11px; display: block; text-transform: uppercase;">Condition / Diagnosis</strong>
+          <span style="font-weight: 700; color: #103463;">Cerebral Palsy (Spastic Diplegia)</span>
+        </div>
+        <div style="background: #f8fafc; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <strong style="color: #64748b; font-size: 11px; display: block; text-transform: uppercase;">Age &amp; Gender</strong>
+          <span style="font-weight: 700; color: #103463;">8 Years &bull; Male</span>
+        </div>
+        <div style="background: #f8fafc; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <strong style="color: #64748b; font-size: 11px; display: block; text-transform: uppercase;">Session Type</strong>
+          <span style="font-weight: 700; color: #0875F9;">${escapeHtml(aptType)}</span>
+        </div>
+        <div style="background: #f8fafc; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <strong style="color: #64748b; font-size: 11px; display: block; text-transform: uppercase;">Current Status</strong>
+          <span class="badge ${status.toLowerCase().includes('pending') ? 'bg-warning text-dark' : 'bg-success'}">${escapeHtml(status)}</span>
+        </div>
+      </div>
+
+      <div style="background: #f0f7ff; padding: 12px; border-radius: 10px; border: 1px solid #bfdbfe; margin-bottom: 16px;">
+        <strong style="color: #1e40af; font-size: 12px; display: block; margin-bottom: 4px;">📅 Requested Slot:</strong>
+        <div style="font-size: 14px; font-weight: 800; color: #103463;">${aptDate} at ${aptTime}</div>
+        <div style="font-size: 12px; color: #3b82f6; margin-top: 4px;"><strong>Objective / Reason:</strong> ${escapeHtml(reason)}</div>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end; padding-top: 10px; border-top: 1px solid #e2e8f0;">
+        <button type="button" class="btn btn-light border px-3" onclick="document.getElementById('doctorPatientModal').style.display='none'">Close</button>
+        ${status.toLowerCase().includes('pending') ? `
+          <button type="button" class="btn btn-outline-danger px-3 fw-bold" onclick="document.getElementById('doctorPatientModal').style.display='none'; window.NotificationManager.rejectAppointment(${appt.appointment_id})">
+            ✕ Reject Request
+          </button>
+          <button type="button" class="btn btn-success px-4 fw-bold" onclick="document.getElementById('doctorPatientModal').style.display='none'; window.NotificationManager.acceptAppointment(${appt.appointment_id})">
+            ✓ Accept &amp; Confirm
+          </button>
+        ` : ''}
+      </div>
+    `;
+
+    modal.style.display = "flex";
+  }
+
+  window.openDoctorPatientModal = openDoctorPatientModal;
+
+  function formatDateString(dateStr) {
+    if (!dateStr) return "-";
+    try {
+      const parts = String(dateStr).split("-");
+      if (parts.length === 3) {
+        const d = new Date(parts[0], parts[1] - 1, parts[2]);
+        if (!isNaN(d.getTime())) {
+          return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+        }
+      }
+      return String(dateStr);
+    } catch (_) {
+      return String(dateStr);
+    }
+  }
+
+  function formatTimeString(timeStr) {
+    if (!timeStr) return "-";
+    try {
+      const parts = String(timeStr).split(":");
+      if (parts.length >= 2) {
+        let h = parseInt(parts[0], 10);
+        const m = parts[1];
+        const ampm = h >= 12 ? "PM" : "AM";
+        h = h % 12 || 12;
+        return `${h}:${m} ${ampm}`;
+      }
+      return String(timeStr);
+    } catch (_) {
+      return String(timeStr);
+    }
+  }
+
+  // Listen for real-time appointment status updates
+  window.addEventListener("appointmentStatusChanged", () => {
+    const rawUser = localStorage.getItem("currentUser");
+    const user = rawUser ? JSON.parse(rawUser) : null;
+    if (typeof loadDashboardData === "function") {
+      loadDashboardData(user);
+    }
+    if (typeof renderPendingAppointmentRequests === "function") {
+      renderPendingAppointmentRequests(user);
+    }
+  });
+  

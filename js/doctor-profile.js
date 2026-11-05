@@ -775,35 +775,9 @@ function populateDoctorProfile(user) {
     }
     if (avatarEl) avatarEl.style.display = "none";
 
-    if (navAvatarImg) {
-      navAvatarImg.src = photoSrc;
-      navAvatarImg.alt = displayName;
-      navAvatarImg.style.display = "block";
-      navAvatarImg.onerror = function () {
-        this.src = DEFAULT_DOCTOR_AVATAR;
-        this.onerror = null;
-      };
+    if (typeof renderNavbarUser === "function") {
+      renderNavbarUser(user);
     }
-    if (navAvatarEl) navAvatarEl.style.display = "none";
-
-    updatePhotoButtons(true, false);
-  } else {
-    // Default avatar view: Display crisp, valid doctor vector avatar SVG
-    if (avatarImg) {
-      avatarImg.src = DEFAULT_DOCTOR_AVATAR;
-      avatarImg.alt = "Default Doctor Avatar";
-      avatarImg.style.display = "block";
-      avatarImg.onerror = null;
-    }
-    if (avatarEl) avatarEl.style.display = "none";
-
-    if (navAvatarImg) {
-      navAvatarImg.src = DEFAULT_DOCTOR_AVATAR;
-      navAvatarImg.style.display = "block";
-      navAvatarImg.onerror = null;
-    }
-    if (navAvatarEl) navAvatarEl.style.display = "none";
-
     updatePhotoButtons(false, false);
   }
 }

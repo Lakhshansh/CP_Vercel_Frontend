@@ -916,3 +916,25 @@ table {
     font-size: 20px;
 }
 
+
+.has-photo .mt-user-default,
+.mt-user-default.d-none,
+.mt-user-default[hidden] {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+.has-photo .mt-user-photo {
+    display: block !important;
+}
+
+.mt-user:not(.has-photo) .mt-user-photo,
+.mt-user-photo.d-none,
+.mt-user-photo[hidden] {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+}

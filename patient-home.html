@@ -823,6 +823,7 @@
 
   <!-- Scripts -->
   <script src="./js/api.js?v=2.2"></script>
+  <script src="./js/notifications.js"></script>
   <script src="./js/cdn.js"></script>
   <script src="./js/patient-home.js?v=2.2"></script>
   <script>
@@ -979,7 +980,26 @@
               }
               if (appt.status) {
                 const statusEl = document.getElementById("apptStatus");
-                if (statusEl) statusEl.textContent = appt.status;
+                if (statusEl) {
+                  statusEl.textContent = appt.status;
+                  const s = appt.status.toLowerCase();
+                  if (s.includes("pending")) {
+                    statusEl.className = "ph-appt-status pending";
+                    statusEl.style.background = "#fffbeb";
+                    statusEl.style.color = "#b45309";
+                    statusEl.style.border = "1px solid #fde68a";
+                  } else if (s.includes("reject")) {
+                    statusEl.className = "ph-appt-status rejected";
+                    statusEl.style.background = "#fef2f2";
+                    statusEl.style.color = "#dc2626";
+                    statusEl.style.border = "1px solid #fecaca";
+                  } else {
+                    statusEl.className = "ph-appt-status scheduled";
+                    statusEl.style.background = "";
+                    statusEl.style.color = "";
+                    statusEl.style.border = "";
+                  }
+                }
               }
             }
             if (res && res.progress_score) {

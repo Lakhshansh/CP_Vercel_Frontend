@@ -106,43 +106,8 @@ function setupNavbarAuth(user) {
       }
     }
 
-    if (user.profile_photo || user.photo) {
-      const photoUrl = typeof CdnManager !== "undefined"
-        ? CdnManager.buildCdnUrl(user.profile_photo || user.photo, { width: 44, height: 44, crop: "fill" })
-        : (user.profile_photo || user.photo);
-
-      if (navAvatarImg) {
-        navAvatarImg.src = photoUrl;
-        navAvatarImg.style.setProperty("display", "block", "important");
-        navAvatarImg.classList.remove("d-none");
-        navAvatarImg.removeAttribute("hidden");
-        navAvatarImg.onerror = function () {
-          this.style.setProperty("display", "none", "important");
-          this.classList.add("d-none");
-          this.setAttribute("hidden", "true");
-          if (navAvatar) {
-            navAvatar.style.setProperty("display", "flex", "important");
-            navAvatar.classList.remove("d-none");
-            navAvatar.removeAttribute("hidden");
-          }
-        };
-      }
-      if (navAvatar) {
-        navAvatar.style.setProperty("display", "none", "important");
-        navAvatar.classList.add("d-none");
-        navAvatar.setAttribute("hidden", "true");
-      }
-    } else {
-      if (navAvatar) {
-        navAvatar.style.setProperty("display", "flex", "important");
-        navAvatar.classList.remove("d-none");
-        navAvatar.removeAttribute("hidden");
-      }
-      if (navAvatarImg) {
-        navAvatarImg.style.setProperty("display", "none", "important");
-        navAvatarImg.classList.add("d-none");
-        navAvatarImg.setAttribute("hidden", "true");
-      }
+    if (typeof renderNavbarUser === "function") {
+      renderNavbarUser(user);
     }
   } else {
     if (userProfileWrap) userProfileWrap.style.display = "inline-flex";

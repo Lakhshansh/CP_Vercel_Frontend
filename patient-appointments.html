@@ -537,12 +537,26 @@
         </div>
 
         <!-- Status Filters: All | Confirmed | Pending | Cancelled -->
-        <div class="apt-filter-pills" role="toolbar" aria-label="Status filters">
-          <button type="button" class="apt-filter-pill active" data-status="all">All</button>
-          <button type="button" class="apt-filter-pill" data-status="confirmed">Confirmed</button>
-          <button type="button" class="apt-filter-pill" data-status="pending">Pending</button>
-          <button type="button" class="apt-filter-pill" data-status="cancelled">Cancelled</button>
-        </div>
+        
+          <!-- Status Filter Tabs: All, Pending Approval, Confirmed, Rejected, Cancelled -->
+          <div class="apt-filters-wrap" id="statusFiltersGroup" role="tablist">
+            <button type="button" class="apt-filter-pill active" data-filter="all">
+              All <span class="apt-pill-count" id="countAll">0</span>
+            </button>
+            <button type="button" class="apt-filter-pill" data-filter="pending">
+              Pending Approval <span class="apt-pill-count" id="countPending">0</span>
+            </button>
+            <button type="button" class="apt-filter-pill" data-filter="confirmed">
+              Confirmed <span class="apt-pill-count" id="countConfirmed">0</span>
+            </button>
+            <button type="button" class="apt-filter-pill" data-filter="rejected">
+              Rejected <span class="apt-pill-count" id="countRejected">0</span>
+            </button>
+            <button type="button" class="apt-filter-pill" data-filter="cancelled">
+              Cancelled <span class="apt-pill-count" id="countCancelled">0</span>
+            </button>
+          </div>
+  
       </div>
 
       <!-- Live Search & Refresh Row -->
@@ -802,9 +816,26 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./js/api.js"></script>
   <script src="./js/cdn.js"></script>
+  <script src="./js/notifications.js"></script>
   <script src="./js/appointments.js"></script>
   <script src="./js/clinical-dropdown.js"></script>
   <script src="./js/footer.js"></script>
+
+  <!-- Authorized Patient Profile Modal for Doctor -->
+  <div class="cp-modal-backdrop" id="doctorPatientModal" role="dialog" aria-modal="true" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.65); z-index: 100000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+    <div class="cp-modal-dialog" style="background: #ffffff; border-radius: 16px; width: 92%; max-width: 520px; box-shadow: 0 20px 45px rgba(0,0,0,0.2); overflow: hidden; border: 1px solid #bfdbfe;">
+      <div class="cp-modal-header" style="background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%); padding: 14px 20px; border-bottom: 1.5px solid #bfdbfe; display: flex; align-items: center; justify-content: space-between;">
+        <h3 class="cp-modal-title" style="color: #103463; font-size: 16px; margin: 0; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+          <span>👤</span> Authorized Patient Profile
+        </h3>
+        <button type="button" class="cp-modal-close" onclick="document.getElementById('doctorPatientModal').style.display='none'" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">&times;</button>
+      </div>
+      <div class="cp-modal-body" id="doctorPatientModalBody" style="padding: 20px;">
+        <!-- Populated via JS -->
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
 

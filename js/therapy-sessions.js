@@ -273,10 +273,8 @@ function setupNavbarAuth(user) {
     if (navUsername) navUsername.textContent = name;
     if (navRole) navRole.textContent = (user.role || "Clinical Staff").toUpperCase();
 
-    if (user.profile_photo_url && navAvatarImg) {
-      navAvatarImg.src = user.profile_photo_url;
-      navAvatarImg.style.display = "block";
-      if (navAvatar) navAvatar.style.display = "none";
+    if (typeof renderNavbarUser === "function") {
+      renderNavbarUser(user);
     }
   } else {
     if (userProfileWrap) userProfileWrap.style.display = "inline-flex";

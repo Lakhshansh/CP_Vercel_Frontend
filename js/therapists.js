@@ -201,14 +201,8 @@ function setupHeaderAndNavigation(user) {
     if (usernameEl) usernameEl.textContent = displayName;
     if (roleEl) roleEl.textContent = user.role || "Member";
 
-    if (avatarImgEl && user.photo) {
-      avatarImgEl.src = user.photo;
-      avatarImgEl.style.display = "block";
-      if (avatarEl) avatarEl.style.display = "none";
-    } else if (avatarEl) {
-      avatarEl.textContent = displayName.charAt(0).toUpperCase();
-      avatarEl.style.display = "flex";
-      if (avatarImgEl) avatarImgEl.style.display = "none";
+    if (typeof renderNavbarUser === "function") {
+      renderNavbarUser(user);
     }
 
     if (userProfileBtn) {

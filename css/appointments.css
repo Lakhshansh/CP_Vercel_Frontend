@@ -889,16 +889,77 @@ textarea.apt-form-control {
   border: 1px solid var(--apt-mint-border) !important;
 }
 
-.apt-status-badge.pending {
+.apt-status-badge.pending,
+.apt-status-badge.pending-approval {
   background: var(--apt-amber-light) !important;
   color: var(--apt-amber) !important;
   border: 1px solid var(--apt-amber-border) !important;
+}
+
+.apt-status-badge.rejected {
+  background: #fef2f2 !important;
+  color: #dc2626 !important;
+  border: 1px solid #fecaca !important;
 }
 
 .apt-status-badge.cancelled {
   background: var(--apt-rose-light) !important;
   color: var(--apt-rose) !important;
   border: 1px solid var(--apt-rose-border) !important;
+}
+
+.apt-btn-accept {
+  background: #10b981 !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  transition: all 0.2s ease !important;
+}
+.apt-btn-accept:hover {
+  background: #059669 !important;
+}
+
+.apt-btn-reject {
+  background: #ffffff !important;
+  color: #dc2626 !important;
+  border: 1.5px solid #ef4444 !important;
+  padding: 5px 11px !important;
+  border-radius: 8px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  transition: all 0.2s ease !important;
+}
+.apt-btn-reject:hover {
+  background: #fef2f2 !important;
+}
+
+.apt-btn-info {
+  background: #f0f7ff !important;
+  color: #0875F9 !important;
+  border: 1.5px solid #bfdbfe !important;
+  padding: 5px 11px !important;
+  border-radius: 8px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  transition: all 0.2s ease !important;
+}
+.apt-btn-info:hover {
+  background: #e0f2fe !important;
 }
 
 .apt-action-btn-group {

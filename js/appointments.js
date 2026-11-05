@@ -497,8 +497,9 @@ function setupBookingForm(user) {
           appointment_date: appt_date,
           appointment_time: appt_time,
           appointment_type: appt_type,
-          status: "Confirmed",
+          status: isPatient ? "Pending Approval" : "Confirmed",
           notes: reason ? `${appt_type}: ${reason}` : appt_type,
+          reason: reason,
           user_id: user.user_id || patient_id,
           created_at: new Date().toISOString()
         };
@@ -519,8 +520,17 @@ function setupBookingForm(user) {
         // 2. Persist locally for instant offline availability & Patient Home display
         saveAppointmentLocally(newApptRecord);
 
+        // Trigger Real-Time Notification to Doctor and Patient
+        if (window.NotificationManager && typeof window.NotificationManager.createAppointmentBookingNotifications === "function") {
+          window.NotificationManager.createAppointmentBookingNotifications(newApptRecord);
+        }
+
         // 3. Show Success Feedback
-        showToast(`🎉 Appointment successfully booked with ${docName} for ${formatDateString(appt_date)} at ${formatTimeString(appt_time)}!`, "success");
+        if (isPatient) {
+          showToast(`🗓️ Appointment request submitted to ${docName} for ${formatDateString(appt_date)} at ${formatTimeString(appt_time)}! Status: Pending Approval.`, "info");
+        } else {
+          showToast(`🎉 Appointment scheduled and confirmed with ${docName} for ${formatDateString(appt_date)} at ${formatTimeString(appt_time)}!`, "success");
+        }
 
         // 4. Reset Inputs
         if (specialistSelect) specialistSelect.value = "";
@@ -1023,8 +1033,10 @@ async function loadAppointmentsTable(user) {
 
       if (rawStatus === "cancelled") {
         normStatus = "Cancelled";
-      } else if (rawStatus === "pending" || rawStatus === "rescheduled") {
-        normStatus = "Pending";
+      } else if (rawStatus.includes("reject")) {
+        normStatus = "Rejected";
+      } else if (rawStatus.includes("pending") || rawStatus.includes("approval") || rawStatus === "scheduled") {
+        normStatus = "Pending Approval";
       } else {
         normStatus = "Confirmed";
       }
@@ -1092,22 +1104,26 @@ function updateFilterCounts() {
   const total = allAppointments.length;
   let confirmed = 0;
   let pending = 0;
+  let rejected = 0;
   let cancelled = 0;
 
   allAppointments.forEach(a => {
     if (a.normalizedStatus === "Confirmed") confirmed++;
-    else if (a.normalizedStatus === "Pending") pending++;
+    else if (a.normalizedStatus === "Pending Approval") pending++;
+    else if (a.normalizedStatus === "Rejected") rejected++;
     else if (a.normalizedStatus === "Cancelled") cancelled++;
   });
 
   const elAll = document.getElementById("countAll");
   const elConf = document.getElementById("countConfirmed");
   const elPend = document.getElementById("countPending");
+  const elRej = document.getElementById("countRejected");
   const elCanc = document.getElementById("countCancelled");
 
   if (elAll) elAll.textContent = total;
   if (elConf) elConf.textContent = confirmed;
   if (elPend) elPend.textContent = pending;
+  if (elRej) elRej.textContent = rejected;
   if (elCanc) elCanc.textContent = cancelled;
 }
 
@@ -1124,7 +1140,17 @@ function renderAppointmentsTable() {
   const filtered = allAppointments.filter(a => {
     // Status Filter
     if (currentFilter !== "all") {
-      if (a.normalizedStatus.toLowerCase() !== currentFilter.toLowerCase()) return false;
+      const target = currentFilter.toLowerCase();
+      const actual = a.normalizedStatus.toLowerCase();
+      if (target === "pending") {
+        if (!actual.includes("pending")) return false;
+      } else if (target === "confirmed") {
+        if (actual !== "confirmed") return false;
+      } else if (target === "rejected") {
+        if (actual !== "rejected") return false;
+      } else if (target === "cancelled") {
+        if (actual !== "cancelled") return false;
+      }
     }
 
     // Search Query Filter
@@ -1161,9 +1187,17 @@ function renderAppointmentsTable() {
     const patientName = a.patient_name || `Patient #${a.patient_id}`;
     const doctorName = a.doctor_name ? (a.doctor_name.startsWith("Dr.") ? a.doctor_name : `Dr. ${a.doctor_name}`) : `Specialist #${a.doctor_id}`;
 
-    const statusBadgeClass = a.normalizedStatus.toLowerCase();
+    const rawUser = localStorage.getItem("currentUser");
+    const curUser = rawUser ? JSON.parse(rawUser) : {};
+    const curRole = (curUser.role || "").toLowerCase();
+    const isDoctorOrStaff = curRole === "doctor" || curRole === "therapist" || curRole === "admin";
+
+    const statusBadgeClass = a.normalizedStatus.toLowerCase().replace(/\s+/g, '-');
     const typeBadgeClass = (a.apptType || "Consultation").toLowerCase().replace(/\s+/g, '-');
     const isCancelled = a.normalizedStatus === "Cancelled";
+    const isPending = a.normalizedStatus === "Pending Approval";
+    const isConfirmed = a.normalizedStatus === "Confirmed";
+    const isRejected = a.normalizedStatus === "Rejected";
 
     return `
       <tr class="${isCancelled ? 'opacity-75' : ''}">
@@ -1207,24 +1241,48 @@ function renderAppointmentsTable() {
         </td>
         <td style="text-align: right;">
           <div class="apt-action-btn-group">
-            ${!isCancelled ? `
-              <button type="button" class="apt-btn-reschedule" onclick="openRescheduleModal(${a.appointment_id})" title="Reschedule this appointment">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                <span>Reschedule</span>
-              </button>
-
-              <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Cancel this appointment">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-                <span>Cancel</span>
-              </button>
+            ${isPending ? `
+              ${isDoctorOrStaff ? `
+                <button type="button" class="apt-btn-accept" onclick="window.NotificationManager ? window.NotificationManager.acceptAppointment(${a.appointment_id}) : acceptAppointmentAction(${a.appointment_id})" title="Accept and Confirm this Appointment">
+                  ✓ Accept
+                </button>
+                <button type="button" class="apt-btn-reject" onclick="window.NotificationManager ? window.NotificationManager.rejectAppointment(${a.appointment_id}) : rejectAppointmentAction(${a.appointment_id})" title="Reject this Appointment Request">
+                  ✕ Reject
+                </button>
+                <button type="button" class="apt-btn-info" onclick="openDoctorPatientModal('${a.patient_id}', ${JSON.stringify(a).replace(/"/g, '&quot;')})" title="View Patient Clinical Overview">
+                  👤 Info
+                </button>
+              ` : `
+                <span class="badge bg-light text-warning border me-1">Awaiting Doctor Approval</span>
+                <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Withdraw this request">
+                  Cancel
+                </button>
+              `}
             ` : `
-              <span class="badge bg-light text-danger border">Cancelled</span>
+              ${isConfirmed ? `
+                <button type="button" class="apt-btn-reschedule" onclick="openRescheduleModal(${a.appointment_id})" title="Reschedule this appointment">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  <span>Reschedule</span>
+                </button>
+
+                <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Cancel this appointment">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                  <span>Cancel</span>
+                </button>
+              ` : `
+                ${isRejected ? `
+                  <span class="badge bg-light text-danger border me-2">Rejected</span>
+                  <a href="#bookAppointmentCard" class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size: 11px; font-weight: 700;">Re-book Slot</a>
+                ` : `
+                  <span class="badge bg-light text-secondary border">Cancelled</span>
+                `}
+              `}
             `}
           </div>
         </td>
@@ -1502,3 +1560,10 @@ function escapeHtml(text) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
+
+// Global listener for appointment status changes
+window.addEventListener("appointmentStatusChanged", () => {
+  const rawUser = localStorage.getItem("currentUser");
+  const user = rawUser ? JSON.parse(rawUser) : null;
+  loadAppointmentsTable(user);
+});

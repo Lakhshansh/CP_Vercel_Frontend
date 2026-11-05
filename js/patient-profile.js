@@ -647,17 +647,9 @@ function populatePatientProfile(user) {
     }
     if (avatarEl) avatarEl.style.display = "none";
 
-    if (navAvatarImg) {
-      navAvatarImg.src = photoSrc;
-      navAvatarImg.alt = "";
-      navAvatarImg.style.display = "block";
-      navAvatarImg.onerror = function () {
-        this.src = DEFAULT_PATIENT_AVATAR;
-        this.onerror = null;
-      };
+    if (typeof renderNavbarUser === "function") {
+      renderNavbarUser(user);
     }
-    if (navAvatarEl) navAvatarEl.style.display = "none";
-
     updatePhotoButtons(true, false);
   } else {
     // Default avatar view: Display crisp patient vector avatar SVG
@@ -669,15 +661,9 @@ function populatePatientProfile(user) {
     }
     if (avatarEl) avatarEl.style.display = "none";
 
-    if (navAvatarEl) {
-      navAvatarEl.style.display = "flex";
-      navAvatarEl.textContent = initialChar;
+    if (typeof renderNavbarUser === "function") {
+      renderNavbarUser(user);
     }
-    if (navAvatarImg) {
-      navAvatarImg.style.display = "none";
-      navAvatarImg.src = "";
-    }
-
     updatePhotoButtons(false, false);
   }
 }
