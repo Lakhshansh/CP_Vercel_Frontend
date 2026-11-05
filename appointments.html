@@ -327,14 +327,30 @@
           
           <div id="formAlert" class="alert alert-danger mb-3" hidden></div>
 
-          <div class="row g-3">
+                                        <div class="row g-3">
             
-            <!-- 1. Patient (dropdown) -->
-            <div class="col-md-6 apt-form-group">
-              <label for="apptPatient" class="apt-form-label">
-                Patient <span class="text-danger">*</span>
+            <!-- 1. Patient: Logged-in Patient Identity Card (Default for Patient Portal) -->
+            <div class="col-md-6 apt-form-group" id="patientProfileCardGroup">
+              <label class="apt-form-label">
+                Patient Name <span class="text-success" style="font-size: 12px; font-weight: 600;">✓ Auto-Identified</span>
               </label>
-              <select id="apptPatient" class="apt-form-select" required>
+              <div class="apt-patient-id-card">
+                <div class="apt-patient-id-avatar" id="patientCardAvatar">👤</div>
+                <div class="apt-patient-id-details">
+                  <div class="apt-patient-id-name" id="patientCardName">Patient Profile</div>
+                  <div class="apt-patient-id-meta" id="patientCardMeta">Logged-in Patient Account • Booking for Self</div>
+                </div>
+                <span class="apt-patient-verified-tag">Self</span>
+              </div>
+              <input type="hidden" id="apptPatientId" value="">
+            </div>
+
+            <!-- Alternative dropdown for staff/admin if applicable -->
+            <div class="col-md-6 apt-form-group" id="patientSelectGroup" style="display: none;">
+              <label for="apptPatient" class="apt-form-label">
+                Select Patient <span class="text-danger">*</span>
+              </label>
+              <select id="apptPatient" class="apt-form-select">
                 <option value="" disabled selected>Loading patients...</option>
               </select>
               <small class="text-muted" id="patientHelpText" style="font-size: 11.5px;"></small>
@@ -343,7 +359,7 @@
             <!-- 2. Specialist (Doctor / Therapist dropdown) -->
             <div class="col-md-6 apt-form-group">
               <label for="apptSpecialist" class="apt-form-label">
-                Specialist (Doctor / Therapist) <span class="text-danger">*</span>
+                Select Doctor or Therapist <span class="text-danger">*</span>
               </label>
               <select id="apptSpecialist" class="apt-form-select" required>
                 <option value="" disabled selected>Loading specialists...</option>
@@ -351,52 +367,87 @@
               <small class="text-muted" id="specialistFeeText" style="display: block; margin-top: 4px; font-size: 11.5px;"></small>
             </div>
 
-            <!-- 3. Appointment Type (Consultation / Therapy) -->
-            <div class="col-md-4 apt-form-group">
+            <!-- 3. Specialization / Therapy Type -->
+            <div class="col-md-6 apt-form-group" id="specializationGroup">
+              <label for="apptSpecialization" class="apt-form-label">
+                Specialization / Therapy Type
+              </label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0" style="border-radius: 10px 0 0 10px; border-color: var(--apt-border); font-size: 14px;">🩺</span>
+                <input type="text" id="apptSpecialization" class="apt-form-control border-start-0" readonly placeholder="Auto-detected from specialist selection" style="border-radius: 0 10px 10px 0; background-color: #f8fafc; font-size: 13.5px; font-weight: 600; color: #1e293b;">
+              </div>
+            </div>
+
+            <!-- 4. Appointment Type -->
+            <div class="col-md-6 apt-form-group">
               <label for="apptType" class="apt-form-label">
                 Appointment Type <span class="text-danger">*</span>
               </label>
               <select id="apptType" class="apt-form-select" required>
-                <option value="Consultation" selected>Medical Consultation</option>
-                <option value="Therapy">Therapy Session</option>
+                <option value="Consultation" selected>Medical Consultation (In-Person)</option>
+                <option value="Therapy">Physical Therapy Session</option>
+                <option value="Occupational Therapy">Occupational Therapy</option>
+                <option value="Speech Therapy">Speech &amp; Language Rehabilitation</option>
+                <option value="Tele-Consultation">Online Video Tele-Consultation</option>
+                <option value="Follow-up Consultation">Follow-up Clinical Review</option>
               </select>
             </div>
 
-            <!-- 4. Appointment Date -->
-            <div class="col-md-4 apt-form-group">
+            <!-- 5. Appointment Date -->
+            <div class="col-md-6 apt-form-group">
               <label for="apptDate" class="apt-form-label">
                 Appointment Date <span class="text-danger">*</span>
               </label>
               <input type="date" id="apptDate" class="apt-form-control" required>
-            </div>
-
-            <!-- 5. Appointment Time -->
-            <div class="col-md-4 apt-form-group">
-              <label for="apptTime" class="apt-form-label">
-                Appointment Time <span class="text-danger">*</span>
-              </label>
-              <input type="time" id="apptTime" class="apt-form-control" required>
-            </div>
-
-            <!-- Quick Time Slot Chips -->
-            <div class="col-12 mt-0">
-              <label class="text-muted small fw-semibold" style="font-size: 11.5px;">Quick Time Slots:</label>
-              <div class="apt-time-chips">
-                <button type="button" class="apt-time-chip" data-time="09:00">09:00 AM</button>
-                <button type="button" class="apt-time-chip" data-time="10:30">10:30 AM</button>
-                <button type="button" class="apt-time-chip" data-time="12:00">12:00 PM</button>
-                <button type="button" class="apt-time-chip" data-time="14:30">02:30 PM</button>
-                <button type="button" class="apt-time-chip" data-time="16:00">04:00 PM</button>
-                <button type="button" class="apt-time-chip" data-time="17:30">05:30 PM</button>
+              <div class="apt-date-chips mt-2">
+                <span style="font-size: 11px; font-weight: 700; color: #64748b; margin-right: 2px;">Quick Pick:</span>
+                <button type="button" class="apt-date-chip active" data-days="0">Today</button>
+                <button type="button" class="apt-date-chip" data-days="1">Tomorrow</button>
+                <button type="button" class="apt-date-chip" data-days="2">In 2 Days</button>
+                <button type="button" class="apt-date-chip" data-days="7">Next Week</button>
               </div>
             </div>
 
-            <!-- 6. Reason for Visit -->
+            <!-- 6. Available Appointment Time Slots -->
+            <div class="col-md-6 apt-form-group">
+              <label class="apt-form-label d-flex align-items-center justify-content-between">
+                <span>Available Time Slots <span class="text-danger">*</span></span>
+                <span id="slotSelectedTimeBadge" class="badge bg-primary text-white" style="font-size: 11px; display: none;"></span>
+              </label>
+              <input type="hidden" id="apptTime" required>
+              
+              <div class="apt-slots-wrapper">
+                <div class="apt-slot-section-title">🌅 Morning Slots</div>
+                <div class="apt-slots-grid" id="morningSlotsGrid">
+                  <!-- Dynamically rendered -->
+                </div>
+                
+                <div class="apt-slot-section-title mt-2">🌇 Afternoon &amp; Evening Slots</div>
+                <div class="apt-slots-grid" id="afternoonSlotsGrid">
+                  <!-- Dynamically rendered -->
+                </div>
+              </div>
+              <small class="text-muted" id="slotAvailabilityNotice" style="display: block; margin-top: 5px; font-size: 11px;">Select a date &amp; specialist to view real-time slot availability.</small>
+            </div>
+
+            <!-- Specialist Live Preview Banner -->
+            <div class="col-12" id="specialistDetailBanner" style="display: none;">
+              <div class="apt-specialist-preview-card">
+                <div class="apt-spec-preview-icon" id="specPreviewIcon">🩺</div>
+                <div class="apt-spec-preview-body">
+                  <div class="apt-spec-preview-name" id="specPreviewName">Dr. Specialist</div>
+                  <div class="apt-spec-preview-meta" id="specPreviewMeta">Specialization • Location</div>
+                </div>
+                <div class="apt-spec-preview-fee" id="specPreviewFee">₹10,900</div>
+              </div>
+            </div>
+
+            <!-- 7. Reason for Visit -->
             <div class="col-12 apt-form-group">
               <label for="apptReason" class="apt-form-label">
-                Reason for Visit
+                Reason for Visit / Clinical Notes
               </label>
-              <textarea id="apptReason" class="apt-form-control" placeholder="Brief notes or reason for visit (e.g. Follow-up physiotherapy, mobility assessment, speech consultation)..."></textarea>
+              <textarea id="apptReason" class="apt-form-control" rows="3" placeholder="Describe the consultation purpose, symptoms, or current therapy goals (e.g. Mobility assessment, pediatric check-up, gait rehabilitation)..."></textarea>
             </div>
 
           </div>

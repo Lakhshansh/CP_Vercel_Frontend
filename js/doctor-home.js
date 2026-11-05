@@ -155,8 +155,19 @@
           renderStats(res.stats);
         }
 
-        // Render Today's Schedule
-        renderSchedule(res.schedule || []);
+        // Render Today's Schedule (merging any newly confirmed patient bookings)
+        let schedule = res.schedule || [];
+        try {
+          const localAppts = JSON.parse(localStorage.getItem("patient_appointments") || "[]");
+          const today = new Date().toISOString().split("T")[0];
+          const todayLocal = localAppts.filter(a => String(a.appointment_date) === today && (a.status || "").toLowerCase() !== "cancelled");
+          if (todayLocal.length > 0) {
+            schedule = [...todayLocal, ...schedule];
+            const elTodayApt = document.getElementById("statTodayAppointments");
+            if (elTodayApt) elTodayApt.textContent = schedule.length;
+          }
+        } catch (_) {}
+        renderSchedule(schedule);
 
         // Render Patient Overview
         renderPatientOverview(res.patient_overview || []);

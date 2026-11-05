@@ -236,14 +236,14 @@
               <span>Search Therapists</span>
             </a>
 
-            <a href="./patient-appointments.html" class="ph-btn-outline" id="btnHeroBook">
+            <a href="./patient-appointments.html#bookAppointmentCard" class="ph-btn-primary" id="btnHeroBook" style="font-weight: 700;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                 <line x1="16" y1="2" x2="16" y2="6"></line>
                 <line x1="8" y1="2" x2="8" y2="6"></line>
                 <line x1="3" y1="10" x2="21" y2="10"></line>
               </svg>
-              <span>Book Appointment</span>
+              <span>Book New Appointment</span>
             </a>
           </div>
 
@@ -424,6 +424,14 @@
 
       <div class="ph-quick-grid">
         
+        <!-- 0. Book New Appointment -->
+        <a href="./patient-appointments.html#bookAppointmentCard" class="ph-quick-card highlight-booking" style="border: 2px solid #0875F9; background: #f0f7ff;">
+          <div class="ph-quick-icon" style="background: #0875F9; color: #ffffff;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg>
+          </div>
+          <span class="ph-quick-label" style="font-weight: 800; color: #0875F9;">Book New Appointment</span>
+        </a>
+
         <!-- 1. My Appointments -->
         <a href="./patient-appointments.html" class="ph-quick-card">
           <div class="ph-quick-icon">
@@ -466,12 +474,18 @@
   <section class="ph-upcoming-section" aria-labelledby="upcomingHeading">
     <div class="ph-container">
       
-      <div style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+      <div style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
         <div>
           <span class="ph-section-badge blue" style="margin-bottom: 6px;">NEXT CLINICAL VISIT</span>
           <h2 style="font-size: 26px; font-weight: 800; color: #103463;" id="upcomingHeading">Upcoming Appointment</h2>
         </div>
-        <a href="./patient-appointments.html" style="font-size: 14px; font-weight: 700; color: #0875F9; text-decoration: none;">View All Appointments &rarr;</a>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <a href="./patient-appointments.html#bookAppointmentCard" class="ph-btn-primary" style="padding: 10px 20px; font-size: 13.5px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+            <span>🗓️</span>
+            <span>Book New Appointment</span>
+          </a>
+          <a href="./patient-appointments.html" style="font-size: 14px; font-weight: 700; color: #0875F9; text-decoration: none;">View All &rarr;</a>
+        </div>
       </div>
 
       <!-- Main Upcoming Appointment Card -->
@@ -929,9 +943,23 @@
               } catch (_) {}
             }
 
-            const res = await apiRequest(`/api/patient/home?user_id=${encodeURIComponent(user.user_id || '')}`);
-            if (res && res.success && res.upcoming_appointment) {
-              const appt = res.upcoming_appointment;
+            const res = await apiRequest(`/api/patient/home?user_id=${encodeURIComponent(user.user_id || '')}`).catch(() => null);
+            
+            // Check newly booked appointments from localStorage
+            let appt = null;
+            try {
+              const localAppts = JSON.parse(localStorage.getItem("patient_appointments") || "[]");
+              const upcomingLocal = localAppts.find(a => (a.status || "").toLowerCase() !== "cancelled");
+              if (upcomingLocal) {
+                appt = upcomingLocal;
+              }
+            } catch (_) {}
+
+            if (!appt && res && res.success && res.upcoming_appointment) {
+              appt = res.upcoming_appointment;
+            }
+
+            if (appt) {
               if (appt.doctor_name) {
                 const docEl = document.getElementById("apptDoctorName");
                 if (docEl) docEl.textContent = `${appt.doctor_name} (${appt.doctor_specialization || 'Specialist'})`;
