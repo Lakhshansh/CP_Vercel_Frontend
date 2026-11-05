@@ -98,12 +98,16 @@ body.admin-login-body {
    2. TOP NAVBAR CUSTOM OVERRIDES
    -------------------------------------------------------------------------- */
 .admin-login-body .mt-navbar {
-  background: linear-gradient(135deg, #0b1e3b 0%, #0d3268 60%, #0866f5 100%);
-  border-bottom: 1.5px solid rgba(56, 189, 248, 0.22);
-  box-shadow: 0 4px 20px rgba(11, 30, 59, 0.18);
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 14px rgba(16, 52, 99, 0.05);
   position: relative;
   z-index: 100;
-  padding: 12px 24px;
+  height: 90px;
+  min-height: 85px;
+  max-height: 95px;
+  display: flex;
+  align-items: center;
 }
 
 .admin-login-body .mt-navbar-inner {
@@ -133,16 +137,16 @@ body.admin-login-body {
 .admin-login-body .mt-brand-title {
   font-size: 19px;
   font-weight: 800;
-  color: #ffffff;
-  line-height: 1.1;
-  letter-spacing: -0.3px;
+  color: #103463;
+  line-height: 1.15;
+  letter-spacing: -0.2px;
 }
 
 .admin-login-body .mt-brand-subtitle {
   font-size: 11px;
   font-weight: 600;
-  color: #38bdf8;
-  letter-spacing: 0.2px;
+  color: #0866f5;
+  letter-spacing: 0.1px;
 }
 
 /* --------------------------------------------------------------------------

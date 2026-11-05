@@ -69,8 +69,9 @@ body {
   min-height: 90px;
   max-height: 90px;
   padding: 0;
-  background: linear-gradient(135deg, #0d6efd 0%, #0867e8 100%);
-  box-shadow: 0 4px 18px rgba(0, 80, 180, 0.20);
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 14px rgba(16, 52, 99, 0.05);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -117,19 +118,20 @@ body {
 }
 
 .mt-brand-title {
-  font-size: 24px;
+  font-size: 19px;
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.15;
   white-space: nowrap;
-  color: #ffffff;
-  letter-spacing: -0.3px;
+  color: #103463;
+  letter-spacing: -0.2px;
 }
 
 .mt-brand-subtitle {
-  margin-top: 3px;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.92);
-  letter-spacing: 0.3px;
+  margin-top: 1px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #0866f5;
+  letter-spacing: 0.1px;
 }
 
 /* Nav center links */
@@ -152,25 +154,23 @@ body {
 }
 
 .mt-nav-link {
-  color: #ffffff;
+  color: #334155;
   text-decoration: none;
   font-weight: 600;
-  font-size: 13.5px;
+  font-size: 13px;
   padding: 6px 10px;
   border-radius: 8px;
   transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  opacity: 0.95;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .mt-nav-link:hover {
-  background: rgba(255, 255, 255, 0.16);
-  opacity: 1;
-  color: #ffffff;
+  background: #f0f7ff;
+  color: #0d6efd;
 }
 
 /* Right Nav Actions */
@@ -185,14 +185,14 @@ body {
 .doc-btn-contact {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.16);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  gap: 5px;
+  background: #eff6ff;
+  color: #0d6efd;
+  border: 1.5px solid #bfdbfe;
   border-radius: 999px;
   padding: 6px 12px;
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
   transition: all 0.2s ease;
   white-space: nowrap;
@@ -209,10 +209,10 @@ body {
 .doc-btn-signup {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: #ffffff;
-  color: #0d6efd;
-  border: 1px solid #ffffff;
+  gap: 5px;
+  background: #0d6efd;
+  color: #ffffff;
+  border: 1.5px solid #0d6efd;
   border-radius: 999px;
   padding: 6px 14px;
   font-size: 12.5px;
@@ -221,6 +221,7 @@ body {
   transition: all 0.2s ease;
   white-space: nowrap;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(13, 110, 253, 0.25);
 }
 
 .doc-btn-signup:hover {
@@ -230,9 +231,9 @@ body {
 }
 
 .doc-notif-btn {
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  color: #ffffff;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #334155;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -266,14 +267,15 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #ffffff;
-  padding: 5px 10px;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #103463;
+  padding: 4px 10px;
+  background: #f0f7ff;
+  border: 1.5px solid rgba(13, 110, 253, 0.22);
   border-radius: 999px;
   text-decoration: none;
   cursor: pointer;
-  max-width: 220px;
+  min-width: 140px;
+  max-width: 210px;
   overflow: hidden;
   box-sizing: border-box;
   flex-shrink: 0;
@@ -311,7 +313,7 @@ body {
   font-size: 13px;
   font-weight: 700;
   white-space: nowrap;
-  color: #ffffff;
+  color: #0f172a;
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
@@ -319,7 +321,7 @@ body {
 
 .mt-user-role {
   font-size: 10.5px;
-  color: rgba(255, 255, 255, 0.88);
+  color: #0866f5;
   font-weight: 600;
   text-transform: capitalize;
   white-space: nowrap;

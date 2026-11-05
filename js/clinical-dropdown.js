@@ -210,6 +210,43 @@
     }
   }
 
+  
+    // 4b. Universal Notification Dropdown Controller
+    function initUniversalNotifications() {
+      const notifBtns = document.querySelectorAll(
+        "#btnHeaderNotifications, .shared-notif-btn, #docNotifBtn, #btnNotifications, #btnNavNotifications"
+      );
+
+      notifBtns.forEach((btn) => {
+        if (btn.dataset.universalNotifAttached) return;
+        btn.dataset.universalNotifAttached = "true";
+
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const parent = btn.closest(".shared-notif-wrap") || btn.parentElement;
+          const dropdown = parent.querySelector(
+            ".shared-notif-dropdown, .doc-notif-dropdown, .apt-dropdown-menu, #headerNotifDropdown, #docNotifDropdown, #notifDropdown"
+          ) || document.getElementById("headerNotifDropdown") || document.getElementById("docNotifDropdown") || document.getElementById("notifDropdown");
+
+          if (dropdown) {
+            dropdown.classList.toggle("show");
+          }
+        });
+      });
+
+      // Dismiss notification dropdown when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest("#btnHeaderNotifications, .shared-notif-btn, #docNotifBtn, #btnNotifications, #btnNavNotifications, .shared-notif-dropdown, .doc-notif-dropdown, .apt-dropdown-menu, #headerNotifDropdown, #docNotifDropdown, #notifDropdown")) {
+          document.querySelectorAll(
+            ".shared-notif-dropdown.show, .doc-notif-dropdown.show, .apt-dropdown-menu.show, #headerNotifDropdown.show, #docNotifDropdown.show, #notifDropdown.show"
+          ).forEach((menu) => menu.classList.remove("show"));
+        }
+      });
+    }
+    initUniversalNotifications();
+
   function initPageStandards() {
     initClinicalDropdowns();
     ensureSingleFloatingWhatsApp();

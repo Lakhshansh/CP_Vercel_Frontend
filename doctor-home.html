@@ -36,32 +36,38 @@
   <!-- ======================================================================
        1. DOCTOR HEADER / NAVIGATION BAR
        ====================================================================== -->
-  <header class="doc-header" role="banner">
-    <div class="doc-navbar-inner">
-      
-      <!-- Brand Logo & Clinical Portal Title -->
-      <a class="doc-brand" href="./doctor-home.html" title="Multi Therapy Doctor Portal">
-        <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="doc-brand-logo" width="52" height="52">
-        <div>
-          <div class="doc-brand-title">Multi Therapy</div>
-          <div class="doc-brand-tagline">Care • Support • Progress • Together</div>
+  <header class="shared-header mt-navbar" role="banner">
+    <div class="shared-header-inner mt-navbar-inner">
+
+      <!-- Multi Therapy Brand Identity -->
+      <a href="./index.html" class="shared-brand mt-brand" title="Multi Therapy Home">
+        <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="shared-logo mt-logo" width="48" height="48">
+        <div class="shared-brand-text">
+          <span class="shared-brand-title mt-brand-title">Multi Therapy</span>
+          <span class="shared-brand-subtitle mt-brand-subtitle">Every Individual Deserves Better Care.</span>
         </div>
       </a>
 
       <!-- Center Navigation Links -->
-      <nav aria-label="Doctor Navigation">
-        <ul class="doc-nav-menu" id="docNavMenu">
-          <li><a href="./index.html" class="doc-nav-link" id="navHome">Home</a></li>
-          <li><a href="./patient-home.html" class="doc-nav-link" id="navPatientHome">Patient Home</a></li>
-          <li><a href="./doctor-home.html" class="doc-nav-link active" aria-current="page" id="navDoctorHome">Doctor Home</a></li>
+      <nav class="shared-nav-center mt-nav-center" aria-label="Main Navigation">
+        <ul class="shared-nav-list mt-nav-list" id="navMenu">
+          <li><a href="./index.html" class="shared-nav-link mt-nav-link" id="navHome">Home</a></li>
+          <li><a href="./patient-home.html" class="shared-nav-link mt-nav-link" id="navPatientHome">Patient Home</a></li>
+          <li><a href="./doctor-home.html" class="shared-nav-link mt-nav-link active" id="navDoctorHome">Doctor Home</a></li>
+
+          <!-- Clinical Management Dropdown -->
           <li class="nav-item-dropdown">
-            <a href="javascript:void(0)" class="nav-dropdown-toggle doc-nav-link" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
+            <a href="javascript:void(0)" class="nav-dropdown-toggle shared-nav-link mt-nav-link" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
               <span>Clinical Management</span>
               <svg class="dropdown-arrow-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M2.5 4.5L6 8L9.5 4.5"></path>
               </svg>
             </a>
             <div class="nav-dropdown-menu" aria-label="Clinical Management Submenu">
+              <a href="./doctors.html" class="nav-dropdown-link" id="dropDoctors">
+                <span class="nav-dropdown-icon">👨‍⚕️</span>
+                <span class="nav-dropdown-text">Doctors</span>
+              </a>
               <a href="./therapists.html" class="nav-dropdown-link" id="dropTherapists">
                 <span class="nav-dropdown-icon">🧑‍⚕️</span>
                 <span class="nav-dropdown-text">Therapists</span>
@@ -84,104 +90,91 @@
               </a>
             </div>
           </li>
-          <li><a href="./login.html" class="doc-nav-link" id="navPatientLogin">Patient Login</a></li>
-          <li><a href="./doctor-login.html" class="doc-nav-link" id="navDoctorLogin">Doctor Login</a></li>
+
+          <li><a href="./login.html" class="shared-nav-link mt-nav-link" id="navPatientLogin">Patient Login</a></li>
+          <li><a href="./doctor-login.html" class="shared-nav-link mt-nav-link" id="navDoctorLogin">Doctor Login</a></li>
         </ul>
       </nav>
 
-      <!-- Right Action Items: Notifications, Doctor Profile, Logout, Contact & Sign Up -->
-      <div class="doc-nav-actions">
-        
-        <!-- Notifications with Badge -->
-        <div style="position: relative;">
-          <button type="button" class="ph-icon-btn" id="btnDocNotifications" aria-label="Notifications (3 unread)" title="Clinical Alerts">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <!-- Right-Side Controls: Notification -> Profile -> Logout -> Contact -> Sign Up -->
+      <div class="shared-nav-right mt-nav-right">
+
+        <!-- 1. Notification Icon with Badge Count & Dropdown -->
+        <div class="shared-notif-wrap" style="position: relative;">
+          <button type="button" class="shared-notif-btn doc-notif-btn" id="docNotifBtn" aria-label="Clinical Notifications" title="Clinical Notifications">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
               <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
             </svg>
-            <span class="ph-badge-count" aria-hidden="true">3</span>
+            <span class="shared-notif-badge doc-notif-badge" id="headerNotifBadge" aria-hidden="true">3</span>
           </button>
 
           <!-- Notification Dropdown -->
-          <div class="doc-dropdown" id="docNotifDropdown" role="menu">
-            <div class="doc-dropdown-header">Clinical Alerts (3)</div>
-            <a href="./doctor-appointments.html" class="doc-dropdown-item">
-              <span>📅</span>
-              <div>
-                <div style="font-weight: 700; font-size: 13px;">New Consultation Booked</div>
-                <div style="font-size: 11.5px; color: #64748b;">Gait analysis appointment scheduled</div>
-              </div>
-            </a>
-            <a href="#schedule" class="doc-dropdown-item">
-              <span>📈</span>
-              <div>
-                <div style="font-weight: 700; font-size: 13px;">Progress Report Logged</div>
-                <div style="font-size: 11.5px; color: #64748b;">Mobility benchmark evaluation updated</div>
-              </div>
-            </a>
-            <a href="./therapists.html" class="doc-dropdown-item">
-              <span>🩺</span>
-              <div>
-                <div style="font-weight: 700; font-size: 13px;">Therapist Assignment Active</div>
-                <div style="font-size: 11.5px; color: #64748b;">Physical therapy treatment confirmed</div>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <!-- Doctor Profile Pill -->
-        <div id="userProfileWrap" style="position: relative; display: inline-flex;">
-          <div class="doc-user-pill" id="docUserPill" role="button" aria-haspopup="true" aria-expanded="false" title="Practitioner Account Menu">
-            <img src="./images/doctor-avatar.jpg" alt="Doctor" onerror="this.src='./images/doctor-login-avatar.svg'; this.onerror=null;" class="doc-avatar" id="docNavAvatar" width="38" height="38">
-            <div style="display: flex; flex-direction: column; line-height: 1.2;">
-              <span class="doc-user-name" id="docNavName">Dr. Practitioner</span>
-              <span class="doc-user-role" id="docNavRole">Practitioner Portal</span>
+          <div class="shared-notif-dropdown doc-notif-dropdown" id="docNotifDropdown" role="menu">
+            <div class="shared-notif-header">
+              <strong>Clinical Notifications</strong>
+              <span class="badge bg-primary" style="font-size: 11px;">Active</span>
             </div>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: #94a3b8; margin-left: 2px;">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-
-          <!-- Doctor Dropdown -->
-          <div class="doc-dropdown" id="docProfileDropdown" role="menu">
-            <div class="doc-dropdown-header">Doctor Account</div>
-            <a href="./doctor-profile.html" class="doc-dropdown-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              <span>Doctor Profile &amp; Settings</span>
-            </a>
-            <a href="./doctor-appointments.html" class="doc-dropdown-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              <span>Manage Appointments</span>
-            </a>
-            <a href="./doctor-subscriptions.html" class="doc-dropdown-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span>Membership &amp; Plans</span>
-            </a>
-            <div style="border-top: 1px solid #f1f5f9; margin: 6px 0;"></div>
-            <a href="#" class="doc-dropdown-item" id="btnDocLogout" style="color: #dc2626;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #dc2626;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-              <span>Log Out</span>
-            </a>
+            <div class="shared-notif-item">
+              <span style="font-size: 16px;">⚡</span>
+              <div>
+                <div style="font-weight: 700; font-size: 12.5px; color: #0f172a;">Resend Email Active</div>
+                <div style="font-size: 11px; color: #64748b;">Doctor OTP delivery active.</div>
+              </div>
+            </div>
+            <div class="shared-notif-item">
+              <span style="font-size: 16px;">🗓️</span>
+              <div>
+                <div style="font-weight: 700; font-size: 12.5px; color: #0f172a;">Clinical Schedule Synced</div>
+                <div style="font-size: 11px; color: #64748b;">Patient appointments online.</div>
+              </div>
+            </div>
+            <div class="shared-notif-item">
+              <span style="font-size: 16px;">✅</span>
+              <div>
+                <div style="font-weight: 700; font-size: 12.5px; color: #0f172a;">TiDB Database Online</div>
+                <div style="font-size: 11px; color: #64748b;">Multi Therapy cloud connected.</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Logout Button -->
-        <button type="button" class="pt-logout-btn" id="logoutBtn" title="Logout of Doctor Portal">
-          <span>🚪</span> Logout
+        <!-- 2. Admin / User Profile Pill -->
+        <div id="userProfileWrap" class="shared-profile-wrap" style="position: relative; display: inline-flex;">
+          <a href="./doctor-profile.html" class="shared-user-pill mt-user" id="userProfileBtn" title="View Profile">
+            <img id="navAvatarImg" src="./images/multi_therapy_logo_100x100.png" class="shared-avatar-img mt-user-photo" alt="Profile" style="display: none;">
+            <div id="navAvatar" class="shared-avatar-fallback mt-user-default">👤</div>
+            <div class="shared-user-text mt-user-text">
+              <div class="shared-user-name mt-user-name" id="navUsername">User</div>
+              <div class="shared-user-role mt-user-role" id="navRole">Admin</div>
+            </div>
+            <span class="shared-profile-caret mt-arrow">⌄</span>
+          </a>
+        </div>
+
+        <!-- 3. Logout Button -->
+        <button type="button" id="logoutBtn" class="shared-logout-btn mt-logout-btn" title="Sign Out">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Logout</span>
         </button>
 
-        <div id="publicNavActions" class="d-flex align-items-center gap-2">
-          <!-- Contact Support Button -->
-          <a href="./index.html#contact" class="pt-btn-contact" id="btnHeaderContact" title="Contact Support">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <!-- 4 & 5. Public Actions: Contact & Sign Up -->
+        <div id="publicNavActions" class="shared-public-actions">
+          <!-- Contact Button -->
+          <a href="./index.html#contact" class="shared-btn-contact doc-btn-contact" id="btnHeaderContact" title="Contact Multi Therapy Support">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
             <span>Contact</span>
           </a>
 
           <!-- Sign Up Button -->
-          <a href="./signup.html" class="pt-btn-signup" id="btnHeaderSignup" title="Sign Up">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <a href="./signup.html" class="shared-btn-signup doc-btn-signup" id="btnHeaderSignup" title="Sign Up">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
             </svg>
@@ -189,11 +182,12 @@
           </a>
         </div>
 
-        <!-- Mobile Menu Toggle -->
-        <button class="doc-nav-toggle" id="docNavToggle" aria-label="Toggle navigation menu">☰</button>
+        <!-- Mobile Hamburger Toggle -->
+        <button type="button" class="shared-nav-toggle doc-nav-toggle" id="navToggle" aria-label="Toggle Navigation Menu">
+          ☰
+        </button>
 
       </div>
-
     </div>
   </header>
 

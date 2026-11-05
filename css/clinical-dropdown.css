@@ -611,15 +611,15 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   border: none !important;
 }
 
-/* 1. Header Containers (Desktop Height 90-100px, Flex Alignment, Vertically Centered) */
-.pt-header, .ts-header, .doc-header, .apt-header, .tp-header, .ex-header,
+/* 1. Universal Shared Header Container (Desktop Height 85-95px, Flexbox, Blue-White Theme) */
+.shared-header, .pt-header, .ts-header, .doc-header, .apt-header, .tp-header, .ex-header,
 .mt-navbar, .cp-header-wrap, .ph-header, .header-nav, .super-admin-header,
 .mt-sub-header, .admin-nav, .admin-dash-header {
   width: 100% !important;
   max-width: 100% !important;
-  height: 94px !important;
-  min-height: 90px !important;
-  max-height: 100px !important;
+  height: 90px !important;
+  min-height: 85px !important;
+  max-height: 95px !important;
   display: flex !important;
   align-items: center !important;
   position: sticky !important;
@@ -628,21 +628,24 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   box-sizing: border-box !important;
   padding: 0 !important;
   margin: 0 !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 14px rgba(16, 52, 99, 0.05) !important;
   overflow: visible !important;
 }
 
-/* 2. Navbar Inner Wrapper (Max 1720px, Single Horizontal Row, No Wrap, Vertically Centered, Space-Between) */
-.pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .apt-navbar-inner,
+/* 2. Shared Navbar Inner Container (Max 1720px, Single Horizontal Row, Space-Between) */
+.shared-header-inner, .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .apt-navbar-inner,
 .tp-navbar-inner, .ex-navbar-inner, .mt-navbar-inner, .cp-navbar-inner,
 .ph-navbar-inner, .header-inner, .super-admin-header-inner, .admin-nav-inner,
 .admin-dash-header-inner {
   width: 100% !important;
   max-width: 1720px !important;
   margin: 0 auto !important;
-  padding: 0 20px !important;
-  height: 94px !important;
-  min-height: 90px !important;
-  max-height: 100px !important;
+  padding: 0 24px !important;
+  height: 90px !important;
+  min-height: 85px !important;
+  max-height: 95px !important;
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
@@ -663,11 +666,11 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   background: transparent !important;
 }
 
-/* 3. Left: Logo & Branding Section (Max-width ~280px, No Shrink, Aligned Left) */
-.pt-brand, .ts-brand, .doc-brand, .apt-brand, .tp-brand, .ex-brand,
+/* 3. LEFT: Logo & Branding Section (Max ~270px, No Shrink, Aligned Left) */
+.shared-brand, .pt-brand, .ts-brand, .doc-brand, .apt-brand, .tp-brand, .ex-brand,
 .mt-brand, .cp-brand, .ph-brand, .header-brand, .brand-wrap, .admin-brand,
 .admin-dash-brand, a[class*="-brand"] {
-  max-width: 280px !important;
+  max-width: 270px !important;
   width: auto !important;
   flex: 0 0 auto !important;
   flex-shrink: 0 !important;
@@ -680,22 +683,27 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   margin: 0 !important;
 }
 
-/* Logo Image */
-.pt-brand-logo, .ts-brand-logo, .mt-logo, .cp-brand-logo-img, .header-logo,
+/* Logo Image (Max 55px x 55px, Circular, Blue Accent Border) */
+.shared-logo, .pt-brand-logo, .ts-brand-logo, .mt-logo, .cp-brand-logo-img, .header-logo,
 .brand-logo, .admin-dash-logo, img[class*="brand-logo"], img[class*="mt-logo"] {
   width: 48px !important;
   height: 48px !important;
-  max-width: 48px !important;
-  max-height: 48px !important;
-  min-width: 48px !important;
-  min-height: 48px !important;
+  max-width: 55px !important;
+  max-height: 55px !important;
+  min-width: 46px !important;
+  min-height: 46px !important;
   border-radius: 50% !important;
   object-fit: contain !important;
   flex-shrink: 0 !important;
+  background: #ffffff !important;
+  padding: 2px !important;
+  border: 1.5px solid #0d6efd !important;
+  box-shadow: 0 2px 8px rgba(13, 110, 253, 0.15) !important;
+  display: block !important;
 }
 
 /* Brand Text Container */
-.pt-brand-text, .ts-brand-text, .cp-brand-text, .brand-text,
+.shared-brand-text, .pt-brand-text, .ts-brand-text, .cp-brand-text, .brand-text,
 div[class*="brand-text"], .mt-brand > div, .doc-brand > div, .brand-wrap > div {
   display: flex !important;
   flex-direction: column !important;
@@ -704,8 +712,8 @@ div[class*="brand-text"], .mt-brand > div, .doc-brand > div, .brand-wrap > div {
   overflow: hidden !important;
 }
 
-/* Website Title */
-.pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title,
+/* Website Title: Multi Therapy */
+.shared-brand-title, .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title,
 .brand-title, .apt-brand-name, .admin-dash-title, .doc-brand-title,
 span[class*="brand-title"], div[class*="brand-title"] {
   font-size: 19px !important;
@@ -715,31 +723,33 @@ span[class*="brand-title"], div[class*="brand-title"] {
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
+  color: #103463 !important;
 }
 
-/* Website Tagline */
-.pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle,
+/* Subtitle: Every Individual Deserves Better Care. */
+.shared-brand-subtitle, .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle,
 .brand-tagline, .apt-brand-tagline, .admin-dash-subtitle, .doc-brand-tagline,
 span[class*="brand-tagline"], span[class*="brand-subtitle"], div[class*="brand-subtitle"] {
   font-size: 11px !important;
   font-weight: 600 !important;
   line-height: 1.2 !important;
-  letter-spacing: 0.2px !important;
+  letter-spacing: 0.1px !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   display: block !important;
-  margin-top: 2px !important;
+  margin-top: 1px !important;
+  color: #0866f5 !important;
 }
 
-/* 4. Center: Navigation Links Container (Flex 0 1 auto, Centered, No Wrap, min-width 0) */
-.pt-nav-wrap, .ts-nav-wrap, .doc-nav-wrap, .ph-nav-wrap, .mt-nav-center,
+/* 4. CENTER: Navigation Links Container (Flexbox, Centered, No Wrap, min-width 0) */
+.shared-nav-center, .pt-nav-wrap, .ts-nav-wrap, .doc-nav-wrap, .ph-nav-wrap, .mt-nav-center,
 .nav-links-wrap, .nav-links, nav[aria-label="Main Navigation"],
 nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  flex: 0 1 auto !important;
+  flex: 1 1 auto !important;
   min-width: 0 !important;
   margin: 0 !important;
   padding: 0 4px !important;
@@ -747,7 +757,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 }
 
 /* Nav Menu (UL) */
-.pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .apt-nav-menu, .tp-nav-menu,
+.shared-nav-list, .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .apt-nav-menu, .tp-nav-menu,
 .ex-nav-menu, .mt-nav-list, .cp-nav-menu, .nav-links,
 #navMenu, #aptNavMenu, #tpNavMenu, #exNavMenu, #docNavMenu {
   display: flex !important;
@@ -758,12 +768,12 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   margin: 0 !important;
   padding: 0 !important;
   flex-wrap: nowrap !important;
-  gap: 16px !important;
+  gap: 12px !important;
   overflow: visible !important;
 }
 
 /* Nav Menu Items (LI) */
-.pt-nav-menu > li, .ts-nav-menu > li, .doc-nav-menu > li, .apt-nav-menu > li,
+.shared-nav-list > li, .pt-nav-menu > li, .ts-nav-menu > li, .doc-nav-menu > li, .apt-nav-menu > li,
 .tp-nav-menu > li, .ex-nav-menu > li, .mt-nav-list > li, .cp-nav-menu > li,
 .nav-links > li, #navMenu > li {
   flex-shrink: 0 !important;
@@ -776,7 +786,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 }
 
 /* Navigation Links (A) */
-.pt-nav-link, .ts-nav-link, .doc-nav-link, .apt-nav-link, .tp-nav-link,
+.shared-nav-link, .pt-nav-link, .ts-nav-link, .doc-nav-link, .apt-nav-link, .tp-nav-link,
 .ex-nav-link, .mt-nav-link, .cp-nav-link, .ph-nav-link, .nav-link-item,
 .pt-nav-menu a, .ts-nav-menu a, .mt-nav-list a, .nav-links a, #navMenu a {
   white-space: nowrap !important;
@@ -784,8 +794,9 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   align-items: center !important;
   gap: 5px !important;
   padding: 6px 10px !important;
-  font-size: 13.5px !important;
+  font-size: 13px !important;
   font-weight: 600 !important;
+  color: #334155 !important;
   text-decoration: none !important;
   border-radius: 8px !important;
   transition: all 0.2s ease !important;
@@ -793,8 +804,23 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   line-height: 1.2 !important;
 }
 
-/* 5. Right: User Profile, Logout, Contact, Sign Up Container */
-.pt-nav-actions, .ts-nav-actions, .doc-nav-actions, .apt-nav-actions,
+.shared-nav-link:hover, .pt-nav-link:hover, .ts-nav-link:hover, .doc-nav-link:hover,
+.apt-nav-link:hover, .tp-nav-link:hover, .ex-nav-link:hover, .mt-nav-link:hover,
+.cp-nav-link:hover, .nav-link-item:hover, #navMenu a:hover {
+  color: #0d6efd !important;
+  background: #f0f7ff !important;
+}
+
+.shared-nav-link.active, .pt-nav-link.active, .ts-nav-link.active, .doc-nav-link.active,
+.apt-nav-link.active, .tp-nav-link.active, .ex-nav-link.active, .mt-nav-link.active,
+.cp-nav-link.active, .nav-link-item.active, #navMenu a.active {
+  color: #0d6efd !important;
+  background: #eff6ff !important;
+  font-weight: 700 !important;
+}
+
+/* 5. RIGHT: Right-Side Controls Container (Strictly Ordered: Notif -> Profile -> Logout -> Contact -> Sign Up) */
+.shared-nav-right, .pt-nav-actions, .ts-nav-actions, .doc-nav-actions, .apt-nav-actions,
 .tp-nav-actions, .ex-nav-actions, .mt-nav-right, .cp-nav-actions,
 .ph-nav-actions, .header-actions, .nav-actions, .admin-header-actions {
   display: flex !important;
@@ -810,33 +836,141 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   overflow: visible !important;
 }
 
-/* Public Actions Group */
-#publicNavActions {
-  display: flex !important;
-  flex-direction: row !important;
+/* 5a. Control 1: Notification Icon Button & Dropdown */
+.shared-notif-wrap {
+  position: relative !important;
+  display: inline-flex !important;
   align-items: center !important;
-  gap: 8px !important;
   flex-shrink: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  flex-wrap: nowrap !important;
 }
 
-/* User Profile Pill - Strict 220px max-width */
-#userProfileWrap, .header-profile-wrap,
-.pt-user-pill, .ts-user-pill, .tp-user-profile, .ex-user-profile,
-.apt-user-profile, .mt-user, .user-pill, .admin-profile-pill, .user-pill-doc {
+.shared-notif-btn, .doc-notif-btn, .apt-icon-btn, .ex-notification-btn, .ph-icon-btn,
+#btnHeaderNotifications, #docNotifBtn, #btnNotifications, #btnNavNotifications {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
+  border-radius: 50% !important;
+  border: 1.5px solid #cbd5e1 !important;
+  background: #ffffff !important;
+  color: #334155 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  position: relative !important;
+  flex-shrink: 0 !important;
+  transition: all 0.2s ease !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 16px !important;
+  text-decoration: none !important;
+}
+
+.shared-notif-btn:hover, .doc-notif-btn:hover, .apt-icon-btn:hover, .ex-notification-btn:hover,
+#btnHeaderNotifications:hover, #docNotifBtn:hover, #btnNotifications:hover {
+  background: #f0f7ff !important;
+  color: #0d6efd !important;
+  border-color: #93c5fd !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Notification Badge Count */
+.shared-notif-badge, .doc-notif-badge, .apt-badge-count, .ex-notif-badge, .ph-badge-count,
+#headerNotifBadge, #notifBadge {
+  position: absolute !important;
+  top: -2px !important;
+  right: -2px !important;
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  min-width: 16px !important;
+  height: 16px !important;
+  border-radius: 999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 2px solid #ffffff !important;
+  padding: 0 3px !important;
+  line-height: 1 !important;
+}
+
+/* Notification Dropdown Menu (Strictly positioned below the bell, never overlapping profile) */
+.shared-notif-dropdown, .doc-notif-dropdown, .apt-dropdown-menu, .ph-dropdown#notificationDropdown,
+#headerNotifDropdown, #docNotifDropdown, #notifDropdown {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  right: 0 !important;
+  left: auto !important;
+  width: 310px !important;
+  background: #ffffff !important;
+  border-radius: 14px !important;
+  border: 1.5px solid #bfdbfe !important;
+  box-shadow: 0 16px 36px rgba(16, 52, 99, 0.16) !important;
+  padding: 12px !important;
+  z-index: 10500 !important;
+  display: none !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  box-sizing: border-box !important;
+}
+
+.shared-notif-dropdown.show, .doc-notif-dropdown.show, .apt-dropdown-menu.show,
+#headerNotifDropdown.show, #docNotifDropdown.show, #notifDropdown.show {
+  display: flex !important;
+}
+
+.shared-notif-header, .doc-notif-header, .apt-dropdown-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding-bottom: 8px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #103463 !important;
+}
+
+.shared-notif-item, .doc-notif-item, .apt-dropdown-item {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  padding: 6px 8px !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  color: #334155 !important;
+  transition: background 0.15s ease !important;
+}
+
+.shared-notif-item:hover, .doc-notif-item:hover, .apt-dropdown-item:hover {
+  background: #f8fafc !important;
+}
+
+/* 5b. Control 2: Admin / User Profile Pill (Readable width, No compression) */
+.shared-profile-wrap, #userProfileWrap, .header-profile-wrap {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+}
+
+.shared-user-pill, .pt-user-pill, .ts-user-pill, .tp-user-profile, .ex-user-profile,
+.apt-user-profile, .mt-user, .user-pill, .admin-profile-pill, .user-pill-doc, .doc-user-pill, .ph-user-profile {
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
-  max-width: 220px !important;
+  min-width: 140px !important;
+  max-width: 210px !important;
   width: auto !important;
   flex-shrink: 0 !important;
   white-space: nowrap !important;
   text-decoration: none !important;
-  padding: 5px 10px !important;
+  padding: 4px 10px !important;
   border-radius: 999px !important;
-  border: 1px solid rgba(13, 110, 253, 0.2) !important;
+  border: 1.5px solid rgba(13, 110, 253, 0.22) !important;
   background: #f0f7ff !important;
   color: #103463 !important;
   font-weight: 600 !important;
@@ -847,40 +981,61 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   box-sizing: border-box !important;
 }
 
+.shared-user-pill:hover, .pt-user-pill:hover, .ts-user-pill:hover, .mt-user:hover,
+.apt-user-profile:hover, .tp-user-profile:hover, .ex-user-profile:hover, .admin-profile-pill:hover {
+  background: #e0f2fe !important;
+  border-color: #0d6efd !important;
+  transform: translateY(-1px) !important;
+}
+
 /* Profile Avatars */
+.shared-avatar-img, .shared-avatar-fallback,
 .pt-user-avatar, .ts-user-avatar, .tp-user-avatar, .ex-user-avatar,
 .apt-user-avatar, .mt-user-photo, .mt-user-default, .admin-avatar,
-.user-pill-avatar-doc, .user-pill-avatar {
-  width: 34px !important;
-  height: 34px !important;
-  min-width: 34px !important;
-  min-height: 34px !important;
-  max-width: 34px !important;
-  max-height: 34px !important;
+.user-pill-avatar-doc, .user-pill-avatar, .doc-avatar {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
   border-radius: 50% !important;
   object-fit: cover !important;
   flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  background: #ffffff !important;
+  color: #0d6efd !important;
+  border: 1.5px solid #0d6efd !important;
 }
 
 /* User Profile Texts */
-.mt-user-text, .apt-user-name, #userProfileWrap > a > div, #userProfileWrap div {
-  max-width: 140px !important;
+.shared-user-text, .mt-user-text, .apt-user-name, #userProfileWrap > a > div, #userProfileWrap div {
+  max-width: 125px !important;
   overflow: hidden !important;
   min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  text-align: left !important;
 }
 
-#navUsername, .mt-user-name, .apt-user-name, #headerAdminName {
+.shared-user-name, #navUsername, .mt-user-name, .apt-user-name, #headerAdminName {
   font-size: 13px !important;
   font-weight: 700 !important;
   line-height: 1.15 !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  max-width: 130px !important;
+  max-width: 120px !important;
   display: block !important;
+  color: #0f172a !important;
 }
 
-#navRole, .mt-user-role {
+.shared-user-role, #navRole, .mt-user-role {
   font-size: 10.5px !important;
   font-weight: 600 !important;
   line-height: 1 !important;
@@ -888,12 +1043,20 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  max-width: 130px !important;
+  max-width: 120px !important;
   display: block !important;
+  color: #0866f5 !important;
 }
 
-/* Logout Button */
-#logoutBtn, .pt-logout-btn, .ts-logout-btn, .tp-logout-btn,
+.shared-profile-caret, .mt-arrow {
+  font-size: 12px !important;
+  color: #64748b !important;
+  margin-left: 2px !important;
+  flex-shrink: 0 !important;
+}
+
+/* 5c. Control 3: Logout Button */
+.shared-logout-btn, #logoutBtn, .pt-logout-btn, .ts-logout-btn, .tp-logout-btn,
 .ex-logout-btn, .mt-logout-btn, .apt-logout-btn, .logout-btn {
   display: inline-flex !important;
   align-items: center !important;
@@ -915,7 +1078,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   margin: 0 !important;
 }
 
-#logoutBtn:hover, .pt-logout-btn:hover, .ts-logout-btn:hover,
+.shared-logout-btn:hover, #logoutBtn:hover, .pt-logout-btn:hover, .ts-logout-btn:hover,
 .tp-logout-btn:hover, .ex-logout-btn:hover, .mt-logout-btn:hover,
 .apt-logout-btn:hover, .logout-btn:hover {
   background: #fee2e2 !important;
@@ -924,8 +1087,20 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   transform: translateY(-1px) !important;
 }
 
-/* Contact Button */
-#btnHeaderContact, .pt-btn-contact, .ts-btn-contact, .doc-btn-contact,
+/* 5d. Public Actions Group (Contact & Sign Up) */
+.shared-public-actions, #publicNavActions {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex-wrap: nowrap !important;
+}
+
+/* 5e. Control 4: Contact Button */
+.shared-btn-contact, #btnHeaderContact, .pt-btn-contact, .ts-btn-contact, .doc-btn-contact,
 .cp-btn-contact, .apt-btn-contact, .tp-btn-contact, .ex-btn-contact {
   display: inline-flex !important;
   align-items: center !important;
@@ -946,7 +1121,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   margin: 0 !important;
 }
 
-#btnHeaderContact:hover, .pt-btn-contact:hover, .ts-btn-contact:hover,
+.shared-btn-contact:hover, #btnHeaderContact:hover, .pt-btn-contact:hover, .ts-btn-contact:hover,
 .doc-btn-contact:hover, .cp-btn-contact:hover, .apt-btn-contact:hover,
 .tp-btn-contact:hover, .ex-btn-contact:hover {
   background: #dbeafe !important;
@@ -955,8 +1130,8 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   transform: translateY(-1px) !important;
 }
 
-/* Sign Up Button */
-#btnHeaderSignup, .pt-btn-signup, .ts-btn-signup, .cp-btn-signup,
+/* 5f. Control 5: Sign Up Button */
+.shared-btn-signup, #btnHeaderSignup, .pt-btn-signup, .ts-btn-signup, .cp-btn-signup,
 .doc-btn-signup, .tp-btn-signup, .apt-btn-signup, .ex-btn-signup,
 .btn-header-signup {
   display: inline-flex !important;
@@ -979,7 +1154,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   margin: 0 !important;
 }
 
-#btnHeaderSignup:hover, .pt-btn-signup:hover, .ts-btn-signup:hover,
+.shared-btn-signup:hover, #btnHeaderSignup:hover, .pt-btn-signup:hover, .ts-btn-signup:hover,
 .cp-btn-signup:hover, .doc-btn-signup:hover, .tp-btn-signup:hover,
 .apt-btn-signup:hover, .ex-btn-signup:hover, .btn-header-signup:hover {
   background: #0b5ed7 !important;
@@ -988,19 +1163,45 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   transform: translateY(-1px) !important;
 }
 
-/* Notifications Button */
-.doc-notif-btn, .apt-icon-btn {
-  width: 36px !important;
-  height: 36px !important;
-  border-radius: 50% !important;
+/* Subscription Button (optional/legacy support) */
+.cp-btn-subscription, #btnHeaderSubscription {
   display: inline-flex !important;
   align-items: center !important;
-  justify-content: center !important;
+  gap: 5px !important;
   flex-shrink: 0 !important;
-  margin: 0 !important;
+  white-space: nowrap !important;
+  padding: 6px 12px !important;
+  border-radius: 999px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  border: 1.5px solid #fde047 !important;
+  background: #fef9c3 !important;
+  color: #854d0e !important;
+  text-decoration: none !important;
+  line-height: 1.2 !important;
 }
 
-/* Anti-Overlap Safeguards for Profile and Notification Dropdowns */
+/* 5g. Mobile Hamburger Toggle Button */
+.shared-nav-toggle, .pt-nav-toggle, .ts-nav-toggle, .tp-nav-toggle, .apt-nav-toggle,
+.ex-nav-toggle, .cp-nav-toggle, .ph-nav-toggle, .doc-nav-toggle, #navToggle, #docNavToggle {
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 8px !important;
+  border: 1.5px solid #cbd5e1 !important;
+  background: #ffffff !important;
+  color: #1e293b !important;
+  font-size: 20px !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+  margin-left: 4px !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+/* Anti-Overlap Safeguards for Dropdowns */
 #userProfileWrap, .doc-user-pill, .ph-user-profile, .apt-user-profile, .mt-user {
   position: relative !important;
 }
@@ -1022,145 +1223,190 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   box-shadow: 0 16px 36px rgba(16, 52, 99, 0.18) !important;
 }
 
-.doc-notif-dropdown,
-#docNotifDropdown,
-.apt-dropdown-menu,
-#notifDropdown,
-.ph-dropdown#notificationDropdown {
-  position: absolute !important;
-  top: calc(100% + 8px) !important;
-  right: 0 !important;
-  left: auto !important;
-  z-index: 10500 !important;
-}
-
-/* Mobile Toggle Button */
-.pt-nav-toggle, .ts-nav-toggle, .tp-nav-toggle, .apt-nav-toggle,
-.ex-nav-toggle, .cp-nav-toggle, .ph-nav-toggle, .doc-nav-toggle, #navToggle, #docNavToggle {
-  display: none !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 40px !important;
-  height: 40px !important;
-  border-radius: 8px !important;
-  border: 1.5px solid #cbd5e1 !important;
-  background: #ffffff !important;
-  color: #1e293b !important;
-  font-size: 20px !important;
-  cursor: pointer !important;
-  flex-shrink: 0 !important;
-  margin-left: 4px !important;
-}
-
 /* ==========================================================================
    Responsive Scaling Engine Across Breakpoints (1920px, 1366px, 1024px, Mobile)
    ========================================================================== */
 
-/* Laptop Resolution Adaptations (1200px - 1440px, e.g. 1366px) */
+/* Laptop Resolution Adaptations (1280px - 1440px, e.g. 1366px) */
 @media (max-width: 1440px) {
-  .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .apt-navbar-inner,
+  .shared-header-inner, .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .apt-navbar-inner,
   .tp-navbar-inner, .ex-navbar-inner, .mt-navbar-inner, .cp-navbar-inner,
   .ph-navbar-inner, .header-inner {
     padding: 0 16px !important;
     gap: 10px !important;
   }
 
-  .pt-brand, .ts-brand, .doc-brand, .mt-brand, .cp-brand, a[class*="-brand"] {
-    max-width: 250px !important;
+  .shared-brand, .pt-brand, .ts-brand, .doc-brand, .mt-brand, .cp-brand, a[class*="-brand"] {
+    max-width: 220px !important;
     gap: 8px !important;
   }
 
-  .pt-brand-logo, .ts-brand-logo, .mt-logo, img[class*="brand-logo"] {
+  .shared-logo, .pt-brand-logo, .ts-brand-logo, .mt-logo, img[class*="brand-logo"] {
     width: 44px !important;
     height: 44px !important;
     min-width: 44px !important;
     min-height: 44px !important;
   }
 
-  .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title {
+  .shared-brand-title, .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title {
     font-size: 18px !important;
   }
 
-  .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle {
-    font-size: 10.5px !important;
+  .shared-brand-subtitle, .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle {
+    font-size: 10px !important;
+    max-width: 140px !important;
   }
 
-  .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .mt-nav-list, .apt-nav-menu, .tp-nav-menu, .ex-nav-menu, .cp-nav-menu, .nav-links, #navMenu, #aptNavMenu, #tpNavMenu, #exNavMenu, #docNavMenu {
-    gap: 12px !important;
-  }
-
-  .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link, .apt-nav-link, .tp-nav-link, .ex-nav-link, .nav-link-item, #navMenu a {
-    padding: 5px 8px !important;
-    font-size: 12.5px !important;
-  }
-
-  .pt-nav-actions, .ts-nav-actions, .mt-nav-right, .cp-nav-actions, .doc-nav-actions, .apt-nav-actions, .tp-nav-actions, .ex-nav-actions, .ph-nav-actions {
+  .shared-nav-list, .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .mt-nav-list, .apt-nav-menu,
+  .tp-nav-menu, .ex-nav-menu, .cp-nav-menu, .nav-links, #navMenu, #aptNavMenu, #tpNavMenu, #exNavMenu, #docNavMenu {
     gap: 8px !important;
   }
 
-  #userProfileWrap, .pt-user-pill, .ts-user-pill, .mt-user, .doc-user-pill, .ph-user-profile, .apt-user-profile, .tp-user-profile, .ex-user-profile, .admin-profile-pill {
-    max-width: 190px !important;
+  .shared-nav-link, .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link,
+  .apt-nav-link, .tp-nav-link, .ex-nav-link, .nav-link-item, #navMenu a {
+    padding: 5px 7px !important;
+    font-size: 12.5px !important;
+  }
+
+  .shared-nav-right, .pt-nav-actions, .ts-nav-actions, .mt-nav-right, .cp-nav-actions,
+  .doc-nav-actions, .apt-nav-actions, .tp-nav-actions, .ex-nav-actions, .ph-nav-actions {
+    gap: 6px !important;
+  }
+
+  .shared-user-pill, #userProfileWrap, .pt-user-pill, .ts-user-pill, .mt-user, .doc-user-pill,
+  .ph-user-profile, .apt-user-profile, .tp-user-profile, .ex-user-profile, .admin-profile-pill {
+    max-width: 160px !important;
+    min-width: 130px !important;
     padding: 4px 8px !important;
   }
 
-  #userProfileWrap .mt-user-text, #userProfileWrap div {
-    max-width: 115px !important;
+  .shared-user-text, #userProfileWrap .mt-user-text, #userProfileWrap div {
+    max-width: 95px !important;
   }
 
+  .shared-logout-btn, .shared-btn-contact, .shared-btn-signup,
   #btnHeaderContact, #btnHeaderSignup, #logoutBtn,
   .pt-btn-contact, .pt-btn-signup, .pt-logout-btn, .ts-logout-btn,
   .doc-btn-contact, .doc-btn-signup, .apt-btn-contact, .apt-btn-signup,
   .apt-logout-btn, .tp-btn-contact, .tp-btn-signup, .tp-logout-btn,
   .ex-btn-contact, .ex-btn-signup, .ex-logout-btn, .mt-logout-btn, .logout-btn {
-    padding: 5px 10px !important;
+    padding: 5px 9px !important;
     font-size: 12px !important;
   }
 }
 
-/* Small Laptop / Tablet Landscape (992px - 1199px, e.g. 1024px) */
-@media (max-width: 1199px) and (min-width: 992px) {
-  .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .mt-navbar-inner,
-  .header-inner, .apt-navbar-inner, .tp-navbar-inner, .ex-navbar-inner,
-  .cp-navbar-inner, .ph-navbar-inner {
-    padding: 0 12px !important;
+/* Medium Laptop / Compact Desktop (1100px - 1279px, e.g. 1200px) */
+@media (max-width: 1279px) and (min-width: 1100px) {
+  .shared-header-inner, .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .apt-navbar-inner,
+  .tp-navbar-inner, .ex-navbar-inner, .mt-navbar-inner, .cp-navbar-inner,
+  .ph-navbar-inner, .header-inner {
+    padding: 0 14px !important;
     gap: 8px !important;
   }
 
-  .pt-brand, .ts-brand, .doc-brand, .mt-brand, .cp-brand, .ph-brand, a[class*="-brand"] {
-    max-width: 210px !important;
+  .shared-brand, .pt-brand, .ts-brand, .doc-brand, .mt-brand, .cp-brand, a[class*="-brand"] {
+    max-width: 175px !important;
     gap: 8px !important;
   }
 
-  .pt-brand-logo, .ts-brand-logo, .mt-logo, img[class*="brand-logo"] {
+  .shared-logo, .pt-brand-logo, .ts-brand-logo, .mt-logo, img[class*="brand-logo"] {
     width: 40px !important;
     height: 40px !important;
     min-width: 40px !important;
     min-height: 40px !important;
   }
 
-  .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title, .ph-brand-name {
-    font-size: 16.5px !important;
+  .shared-brand-title, .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title {
+    font-size: 17px !important;
   }
 
-  .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle, .ph-brand-tagline {
+  .shared-brand-subtitle, .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle {
     display: none !important;
   }
 
-  .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .mt-nav-list, .apt-nav-menu, .tp-nav-menu, .ex-nav-menu, .cp-nav-menu, .nav-links, #navMenu, #aptNavMenu, #tpNavMenu, #exNavMenu, #docNavMenu {
-    gap: 8px !important;
-  }
-
-  .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link, .apt-nav-link, .tp-nav-link, .ex-nav-link, .nav-link-item, #navMenu a {
-    padding: 4px 6px !important;
-    font-size: 11.5px !important;
-  }
-
-  .pt-nav-actions, .ts-nav-actions, .mt-nav-right, .cp-nav-actions, .doc-nav-actions, .apt-nav-actions, .tp-nav-actions, .ex-nav-actions, .ph-nav-actions {
+  .shared-nav-list, .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .mt-nav-list, .apt-nav-menu,
+  .tp-nav-menu, .ex-nav-menu, .cp-nav-menu, .nav-links, #navMenu, #aptNavMenu, #tpNavMenu, #exNavMenu, #docNavMenu {
     gap: 6px !important;
   }
 
-  #userProfileWrap, .pt-user-pill, .ts-user-pill, .mt-user, .doc-user-pill, .ph-user-profile, .apt-user-profile, .tp-user-profile, .ex-user-profile, .admin-profile-pill {
+  .shared-nav-link, .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link,
+  .apt-nav-link, .tp-nav-link, .ex-nav-link, .nav-link-item, #navMenu a {
+    padding: 4px 6px !important;
+    font-size: 12px !important;
+  }
+
+  .shared-nav-right, .pt-nav-actions, .ts-nav-actions, .mt-nav-right, .cp-nav-actions,
+  .doc-nav-actions, .apt-nav-actions, .tp-nav-actions, .ex-nav-actions, .ph-nav-actions {
+    gap: 5px !important;
+  }
+
+  .shared-user-pill, #userProfileWrap, .pt-user-pill, .ts-user-pill, .mt-user, .doc-user-pill,
+  .ph-user-profile, .apt-user-profile, .tp-user-profile, .ex-user-profile, .admin-profile-pill {
     max-width: 145px !important;
+    min-width: 120px !important;
+    padding: 3px 6px !important;
+  }
+
+  .shared-user-text, #userProfileWrap .mt-user-text, #userProfileWrap div {
+    max-width: 85px !important;
+  }
+
+  .shared-logout-btn, .shared-btn-contact, .shared-btn-signup,
+  #btnHeaderContact, #btnHeaderSignup, #logoutBtn {
+    padding: 4px 8px !important;
+    font-size: 11.5px !important;
+  }
+}
+
+/* Small Laptop / Tablet Landscape (992px - 1099px, e.g. 1024px) */
+@media (max-width: 1099px) and (min-width: 992px) {
+  .shared-header-inner, .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .mt-navbar-inner,
+  .header-inner, .apt-navbar-inner, .tp-navbar-inner, .ex-navbar-inner,
+  .cp-navbar-inner, .ph-navbar-inner {
+    padding: 0 10px !important;
+    gap: 6px !important;
+  }
+
+  .shared-brand, .pt-brand, .ts-brand, .doc-brand, .mt-brand, .cp-brand, .ph-brand, a[class*="-brand"] {
+    max-width: 160px !important;
+    gap: 6px !important;
+  }
+
+  .shared-logo, .pt-brand-logo, .ts-brand-logo, .mt-logo, img[class*="brand-logo"] {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+  }
+
+  .shared-brand-title, .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title, .ph-brand-name {
+    font-size: 16px !important;
+  }
+
+  .shared-brand-subtitle, .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle, .ph-brand-tagline {
+    display: none !important;
+  }
+
+  .shared-nav-list, .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .mt-nav-list, .apt-nav-menu,
+  .tp-nav-menu, .ex-nav-menu, .cp-nav-menu, .nav-links, #navMenu, #aptNavMenu, #tpNavMenu, #exNavMenu, #docNavMenu {
+    gap: 5px !important;
+  }
+
+  .shared-nav-link, .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link,
+  .apt-nav-link, .tp-nav-link, .ex-nav-link, .nav-link-item, #navMenu a {
+    padding: 4px 5px !important;
+    font-size: 11px !important;
+  }
+
+  .shared-nav-right, .pt-nav-actions, .ts-nav-actions, .mt-nav-right, .cp-nav-actions,
+  .doc-nav-actions, .apt-nav-actions, .tp-nav-actions, .ex-nav-actions, .ph-nav-actions {
+    gap: 4px !important;
+  }
+
+  .shared-user-pill, #userProfileWrap, .pt-user-pill, .ts-user-pill, .mt-user, .doc-user-pill,
+  .ph-user-profile, .apt-user-profile, .tp-user-profile, .ex-user-profile, .admin-profile-pill {
+    max-width: 125px !important;
+    min-width: 110px !important;
     padding: 3px 6px !important;
   }
 
@@ -1169,6 +1415,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   }
 
   /* Compact icon pills at 1024px to guarantee single horizontal row without overlap */
+  .shared-btn-contact span, .shared-btn-signup span,
   #btnHeaderContact span, #btnHeaderSignup span,
   .pt-btn-contact span, .pt-btn-signup span,
   .doc-btn-contact span, .doc-btn-signup span,
@@ -1179,6 +1426,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
     display: none !important;
   }
 
+  .shared-btn-contact, .shared-btn-signup,
   #btnHeaderContact, #btnHeaderSignup,
   .pt-btn-contact, .pt-btn-signup,
   .doc-btn-contact, .doc-btn-signup,
@@ -1192,48 +1440,51 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   }
 }
 
-/* Tablet & Mobile (< 992px) Drawer / Accordion */
+/* Tablet & Mobile (< 992px) Hamburger Drawer / Accordion */
 @media (max-width: 991px) {
-  .pt-header, .ts-header, .doc-header, .apt-header, .tp-header, .ex-header,
+  .shared-header, .pt-header, .ts-header, .doc-header, .apt-header, .tp-header, .ex-header,
   .mt-navbar, .cp-header-wrap, .ph-header, .header-nav {
     min-height: 72px !important;
     height: 72px !important;
+    max-height: 72px !important;
   }
 
-  .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .apt-navbar-inner,
+  .shared-header-inner, .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .apt-navbar-inner,
   .tp-navbar-inner, .ex-navbar-inner, .mt-navbar-inner, .cp-navbar-inner,
   .ph-navbar-inner, .header-inner {
     min-height: 72px !important;
+    height: 72px !important;
+    max-height: 72px !important;
     padding: 0 16px !important;
   }
 
-  .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle, .ph-brand-tagline {
+  .shared-brand-subtitle, .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle, .ph-brand-tagline {
     display: none !important;
   }
 
-  .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title, .ph-brand-name {
+  .shared-brand-title, .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title, .ph-brand-name {
     font-size: 17px !important;
   }
 
-  .pt-brand-logo, .ts-brand-logo, .mt-logo, img[class*="brand-logo"] {
-    width: 42px !important;
-    height: 42px !important;
-    min-width: 42px !important;
-    min-height: 42px !important;
+  .shared-logo, .pt-brand-logo, .ts-brand-logo, .mt-logo, img[class*="brand-logo"] {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
   }
 
   /* Hamburger Button Display */
-  .pt-nav-toggle, .ts-nav-toggle, .tp-nav-toggle, .apt-nav-toggle,
+  .shared-nav-toggle, .pt-nav-toggle, .ts-nav-toggle, .tp-nav-toggle, .apt-nav-toggle,
   .ex-nav-toggle, .cp-nav-toggle, .ph-nav-toggle, .doc-nav-toggle, #navToggle, #docNavToggle {
     display: inline-flex !important;
   }
 
-  /* Collapse Center Nav Menu on Mobile */
-  .pt-nav-wrap, .ts-nav-wrap, .doc-nav-wrap, .ph-nav-wrap, .mt-nav-center {
+  /* Collapse Center Nav Menu into Mobile Drawer */
+  .shared-nav-center, .pt-nav-wrap, .ts-nav-wrap, .doc-nav-wrap, .ph-nav-wrap, .mt-nav-center {
     display: contents !important;
   }
 
-  .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .apt-nav-menu, .tp-nav-menu,
+  .shared-nav-list, .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .apt-nav-menu, .tp-nav-menu,
   .ex-nav-menu, .mt-nav-list, .cp-nav-menu, #navMenu, #docNavMenu, #aptNavMenu, #tpNavMenu, #exNavMenu {
     display: none !important;
     position: absolute !important;
@@ -1251,6 +1502,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   }
 
   /* Active State for Mobile Drawer */
+  .shared-nav-list.active, .shared-nav-list.open,
   .pt-nav-menu.active, .pt-nav-menu.open,
   .ts-nav-menu.active, .ts-nav-menu.open,
   .doc-nav-menu.active, .doc-nav-menu.open,
@@ -1267,7 +1519,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
     display: flex !important;
   }
 
-  .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link, #navMenu a {
+  .shared-nav-link, .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link, #navMenu a {
     padding: 10px 14px !important;
     font-size: 14.5px !important;
     width: 100% !important;
@@ -1275,17 +1527,20 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   }
 
   /* Compact Right Actions on Mobile */
-  .pt-nav-actions, .ts-nav-actions, .doc-nav-actions, .mt-nav-right, .cp-nav-actions, .apt-nav-actions, .tp-nav-actions, .ex-nav-actions, .ph-nav-actions {
+  .shared-nav-right, .pt-nav-actions, .ts-nav-actions, .doc-nav-actions, .mt-nav-right, .cp-nav-actions,
+  .apt-nav-actions, .tp-nav-actions, .ex-nav-actions, .ph-nav-actions {
     gap: 6px !important;
   }
 
-  #btnHeaderContact span, #btnHeaderSignup span, #logoutBtn span.d-sm-inline,
+  .shared-btn-contact span, .shared-btn-signup span, #logoutBtn span.d-sm-inline,
+  #btnHeaderContact span, #btnHeaderSignup span,
   .pt-btn-contact span, .pt-btn-signup span, .doc-btn-contact span, .doc-btn-signup span,
   .apt-btn-contact span, .apt-btn-signup span, .tp-btn-contact span, .tp-btn-signup span,
   .ex-btn-contact span, .ex-btn-signup span {
     display: none !important;
   }
 
+  .shared-logout-btn, .shared-btn-contact, .shared-btn-signup,
   #btnHeaderContact, #btnHeaderSignup, #logoutBtn,
   .pt-btn-contact, .pt-btn-signup, .pt-logout-btn, .ts-logout-btn,
   .doc-btn-contact, .doc-btn-signup, .apt-btn-contact, .apt-btn-signup,
@@ -1298,4 +1553,3 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
     display: none !important;
   }
 }
-
