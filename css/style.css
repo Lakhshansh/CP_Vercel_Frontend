@@ -919,20 +919,25 @@ table {
 
 .has-photo .mt-user-default,
 .mt-user-default.d-none,
-.mt-user-default[hidden] {
+.mt-user-default[hidden],
+#userProfileBtn.has-photo #navAvatar,
+#userProfileBtn img#navAvatarImg[src]:not([src=""]):not(.d-none) ~ #navAvatar {
     display: none !important;
     visibility: hidden !important;
     width: 0 !important;
     height: 0 !important;
 }
 
-.has-photo .mt-user-photo {
+.has-photo .mt-user-photo,
+#userProfileBtn.has-photo #navAvatarImg {
     display: block !important;
+    visibility: visible !important;
 }
 
 .mt-user:not(.has-photo) .mt-user-photo,
 .mt-user-photo.d-none,
-.mt-user-photo[hidden] {
+.mt-user-photo[hidden],
+#userProfileBtn:not(.has-photo) #navAvatarImg {
     display: none !important;
     visibility: hidden !important;
     width: 0 !important;

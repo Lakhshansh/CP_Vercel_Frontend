@@ -779,6 +779,19 @@ function populateDoctorProfile(user) {
       renderNavbarUser(user);
     }
     updatePhotoButtons(false, false);
+  } else {
+    if (avatarImg) {
+      avatarImg.src = DEFAULT_DOCTOR_AVATAR;
+      avatarImg.alt = "Default Doctor Avatar";
+      avatarImg.style.display = "block";
+      avatarImg.onerror = null;
+    }
+    if (avatarEl) avatarEl.style.display = "none";
+
+    if (typeof renderNavbarUser === "function") {
+      renderNavbarUser(user);
+    }
+    updatePhotoButtons(false, false);
   }
 }
 

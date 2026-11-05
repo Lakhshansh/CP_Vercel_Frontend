@@ -238,27 +238,34 @@ function renderNavbarUser(user) {
 
     if (navAvatarImg) {
       navAvatarImg.alt = "";
-      navAvatarImg.onload = function () {
-        // Image loaded successfully -> show photo, hide fallback circle
+      // Keep DOM img hidden until verification succeeds to prevent broken image icons
+      navAvatarImg.classList.add("d-none");
+      navAvatarImg.setAttribute("hidden", "true");
+      navAvatarImg.style.setProperty("display", "none", "important");
+
+      const testImg = new Image();
+      testImg.onload = function () {
+        // Image loaded successfully -> show photo, strictly hide fallback circle
         if (userProfileBtn) userProfileBtn.classList.add("has-photo");
         if (userProfileWrap) userProfileWrap.classList.add("has-photo");
-        this.classList.remove("d-none", "img-error");
-        this.removeAttribute("hidden");
-        this.style.setProperty("display", "block", "important");
+        navAvatarImg.src = photoSrc;
+        navAvatarImg.classList.remove("d-none", "img-error");
+        navAvatarImg.removeAttribute("hidden");
+        navAvatarImg.style.setProperty("display", "block", "important");
         if (navAvatarEl) {
           navAvatarEl.classList.add("d-none");
           navAvatarEl.setAttribute("hidden", "true");
           navAvatarEl.style.setProperty("display", "none", "important");
         }
       };
-      navAvatarImg.onerror = function () {
-        // Image failed -> hide img immediately, show fallback letter circle
+      testImg.onerror = function () {
+        // Image failed -> strictly hide img immediately, strictly show fallback letter circle
         if (userProfileBtn) userProfileBtn.classList.remove("has-photo");
         if (userProfileWrap) userProfileWrap.classList.remove("has-photo");
-        this.classList.add("d-none", "img-error");
-        this.setAttribute("hidden", "true");
-        this.style.setProperty("display", "none", "important");
-        this.removeAttribute("src");
+        navAvatarImg.removeAttribute("src");
+        navAvatarImg.classList.add("d-none", "img-error");
+        navAvatarImg.setAttribute("hidden", "true");
+        navAvatarImg.style.setProperty("display", "none", "important");
         if (navAvatarEl) {
           navAvatarEl.classList.remove("d-none");
           navAvatarEl.removeAttribute("hidden");
@@ -266,7 +273,7 @@ function renderNavbarUser(user) {
           navAvatarEl.textContent = initial;
         }
       };
-      navAvatarImg.src = photoSrc;
+      testImg.src = photoSrc;
     }
 
     if (navPatientAvatar) {
@@ -282,10 +289,10 @@ function renderNavbarUser(user) {
     if (userProfileBtn) userProfileBtn.classList.remove("has-photo");
     if (userProfileWrap) userProfileWrap.classList.remove("has-photo");
     if (navAvatarImg) {
+      navAvatarImg.removeAttribute("src");
       navAvatarImg.classList.add("d-none");
       navAvatarImg.setAttribute("hidden", "true");
       navAvatarImg.style.setProperty("display", "none", "important");
-      navAvatarImg.removeAttribute("src");
     }
     if (navAvatarEl) {
       navAvatarEl.classList.remove("d-none");

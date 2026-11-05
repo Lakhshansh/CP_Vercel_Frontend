@@ -827,11 +827,11 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   flex-direction: row !important;
   align-items: center !important;
   justify-content: flex-end !important;
-  gap: 5px !important;
+  gap: 6px !important;
   flex: 0 0 auto !important;
   flex-shrink: 0 !important;
   margin: 0 !important;
-  margin-left: 8px !important;
+  margin-left: auto !important;
   min-width: 0 !important;
   flex-wrap: nowrap !important;
   overflow: visible !important;
@@ -843,6 +843,8 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   display: inline-flex !important;
   align-items: center !important;
   flex-shrink: 0 !important;
+  margin-left: 10px !important;
+  margin-right: 2px !important;
 }
 
 .shared-notif-btn, .doc-notif-btn, .apt-icon-btn, .ex-notification-btn, .ph-icon-btn,
@@ -994,6 +996,8 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
    ===================================================================== */
 
 /* 1. Base Fallback Circle (Displayed when user has no photo or photo is loading/broken) */
+#userProfileBtn div#navAvatar,
+#userProfileWrap div#navAvatar,
 div.shared-avatar-fallback,
 div.mt-user-default,
 div.admin-avatar {
@@ -1004,7 +1008,7 @@ div.admin-avatar {
   max-width: 32px !important;
   max-height: 32px !important;
   border-radius: 50% !important;
-  display: flex;
+  display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   font-size: 14px !important;
@@ -1015,9 +1019,14 @@ div.admin-avatar {
   flex-shrink: 0 !important;
   text-transform: uppercase !important;
   user-select: none !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /* 2. Base Avatar Image (Strictly hidden by default until valid source is verified and loaded) */
+#userProfileBtn img#navAvatarImg,
+#userProfileWrap img#navAvatarImg,
 img.shared-avatar-img,
 img.mt-user-photo,
 img.pt-user-avatar,
@@ -1027,17 +1036,23 @@ img.ex-user-avatar,
 img.apt-user-avatar {
   display: none !important;
   visibility: hidden !important;
+  opacity: 0 !important;
   width: 0 !important;
   height: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
   border-radius: 50% !important;
   object-fit: cover !important;
   flex-shrink: 0 !important;
-  border: 1.5px solid #0d6efd !important;
+  border: none !important;
   margin: 0 !important;
   padding: 0 !important;
+  overflow: hidden !important;
 }
 
 /* 3. When Pill is in PHOTO MODE (.has-photo): strictly show image, strictly hide fallback letter */
+#userProfileBtn.has-photo img#navAvatarImg,
+#userProfileWrap.has-photo img#navAvatarImg,
 .shared-user-pill.has-photo img.shared-avatar-img,
 .shared-user-pill.has-photo img.mt-user-photo,
 .shared-profile-wrap.has-photo img.shared-avatar-img,
@@ -1048,14 +1063,20 @@ img.apt-user-avatar {
 .has-photo > a > img.mt-user-photo {
   display: block !important;
   visibility: visible !important;
+  opacity: 1 !important;
   width: 32px !important;
   height: 32px !important;
   min-width: 32px !important;
   min-height: 32px !important;
   max-width: 32px !important;
   max-height: 32px !important;
+  border: 1.5px solid #0d6efd !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
 }
 
+#userProfileBtn.has-photo div#navAvatar,
+#userProfileWrap.has-photo div#navAvatar,
 .shared-user-pill.has-photo div.shared-avatar-fallback,
 .shared-user-pill.has-photo div.mt-user-default,
 .shared-profile-wrap.has-photo div.shared-avatar-fallback,
@@ -1066,8 +1087,11 @@ img.apt-user-avatar {
 .has-photo > a > div.mt-user-default {
   display: none !important;
   visibility: hidden !important;
+  opacity: 0 !important;
   width: 0 !important;
   height: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
   border: none !important;
@@ -1075,6 +1099,8 @@ img.apt-user-avatar {
 }
 
 /* 4. When Pill is in INITIAL/FALLBACK MODE (not .has-photo): strictly show fallback, strictly hide image */
+#userProfileBtn:not(.has-photo) img#navAvatarImg,
+#userProfileWrap:not(.has-photo) img#navAvatarImg,
 .shared-user-pill:not(.has-photo) img.shared-avatar-img,
 .shared-user-pill:not(.has-photo) img.mt-user-photo,
 .shared-profile-wrap:not(.has-photo) img.shared-avatar-img,
@@ -1083,13 +1109,19 @@ img.apt-user-avatar {
 #userProfileWrap:not(.has-photo) img.mt-user-photo {
   display: none !important;
   visibility: hidden !important;
+  opacity: 0 !important;
   width: 0 !important;
   height: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
   border: none !important;
+  overflow: hidden !important;
 }
 
+#userProfileBtn:not(.has-photo) div#navAvatar,
+#userProfileWrap:not(.has-photo) div#navAvatar,
 .shared-user-pill:not(.has-photo) div.shared-avatar-fallback,
 .shared-user-pill:not(.has-photo) div.mt-user-default,
 .shared-profile-wrap:not(.has-photo) div.shared-avatar-fallback,
@@ -1098,9 +1130,37 @@ img.apt-user-avatar {
 #userProfileWrap:not(.has-photo) div.mt-user-default {
   display: flex !important;
   visibility: visible !important;
+  opacity: 1 !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
 }
 
-/* 5. Hard Hide for invalid / broken / d-none elements */
+/* 5. Direct Sibling Protection: If navAvatarImg has valid src and is displayed, ALWAYS hide navAvatar sibling */
+#userProfileBtn img#navAvatarImg[src]:not([src=""]):not(.d-none) ~ div#navAvatar,
+#userProfileWrap img#navAvatarImg[src]:not([src=""]):not(.d-none) ~ div#navAvatar,
+.shared-user-pill img.shared-avatar-img[src]:not([src=""]):not(.d-none) ~ div.shared-avatar-fallback,
+.mt-user img.mt-user-photo[src]:not([src=""]):not(.d-none) ~ div.mt-user-default {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* 6. Hard Hide for invalid / broken / d-none elements */
+#userProfileBtn img#navAvatarImg:not([src]),
+#userProfileBtn img#navAvatarImg[src=""],
+#userProfileBtn img#navAvatarImg.d-none,
+#userProfileBtn img#navAvatarImg[hidden],
+#userProfileBtn img#navAvatarImg.img-error,
 img.shared-avatar-img:not([src]),
 img.shared-avatar-img[src=""],
 img.shared-avatar-img.d-none,
@@ -1113,13 +1173,20 @@ img.mt-user-photo[hidden],
 img.mt-user-photo.img-error {
   display: none !important;
   visibility: hidden !important;
+  opacity: 0 !important;
   width: 0 !important;
   height: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
   border: none !important;
+  overflow: hidden !important;
 }
 
+#userProfileBtn div#navAvatar.d-none,
+#userProfileBtn div#navAvatar[hidden],
+#userProfileBtn div#navAvatar[style*="none"],
 div.shared-avatar-fallback.d-none,
 div.shared-avatar-fallback[hidden],
 div.shared-avatar-fallback[style*="none"],
@@ -1128,11 +1195,15 @@ div.mt-user-default[hidden],
 div.mt-user-default[style*="none"] {
   display: none !important;
   visibility: hidden !important;
+  opacity: 0 !important;
   width: 0 !important;
   height: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
   border: none !important;
   margin: 0 !important;
   padding: 0 !important;
+  overflow: hidden !important;
 }
 
 /* User Profile Texts */
@@ -1350,8 +1421,8 @@ div.mt-user-default[style*="none"] {
    Responsive Scaling Engine Across Breakpoints (1920px, 1366px, 1024px, Mobile)
    ========================================================================== */
 
-/* Laptop Resolution Adaptations (Up to 1480px, e.g. 1366px, 1280px, 1080p 125% scaling) */
-@media (max-width: 1480px) {
+/* Laptop Resolution Adaptations (Up to 1650px, e.g. 1536px Windows 125% scaling, 1440px, 1366px, 1280px) */
+@media (max-width: 1650px) {
   .shared-header-inner, .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .apt-navbar-inner,
   .tp-navbar-inner, .ex-navbar-inner, .mt-navbar-inner, .cp-navbar-inner,
   .ph-navbar-inner, .header-inner {
@@ -1393,8 +1464,8 @@ div.mt-user-default[style*="none"] {
 
   .shared-nav-right, .pt-nav-actions, .ts-nav-actions, .mt-nav-right, .cp-nav-actions,
   .doc-nav-actions, .apt-nav-actions, .tp-nav-actions, .ex-nav-actions, .ph-nav-actions {
-    gap: 4px !important;
-    margin-left: 6px !important;
+    gap: 5px !important;
+    margin-left: auto !important;
   }
 
   .shared-user-pill, #userProfileWrap, .pt-user-pill, .ts-user-pill, .mt-user, .doc-user-pill,
@@ -1418,6 +1489,16 @@ div.mt-user-default[style*="none"] {
     font-size: 9.5px !important;
   }
 
+  .shared-logout-btn, #logoutBtn,
+  .pt-logout-btn, .ts-logout-btn, .doc-logout-btn,
+  .apt-logout-btn, .tp-logout-btn, .ex-logout-btn, .mt-logout-btn, .logout-btn {
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+  }
+}
+
+/* Compact Laptop Screens (Up to 1420px, e.g. 1366px, 1280px) */
+@media (max-width: 1420px) {
   /* Compact button text collapsing on laptops */
   .shared-btn-contact span, .shared-btn-signup span,
   #btnHeaderContact span, #btnHeaderSignup span,
@@ -1441,13 +1522,6 @@ div.mt-user-default[style*="none"] {
     padding: 5px 8px !important;
     min-width: 32px !important;
     justify-content: center !important;
-  }
-
-  .shared-logout-btn, #logoutBtn,
-  .pt-logout-btn, .ts-logout-btn, .doc-logout-btn,
-  .apt-logout-btn, .tp-logout-btn, .ex-logout-btn, .mt-logout-btn, .logout-btn {
-    padding: 4px 8px !important;
-    font-size: 11px !important;
   }
 }
 
