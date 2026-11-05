@@ -314,6 +314,7 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
    Universal 4-Column Professional Healthcare Footer (Unified Standard)
    ========================================================================== */
 
+footer.mt-unified-footer,
 .mt-unified-footer {
   background: #0B1930 !important;
   background: linear-gradient(180deg, #0B1930 0%, #071224 100%) !important;
@@ -326,80 +327,151 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   box-sizing: border-box !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
   line-height: 1.5 !important;
+  position: relative !important;
+  z-index: 10 !important;
+  overflow-x: hidden !important;
 }
 
+.mt-unified-footer .mt-footer-container,
 .mt-footer-container {
   max-width: 1360px !important;
   margin: 0 auto !important;
-  padding: 0 24px !important;
+  padding: 0 28px !important;
   box-sizing: border-box !important;
+  width: 100% !important;
 }
 
+/* 4-Column Grid Layout: Ample 1.7fr for Col 1 so tagline and branding never clip */
+.mt-unified-footer .mt-footer-grid,
 .mt-footer-grid {
   display: grid !important;
-  grid-template-columns: 1.35fr 1fr 1fr 1.25fr !important;
-  gap: 32px !important;
+  grid-template-columns: 1.7fr 1fr 1fr 1.3fr !important;
+  gap: 36px !important;
   margin-bottom: 44px !important;
   align-items: start !important;
   box-sizing: border-box !important;
+  width: 100% !important;
 }
 
 /* Subtle Vertical Dividers on Desktop */
+.mt-unified-footer .mt-footer-col,
 .mt-footer-col {
   box-sizing: border-box !important;
   min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
+.mt-unified-footer .mt-footer-col.mt-col-divider,
 .mt-footer-col.mt-col-divider {
   border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-  padding-right: 28px !important;
+  padding-right: 32px !important;
 }
 
-/* Brand Column */
+/* Column 1: Multi Therapy Branding (Horizontal Flexbox Alignment) */
+.mt-unified-footer .mt-footer-brand-wrap,
 .mt-footer-brand-wrap {
   display: flex !important;
+  flex-direction: row !important;
   align-items: center !important;
-  gap: 14px !important;
+  justify-content: flex-start !important;
+  gap: 16px !important;
   margin-bottom: 16px !important;
   text-decoration: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
 }
 
+/* Footer Circular Logo with Cyan Healthcare Accent */
+.mt-unified-footer .mt-footer-logo,
 .mt-footer-logo {
-  width: 52px !important;
-  height: 52px !important;
+  width: 54px !important;
+  height: 54px !important;
+  min-width: 54px !important;
+  min-height: 54px !important;
+  max-width: 54px !important;
+  max-height: 54px !important;
   border-radius: 50% !important;
   object-fit: contain !important;
   background: #ffffff !important;
-  padding: 2px !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+  padding: 3px !important;
+  border: 2px solid rgba(0, 217, 255, 0.45) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), 0 0 12px rgba(0, 217, 255, 0.22) !important;
   flex-shrink: 0 !important;
+  display: block !important;
 }
 
-.mt-footer-brand-title {
-  font-size: 22px !important;
+/* Footer Brand Text Container (Title + Tagline Stacked) */
+.mt-unified-footer .mt-footer-brand-wrap > div,
+.mt-footer-brand-wrap > div,
+.mt-unified-footer .mt-footer-brand-text,
+.mt-footer-brand-text {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+  gap: 4px !important;
+  overflow: visible !important;
+}
+
+/* 1. “Multi Therapy” Heading: Crisp White (#FFFFFF) */
+.mt-unified-footer .mt-footer-brand-title,
+.mt-footer-brand-title,
+div.mt-footer-brand-title,
+h3.mt-footer-brand-title {
+  font-size: 24px !important;
   font-weight: 800 !important;
-  color: #ffffff !important;
-  line-height: 1.2 !important;
+  color: #FFFFFF !important;
+  line-height: 1.15 !important;
   letter-spacing: -0.2px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
 }
 
-.mt-footer-brand-tagline {
-  font-size: 11.5px !important;
+/* 2. Tagline: Bright Cyan (#00D9FF), fully visible, responsive wrapping */
+.mt-unified-footer .mt-footer-brand-tagline,
+.mt-footer-brand-tagline,
+div.mt-footer-brand-tagline,
+span.mt-footer-brand-tagline {
+  font-size: 11px !important;
   font-weight: 700 !important;
   color: #00D9FF !important;
   letter-spacing: 0.6px !important;
   text-transform: uppercase !important;
-  margin-top: 3px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4 !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  display: block !important;
 }
 
+/* 3. Description text: Proper Spacing & Contrast */
+.mt-unified-footer .mt-footer-desc,
 .mt-footer-desc {
   font-size: 13.5px !important;
   color: #94a3b8 !important;
   line-height: 1.7 !important;
   margin: 0 !important;
+  padding: 0 !important;
+  max-width: 420px !important;
+  overflow: visible !important;
+  word-wrap: break-word !important;
 }
 
 /* Column Headings with Cyan-Blue Underline Accent */
+.mt-unified-footer .mt-footer-heading,
 .mt-footer-heading {
   font-size: 15px !important;
   font-weight: 800 !important;
@@ -411,6 +483,7 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   padding-bottom: 8px !important;
 }
 
+.mt-unified-footer .mt-footer-heading::after,
 .mt-footer-heading::after {
   content: "" !important;
   position: absolute !important;
@@ -553,12 +626,26 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   box-shadow: 0 4px 14px rgba(0, 217, 255, 0.45) !important;
 }
 
-/* Responsive Adaptations */
-@media (max-width: 991px) {
+/* Responsive Adaptations Across Breakpoints */
+@media (max-width: 1200px) and (min-width: 992px) {
+  .mt-unified-footer .mt-footer-grid,
+  .mt-footer-grid {
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr !important;
+    gap: 28px !important;
+  }
+  .mt-unified-footer .mt-footer-col.mt-col-divider,
+  .mt-footer-col.mt-col-divider {
+    padding-right: 22px !important;
+  }
+}
+
+@media (max-width: 991px) and (min-width: 641px) {
+  .mt-unified-footer .mt-footer-grid,
   .mt-footer-grid {
     grid-template-columns: 1fr 1fr !important;
-    gap: 36px 28px !important;
+    gap: 36px 32px !important;
   }
+  .mt-unified-footer .mt-footer-col.mt-col-divider,
   .mt-footer-col.mt-col-divider {
     border-right: none !important;
     padding-right: 0 !important;
@@ -566,26 +653,56 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
 }
 
 @media (max-width: 640px) {
-  .mt-unified-footer {
+  .mt-unified-footer,
+  footer.mt-unified-footer {
     padding: 44px 0 24px !important;
   }
+  .mt-unified-footer .mt-footer-container,
+  .mt-footer-container {
+    padding: 0 20px !important;
+  }
+  .mt-unified-footer .mt-footer-grid,
   .mt-footer-grid {
     grid-template-columns: 1fr !important;
     gap: 32px !important;
   }
+  .mt-unified-footer .mt-footer-col.mt-col-divider,
+  .mt-footer-col.mt-col-divider {
+    border-right: none !important;
+    padding-right: 0 !important;
+  }
+  .mt-unified-footer .mt-footer-brand-wrap,
+  .mt-footer-brand-wrap {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 14px !important;
+  }
+  .mt-unified-footer .mt-footer-brand-title,
+  .mt-footer-brand-title {
+    font-size: 21px !important;
+  }
+  .mt-unified-footer .mt-footer-brand-tagline,
+  .mt-footer-brand-tagline {
+    font-size: 10px !important;
+  }
+  .mt-unified-footer .mt-footer-bottom,
   .mt-footer-bottom {
     flex-direction: column !important;
-    align-items: flex-start !important;
+    align-items: center !important;
+    text-align: center !important;
     gap: 16px !important;
   }
+  .mt-unified-footer .mt-footer-social-wrap,
   .mt-footer-social-wrap {
     width: 100% !important;
-    justify-content: flex-start !important;
+    justify-content: center !important;
   }
 }
 
 @media print {
-  .mt-unified-footer {
+  .mt-unified-footer,
+  footer.mt-unified-footer {
     display: none !important;
   }
 }
@@ -666,10 +783,10 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   background: transparent !important;
 }
 
-/* 3. LEFT: Logo & Branding Section (Max ~230px, No Shrink, Aligned Left) */
+/* 3. LEFT: Logo & Branding Section (Max ~230px, No Shrink, Aligned Left - Header/Navbar Only) */
 .shared-brand, .pt-brand, .ts-brand, .doc-brand, .apt-brand, .tp-brand, .ex-brand,
-.mt-brand, .cp-brand, .ph-brand, .header-brand, .brand-wrap, .admin-brand,
-.admin-dash-brand, a[class*="-brand"] {
+.mt-brand, .cp-brand, .ph-brand, .header-brand, .shared-header .brand-wrap, .admin-brand,
+.admin-dash-brand, header a[class*="-brand"], .shared-header a[class*="-brand"], .mt-navbar a[class*="-brand"] {
   max-width: 230px !important;
   width: auto !important;
   flex: 0 0 auto !important;
@@ -702,9 +819,10 @@ footer, .mt-unified-footer, .mt-footer, .mt-admin-footer, .ph-footer, .doc-foote
   display: block !important;
 }
 
-/* Brand Text Container */
-.shared-brand-text, .pt-brand-text, .ts-brand-text, .cp-brand-text, .brand-text,
-div[class*="brand-text"], .mt-brand > div, .doc-brand > div, .brand-wrap > div {
+/* Brand Text Container (Header Only) */
+.shared-brand-text, .pt-brand-text, .ts-brand-text, .cp-brand-text, .shared-header .brand-text,
+header div[class*="brand-text"], .shared-header div[class*="brand-text"], .mt-navbar div[class*="brand-text"],
+.mt-brand > div, .doc-brand > div, .shared-header .brand-wrap > div {
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
@@ -712,10 +830,12 @@ div[class*="brand-text"], .mt-brand > div, .doc-brand > div, .brand-wrap > div {
   overflow: hidden !important;
 }
 
-/* Website Title: Multi Therapy */
+/* Website Title: Multi Therapy (Header/Navbar Only) */
 .shared-brand-title, .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title,
 .brand-title, .apt-brand-name, .admin-dash-title, .doc-brand-title,
-span[class*="brand-title"], div[class*="brand-title"] {
+header span[class*="brand-title"], header div[class*="brand-title"],
+.shared-header span[class*="brand-title"], .shared-header div[class*="brand-title"],
+.mt-navbar span[class*="brand-title"], .mt-navbar div[class*="brand-title"] {
   font-size: 17.5px !important;
   font-weight: 800 !important;
   line-height: 1.15 !important;
@@ -726,10 +846,15 @@ span[class*="brand-title"], div[class*="brand-title"] {
   color: #103463 !important;
 }
 
-/* Subtitle: Every Individual Deserves Better Care. */
+/* Subtitle: Every Individual Deserves Better Care. (Header/Navbar Only) */
 .shared-brand-subtitle, .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle,
 .brand-tagline, .apt-brand-tagline, .admin-dash-subtitle, .doc-brand-tagline,
-span[class*="brand-tagline"], span[class*="brand-subtitle"], div[class*="brand-subtitle"] {
+header span[class*="brand-tagline"], header div[class*="brand-tagline"],
+.shared-header span[class*="brand-tagline"], .shared-header div[class*="brand-tagline"],
+.mt-navbar span[class*="brand-tagline"], .mt-navbar div[class*="brand-tagline"],
+header span[class*="brand-subtitle"], header div[class*="brand-subtitle"],
+.shared-header span[class*="brand-subtitle"], .shared-header div[class*="brand-subtitle"],
+.mt-navbar span[class*="brand-subtitle"], .mt-navbar div[class*="brand-subtitle"] {
   font-size: 10px !important;
   font-weight: 600 !important;
   line-height: 1.2 !important;

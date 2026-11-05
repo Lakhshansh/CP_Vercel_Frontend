@@ -34,10 +34,10 @@
         <!-- Column 1: Multi Therapy Branding -->
         <div class="mt-footer-col mt-col-divider">
           <div class="mt-footer-brand-wrap">
-            <img src="${base}images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-footer-logo" width="52" height="52" loading="lazy">
-            <div>
+            <img src="${base}images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-footer-logo" width="54" height="54" loading="lazy">
+            <div class="mt-footer-brand-text">
               <div class="mt-footer-brand-title">Multi Therapy</div>
-              <div class="mt-footer-brand-tagline">Care • Support • Progress • Together</div>
+              <div class="mt-footer-brand-tagline">CARE • SUPPORT • PROGRESS • TOGETHER</div>
             </div>
           </div>
           <p class="mt-footer-desc">
