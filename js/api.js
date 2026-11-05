@@ -227,15 +227,25 @@ function renderNavbarUser(user) {
 
     if (navAvatarImg) {
       navAvatarImg.src = photoSrc;
-      navAvatarImg.style.display = "block";
+      navAvatarImg.style.setProperty("display", "block", "important");
+      navAvatarImg.classList.remove("d-none");
+      navAvatarImg.removeAttribute("hidden");
       navAvatarImg.onerror = function () {
-        this.style.display = "none";
+        this.style.setProperty("display", "none", "important");
+        this.classList.add("d-none");
+        this.setAttribute("hidden", "true");
         if (navAvatarEl) {
-          navAvatarEl.style.display = "flex";
+          navAvatarEl.style.setProperty("display", "flex", "important");
+          navAvatarEl.classList.remove("d-none");
+          navAvatarEl.removeAttribute("hidden");
           navAvatarEl.textContent = (displayName.charAt(0) || "👤").toUpperCase();
         }
       };
-      if (navAvatarEl) navAvatarEl.style.display = "none";
+      if (navAvatarEl) {
+        navAvatarEl.style.setProperty("display", "none", "important");
+        navAvatarEl.classList.add("d-none");
+        navAvatarEl.setAttribute("hidden", "true");
+      }
     }
 
     if (navPatientAvatar) {
@@ -252,10 +262,16 @@ function renderNavbarUser(user) {
     }
   } else {
     if (navAvatarEl) {
-      navAvatarEl.style.display = "flex";
+      navAvatarEl.style.setProperty("display", "flex", "important");
+      navAvatarEl.classList.remove("d-none");
+      navAvatarEl.removeAttribute("hidden");
       navAvatarEl.textContent = (displayName.charAt(0) || "👤").toUpperCase();
     }
-    if (navAvatarImg) navAvatarImg.style.display = "none";
+    if (navAvatarImg) {
+      navAvatarImg.style.setProperty("display", "none", "important");
+      navAvatarImg.classList.add("d-none");
+      navAvatarImg.setAttribute("hidden", "true");
+    }
   }
 }
 
