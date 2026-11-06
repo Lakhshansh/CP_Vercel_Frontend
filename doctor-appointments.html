@@ -22,8 +22,8 @@
     /* Clinical Doctor Portal Custom Palette */
     :root {
       --doc-navy: #103463;
-      --doc-teal: #078B69;
-      --doc-teal-hover: #067256;
+      --doc-teal: #059669;
+      --doc-teal-hover: #047857;
       --doc-teal-light: #ecfdf5;
       --doc-teal-border: #a7f3d0;
     }
@@ -43,17 +43,23 @@
     }
 
     body.doctor-portal-theme .apt-btn-hero-primary {
-      background: var(--doc-teal) !important;
-      border-color: var(--doc-teal) !important;
+      background: #059669 !important;
+      border-color: #059669 !important;
+      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.28) !important;
+      color: #ffffff !important;
     }
 
     body.doctor-portal-theme .apt-btn-hero-primary:hover {
-      background: var(--doc-teal-hover) !important;
+      background: #047857 !important;
+      border-color: #047857 !important;
+      box-shadow: 0 10px 24px rgba(5, 150, 105, 0.38) !important;
+      transform: translateY(-2px);
+      color: #ffffff !important;
     }
 
     body.doctor-portal-theme .apt-btn-confirm {
       background: var(--doc-teal) !important;
-      box-shadow: 0 4px 14px rgba(7, 139, 105, 0.3) !important;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3) !important;
     }
 
     body.doctor-portal-theme .apt-btn-confirm:hover {
@@ -63,6 +69,98 @@
     body.doctor-portal-theme .apt-nav-link.active {
       color: var(--doc-teal) !important;
       border-bottom-color: var(--doc-teal) !important;
+    }
+
+    /* Specialists Directory Green UI Theme */
+    .apt-tabs-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .apt-tab-btn {
+      flex: 1;
+      text-align: center;
+      border: 1.5px solid #059669 !important;
+      background: #ffffff !important;
+      color: #065f46 !important;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      box-shadow: 0 1px 3px rgba(5, 150, 105, 0.08);
+    }
+
+    .apt-tab-btn:hover {
+      background: #ecfdf5 !important;
+      border-color: #047857 !important;
+      color: #047857 !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.18);
+    }
+
+    .apt-tab-btn.active,
+    .apt-tab-btn[aria-selected="true"] {
+      background: #059669 !important;
+      color: #ffffff !important;
+      border: 1.5px solid #059669 !important;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.28);
+    }
+
+    .apt-tab-btn.active:hover {
+      background: #047857 !important;
+      border-color: #047857 !important;
+      color: #ffffff !important;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.38);
+    }
+
+    #btnSearchSpecialists.apt-btn-search,
+    .apt-btn-search {
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: 1.5px solid #059669 !important;
+      background: #059669 !important;
+      color: #ffffff !important;
+      font-weight: 700;
+      font-size: 14.5px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.28);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+      outline: none;
+    }
+
+    #btnSearchSpecialists.apt-btn-search:hover,
+    .apt-btn-search:hover {
+      background: #047857 !important;
+      border-color: #047857 !important;
+      color: #ffffff !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(5, 150, 105, 0.38);
+    }
+
+    #findSpecialistCard .apt-form-select:focus,
+    #findSpecialistCard .apt-form-control:focus,
+    #findSpecialistCard select:focus,
+    #findSpecialistCard input:focus,
+    #filterSpec:focus,
+    #filterLoc:focus,
+    #filterKeyword:focus {
+      border-color: #059669 !important;
+      box-shadow: 0 0 0 3.5px rgba(5, 150, 105, 0.2) !important;
+      outline: none !important;
     }
 
     

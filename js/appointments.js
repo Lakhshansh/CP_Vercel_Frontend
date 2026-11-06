@@ -860,8 +860,12 @@ function setupFindSpecialistSearch() {
   const tabs = document.querySelectorAll(".apt-spec-tab, .apt-tab-btn");
   tabs.forEach(tab => {
     tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
+      tabs.forEach(t => {
+        t.classList.remove("active");
+        t.setAttribute("aria-selected", "false");
+      });
       tab.classList.add("active");
+      tab.setAttribute("aria-selected", "true");
       currentSpecTab = tab.getAttribute("data-type") || tab.id?.replace("tabSpec", "").toLowerCase() || "all";
       renderSpecialistsList();
     });
@@ -872,17 +876,45 @@ function setupFindSpecialistSearch() {
 
   const filterLoc = document.getElementById("filterLoc") || document.getElementById("specLocationSelect");
   if (filterLoc) filterLoc.addEventListener("change", renderSpecialistsList);
+
+  const filterKeyword = document.getElementById("filterKeyword");
+  if (filterKeyword) {
+    filterKeyword.addEventListener("input", renderSpecialistsList);
+    filterKeyword.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        renderSpecialistsList();
+      }
+    });
+  }
+
+  const btnSearch = document.getElementById("btnSearchSpecialists") || document.getElementById("btnSearchSpec");
+  if (btnSearch) {
+    btnSearch.addEventListener("click", (e) => {
+      e.preventDefault();
+      renderSpecialistsList();
+    });
+  }
+
+  const searchForm = document.getElementById("specSearchForm");
+  if (searchForm) {
+    searchForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      renderSpecialistsList();
+    });
+  }
 }
 
 /**
  * Render the filtered specialist cards in the right column
  */
 function renderSpecialistsList() {
-  const listEl = document.getElementById("specResultsList");
+  const listEl = document.getElementById("specialistsResultsList") || document.getElementById("specResultsList");
   if (!listEl) return;
 
   const domainFilter = (document.getElementById("filterSpec") || document.getElementById("specDomainSelect"))?.value || "all";
   const locationFilter = (document.getElementById("filterLoc") || document.getElementById("specLocationSelect"))?.value || "all";
+  const keyword = (document.getElementById("filterKeyword")?.value || "").trim().toLowerCase();
 
   let specialists = [];
 
@@ -923,7 +955,32 @@ function renderSpecialistsList() {
       (q === "physio" && s.specialization.toLowerCase().includes("physio")) ||
       (q === "occupational" && s.specialization.toLowerCase().includes("occup")) ||
       (q === "speech" && s.specialization.toLowerCase().includes("speech")) ||
-      (q === "ortho" && s.specialization.toLowerCase().includes("ortho"))
+      (q === "ortho" && s.specialization.toLowerCase().includes("ortho")) ||
+      (q === "neurology" && s.specialization.toLowerCase().includes("neuro"))
+    );
+  }
+
+  // Filter location
+  if (locationFilter !== "all") {
+    const loc = locationFilter.toLowerCase();
+    specialists = specialists.filter(s => {
+      const sLoc = (s.location || "").toLowerCase();
+      if (loc.includes("jaipur") && sLoc.includes("jaipur")) return true;
+      if (loc.includes("tele") && (sLoc.includes("tele") || sLoc.includes("online"))) return true;
+      if (loc.includes("main") && sLoc.includes("main")) return true;
+      if (loc.includes("wing") && sLoc.includes("wing")) return true;
+      if (loc.includes("clinic") && sLoc.includes("clinic")) return true;
+      return sLoc.includes(loc);
+    });
+  }
+
+  // Filter keyword
+  if (keyword) {
+    specialists = specialists.filter(s =>
+      s.name.toLowerCase().includes(keyword) ||
+      s.specialization.toLowerCase().includes(keyword) ||
+      s.location.toLowerCase().includes(keyword) ||
+      s.type.toLowerCase().includes(keyword)
     );
   }
 
@@ -941,8 +998,8 @@ function renderSpecialistsList() {
       <div class="apt-spec-info">
         <div class="apt-spec-name">${escapeHtml(s.name)}</div>
         <div class="apt-spec-meta">
-          <span class="badge bg-light text-primary border me-1">${escapeHtml(s.type)}</span>
-          ${escapeHtml(s.specialization)} • <span class="text-secondary">${escapeHtml(s.location)}</span> • <span class="badge bg-light text-success border fw-bold">${escapeHtml(s.fee)}</span>
+          <span class="badge" style="background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0; font-weight:700;">${escapeHtml(s.type)}</span>
+          ${escapeHtml(s.specialization)} • <span class="text-secondary">${escapeHtml(s.location)}</span> • <span class="badge" style="background:#ecfdf5; color:#059669; border:1px solid #a7f3d0; font-weight:700;">${escapeHtml(s.fee)}</span>
         </div>
       </div>
       <button type="button" class="apt-btn-select-spec" onclick="selectSpecialistForBooking('${escapeHtml(s.id)}', '${escapeHtml(s.defaultType)}')">

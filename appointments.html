@@ -479,7 +479,7 @@
       <section class="apt-card-box" id="findSpecialistCard" aria-labelledby="specialistHeading">
         <div class="apt-card-header">
           <h2 class="apt-card-title" id="specialistHeading">
-            <span>👨‍⚕️</span> Find a Specialist
+            <span>🔍</span> Specialists Directory
           </h2>
           <p class="apt-card-subtitle">
             Filter available practitioners and select into your booking form.
@@ -488,9 +488,9 @@
 
         <!-- Doctor / Therapist Tabs -->
         <div class="apt-spec-tabs" role="tablist">
-          <button type="button" class="apt-spec-tab active" data-type="all">All</button>
-          <button type="button" class="apt-spec-tab" data-type="doctor">Doctor</button>
-          <button type="button" class="apt-spec-tab" data-type="therapist">Therapist</button>
+          <button type="button" class="apt-spec-tab active" data-type="all" id="tabSpecAll" role="tab" aria-selected="true">All Specialists</button>
+          <button type="button" class="apt-spec-tab" data-type="doctor" id="tabSpecDoctor" role="tab" aria-selected="false">Doctors</button>
+          <button type="button" class="apt-spec-tab" data-type="therapist" id="tabSpecTherapist" role="tab" aria-selected="false">Therapists</button>
         </div>
 
         <form id="specSearchForm">
@@ -527,7 +527,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <span>Search Specialists</span>
+            <span>Search Specialist Roster</span>
           </button>
 
         </form>
