@@ -999,7 +999,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 /* Navigation Links (A) and Dropdown Toggles: White Navigation Text on Dark Navy */
 .shared-nav-link, .pt-nav-link, .ts-nav-link, .doc-nav-link, .apt-nav-link, .tp-nav-link,
 .ex-nav-link, .mt-nav-link, .cp-nav-link, .ph-nav-link, .nav-link-item,
-.pt-nav-menu a, .ts-nav-menu a, .mt-nav-list a, .nav-links a, #navMenu a,
+.pt-nav-menu > li > a:not(.nav-dropdown-link), .ts-nav-menu > li > a:not(.nav-dropdown-link), .mt-nav-list > li > a:not(.nav-dropdown-link), .nav-links > li > a:not(.nav-dropdown-link), #navMenu > li > a:not(.nav-dropdown-link),
 .nav-dropdown-toggle {
   white-space: nowrap !important;
   display: inline-flex !important;
@@ -1018,7 +1018,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 
 .shared-nav-link:hover, .pt-nav-link:hover, .ts-nav-link:hover, .doc-nav-link:hover,
 .apt-nav-link:hover, .tp-nav-link:hover, .ex-nav-link:hover, .mt-nav-link:hover,
-.cp-nav-link:hover, .nav-link-item:hover, #navMenu a:hover,
+.cp-nav-link:hover, .nav-link-item:hover, #navMenu > li > a:hover:not(.nav-dropdown-link),
 .nav-dropdown-toggle:hover {
   color: #1683FF !important;
   background: rgba(22, 131, 255, 0.12) !important;
@@ -1027,7 +1027,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 /* Active Navigation Link: Bright Blue #1683FF */
 .shared-nav-link.active, .pt-nav-link.active, .ts-nav-link.active, .doc-nav-link.active,
 .apt-nav-link.active, .tp-nav-link.active, .ex-nav-link.active, .mt-nav-link.active,
-.cp-nav-link.active, .nav-link-item.active, #navMenu a.active {
+.cp-nav-link.active, .nav-link-item.active, #navMenu > li > a.active:not(.nav-dropdown-link) {
   color: #1683FF !important;
   background: rgba(22, 131, 255, 0.18) !important;
   border: 1.5px solid #1683FF !important;
@@ -1713,7 +1713,7 @@ div.mt-user-default[style*="none"] {
   }
 
   .shared-nav-link, .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link,
-  .apt-nav-link, .tp-nav-link, .ex-nav-link, .nav-link-item, #navMenu a {
+  .apt-nav-link, .tp-nav-link, .ex-nav-link, .nav-link-item, #navMenu > li > a:not(.nav-dropdown-link) {
     padding: 4px 6px !important;
     font-size: 11.5px !important;
   }
@@ -1841,7 +1841,7 @@ div.mt-user-default[style*="none"] {
   }
 
   .shared-nav-link, .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link,
-  .apt-nav-link, .tp-nav-link, .ex-nav-link, .nav-link-item, #navMenu a {
+  .apt-nav-link, .tp-nav-link, .ex-nav-link, .nav-link-item, #navMenu > li > a:not(.nav-dropdown-link) {
     padding: 3px 4px !important;
     font-size: 11px !important;
   }
@@ -1948,7 +1948,7 @@ div.mt-user-default[style*="none"] {
     display: flex !important;
   }
 
-  .shared-nav-link, .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link, #navMenu a {
+  .shared-nav-link, .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link, #navMenu > li > a:not(.nav-dropdown-link) {
     padding: 10px 14px !important;
     font-size: 14.5px !important;
     width: 100% !important;
@@ -1957,7 +1957,7 @@ div.mt-user-default[style*="none"] {
   }
 
   .shared-nav-link.active, .pt-nav-link.active, .ts-nav-link.active, .doc-nav-link.active,
-  .mt-nav-link.active, .cp-nav-link.active, #navMenu a.active {
+  .mt-nav-link.active, .cp-nav-link.active, #navMenu > li > a.active:not(.nav-dropdown-link) {
     color: #1683FF !important;
     background: rgba(22, 131, 255, 0.18) !important;
   }
@@ -2049,4 +2049,122 @@ div.mt-user-default[style*="none"] {
     padding: 3px 7px !important;
     font-size: 11.5px !important;
   }
+}
+
+
+/* ==========================================================================
+   DROPDOWN MENU ITEMS: GUARANTEED DARK SLATE TEXT ON WHITE BACKGROUND (#FFFFFF)
+   Fixes invisible white text on white card background
+   ========================================================================== */
+.nav-dropdown-menu a,
+.nav-dropdown-menu a.nav-dropdown-link,
+#navMenu .nav-dropdown-menu a,
+#navMenu .nav-dropdown-link,
+.shared-nav-list .nav-dropdown-link,
+a.nav-dropdown-link,
+#dropDoctors,
+#dropPatients,
+#dropTherapists,
+#dropAppointments,
+#dropTherapySessions,
+#dropExercises {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 9px 14px !important;
+  border-radius: 10px !important;
+  text-decoration: none !important;
+  color: #0f172a !important;
+  background-color: transparent !important;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  border: 1px solid transparent !important;
+  width: 100% !important;
+}
+
+.nav-dropdown-menu .nav-dropdown-text,
+.nav-dropdown-link .nav-dropdown-text,
+#navMenu .nav-dropdown-menu .nav-dropdown-text,
+#navMenu .nav-dropdown-link .nav-dropdown-text,
+.nav-dropdown-text,
+span.nav-dropdown-text {
+  color: #0f172a !important;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  display: inline-block !important;
+  flex: 1 1 auto !important;
+  white-space: nowrap !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Hover effect: light blue background #f0f7ff, bright blue text #1683FF */
+.nav-dropdown-menu a:hover,
+.nav-dropdown-menu a.nav-dropdown-link:hover,
+#navMenu .nav-dropdown-menu a:hover,
+#navMenu .nav-dropdown-link:hover,
+a.nav-dropdown-link:hover,
+#dropDoctors:hover,
+#dropPatients:hover,
+#dropTherapists:hover,
+#dropAppointments:hover,
+#dropTherapySessions:hover,
+#dropExercises:hover {
+  background-color: #f0f7ff !important;
+  color: #1683FF !important;
+  transform: translateX(4px) !important;
+  border-color: rgba(22, 131, 255, 0.25) !important;
+}
+
+.nav-dropdown-menu a:hover .nav-dropdown-text,
+.nav-dropdown-link:hover .nav-dropdown-text,
+#navMenu .nav-dropdown-menu a:hover .nav-dropdown-text,
+#navMenu .nav-dropdown-link:hover .nav-dropdown-text,
+a.nav-dropdown-link:hover .nav-dropdown-text,
+#dropDoctors:hover .nav-dropdown-text,
+#dropPatients:hover .nav-dropdown-text,
+#dropTherapists:hover .nav-dropdown-text,
+#dropAppointments:hover .nav-dropdown-text,
+#dropTherapySessions:hover .nav-dropdown-text,
+#dropExercises:hover .nav-dropdown-text {
+  color: #1683FF !important;
+}
+
+/* Active item effect: light blue background #e0f2fe, bright blue border-left & text #1683FF */
+.nav-dropdown-menu a.active,
+.nav-dropdown-menu a.nav-dropdown-link.active,
+#navMenu .nav-dropdown-menu a.active,
+#navMenu .nav-dropdown-link.active,
+a.nav-dropdown-link.active,
+#dropDoctors.active,
+#dropPatients.active,
+#dropTherapists.active,
+#dropAppointments.active,
+#dropTherapySessions.active,
+#dropExercises.active {
+  background-color: #e0f2fe !important;
+  color: #1683FF !important;
+  font-weight: 700 !important;
+  border-left: 3.5px solid #1683FF !important;
+}
+
+.nav-dropdown-menu a.active .nav-dropdown-text,
+.nav-dropdown-link.active .nav-dropdown-text,
+#navMenu .nav-dropdown-menu a.active .nav-dropdown-text,
+#navMenu .nav-dropdown-link.active .nav-dropdown-text,
+a.nav-dropdown-link.active .nav-dropdown-text,
+#dropDoctors.active .nav-dropdown-text,
+#dropPatients.active .nav-dropdown-text,
+#dropTherapists.active .nav-dropdown-text,
+#dropAppointments.active .nav-dropdown-text,
+#dropTherapySessions.active .nav-dropdown-text,
+#dropExercises.active .nav-dropdown-text {
+  color: #1683FF !important;
+  font-weight: 700 !important;
 }
