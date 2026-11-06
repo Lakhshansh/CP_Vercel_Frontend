@@ -843,9 +843,9 @@ header, .shared-header, .pt-header, .ts-header, .doc-header, .apt-header, .tp-he
 .ph-navbar-inner, .header-inner, .super-admin-header-inner, .admin-nav-inner,
 .admin-dash-header-inner {
   width: 100% !important;
-  max-width: 1720px !important;
+  max-width: 1680px !important;
   margin: 0 auto !important;
-  padding: 0 16px !important;
+  padding: 0 24px !important;
   height: 90px !important;
   min-height: 85px !important;
   max-height: 95px !important;
@@ -854,7 +854,6 @@ header, .shared-header, .pt-header, .ts-header, .doc-header, .apt-header, .tp-he
   align-items: center !important;
   justify-content: space-between !important;
   flex-wrap: nowrap !important;
-  gap: 8px !important;
   box-sizing: border-box !important;
 }
 
@@ -873,17 +872,16 @@ header, .shared-header, .pt-header, .ts-header, .doc-header, .apt-header, .tp-he
 .shared-brand, .pt-brand, .ts-brand, .doc-brand, .apt-brand, .tp-brand, .ex-brand,
 .mt-brand, .cp-brand, .ph-brand, .header-brand, .shared-header .brand-wrap, .admin-brand,
 .admin-dash-brand, header a[class*="-brand"], .shared-header a[class*="-brand"], .mt-navbar a[class*="-brand"] {
-  max-width: 280px !important;
-  width: auto !important;
-  flex: 0 0 auto !important;
-  flex-shrink: 0 !important;
+  flex: 1 0 0 !important;
+  min-width: max-content !important;
   display: flex !important;
   align-items: center !important;
-  gap: 10px !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
   text-decoration: none !important;
-  min-width: 0 !important;
   cursor: pointer !important;
   margin: 0 !important;
+  z-index: 10 !important;
 }
 
 /* Logo Image (55-65px, Circular, Blue/Cyan Accent Border, White Backing) */
@@ -960,11 +958,11 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  flex: 0 1 auto !important;
-  min-width: 0 !important;
-  margin: 0 4px !important;
-  padding: 0 2px !important;
+  flex: 0 0 auto !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
   overflow: visible !important;
+  z-index: 20 !important;
 }
 
 /* Nav Menu (UL) */
@@ -979,7 +977,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   margin: 0 !important;
   padding: 0 !important;
   flex-wrap: nowrap !important;
-  gap: 2px !important;
+  gap: 8px !important;
   overflow: visible !important;
 }
 
@@ -999,18 +997,20 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 /* Navigation Links (A) and Dropdown Toggles: White Navigation Text on Dark Navy */
 .shared-nav-link, .pt-nav-link, .ts-nav-link, .doc-nav-link, .apt-nav-link, .tp-nav-link,
 .ex-nav-link, .mt-nav-link, .cp-nav-link, .ph-nav-link, .nav-link-item,
-.pt-nav-menu > li > a:not(.nav-dropdown-link), .ts-nav-menu > li > a:not(.nav-dropdown-link), .mt-nav-list > li > a:not(.nav-dropdown-link), .nav-links > li > a:not(.nav-dropdown-link), #navMenu > li > a:not(.nav-dropdown-link),
+.pt-nav-menu > li > a:not(.nav-dropdown-link), .ts-nav-menu > li > a:not(.nav-dropdown-link),
+.mt-nav-list > li > a:not(.nav-dropdown-link), .nav-links > li > a:not(.nav-dropdown-link),
+#navMenu > li > a:not(.nav-dropdown-link),
 .nav-dropdown-toggle {
   white-space: nowrap !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 3px !important;
-  padding: 4px 6px !important;
-  font-size: 12px !important;
+  gap: 4px !important;
+  padding: 6px 11px !important;
+  font-size: 13px !important;
   font-weight: 600 !important;
   color: #FFFFFF !important;
   text-decoration: none !important;
-  border-radius: 7px !important;
+  border-radius: 8px !important;
   transition: all 0.2s ease !important;
   flex-shrink: 0 !important;
   line-height: 1.2 !important;
@@ -1043,14 +1043,13 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   flex-direction: row !important;
   align-items: center !important;
   justify-content: flex-end !important;
-  gap: 7px !important;
-  flex: 0 0 auto !important;
-  flex-shrink: 0 !important;
+  gap: 8px !important;
+  flex: 1 0 0 !important;
+  min-width: max-content !important;
   margin: 0 !important;
-  margin-left: auto !important;
-  min-width: 0 !important;
   flex-wrap: nowrap !important;
   overflow: visible !important;
+  z-index: 10 !important;
 }
 
 /* 5a. Control 1: Notification Icon Button & Dropdown */
@@ -1993,61 +1992,63 @@ div.mt-user-default[style*="none"] {
 
 
 /* =====================================================================
-   RESPONSIVE COMPACTING FOR 1100PX - 1400PX (NO CLIPPING, NO OVERLAPPING)
+   RESPONSIVE COMPACTING FOR LAPTOPS (<= 1440PX) & TABLETS (<= 1200PX)
    ===================================================================== */
-@media (max-width: 1400px) {
+@media (max-width: 1440px) {
   .shared-header-inner {
-    padding: 0 12px !important;
-    gap: 6px !important;
+    padding: 0 16px !important;
+    gap: 8px !important;
   }
   .shared-brand {
-    gap: 10px !important;
+    flex: 0 0 auto !important;
   }
-  .shared-logo {
-    width: 44px !important;
-    height: 44px !important;
-    min-width: 44px !important;
+  .shared-nav-center {
+    flex: 1 1 auto !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
   }
-  .shared-brand-title {
-    font-size: 17px !important;
+  .shared-nav-right {
+    flex: 0 0 auto !important;
+    margin-left: auto !important;
+    gap: 6px !important;
+  }
+  .shared-nav-list {
+    gap: 4px !important;
+  }
+  .shared-nav-link {
+    font-size: 12px !important;
+    padding: 5px 8px !important;
+  }
+  .shared-user-pill {
+    max-width: 145px !important;
+    padding: 3px 7px !important;
+  }
+  .shared-user-name {
+    max-width: 80px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .shared-header-inner {
+    padding: 0 10px !important;
+    gap: 4px !important;
   }
   .shared-brand-subtitle {
-    font-size: 9.5px !important;
-    max-width: 180px !important;
+    display: none !important;
   }
   .shared-nav-list {
     gap: 2px !important;
   }
   .shared-nav-link {
     font-size: 11.5px !important;
-    padding: 3px 5px !important;
+    padding: 4px 5px !important;
+  }
+  .shared-user-pill {
+    max-width: 125px !important;
+    padding: 2px 5px !important;
   }
   .shared-nav-right {
     gap: 4px !important;
-  }
-  .shared-notif-wrap {
-    margin-left: 4px !important;
-  }
-  .shared-user-pill {
-    min-width: 95px !important;
-    max-width: 135px !important;
-    padding: 2px 6px !important;
-  }
-  .shared-user-name {
-    font-size: 11.5px !important;
-    max-width: 75px !important;
-  }
-  .shared-user-role {
-    font-size: 9px !important;
-    max-width: 75px !important;
-  }
-  .shared-logout-btn {
-    padding: 3px 6px !important;
-    font-size: 11.5px !important;
-  }
-  .shared-btn-contact, .shared-btn-signup {
-    padding: 3px 7px !important;
-    font-size: 11.5px !important;
   }
 }
 
