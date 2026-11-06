@@ -13,10 +13,17 @@
     const currentPath = window.location.pathname.split("/").pop() || "index.html";
     document.querySelectorAll(".nav-dropdown-link").forEach((link) => {
       const href = link.getAttribute("href") ? link.getAttribute("href").split("/").pop().split("?")[0].split("#")[0] : "";
-      if (href && (href === currentPath || (currentPath === "" && href === "index.html"))) {
+      const isMatch = href && (
+        href === currentPath ||
+        (href === "appointments.html" && (currentPath === "doctor-appointments.html" || currentPath === "patient-appointments.html")) ||
+        (href === "doctors.html" && currentPath === "doctor-profile.html") ||
+        (href === "patients.html" && currentPath === "patient-profile.html")
+      );
+      if (isMatch) {
         link.classList.add("active");
         const parentDropdown = link.closest(".nav-item-dropdown");
         if (parentDropdown) {
+          parentDropdown.classList.add("active");
           const toggle = parentDropdown.querySelector(".nav-dropdown-toggle");
           if (toggle) toggle.classList.add("active");
         }

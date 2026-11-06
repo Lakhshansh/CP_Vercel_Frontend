@@ -54,8 +54,47 @@ html, body {
   white-space: nowrap !important;
   transition: all 0.2s ease !important;
   user-select: none !important;
-  background: transparent;
-  border: none;
+  background: transparent !important;
+  border: 1.5px solid transparent !important;
+  color: #FFFFFF !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  padding: 5px 9px !important;
+  border-radius: 8px !important;
+  line-height: 1.2 !important;
+}
+
+.nav-dropdown-toggle:hover {
+  color: #1683FF !important;
+  background: rgba(22, 131, 255, 0.12) !important;
+}
+
+/* Requirement 3: Highlight "Clinical Management" in bright blue when active */
+.nav-dropdown-toggle.active,
+.nav-item-dropdown.active > .nav-dropdown-toggle,
+.nav-dropdown-toggle:active {
+  color: #1683FF !important;
+  background: rgba(22, 131, 255, 0.18) !important;
+  border: 1.5px solid #1683FF !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 12px rgba(22, 131, 255, 0.3) !important;
+  border-radius: 8px !important;
+}
+
+.nav-dropdown-toggle.active .dropdown-arrow-icon,
+.nav-item-dropdown.active > .nav-dropdown-toggle .dropdown-arrow-icon {
+  stroke: #1683FF !important;
+  color: #1683FF !important;
+}
+
+.nav-item-dropdown.open > .nav-dropdown-toggle {
+  color: #1683FF !important;
+  background: rgba(22, 131, 255, 0.12) !important;
+}
+
+.nav-item-dropdown.open > .nav-dropdown-toggle .dropdown-arrow-icon {
+  stroke: #1683FF !important;
+  color: #1683FF !important;
 }
 
 /* Downward Arrow Icon */
@@ -75,17 +114,17 @@ html, body {
   opacity: 1 !important;
 }
 
-/* Dropdown Menu Card (Desktop Default) */
+/* Dropdown Menu Card (Desktop Default: White background, rounded corners, soft shadow, blue border) */
 .nav-dropdown-menu {
   position: absolute !important;
   top: calc(100% + 8px) !important;
   left: 50% !important;
   transform: translateX(-50%) translateY(8px) !important;
-  min-width: 230px !important;
+  min-width: 245px !important;
   background: #ffffff !important;
-  border: 1.5px solid rgba(191, 219, 254, 0.95) !important;
+  border: 1.5px solid #1683FF !important;
   border-radius: 16px !important;
-  box-shadow: 0 16px 38px rgba(16, 52, 99, 0.16), 0 4px 14px rgba(13, 110, 253, 0.08) !important;
+  box-shadow: 0 14px 34px rgba(7, 19, 38, 0.18), 0 4px 12px rgba(22, 131, 255, 0.12) !important;
   padding: 8px !important;
   display: flex !important;
   flex-direction: column !important;
@@ -157,34 +196,43 @@ html, body {
 .nav-dropdown-link {
   display: flex !important;
   align-items: center !important;
-  gap: 11px !important;
-  padding: 8px 12px !important;
+  gap: 12px !important;
+  padding: 9px 14px !important;
   border-radius: 10px !important;
   text-decoration: none !important;
-  color: #1e293b !important;
+  color: #0f172a !important;
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
   font-size: 13.5px !important;
   font-weight: 600 !important;
   line-height: 1.25 !important;
-  transition: all 0.18s ease !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
   white-space: nowrap !important;
   background: transparent !important;
   box-sizing: border-box !important;
+  border: 1px solid transparent !important;
 }
 
+/* Requirement 6: Light-blue hover effect and active state */
 .nav-dropdown-link:hover,
-.nav-dropdown-link:focus,
-.nav-dropdown-link.active {
+.nav-dropdown-link:focus {
   background-color: #f0f7ff !important;
-  color: #0d6efd !important;
-  transform: translateX(3px) !important;
+  color: #1683FF !important;
+  transform: translateX(4px) !important;
+  border-color: rgba(22, 131, 255, 0.2) !important;
+}
+
+.nav-dropdown-link.active {
+  background-color: #e0f2fe !important;
+  color: #1683FF !important;
+  font-weight: 700 !important;
+  border-left: 3.5px solid #1683FF !important;
 }
 
 /* Icon / Emoji in Dropdown Item */
 .nav-dropdown-icon {
-  font-size: 16px !important;
-  width: 22px !important;
-  height: 22px !important;
+  font-size: 17px !important;
+  width: 24px !important;
+  height: 24px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -213,6 +261,10 @@ html, body {
     justify-content: space-between !important;
     align-items: center !important;
     width: 100% !important;
+    padding: 10px 14px !important;
+    font-size: 14.5px !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
   }
 
   .nav-dropdown-menu {
@@ -222,17 +274,41 @@ html, body {
     width: 100% !important;
     margin-top: 6px !important;
     box-shadow: none !important;
-    border: 1px solid rgba(191, 219, 254, 0.6) !important;
-    background: #f8fbff !important;
+    border: 1.5px solid #1683FF !important;
+    background: #ffffff !important;
     border-radius: 12px !important;
     display: none !important;
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
+    padding: 6px !important;
   }
 
   .nav-dropdown-menu::before {
     display: none !important;
+  }
+
+  .nav-item-dropdown.open .nav-dropdown-menu {
+    display: flex !important;
+  }
+
+  .nav-dropdown-link {
+    font-size: 14px !important;
+    padding: 10px 12px !important;
+    color: #0f172a !important;
+  }
+
+  .nav-dropdown-link:hover {
+    transform: none !important;
+    background-color: #f0f7ff !important;
+    color: #1683FF !important;
+  }
+
+  .nav-dropdown-link.active {
+    background-color: #e0f2fe !important;
+    color: #1683FF !important;
+    font-weight: 700 !important;
+    border-left: 3.5px solid #1683FF !important;
   }
 
   .nav-item-dropdown.open .nav-dropdown-menu {
