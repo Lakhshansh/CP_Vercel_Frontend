@@ -202,73 +202,7 @@
   <div class="doc-dashboard-wrap">
     <div class="doc-layout-grid">
 
-      <!-- ==================================================================
-           LEFT SIDEBAR NAVIGATION
-           ================================================================== -->
-      <aside class="doc-sidebar" aria-label="Doctors Module Sidebar">
-        <div class="doc-sidebar-header">
-          <div class="doc-sidebar-title">Clinical Navigation</div>
-        </div>
-
-        <nav class="doc-sidebar-nav">
-          <a href="./doctor-home.html" class="doc-sidebar-link">
-            <span class="icon">🏠</span>
-            <span>Home</span>
-          </a>
-
-          <a href="./patients.html" class="doc-sidebar-link">
-            <span class="icon">👥</span>
-            <span>Patients</span>
-          </a>
-
-          <a href="./therapists.html" class="doc-sidebar-link">
-            <span class="icon">🧑‍⚕️</span>
-            <span>Therapists</span>
-          </a>
-
-          <a href="./appointments.html" class="doc-sidebar-link">
-            <span class="icon">📅</span>
-            <span>Appointments</span>
-          </a>
-
-          <a href="./therapy-sessions.html" class="doc-sidebar-link">
-            <span class="icon">💪</span>
-            <span>Therapy Sessions</span>
-          </a>
-
-          <a href="./exercises.html" class="doc-sidebar-link">
-            <span class="icon">🏃</span>
-            <span>Exercises</span>
-          </a>
-
-          <a href="./doctors.html" class="doc-sidebar-link active">
-            <span class="icon">👨‍⚕️</span>
-            <span>Doctors</span>
-            <span class="doc-sidebar-badge" id="sidebarBadgeDoc">Active</span>
-          </a>
-
-          <a href="javascript:void(0)" class="doc-sidebar-link" data-bs-toggle="modal" data-bs-target="#doctorReportsModal" title="View Clinical Analytics &amp; Reports">
-            <span class="icon">📊</span>
-            <span>Reports</span>
-          </a>
-        </nav>
-
-        <!-- Live Infrastructure Status Box -->
-        <div class="doc-sidebar-status-box">
-          <div class="doc-status-item">
-            <span class="doc-status-dot"></span>
-            <span>Central DB Connected</span>
-          </div>
-          <div class="doc-status-item">
-            <span class="doc-status-dot" style="background: #0284c7; box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);"></span>
-            <span>Resend OTP Service</span>
-          </div>
-          <div class="doc-status-item">
-            <span class="doc-status-dot" style="background: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);"></span>
-            <span>HIPAA / 256-Bit SSL</span>
-          </div>
-        </div>
-      </aside>
+      <!-- Left Sidebar Removed for Full-Width Doctors Management Layout -->
 
       <!-- ==================================================================
            MAIN CONTENT AREA
@@ -303,6 +237,9 @@
             <div class="doc-hero-actions">
               <button type="button" class="doc-btn-resend-settings" data-bs-toggle="modal" data-bs-target="#resendConfigModal" title="Configure Resend.com API Key">
                 <span>⚡</span> <span>Resend API Settings</span>
+              </button>
+              <button type="button" class="doc-btn-resend-settings" data-bs-toggle="modal" data-bs-target="#doctorReportsModal" title="View Clinical Analytics & Reports" style="background: #ffffff; color: #103463; border: 1.5px solid #bfdbfe;">
+                <span>📊</span> <span>Reports &amp; Analytics</span>
               </button>
               <a href="#addDoctorCard" class="doc-btn-scroll-add" title="Register New Doctor">
                 <span>➕</span> <span>Add New Doctor</span>

@@ -62,361 +62,47 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   2. TOP BLUE NAVBAR
+   2. TOP SHARED NAVBAR COMPATIBILITY
+   Header styling is governed by css/clinical-dropdown.css (#071326 dark navy)
    -------------------------------------------------------------------------- */
-.mt-navbar {
-  height: 90px;
-  min-height: 90px;
-  max-height: 90px;
-  padding: 0;
-  background: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 2px 14px rgba(16, 52, 99, 0.05);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.mt-navbar-inner {
-  width: 100%;
-  max-width: 1650px;
-  margin: 0 auto;
-  height: 90px;
-  min-height: 90px;
-  max-height: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 0 24px;
-}
-
-.mt-brand {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  text-decoration: none;
-  color: #ffffff;
-}
-
-.mt-logo {
-  width: 56px !important;
-  height: 56px !important;
-  max-width: 56px !important;
-  max-height: 56px !important;
-  border-radius: 50% !important;
-  object-fit: contain !important;
-  background: #ffffff;
-  padding: 2px;
-  border: 2px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-  flex-shrink: 0;
-  display: block;
-}
-
-.mt-brand-title {
-  font-size: 19px;
-  font-weight: 800;
-  line-height: 1.15;
-  white-space: nowrap;
-  color: #103463;
-  letter-spacing: -0.2px;
-}
-
-.mt-brand-subtitle {
-  margin-top: 1px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #0866f5;
-  letter-spacing: 0.1px;
-}
-
-/* Nav center links */
-.mt-nav-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-  margin: 0;
-}
-
-.mt-nav-list {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  flex-wrap: nowrap;
-}
-
-.mt-nav-link {
-  color: #334155;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 13px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.mt-nav-link:hover {
-  background: #f0f7ff;
-  color: #0d6efd;
-}
-
-/* Right Nav Actions */
-.mt-nav-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-  margin: 0;
-}
-
-.doc-btn-contact {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: #eff6ff;
-  color: #0d6efd;
-  border: 1.5px solid #bfdbfe;
-  border-radius: 999px;
-  padding: 6px 12px;
-  font-size: 12.5px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.doc-btn-contact:hover {
-  background: #ffffff;
-  color: #0d6efd;
-  border-color: #ffffff;
-  transform: translateY(-1px);
-}
-
-.doc-btn-signup {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: #0d6efd;
-  color: #ffffff;
-  border: 1.5px solid #0d6efd;
-  border-radius: 999px;
-  padding: 6px 14px;
-  font-size: 12.5px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(13, 110, 253, 0.25);
-}
-
-.doc-btn-signup:hover {
-  background: #f0f7ff;
-  color: #0867e8;
-  transform: translateY(-1px);
-}
-
-.doc-notif-btn {
-  background: #ffffff;
-  border: 1.5px solid #cbd5e1;
-  color: #334155;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.doc-notif-btn:hover {
-  background: #ffffff;
-  color: #0d6efd;
-}
-
-.doc-notif-badge {
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #10b981;
-  border: 2px solid #0d6efd;
-}
-
-.mt-user {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #103463;
-  padding: 4px 10px;
-  background: #f0f7ff;
-  border: 1.5px solid rgba(13, 110, 253, 0.22);
-  border-radius: 999px;
-  text-decoration: none;
-  cursor: pointer;
-  min-width: 140px;
-  max-width: 210px;
-  overflow: hidden;
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
-
-.mt-user-photo,
-.mt-user-default {
-  width: 34px;
-  height: 34px;
-  min-width: 34px;
-  min-height: 34px;
-  border-radius: 50%;
-  border: 1.5px solid #ffffff;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.mt-user-default {
-  background: #ffffff;
-  color: #0d6efd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.has-photo .mt-user-default,
-.mt-user-default.d-none,
-.mt-user-default[hidden],
-#userProfileBtn.has-photo #navAvatar,
-#userProfileBtn img#navAvatarImg[src]:not([src=""]):not(.d-none) ~ #navAvatar {
-  display: none !important;
-  visibility: hidden !important;
-  width: 0 !important;
-  height: 0 !important;
-}
-
-.has-photo .mt-user-photo,
-#userProfileBtn.has-photo #navAvatarImg {
-  display: block !important;
-  visibility: visible !important;
-}
-
-.mt-user:not(.has-photo) .mt-user-photo,
-.mt-user-photo.d-none,
-.mt-user-photo[hidden],
-#userProfileBtn:not(.has-photo) #navAvatarImg {
-  display: none !important;
-  visibility: hidden !important;
-  width: 0 !important;
-  height: 0 !important;
-}
-
-.mt-user-text {
-  line-height: 1.15;
-  max-width: 130px;
-  overflow: hidden;
-}
-
-.mt-user-name {
-  font-size: 13px;
-  font-weight: 700;
-  white-space: nowrap;
-  color: #0f172a;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-}
-
-.mt-user-role {
-  font-size: 10.5px;
-  color: #0866f5;
-  font-weight: 600;
-  text-transform: capitalize;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-}
-
-.mt-arrow {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.85);
-  margin-left: 2px;
-}
-
-.mt-logout-btn {
-  background: #ffffff;
-  color: #dc3545;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: 10px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.mt-logout-btn:hover {
-  background: #fff5f5;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
-  color: #b02a37;
-}
-
-.doc-nav-toggle {
-  display: none;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  color: #ffffff;
-  font-size: 22px;
-  border-radius: 8px;
-  padding: 6px 12px;
-  cursor: pointer;
-}
 
 /* --------------------------------------------------------------------------
    3. MAIN DASHBOARD LAYOUT & SIDEBAR
    -------------------------------------------------------------------------- */
 .doc-dashboard-wrap {
   width: 100%;
-  max-width: 1440px;
+  max-width: 1560px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 24px 20px 60px;
   flex: 1;
+  box-sizing: border-box;
 }
 
 .doc-layout-grid {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 24px;
-  align-items: start;
+  display: block !important;
+  width: 100% !important;
 }
 
-/* Left Sidebar */
 .doc-sidebar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.doc-main-content {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 24px !important;
+  min-width: 0 !important;
+}
+
+.doc-sidebar-unused {
   background: #ffffff;
   border-radius: 18px;
   border: 1px solid #e2e8f0;
@@ -1223,8 +909,8 @@ thead th.sticky-action {
    -------------------------------------------------------------------------- */
 @media (max-width: 1200px) {
   .doc-layout-grid {
-    grid-template-columns: 230px 1fr;
-    gap: 18px;
+    display: block !important;
+    width: 100% !important;
   }
   .doc-stats-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1239,7 +925,8 @@ thead th.sticky-action {
 
 @media (max-width: 992px) {
   .doc-layout-grid {
-    grid-template-columns: 1fr;
+    display: block !important;
+    width: 100% !important;
   }
   .doc-sidebar {
     position: static;

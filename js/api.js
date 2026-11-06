@@ -220,77 +220,18 @@ function renderNavbarUser(user) {
   // Clean initial: ignore "Dr. " prefix to get real first letter
   const cleanName = displayName.replace(/^Dr\.?\s*/i, "").trim();
   const initial = (cleanName.charAt(0) || displayName.charAt(0) || "U").toUpperCase();
-  if (navAvatarEl) {
-    navAvatarEl.textContent = initial;
-  }
 
   const rawPhoto = user.profile_photo || user.photo || user.profile_photo_url || localStorage.getItem("mt_doc_photo_" + (user.username || "doctor"));
   const hasValidPhoto = rawPhoto && typeof rawPhoto === "string" && rawPhoto.trim() !== "" &&
     !rawPhoto.includes("doctor-avatar.svg") && !rawPhoto.includes("patient-avatar.svg") && !rawPhoto.includes("undefined") && !rawPhoto.includes("null");
 
-  if (hasValidPhoto) {
-    let photoSrc = rawPhoto;
-    if (typeof CdnManager !== "undefined" && CdnManager.buildCdnUrl) {
-      photoSrc = CdnManager.buildCdnUrl(rawPhoto, { width: 90, height: 90, crop: "fill" });
-    } else if (!rawPhoto.startsWith("http") && !rawPhoto.startsWith("data:")) {
-      photoSrc = rawPhoto.startsWith("/") ? `${API_BASE_URL}${rawPhoto}` : `${API_BASE_URL}/static/profile_photos/${rawPhoto}`;
-    }
-
-    if (navAvatarImg) {
-      navAvatarImg.alt = "";
-      // Keep DOM img hidden until verification succeeds to prevent broken image icons
-      navAvatarImg.classList.add("d-none");
-      navAvatarImg.setAttribute("hidden", "true");
-      navAvatarImg.style.setProperty("display", "none", "important");
-
-      const testImg = new Image();
-      testImg.onload = function () {
-        // Image loaded successfully -> show photo, strictly hide fallback circle
-        if (userProfileBtn) userProfileBtn.classList.add("has-photo");
-        if (userProfileWrap) userProfileWrap.classList.add("has-photo");
-        navAvatarImg.src = photoSrc;
-        navAvatarImg.classList.remove("d-none", "img-error");
-        navAvatarImg.removeAttribute("hidden");
-        navAvatarImg.style.setProperty("display", "block", "important");
-        if (navAvatarEl) {
-          navAvatarEl.classList.add("d-none");
-          navAvatarEl.setAttribute("hidden", "true");
-          navAvatarEl.style.setProperty("display", "none", "important");
-        }
-      };
-      testImg.onerror = function () {
-        // Image failed -> strictly hide img immediately, strictly show fallback letter circle
-        if (userProfileBtn) userProfileBtn.classList.remove("has-photo");
-        if (userProfileWrap) userProfileWrap.classList.remove("has-photo");
-        navAvatarImg.removeAttribute("src");
-        navAvatarImg.classList.add("d-none", "img-error");
-        navAvatarImg.setAttribute("hidden", "true");
-        navAvatarImg.style.setProperty("display", "none", "important");
-        if (navAvatarEl) {
-          navAvatarEl.classList.remove("d-none");
-          navAvatarEl.removeAttribute("hidden");
-          navAvatarEl.style.setProperty("display", "flex", "important");
-          navAvatarEl.textContent = initial;
-        }
-      };
-      testImg.src = photoSrc;
-    }
-
-    if (navPatientAvatar) {
-      navPatientAvatar.src = photoSrc;
-      navPatientAvatar.onerror = function () { this.src = "./images/patient-avatar.svg"; };
-    }
-    if (docNavAvatar) {
-      docNavAvatar.src = photoSrc;
-      docNavAvatar.onerror = function () { this.src = "./images/doctor-avatar.svg"; };
-    }
-  } else {
-    // No photo -> strictly fallback mode
+  // Helper to strictly show fallback circle and hide image
+  function showFallbackOnly() {
     if (userProfileBtn) userProfileBtn.classList.remove("has-photo");
     if (userProfileWrap) userProfileWrap.classList.remove("has-photo");
     if (navAvatarImg) {
       navAvatarImg.removeAttribute("src");
-      navAvatarImg.classList.add("d-none");
+      navAvatarImg.classList.add("d-none", "img-error");
       navAvatarImg.setAttribute("hidden", "true");
       navAvatarImg.style.setProperty("display", "none", "important");
     }
@@ -302,6 +243,64 @@ function renderNavbarUser(user) {
     }
     if (navPatientAvatar) navPatientAvatar.src = "./images/patient-avatar.svg";
     if (docNavAvatar) docNavAvatar.src = "./images/doctor-avatar.svg";
+  }
+
+  // Helper to strictly show photo and hide fallback circle
+  function showPhotoOnly(src) {
+    if (userProfileBtn) userProfileBtn.classList.add("has-photo");
+    if (userProfileWrap) userProfileWrap.classList.add("has-photo");
+    if (navAvatarImg) {
+      navAvatarImg.src = src;
+      navAvatarImg.classList.remove("d-none", "img-error");
+      navAvatarImg.removeAttribute("hidden");
+      navAvatarImg.style.setProperty("display", "block", "important");
+    }
+    if (navAvatarEl) {
+      navAvatarEl.classList.add("d-none");
+      navAvatarEl.setAttribute("hidden", "true");
+      navAvatarEl.style.setProperty("display", "none", "important");
+    }
+    if (navPatientAvatar) navPatientAvatar.src = src;
+    if (docNavAvatar) docNavAvatar.src = src;
+  }
+
+  // Setup runtime onerror on DOM img element
+  if (navAvatarImg) {
+    navAvatarImg.onerror = function () {
+      showFallbackOnly();
+    };
+  }
+
+  if (hasValidPhoto) {
+    let photoSrc = rawPhoto;
+    if (typeof CdnManager !== "undefined" && CdnManager.buildCdnUrl) {
+      photoSrc = CdnManager.buildCdnUrl(rawPhoto, { width: 90, height: 90, crop: "fill" });
+    } else if (!rawPhoto.startsWith("http") && !rawPhoto.startsWith("data:")) {
+      photoSrc = rawPhoto.startsWith("/") ? `${API_BASE_URL}${rawPhoto}` : `${API_BASE_URL}/static/profile_photos/${rawPhoto}`;
+    }
+
+    // Keep hidden until test image loads successfully
+    if (navAvatarImg) {
+      navAvatarImg.alt = "";
+      navAvatarImg.classList.add("d-none");
+      navAvatarImg.setAttribute("hidden", "true");
+      navAvatarImg.style.setProperty("display", "none", "important");
+    }
+    if (navAvatarEl) {
+      navAvatarEl.textContent = initial;
+      navAvatarEl.style.setProperty("display", "flex", "important");
+    }
+
+    const testImg = new Image();
+    testImg.onload = function () {
+      showPhotoOnly(photoSrc);
+    };
+    testImg.onerror = function () {
+      showFallbackOnly();
+    };
+    testImg.src = photoSrc;
+  } else {
+    showFallbackOnly();
   }
 }
 window.renderNavbarUser = renderNavbarUser;

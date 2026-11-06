@@ -422,7 +422,7 @@ footer.mt-unified-footer,
 .mt-unified-footer .mt-footer-grid,
 .mt-footer-grid {
   display: grid !important;
-  grid-template-columns: 1.7fr 1fr 1fr 1.3fr !important;
+  grid-template-columns: minmax(310px, 1.8fr) 1fr 1fr 1.3fr !important;
   gap: 36px !important;
   margin-bottom: 44px !important;
   align-items: start !important;
@@ -442,7 +442,12 @@ footer.mt-unified-footer,
 .mt-unified-footer .mt-footer-col.mt-col-divider,
 .mt-footer-col.mt-col-divider {
   border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-  padding-right: 32px !important;
+  padding-right: 28px !important;
+}
+
+.mt-unified-footer .mt-footer-col:first-child,
+.mt-footer-col:first-child {
+  min-width: 290px !important;
 }
 
 /* Column 1: Multi Therapy Branding (Horizontal Flexbox Alignment) */
@@ -499,36 +504,40 @@ footer.mt-unified-footer,
 .mt-unified-footer .mt-footer-brand-title,
 .mt-footer-brand-title,
 div.mt-footer-brand-title,
-h3.mt-footer-brand-title {
-  font-size: 24px !important;
+h3.mt-footer-brand-title,
+.doc-footer-brand-title,
+.ph-footer-brand-title,
+.cp-footer-brand-title {
+  font-size: 22px !important;
   font-weight: 800 !important;
   color: #FFFFFF !important;
   line-height: 1.15 !important;
   letter-spacing: -0.2px !important;
   margin: 0 !important;
   padding: 0 !important;
-  white-space: normal !important;
+  white-space: nowrap !important;
   overflow: visible !important;
   text-overflow: clip !important;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
 }
 
-/* 2. Tagline: Bright Cyan (#00D9FF), fully visible, responsive wrapping */
+/* 2. Tagline: Bright Cyan (#00D9FF), fully visible on a single line */
 .mt-unified-footer .mt-footer-brand-tagline,
 .mt-footer-brand-tagline,
 div.mt-footer-brand-tagline,
-span.mt-footer-brand-tagline {
-  font-size: 11px !important;
+span.mt-footer-brand-tagline,
+.doc-footer-brand-tagline,
+.ph-footer-brand-tagline,
+.cp-footer-brand-tagline {
+  font-size: 10px !important;
   font-weight: 700 !important;
   color: #00D9FF !important;
-  letter-spacing: 0.6px !important;
+  letter-spacing: 0.35px !important;
   text-transform: uppercase !important;
   margin: 0 !important;
   padding: 0 !important;
-  line-height: 1.4 !important;
-  white-space: normal !important;
-  word-wrap: break-word !important;
-  overflow-wrap: break-word !important;
+  line-height: 1.3 !important;
+  white-space: nowrap !important;
   overflow: visible !important;
   text-overflow: clip !important;
   display: block !important;
@@ -845,7 +854,7 @@ header, .shared-header, .pt-header, .ts-header, .doc-header, .apt-header, .tp-he
   align-items: center !important;
   justify-content: space-between !important;
   flex-wrap: nowrap !important;
-  gap: 10px !important;
+  gap: 8px !important;
   box-sizing: border-box !important;
 }
 
@@ -970,7 +979,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   margin: 0 !important;
   padding: 0 !important;
   flex-wrap: nowrap !important;
-  gap: 4px !important;
+  gap: 2px !important;
   overflow: visible !important;
 }
 
@@ -996,8 +1005,8 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   display: inline-flex !important;
   align-items: center !important;
   gap: 3px !important;
-  padding: 5px 8px !important;
-  font-size: 12.5px !important;
+  padding: 4px 6px !important;
+  font-size: 12px !important;
   font-weight: 600 !important;
   color: #FFFFFF !important;
   text-decoration: none !important;
@@ -1172,9 +1181,9 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 .apt-user-profile, .mt-user, .user-pill, .admin-profile-pill, .user-pill-doc, .doc-user-pill, .ph-user-profile {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 7px !important;
-  min-width: 120px !important;
-  max-width: 180px !important;
+  gap: 6px !important;
+  min-width: 105px !important;
+  max-width: 150px !important;
   width: auto !important;
   flex-shrink: 0 !important;
   white-space: nowrap !important;
@@ -1259,7 +1268,7 @@ img.apt-user-avatar {
   overflow: hidden !important;
 }
 
-/* 3. When Pill is in PHOTO MODE (.has-photo): strictly show image, strictly hide fallback letter */
+/* 3. When Pill is in PHOTO MODE (.has-photo): strictly show image, strictly hide ALL fallback elements */
 #userProfileBtn.has-photo img#navAvatarImg,
 #userProfileWrap.has-photo img#navAvatarImg,
 .shared-user-pill.has-photo img.shared-avatar-img,
@@ -1284,16 +1293,21 @@ img.apt-user-avatar {
   object-fit: cover !important;
 }
 
+/* FORCIBLY HIDE FALLBACK CIRCLE IN PHOTO MODE */
 #userProfileBtn.has-photo div#navAvatar,
 #userProfileWrap.has-photo div#navAvatar,
 .shared-user-pill.has-photo div.shared-avatar-fallback,
 .shared-user-pill.has-photo div.mt-user-default,
+.shared-user-pill.has-photo #navAvatar,
 .shared-profile-wrap.has-photo div.shared-avatar-fallback,
 .shared-profile-wrap.has-photo div.mt-user-default,
+.shared-profile-wrap.has-photo #navAvatar,
 #userProfileWrap.has-photo div.shared-avatar-fallback,
 #userProfileWrap.has-photo div.mt-user-default,
+#userProfileWrap.has-photo #navAvatar,
 .has-photo > a > div.shared-avatar-fallback,
-.has-photo > a > div.mt-user-default {
+.has-photo > a > div.mt-user-default,
+.has-photo > a > #navAvatar {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
@@ -1315,7 +1329,10 @@ img.apt-user-avatar {
 .shared-profile-wrap:not(.has-photo) img.shared-avatar-img,
 .shared-profile-wrap:not(.has-photo) img.mt-user-photo,
 #userProfileWrap:not(.has-photo) img.shared-avatar-img,
-#userProfileWrap:not(.has-photo) img.mt-user-photo {
+#userProfileWrap:not(.has-photo) img.mt-user-photo,
+.shared-user-pill:not(.has-photo) img,
+#userProfileWrap:not(.has-photo) img,
+#userProfileBtn:not(.has-photo) img {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
@@ -1346,11 +1363,13 @@ img.apt-user-avatar {
   min-height: 32px !important;
 }
 
-/* 5. Direct Sibling Protection: If navAvatarImg has valid src and is displayed, ALWAYS hide navAvatar sibling */
-#userProfileBtn img#navAvatarImg[src]:not([src=""]):not(.d-none) ~ div#navAvatar,
-#userProfileWrap img#navAvatarImg[src]:not([src=""]):not(.d-none) ~ div#navAvatar,
-.shared-user-pill img.shared-avatar-img[src]:not([src=""]):not(.d-none) ~ div.shared-avatar-fallback,
-.mt-user img.mt-user-photo[src]:not([src=""]):not(.d-none) ~ div.mt-user-default {
+/* 5. Direct Sibling Protection: If navAvatarImg has valid src and is displayed, ALWAYS hide sibling fallback */
+#userProfileBtn img#navAvatarImg[src]:not([src=""]):not(.d-none):not([style*="display: none"]) ~ div#navAvatar,
+#userProfileWrap img#navAvatarImg[src]:not([src=""]):not(.d-none):not([style*="display: none"]) ~ div#navAvatar,
+.shared-user-pill img.shared-avatar-img[src]:not([src=""]):not(.d-none):not([style*="display: none"]) ~ div.shared-avatar-fallback,
+.shared-user-pill img.shared-avatar-img[src]:not([src=""]):not(.d-none):not([style*="display: none"]) ~ div.mt-user-default,
+.mt-user img.mt-user-photo[src]:not([src=""]):not(.d-none):not([style*="display: none"]) ~ div.mt-user-default,
+.mt-user img.mt-user-photo[src]:not([src=""]):not(.d-none):not([style*="display: none"]) ~ #navAvatar {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
@@ -1416,8 +1435,8 @@ div.mt-user-default[style*="none"] {
 }
 
 /* User Profile Texts */
-.shared-user-text, .mt-user-text, .apt-user-name, #userProfileWrap > a > div, #userProfileWrap div {
-  max-width: 120px !important;
+.shared-user-text, .mt-user-text, .apt-user-name, #userProfileWrap > a > .shared-user-text, #userProfileWrap .mt-user-text {
+  max-width: 90px !important;
   overflow: hidden !important;
   min-width: 0 !important;
   display: flex !important;
@@ -1433,7 +1452,7 @@ div.mt-user-default[style*="none"] {
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  max-width: 115px !important;
+  max-width: 85px !important;
   display: block !important;
   color: #FFFFFF !important;
 }
@@ -1446,7 +1465,7 @@ div.mt-user-default[style*="none"] {
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  max-width: 115px !important;
+  max-width: 85px !important;
   display: block !important;
   color: #00D9FF !important;
 }
@@ -1969,5 +1988,65 @@ div.mt-user-default[style*="none"] {
 
   #userProfileWrap .d-sm-block, .mt-user-text, .doc-user-role, .ph-user-role, #navRole {
     display: none !important;
+  }
+}
+
+
+/* =====================================================================
+   RESPONSIVE COMPACTING FOR 1100PX - 1400PX (NO CLIPPING, NO OVERLAPPING)
+   ===================================================================== */
+@media (max-width: 1400px) {
+  .shared-header-inner {
+    padding: 0 12px !important;
+    gap: 6px !important;
+  }
+  .shared-brand {
+    gap: 10px !important;
+  }
+  .shared-logo {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+  }
+  .shared-brand-title {
+    font-size: 17px !important;
+  }
+  .shared-brand-subtitle {
+    font-size: 9.5px !important;
+    max-width: 180px !important;
+  }
+  .shared-nav-list {
+    gap: 2px !important;
+  }
+  .shared-nav-link {
+    font-size: 11.5px !important;
+    padding: 3px 5px !important;
+  }
+  .shared-nav-right {
+    gap: 4px !important;
+  }
+  .shared-notif-wrap {
+    margin-left: 4px !important;
+  }
+  .shared-user-pill {
+    min-width: 95px !important;
+    max-width: 135px !important;
+    padding: 2px 6px !important;
+  }
+  .shared-user-name {
+    font-size: 11.5px !important;
+    max-width: 75px !important;
+  }
+  .shared-user-role {
+    font-size: 9px !important;
+    max-width: 75px !important;
+  }
+  .shared-logout-btn {
+    padding: 3px 6px !important;
+    font-size: 11.5px !important;
+  }
+  .shared-btn-contact, .shared-btn-signup {
+    padding: 3px 7px !important;
+    font-size: 11.5px !important;
   }
 }
