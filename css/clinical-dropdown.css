@@ -634,6 +634,21 @@ span.mt-footer-brand-tagline,
   line-height: 1.5 !important;
 }
 
+.mt-footer-org-name {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  line-height: 1.35 !important;
+  margin-bottom: 3px !important;
+  letter-spacing: 0.2px !important;
+}
+
+.mt-footer-address-text {
+  font-size: 13px !important;
+  color: #cbd5e1 !important;
+  line-height: 1.55 !important;
+}
+
 .mt-footer-icon-box {
   width: 28px !important;
   height: 28px !important;

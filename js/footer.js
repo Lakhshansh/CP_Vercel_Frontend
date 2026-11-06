@@ -122,8 +122,13 @@
                 </svg>
               </div>
               <div>
-                <div style="font-size: 11.5px; color: #00d2ff; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Location</div>
-                <span>Jaipur, Rajasthan, India</span>
+                <div class="mt-footer-contact-label" style="font-size: 11.5px; color: #00d2ff; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;">Location</div>
+                <div class="mt-footer-org-name" style="font-size: 14px; font-weight: 700; color: #ffffff; line-height: 1.35; margin-bottom: 3px;">Approach Autism Society</div>
+                <div class="mt-footer-address-text" style="font-size: 13px; color: #cbd5e1; line-height: 1.55;">
+                  A-79, Nemi Nagar, Manish Marg,<br>
+                  Gandhi Path Road, Vaishali Nagar,<br>
+                  Jaipur, Rajasthan – 302021
+                </div>
               </div>
             </div>
 
@@ -197,6 +202,24 @@
             }
           });
         }
+
+        // Ensure location displays official Approach Autism Society address
+        primaryFooter.querySelectorAll('.mt-footer-contact-item').forEach(function (item) {
+          if (item.textContent.includes('Location') && item.textContent.includes('Jaipur, Rajasthan, India')) {
+            const contentDiv = item.querySelector('div:last-child');
+            if (contentDiv) {
+              contentDiv.innerHTML = `
+                <div class="mt-footer-contact-label" style="font-size: 11.5px; color: #00d2ff; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;">Location</div>
+                <div class="mt-footer-org-name" style="font-size: 14px; font-weight: 700; color: #ffffff; line-height: 1.35; margin-bottom: 3px;">Approach Autism Society</div>
+                <div class="mt-footer-address-text" style="font-size: 13px; color: #cbd5e1; line-height: 1.55;">
+                  A-79, Nemi Nagar, Manish Marg,<br>
+                  Gandhi Path Road, Vaishali Nagar,<br>
+                  Jaipur, Rajasthan – 302021
+                </div>
+              `;
+            }
+          }
+        });
       }
 
       // Remove any earlier duplicate footer elements if present
