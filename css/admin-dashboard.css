@@ -40,14 +40,7 @@ body.admin-dashboard-body {
 }
 
 /* Header */
-.admin-dash-header {
-  background: #ffffff;
-  border-bottom: 1px solid var(--mt-border);
-  position: sticky;
-  top: 0;
-  z-index: 1030;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-}
+.admin-dash-header { background: #06152B !important; }
 
 .admin-dash-header-inner {
   max-width: 1440px;

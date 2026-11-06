@@ -155,6 +155,8 @@
         });
       }
     });
+  }
+
   // 7. Universal Single Floating WhatsApp Button Enforcer
   function ensureSingleFloatingWhatsApp() {
     try {

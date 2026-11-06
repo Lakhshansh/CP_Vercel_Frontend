@@ -556,8 +556,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (rawUser) {
       const user = JSON.parse(rawUser);
       const name = user.name || user.username || "Administrator";
-      const headerName = document.getElementById("headerAdminName");
-      const headerAvatar = document.getElementById("headerAdminAvatar");
+      const headerName = document.getElementById("headerAdminName") || document.getElementById("navUsername");
+      const headerAvatar = document.getElementById("headerAdminAvatar") || document.getElementById("navAvatar");
       const modalName = document.getElementById("modalAdminName");
       const modalEmail = document.getElementById("modalAdminEmail");
       const modalId = document.getElementById("modalAdminId");
@@ -571,7 +571,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (e) {}
 
   // Wire up Logout buttons
-  const btnLogout = document.getElementById("btnAdminLogout");
+  const btnLogout = document.getElementById("btnAdminLogout") || document.getElementById("logoutBtn");
   if (btnLogout) {
     btnLogout.addEventListener("click", handleAdminLogout);
   }
@@ -582,7 +582,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Wire up Admin Profile Modal
   const modalOverlay = document.getElementById("adminProfileModal");
-  const btnOpenProfile = document.getElementById("btnOpenAdminProfile");
+  const btnOpenProfile = document.getElementById("btnOpenAdminProfile") || document.getElementById("userProfileBtn");
   const btnCloseProfile = document.getElementById("btnCloseAdminProfile");
 
   function openModal() {

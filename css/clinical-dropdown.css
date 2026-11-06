@@ -814,7 +814,7 @@ span.mt-footer-brand-tagline,
   border: none !important;
 }
 
-/* 1. Universal Shared Header Container (Desktop Height 85-95px, Flexbox, Dark Navy #071326) */
+/* 1. Universal Shared Header Container (Desktop Height 85-95px, Flexbox, Dark Navy #06152B) */
 header, .shared-header, .pt-header, .ts-header, .doc-header, .apt-header, .tp-header, .ex-header,
 .mt-navbar, .cp-header-wrap, .ph-header, .header-nav, .super-admin-header,
 .mt-sub-header, .admin-nav, .admin-dash-header {
@@ -831,7 +831,7 @@ header, .shared-header, .pt-header, .ts-header, .doc-header, .apt-header, .tp-he
   box-sizing: border-box !important;
   padding: 0 !important;
   margin: 0 !important;
-  background: #071326 !important;
+  background: #06152B !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
   overflow: visible !important;
@@ -1112,7 +1112,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border: 2px solid #071326 !important;
+  border: 2px solid #06152B !important;
   padding: 0 3px !important;
   line-height: 1 !important;
 }
@@ -1874,7 +1874,7 @@ div.mt-user-default[style*="none"] {
     min-height: 72px !important;
     height: 72px !important;
     max-height: 72px !important;
-    background: #071326 !important;
+    background: #06152B !important;
   }
 
   .shared-header-inner, .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .apt-navbar-inner,
@@ -1919,7 +1919,7 @@ div.mt-user-default[style*="none"] {
     top: 72px !important;
     left: 0 !important;
     width: 100% !important;
-    background: #071326 !important;
+    background: #06152B !important;
     flex-direction: column !important;
     align-items: stretch !important;
     padding: 16px 20px 24px !important;

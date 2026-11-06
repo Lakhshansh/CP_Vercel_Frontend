@@ -38,15 +38,7 @@ body {
 }
 
 /* Super Admin Main Top Header */
-.super-admin-header {
-  background: #ffffff;
-  border-bottom: 1px solid var(--border-color);
-  padding: 12px 28px;
-  position: sticky;
-  top: 0;
-  z-index: 1020;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-}
+.super-admin-header { background: #06152B !important; }
 
 .super-admin-header-inner {
   max-width: 1400px;
@@ -372,7 +364,7 @@ body {
 
 @media (max-width: 768px) {
   .kpi-grid-6 { grid-template-columns: repeat(2, 1fr); }
-  .super-admin-header { padding: 12px 16px; }
+  .super-admin-header { background: #06152B !important; }
   .admin-container { padding: 0 16px; }
 }
 
