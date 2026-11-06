@@ -5,7 +5,7 @@
 .mt-navbar {
     min-height: 80px;
     padding: 12px 24px;
-    background: linear-gradient(135deg, #0d6efd 0%, #0867e8 100%);
+    background: #071326;
     box-shadow: 0 4px 18px rgba(0, 80, 180, 0.20);
     position: relative;
     z-index: 1000;

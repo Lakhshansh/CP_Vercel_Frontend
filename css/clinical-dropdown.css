@@ -66,12 +66,13 @@ html, body {
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
   vertical-align: middle !important;
   flex-shrink: 0 !important;
-  opacity: 0.85;
+  opacity: 0.95 !important;
+  stroke: currentColor !important;
 }
 
 .nav-item-dropdown.open .dropdown-arrow-icon {
   transform: rotate(180deg) !important;
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 /* Dropdown Menu Card (Desktop Default) */
@@ -728,8 +729,8 @@ span.mt-footer-brand-tagline {
   border: none !important;
 }
 
-/* 1. Universal Shared Header Container (Desktop Height 85-95px, Flexbox, Blue-White Theme) */
-.shared-header, .pt-header, .ts-header, .doc-header, .apt-header, .tp-header, .ex-header,
+/* 1. Universal Shared Header Container (Desktop Height 85-95px, Flexbox, Dark Navy #071326) */
+header, .shared-header, .pt-header, .ts-header, .doc-header, .apt-header, .tp-header, .ex-header,
 .mt-navbar, .cp-header-wrap, .ph-header, .header-nav, .super-admin-header,
 .mt-sub-header, .admin-nav, .admin-dash-header {
   width: 100% !important;
@@ -745,9 +746,9 @@ span.mt-footer-brand-tagline {
   box-sizing: border-box !important;
   padding: 0 !important;
   margin: 0 !important;
-  background: #ffffff !important;
-  border-bottom: 1px solid #e2e8f0 !important;
-  box-shadow: 0 2px 14px rgba(16, 52, 99, 0.05) !important;
+  background: #071326 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
   overflow: visible !important;
 }
 
@@ -783,39 +784,39 @@ span.mt-footer-brand-tagline {
   background: transparent !important;
 }
 
-/* 3. LEFT: Logo & Branding Section (Max ~230px, No Shrink, Aligned Left - Header/Navbar Only) */
+/* 3. LEFT: Logo & Branding Section (Max ~280px, No Shrink, Aligned Left - Header/Navbar Only) */
 .shared-brand, .pt-brand, .ts-brand, .doc-brand, .apt-brand, .tp-brand, .ex-brand,
 .mt-brand, .cp-brand, .ph-brand, .header-brand, .shared-header .brand-wrap, .admin-brand,
 .admin-dash-brand, header a[class*="-brand"], .shared-header a[class*="-brand"], .mt-navbar a[class*="-brand"] {
-  max-width: 230px !important;
+  max-width: 280px !important;
   width: auto !important;
   flex: 0 0 auto !important;
   flex-shrink: 0 !important;
   display: flex !important;
   align-items: center !important;
-  gap: 8px !important;
+  gap: 10px !important;
   text-decoration: none !important;
   min-width: 0 !important;
   cursor: pointer !important;
   margin: 0 !important;
 }
 
-/* Logo Image (Max 44px x 44px, Circular, Blue Accent Border) */
+/* Logo Image (55-65px, Circular, Blue/Cyan Accent Border, White Backing) */
 .shared-logo, .pt-brand-logo, .ts-brand-logo, .mt-logo, .cp-brand-logo-img, .header-logo,
 .brand-logo, .admin-dash-logo, img[class*="brand-logo"], img[class*="mt-logo"] {
-  width: 42px !important;
-  height: 42px !important;
-  max-width: 44px !important;
-  max-height: 44px !important;
-  min-width: 40px !important;
-  min-height: 40px !important;
+  width: 58px !important;
+  height: 58px !important;
+  max-width: 62px !important;
+  max-height: 62px !important;
+  min-width: 52px !important;
+  min-height: 52px !important;
   border-radius: 50% !important;
   object-fit: contain !important;
   flex-shrink: 0 !important;
   background: #ffffff !important;
-  padding: 2px !important;
-  border: 1.5px solid #0d6efd !important;
-  box-shadow: 0 2px 8px rgba(13, 110, 253, 0.15) !important;
+  padding: 3px !important;
+  border: 2px solid #1683FF !important;
+  box-shadow: 0 2px 12px rgba(22, 131, 255, 0.4) !important;
   display: block !important;
 }
 
@@ -830,23 +831,23 @@ header div[class*="brand-text"], .shared-header div[class*="brand-text"], .mt-na
   overflow: hidden !important;
 }
 
-/* Website Title: Multi Therapy (Header/Navbar Only) */
+/* Website Title: Multi Therapy (Header/Navbar Only - White on Dark Navy) */
 .shared-brand-title, .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title,
 .brand-title, .apt-brand-name, .admin-dash-title, .doc-brand-title,
 header span[class*="brand-title"], header div[class*="brand-title"],
 .shared-header span[class*="brand-title"], .shared-header div[class*="brand-title"],
 .mt-navbar span[class*="brand-title"], .mt-navbar div[class*="brand-title"] {
-  font-size: 17.5px !important;
+  font-size: 19px !important;
   font-weight: 800 !important;
   line-height: 1.15 !important;
   letter-spacing: -0.2px !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  color: #103463 !important;
+  color: #FFFFFF !important;
 }
 
-/* Subtitle: Every Individual Deserves Better Care. (Header/Navbar Only) */
+/* Subtitle: Every Individual Deserves Better Care. (Bright Cyan on Dark Navy) */
 .shared-brand-subtitle, .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle,
 .brand-tagline, .apt-brand-tagline, .admin-dash-subtitle, .doc-brand-tagline,
 header span[class*="brand-tagline"], header div[class*="brand-tagline"],
@@ -855,7 +856,7 @@ header span[class*="brand-tagline"], header div[class*="brand-tagline"],
 header span[class*="brand-subtitle"], header div[class*="brand-subtitle"],
 .shared-header span[class*="brand-subtitle"], .shared-header div[class*="brand-subtitle"],
 .mt-navbar span[class*="brand-subtitle"], .mt-navbar div[class*="brand-subtitle"] {
-  font-size: 10px !important;
+  font-size: 10.5px !important;
   font-weight: 600 !important;
   line-height: 1.2 !important;
   letter-spacing: 0.1px !important;
@@ -863,8 +864,8 @@ header span[class*="brand-subtitle"], header div[class*="brand-subtitle"],
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   display: block !important;
-  margin-top: 1px !important;
-  color: #0866f5 !important;
+  margin-top: 2px !important;
+  color: #00D9FF !important;
 }
 
 /* 4. CENTER: Navigation Links Container (Flexbox, Compact, Single Line, No Overlap) */
@@ -910,18 +911,19 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   overflow: visible !important;
 }
 
-/* Navigation Links (A) */
+/* Navigation Links (A) and Dropdown Toggles: White Navigation Text on Dark Navy */
 .shared-nav-link, .pt-nav-link, .ts-nav-link, .doc-nav-link, .apt-nav-link, .tp-nav-link,
 .ex-nav-link, .mt-nav-link, .cp-nav-link, .ph-nav-link, .nav-link-item,
-.pt-nav-menu a, .ts-nav-menu a, .mt-nav-list a, .nav-links a, #navMenu a {
+.pt-nav-menu a, .ts-nav-menu a, .mt-nav-list a, .nav-links a, #navMenu a,
+.nav-dropdown-toggle {
   white-space: nowrap !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 3px !important;
-  padding: 4px 6px !important;
-  font-size: 12px !important;
+  padding: 5px 8px !important;
+  font-size: 12.5px !important;
   font-weight: 600 !important;
-  color: #334155 !important;
+  color: #FFFFFF !important;
   text-decoration: none !important;
   border-radius: 7px !important;
   transition: all 0.2s ease !important;
@@ -931,17 +933,21 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 
 .shared-nav-link:hover, .pt-nav-link:hover, .ts-nav-link:hover, .doc-nav-link:hover,
 .apt-nav-link:hover, .tp-nav-link:hover, .ex-nav-link:hover, .mt-nav-link:hover,
-.cp-nav-link:hover, .nav-link-item:hover, #navMenu a:hover {
-  color: #0d6efd !important;
-  background: #f0f7ff !important;
+.cp-nav-link:hover, .nav-link-item:hover, #navMenu a:hover,
+.nav-dropdown-toggle:hover {
+  color: #1683FF !important;
+  background: rgba(22, 131, 255, 0.12) !important;
 }
 
+/* Active Navigation Link: Bright Blue #1683FF */
 .shared-nav-link.active, .pt-nav-link.active, .ts-nav-link.active, .doc-nav-link.active,
 .apt-nav-link.active, .tp-nav-link.active, .ex-nav-link.active, .mt-nav-link.active,
 .cp-nav-link.active, .nav-link-item.active, #navMenu a.active {
-  color: #0d6efd !important;
-  background: #eff6ff !important;
+  color: #1683FF !important;
+  background: rgba(22, 131, 255, 0.18) !important;
+  border: 1.5px solid #1683FF !important;
   font-weight: 700 !important;
+  box-shadow: 0 0 12px rgba(22, 131, 255, 0.3) !important;
 }
 
 /* 5. RIGHT: Right-Side Controls Container (Strictly Ordered: Notif -> Profile -> Logout -> Contact -> Sign Up) */
@@ -952,7 +958,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   flex-direction: row !important;
   align-items: center !important;
   justify-content: flex-end !important;
-  gap: 6px !important;
+  gap: 7px !important;
   flex: 0 0 auto !important;
   flex-shrink: 0 !important;
   margin: 0 !important;
@@ -968,22 +974,22 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   display: inline-flex !important;
   align-items: center !important;
   flex-shrink: 0 !important;
-  margin-left: 10px !important;
+  margin-left: 8px !important;
   margin-right: 2px !important;
 }
 
 .shared-notif-btn, .doc-notif-btn, .apt-icon-btn, .ex-notification-btn, .ph-icon-btn,
 #btnHeaderNotifications, #docNotifBtn, #btnNotifications, #btnNavNotifications {
-  width: 34px !important;
-  height: 34px !important;
-  min-width: 34px !important;
-  min-height: 34px !important;
-  max-width: 34px !important;
-  max-height: 34px !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
   border-radius: 50% !important;
-  border: 1.5px solid #cbd5e1 !important;
-  background: #ffffff !important;
-  color: #334155 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #FFFFFF !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -999,10 +1005,11 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 
 .shared-notif-btn:hover, .doc-notif-btn:hover, .apt-icon-btn:hover, .ex-notification-btn:hover,
 #btnHeaderNotifications:hover, #docNotifBtn:hover, #btnNotifications:hover {
-  background: #f0f7ff !important;
-  color: #0d6efd !important;
-  border-color: #93c5fd !important;
+  background: rgba(22, 131, 255, 0.2) !important;
+  color: #00D9FF !important;
+  border-color: #1683FF !important;
   transform: translateY(-1px) !important;
+  box-shadow: 0 0 10px rgba(22, 131, 255, 0.35) !important;
 }
 
 /* Notification Badge Count */
@@ -1021,7 +1028,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border: 2px solid #ffffff !important;
+  border: 2px solid #071326 !important;
   padding: 0 3px !important;
   line-height: 1 !important;
 }
@@ -1077,7 +1084,7 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
   background: #f8fafc !important;
 }
 
-/* 5b. Control 2: Admin / User Profile Pill (Readable width, Single Avatar Only) */
+/* 5b. Control 2: Admin / User Profile Pill (Readable width, Single Avatar Only, Matches Dark Navy) */
 .shared-profile-wrap, #userProfileWrap, .header-profile-wrap {
   position: relative !important;
   display: inline-flex !important;
@@ -1089,18 +1096,18 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 .apt-user-profile, .mt-user, .user-pill, .admin-profile-pill, .user-pill-doc, .doc-user-pill, .ph-user-profile {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 6px !important;
+  gap: 7px !important;
   min-width: 120px !important;
-  max-width: 175px !important;
+  max-width: 180px !important;
   width: auto !important;
   flex-shrink: 0 !important;
   white-space: nowrap !important;
   text-decoration: none !important;
-  padding: 3px 8px !important;
+  padding: 3px 9px !important;
   border-radius: 999px !important;
-  border: 1.5px solid rgba(13, 110, 253, 0.22) !important;
-  background: #f0f7ff !important;
-  color: #103463 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #FFFFFF !important;
   font-weight: 600 !important;
   transition: all 0.2s ease !important;
   cursor: pointer !important;
@@ -1111,9 +1118,10 @@ nav[aria-label="Doctor Navigation"], nav[aria-label="Patient Navigation"] {
 
 .shared-user-pill:hover, .pt-user-pill:hover, .ts-user-pill:hover, .mt-user:hover,
 .apt-user-profile:hover, .tp-user-profile:hover, .ex-user-profile:hover, .admin-profile-pill:hover {
-  background: #e0f2fe !important;
-  border-color: #0d6efd !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: #1683FF !important;
   transform: translateY(-1px) !important;
+  box-shadow: 0 0 12px rgba(22, 131, 255, 0.25) !important;
 }
 
 /* =====================================================================
@@ -1138,9 +1146,9 @@ div.admin-avatar {
   justify-content: center !important;
   font-size: 14px !important;
   font-weight: 700 !important;
-  background: #ffffff !important;
-  color: #0d6efd !important;
-  border: 1.5px solid #0d6efd !important;
+  background: #0f1f38 !important;
+  color: #00D9FF !important;
+  border: 1.5px solid #1683FF !important;
   flex-shrink: 0 !important;
   text-transform: uppercase !important;
   user-select: none !important;
@@ -1195,7 +1203,7 @@ img.apt-user-avatar {
   min-height: 32px !important;
   max-width: 32px !important;
   max-height: 32px !important;
-  border: 1.5px solid #0d6efd !important;
+  border: 1.5px solid #1683FF !important;
   border-radius: 50% !important;
   object-fit: cover !important;
 }
@@ -1351,7 +1359,7 @@ div.mt-user-default[style*="none"] {
   text-overflow: ellipsis !important;
   max-width: 115px !important;
   display: block !important;
-  color: #0f172a !important;
+  color: #FFFFFF !important;
 }
 
 .shared-user-role, #navRole, .mt-user-role {
@@ -1364,12 +1372,12 @@ div.mt-user-default[style*="none"] {
   text-overflow: ellipsis !important;
   max-width: 115px !important;
   display: block !important;
-  color: #0866f5 !important;
+  color: #00D9FF !important;
 }
 
 .shared-profile-caret, .mt-arrow {
   font-size: 11px !important;
-  color: #64748b !important;
+  color: #cbd5e1 !important;
   margin-left: 2px !important;
   flex-shrink: 0 !important;
 }
@@ -1382,36 +1390,37 @@ div.mt-user-default[style*="none"] {
   gap: 4px !important;
   flex-shrink: 0 !important;
   white-space: nowrap !important;
-  padding: 5px 10px !important;
+  padding: 5px 11px !important;
   border-radius: 999px !important;
   font-size: 11.5px !important;
   font-weight: 700 !important;
-  border: 1.5px solid #cbd5e1 !important;
-  background: #ffffff !important;
-  color: #334155 !important;
+  border: 1.5px solid rgba(239, 68, 68, 0.4) !important;
+  background: rgba(239, 68, 68, 0.12) !important;
+  color: #fca5a5 !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
   text-decoration: none !important;
   line-height: 1.2 !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
   margin: 0 !important;
 }
 
 .shared-logout-btn:hover, #logoutBtn:hover, .pt-logout-btn:hover, .ts-logout-btn:hover,
 .tp-logout-btn:hover, .ex-logout-btn:hover, .mt-logout-btn:hover,
 .apt-logout-btn:hover, .logout-btn:hover {
-  background: #fee2e2 !important;
-  border-color: #fca5a5 !important;
-  color: #dc2626 !important;
+  background: #ef4444 !important;
+  border-color: #ef4444 !important;
+  color: #ffffff !important;
   transform: translateY(-1px) !important;
+  box-shadow: 0 2px 10px rgba(239, 68, 68, 0.45) !important;
 }
 
-/* 5d. Public Actions Group (Contact & Sign Up) */
+/* 5d. Public Actions Group (Contact, Sign Up, Login) */
 .shared-public-actions, #publicNavActions {
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
-  gap: 5px !important;
+  gap: 6px !important;
   flex-shrink: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -1426,13 +1435,13 @@ div.mt-user-default[style*="none"] {
   gap: 4px !important;
   flex-shrink: 0 !important;
   white-space: nowrap !important;
-  padding: 5px 10px !important;
+  padding: 5px 11px !important;
   border-radius: 999px !important;
   font-size: 11.5px !important;
   font-weight: 700 !important;
-  border: 1.5px solid #bfdbfe !important;
-  background: #eff6ff !important;
-  color: #0d6efd !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #FFFFFF !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
   text-decoration: none !important;
@@ -1443,10 +1452,11 @@ div.mt-user-default[style*="none"] {
 .shared-btn-contact:hover, #btnHeaderContact:hover, .pt-btn-contact:hover, .ts-btn-contact:hover,
 .doc-btn-contact:hover, .cp-btn-contact:hover, .apt-btn-contact:hover,
 .tp-btn-contact:hover, .ex-btn-contact:hover {
-  background: #dbeafe !important;
-  border-color: #93c5fd !important;
-  color: #0b5ed7 !important;
+  background: rgba(22, 131, 255, 0.2) !important;
+  border-color: #1683FF !important;
+  color: #00D9FF !important;
   transform: translateY(-1px) !important;
+  box-shadow: 0 0 10px rgba(22, 131, 255, 0.3) !important;
 }
 
 /* 5f. Control 5: Sign Up Button */
@@ -1458,27 +1468,58 @@ div.mt-user-default[style*="none"] {
   gap: 4px !important;
   flex-shrink: 0 !important;
   white-space: nowrap !important;
-  padding: 5px 12px !important;
+  padding: 5px 14px !important;
   border-radius: 999px !important;
   font-size: 11.5px !important;
   font-weight: 700 !important;
-  border: 1.5px solid #0d6efd !important;
-  background: #0d6efd !important;
-  color: #ffffff !important;
+  border: 1.5px solid #1683FF !important;
+  background: #1683FF !important;
+  color: #FFFFFF !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
   text-decoration: none !important;
   line-height: 1.2 !important;
-  box-shadow: 0 2px 8px rgba(13, 110, 253, 0.25) !important;
+  box-shadow: 0 2px 10px rgba(22, 131, 255, 0.45) !important;
   margin: 0 !important;
 }
 
 .shared-btn-signup:hover, #btnHeaderSignup:hover, .pt-btn-signup:hover, .ts-btn-signup:hover,
 .cp-btn-signup:hover, .doc-btn-signup:hover, .tp-btn-signup:hover,
 .apt-btn-signup:hover, .ex-btn-signup:hover, .btn-header-signup:hover {
-  background: #0b5ed7 !important;
-  border-color: #0b5ed7 !important;
-  color: #ffffff !important;
+  background: #0866f5 !important;
+  border-color: #0866f5 !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 16px rgba(22, 131, 255, 0.6) !important;
+}
+
+/* 5g. Dedicated Login Button (where used in header) */
+.shared-btn-login, #btnHeaderLogin, .pt-btn-login, .doc-btn-login, .cp-btn-login,
+.apt-btn-login, .mt-btn-login {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+  padding: 5px 12px !important;
+  border-radius: 999px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #FFFFFF !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  text-decoration: none !important;
+  line-height: 1.2 !important;
+  margin: 0 !important;
+}
+
+.shared-btn-login:hover, #btnHeaderLogin:hover, .pt-btn-login:hover, .doc-btn-login:hover,
+.cp-btn-login:hover, .apt-btn-login:hover, .mt-btn-login:hover {
+  background: rgba(22, 131, 255, 0.2) !important;
+  border-color: #1683FF !important;
+  color: #00D9FF !important;
   transform: translateY(-1px) !important;
 }
 
@@ -1493,14 +1534,14 @@ div.mt-user-default[style*="none"] {
   border-radius: 999px !important;
   font-size: 11.5px !important;
   font-weight: 700 !important;
-  border: 1.5px solid #fde047 !important;
-  background: #fef9c3 !important;
-  color: #854d0e !important;
+  border: 1.5px solid rgba(253, 224, 71, 0.4) !important;
+  background: rgba(254, 249, 195, 0.12) !important;
+  color: #fef08a !important;
   text-decoration: none !important;
   line-height: 1.2 !important;
 }
 
-/* 5g. Mobile Hamburger Toggle Button */
+/* 5h. Mobile Hamburger Toggle Button */
 .shared-nav-toggle, .pt-nav-toggle, .ts-nav-toggle, .tp-nav-toggle, .apt-nav-toggle,
 .ex-nav-toggle, .cp-nav-toggle, .ph-nav-toggle, .doc-nav-toggle, #navToggle, #docNavToggle {
   display: none !important;
@@ -1509,9 +1550,9 @@ div.mt-user-default[style*="none"] {
   width: 40px !important;
   height: 40px !important;
   border-radius: 8px !important;
-  border: 1.5px solid #cbd5e1 !important;
-  background: #ffffff !important;
-  color: #1e293b !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #FFFFFF !important;
   font-size: 20px !important;
   cursor: pointer !important;
   flex-shrink: 0 !important;
@@ -1555,25 +1596,20 @@ div.mt-user-default[style*="none"] {
     gap: 6px !important;
   }
 
-  /* Hide long brand subtitle on laptops to guarantee spacious room for nav links & controls */
-  .shared-brand-subtitle, .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle {
-    display: none !important;
-  }
-
   .shared-brand, .pt-brand, .ts-brand, .doc-brand, .mt-brand, .cp-brand, a[class*="-brand"] {
-    max-width: 155px !important;
-    gap: 6px !important;
+    max-width: 220px !important;
+    gap: 8px !important;
   }
 
   .shared-logo, .pt-brand-logo, .ts-brand-logo, .mt-logo, img[class*="brand-logo"] {
-    width: 38px !important;
-    height: 38px !important;
-    min-width: 38px !important;
-    min-height: 38px !important;
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    min-height: 50px !important;
   }
 
   .shared-brand-title, .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title {
-    font-size: 16.5px !important;
+    font-size: 17.5px !important;
   }
 
   .shared-nav-list, .pt-nav-menu, .ts-nav-menu, .doc-nav-menu, .mt-nav-list, .apt-nav-menu,
@@ -1583,7 +1619,7 @@ div.mt-user-default[style*="none"] {
 
   .shared-nav-link, .pt-nav-link, .ts-nav-link, .doc-nav-link, .mt-nav-link, .cp-nav-link,
   .apt-nav-link, .tp-nav-link, .ex-nav-link, .nav-link-item, #navMenu a {
-    padding: 4px 5px !important;
+    padding: 4px 6px !important;
     font-size: 11.5px !important;
   }
 
@@ -1595,7 +1631,7 @@ div.mt-user-default[style*="none"] {
 
   .shared-user-pill, #userProfileWrap, .pt-user-pill, .ts-user-pill, .mt-user, .doc-user-pill,
   .ph-user-profile, .apt-user-profile, .tp-user-profile, .ex-user-profile, .admin-profile-pill {
-    max-width: 160px !important;
+    max-width: 165px !important;
     min-width: 115px !important;
     padding: 3px 6px !important;
   }
@@ -1624,6 +1660,23 @@ div.mt-user-default[style*="none"] {
 
 /* Compact Laptop Screens (Up to 1420px, e.g. 1366px, 1280px) */
 @media (max-width: 1420px) {
+  /* Hide brand subtitle below 1420px to prevent navigation crowding */
+  .shared-brand-subtitle, .pt-brand-tagline, .ts-brand-tagline, .mt-brand-subtitle, .cp-brand-subtitle {
+    display: none !important;
+  }
+
+  .shared-brand, .pt-brand, .ts-brand, .doc-brand, .mt-brand, .cp-brand, a[class*="-brand"] {
+    max-width: 160px !important;
+    gap: 6px !important;
+  }
+
+  .shared-logo, .pt-brand-logo, .ts-brand-logo, .mt-logo, img[class*="brand-logo"] {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+
   /* Compact button text collapsing on laptops */
   .shared-btn-contact span, .shared-btn-signup span,
   #btnHeaderContact span, #btnHeaderSignup span,
@@ -1677,10 +1730,10 @@ div.mt-user-default[style*="none"] {
   }
 
   .shared-logo, .pt-brand-logo, .ts-brand-logo, .mt-logo, img[class*="brand-logo"] {
-    width: 34px !important;
-    height: 34px !important;
-    min-width: 34px !important;
-    min-height: 34px !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
   }
 
   .shared-brand-title, .pt-brand-title, .ts-brand-title, .mt-brand-title, .cp-brand-title, .ph-brand-name {
@@ -1727,6 +1780,7 @@ div.mt-user-default[style*="none"] {
     min-height: 72px !important;
     height: 72px !important;
     max-height: 72px !important;
+    background: #071326 !important;
   }
 
   .shared-header-inner, .pt-navbar-inner, .ts-navbar-inner, .doc-navbar-inner, .apt-navbar-inner,
@@ -1747,10 +1801,10 @@ div.mt-user-default[style*="none"] {
   }
 
   .shared-logo, .pt-brand-logo, .ts-brand-logo, .mt-logo, img[class*="brand-logo"] {
-    width: 40px !important;
-    height: 40px !important;
-    min-width: 40px !important;
-    min-height: 40px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
   }
 
   /* Hamburger Button Display */
@@ -1771,12 +1825,12 @@ div.mt-user-default[style*="none"] {
     top: 72px !important;
     left: 0 !important;
     width: 100% !important;
-    background: #ffffff !important;
+    background: #071326 !important;
     flex-direction: column !important;
     align-items: stretch !important;
     padding: 16px 20px 24px !important;
-    border-bottom: 2px solid #e2e8f0 !important;
-    box-shadow: 0 16px 32px rgba(16, 52, 99, 0.12) !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45) !important;
     z-index: 9999 !important;
     gap: 8px !important;
   }
@@ -1804,6 +1858,13 @@ div.mt-user-default[style*="none"] {
     font-size: 14.5px !important;
     width: 100% !important;
     border-radius: 8px !important;
+    color: #ffffff !important;
+  }
+
+  .shared-nav-link.active, .pt-nav-link.active, .ts-nav-link.active, .doc-nav-link.active,
+  .mt-nav-link.active, .cp-nav-link.active, #navMenu a.active {
+    color: #1683FF !important;
+    background: rgba(22, 131, 255, 0.18) !important;
   }
 
   /* Compact Right Actions on Mobile */
