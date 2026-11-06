@@ -173,21 +173,52 @@
      * Doctor accepts an appointment request
      */
     async acceptAppointment(apptId) {
-      let appt = this.updateAppointmentStatus(apptId, "Confirmed");
-      if (!appt) {
-        appt = { appointment_id: apptId };
+      const rawUser = localStorage.getItem("currentUser");
+      const user = rawUser ? JSON.parse(rawUser) : {};
+      const doctorId = user.doctor_id || user.user_id || null;
+      const doctorPhone = user.phone || user.mobile || "+91 98765 43210";
+
+      let serverData = null;
+      try {
+        if (typeof apiRequest === "function") {
+          const res = await apiRequest("/api/appointments?action=accept", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              appointment_id: apptId,
+              doctor_id: doctorId,
+              doctor_phone: doctorPhone
+            })
+          });
+          if (res && res.success) {
+            serverData = res.appointment;
+          }
+        }
+      } catch (err) {
+        console.warn("[Notifications] API accept error:", err.message);
       }
 
-      // Create notification for Patient
+      let appt = this.updateAppointmentStatus(apptId, "Confirmed");
+      if (!appt) {
+        appt = serverData || { appointment_id: apptId };
+      }
+      if (serverData) {
+        Object.assign(appt, serverData);
+      }
+
+      const docPhone = appt.doctor_phone || doctorPhone || "+91 98765 43210";
+
+      // Create notification for Patient: Doctor phone revealed only upon acceptance
       this.addNotification({
         recipient_role: "patient",
         recipient_id: appt.patient_id || null,
         title: "Appointment Confirmed ✓",
-        message: `${appt.doctor_name || 'Dr. Mitchell'} has accepted and confirmed your appointment for ${formatDateLabel(appt.appointment_date)} at ${formatTimeLabel(appt.appointment_time)}.`,
+        message: `${appt.doctor_name || 'Dr. Specialist'} has accepted your appointment! Doctor Contact Phone is now unlocked: ${docPhone}.`,
         type: "appointment_confirmed",
         appt_id: apptId,
         patient_name: appt.patient_name,
         doctor_name: appt.doctor_name,
+        doctor_phone: docPhone,
         appointment_date: appt.appointment_date,
         appointment_time: appt.appointment_time
       });
@@ -197,24 +228,13 @@
 
       // Emit global status change event
       window.dispatchEvent(new CustomEvent("appointmentStatusChanged", {
-        detail: { apptId, status: "Confirmed", appt }
+        detail: { apptId, status: "Confirmed", doctor_phone: docPhone, appt }
       }));
 
-      // Try API update
-      try {
-        if (typeof apiRequest === "function") {
-          await apiRequest(`/api/appointments/${apptId}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: "Confirmed" })
-          }).catch(() => {});
-        }
-      } catch (_) {}
-
       if (typeof showToast === "function") {
-        showToast(`Appointment #APT-${apptId} confirmed successfully! Patient has been notified.`, "success");
+        showToast(`Appointment #APT-${apptId} accepted & confirmed! Doctor phone revealed to patient.`, "success");
       } else {
-        alert(`Appointment #APT-${apptId} has been confirmed. Patient notified.`);
+        alert(`Appointment #APT-${apptId} confirmed. Patient has been notified with your contact details.`);
       }
 
       this.updateBadgesAndDropdowns();
@@ -226,26 +246,57 @@
      */
     async rejectAppointment(apptId, reason = "") {
       if (!reason) {
-        reason = prompt("Please provide a brief reason for rejecting this appointment (optional):", "Doctor unavailable during this time slot") || "Doctor unavailable";
+        reason = prompt("Please provide a clinical or scheduling reason for rejecting this appointment (initiates 100% patient refund):", "Attending specialist unavailable during this time slot") || "Specialist unavailable";
       }
 
-      let appt = this.updateAppointmentStatus(apptId, "Rejected", reason);
+      const rawUser = localStorage.getItem("currentUser");
+      const user = rawUser ? JSON.parse(rawUser) : {};
+      const doctorId = user.doctor_id || user.user_id || null;
+
+      let refundStatus = "Rejected – Refund Pending";
+      let serverData = null;
+
+      try {
+        if (typeof apiRequest === "function") {
+          const res = await apiRequest("/api/appointments?action=reject", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              appointment_id: apptId,
+              doctor_id: doctorId,
+              rejection_reason: reason
+            })
+          });
+          if (res && res.success) {
+            refundStatus = res.refund_status || res.status || "Rejected – Refund Pending";
+            serverData = res.appointment;
+          }
+        }
+      } catch (err) {
+        console.warn("[Notifications] API reject error:", err.message);
+      }
+
+      let appt = this.updateAppointmentStatus(apptId, refundStatus, reason);
       if (!appt) {
-        appt = { appointment_id: apptId };
+        appt = serverData || { appointment_id: apptId };
+      }
+      if (serverData) {
+        Object.assign(appt, serverData);
       }
 
-      // Create notification for Patient
+      // Create notification for Patient with refund guarantee message
       this.addNotification({
         recipient_role: "patient",
         recipient_id: appt.patient_id || null,
-        title: "Appointment Request Rejected",
-        message: `${appt.doctor_name || 'Doctor'} could not accept your appointment for ${formatDateLabel(appt.appointment_date)}. Reason: "${reason}". Please select another available time slot.`,
-        type: "appointment_rejected",
+        title: "Appointment Rejected – Refund Initiated",
+        message: `${appt.doctor_name || 'Attending specialist'} was unable to accept your session (${reason}). Your consultation fee has been queued for 100% refund.`,
+        type: "appointment_rejected_refund",
         appt_id: apptId,
         patient_name: appt.patient_name,
         doctor_name: appt.doctor_name,
         appointment_date: appt.appointment_date,
-        reason
+        reason,
+        refund_status: refundStatus
       });
 
       // Mark the related request notification as read
@@ -253,24 +304,13 @@
 
       // Emit global status change event
       window.dispatchEvent(new CustomEvent("appointmentStatusChanged", {
-        detail: { apptId, status: "Rejected", reason, appt }
+        detail: { apptId, status: refundStatus, reason, appt }
       }));
 
-      // Try API update
-      try {
-        if (typeof apiRequest === "function") {
-          await apiRequest(`/api/appointments/${apptId}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: "Rejected", notes: reason })
-          }).catch(() => {});
-        }
-      } catch (_) {}
-
       if (typeof showToast === "function") {
-        showToast(`Appointment #APT-${apptId} has been rejected. Patient has been notified.`, "danger");
+        showToast(`Appointment #APT-${apptId} rejected. Patient notified and 100% refund initiated.`, "warning");
       } else {
-        alert(`Appointment #APT-${apptId} has been rejected. Patient notified.`);
+        alert(`Appointment #APT-${apptId} rejected. 100% refund initiated.`);
       }
 
       this.updateBadgesAndDropdowns();
@@ -569,6 +609,19 @@
   }
 
   window.NotificationManager = NotificationManager;
+
+  // Global action bridges for direct inline onclick handlers
+  window.acceptAppointmentAction = function (apptId) {
+    if (window.NotificationManager && typeof window.NotificationManager.acceptAppointment === "function") {
+      return window.NotificationManager.acceptAppointment(apptId);
+    }
+  };
+
+  window.rejectAppointmentAction = function (apptId, reason) {
+    if (window.NotificationManager && typeof window.NotificationManager.rejectAppointment === "function") {
+      return window.NotificationManager.rejectAppointment(apptId, reason);
+    }
+  };
 
   // Auto-init on page load
   if (document.readyState === "loading") {

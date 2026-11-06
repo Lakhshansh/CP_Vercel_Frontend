@@ -13,6 +13,11 @@
     { "source": "/api/cloudinary-delete", "destination": "/api/remove-profile-photo" },
     { "source": "/api/admin/login", "destination": "/api/admin-login" },
     { "source": "/api/admin/stats", "destination": "/api/admin-stats" },
-    { "source": "/api/admin/analytics", "destination": "/api/admin-stats" }
+    { "source": "/api/admin/analytics", "destination": "/api/admin-stats" },
+    { "source": "/api/appointments/create-order", "destination": "/api/appointments?action=create-order" },
+    { "source": "/api/appointments/verify-payment", "destination": "/api/appointments?action=verify-payment" },
+    { "source": "/api/appointments/accept", "destination": "/api/appointments?action=accept" },
+    { "source": "/api/appointments/reject", "destination": "/api/appointments?action=reject" },
+    { "source": "/api/appointments/refund", "destination": "/api/appointments?action=refund" }
   ]
 }

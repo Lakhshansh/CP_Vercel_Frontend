@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointment Checkout &amp; Payment | Every Individual Deserves Better Care.</title>
+  <meta name="description"
+    content="Secure Consultation Checkout - Multi Therapy Healthcare Network. Fast, encrypted online booking payment powered by Razorpay.">
+  <link rel="icon" href="./images/multi_therapy_logo_100x100.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/clinical-dropdown.css">
+  <link rel="stylesheet" href="./css/appointments.css">
+
+  <style>
+    body {
+      background-color: #f8fafc;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      color: #1e293b;
+    }
+
+    .apt-checkout-wrap {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 36px 20px 80px;
+    }
+
+    .apt-checkout-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 18px rgba(6, 21, 43, 0.05);
+      padding: 26px 28px;
+      margin-bottom: 24px;
+    }
+
+    .apt-checkout-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: #06152B;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .apt-doc-detail-box {
+      background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
+      border: 1.5px solid #a7f3d0;
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .apt-doc-avatar-large {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #059669;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 800;
+      border: 2px solid #ffffff;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+      flex-shrink: 0;
+    }
+
+    .apt-checkout-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      font-size: 14px;
+      color: #475569;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .apt-checkout-row.total {
+      border-bottom: none;
+      border-top: 2px solid #06152B;
+      padding-top: 14px;
+      margin-top: 6px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #06152B;
+    }
+
+    .apt-btn-pay {
+      background: #059669 !important;
+      color: #ffffff !important;
+      border: 1.5px solid #059669 !important;
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: 800;
+      width: 100%;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.28);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      outline: none;
+    }
+
+    .apt-btn-pay:hover {
+      background: #047857 !important;
+      border-color: #047857 !important;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(5, 150, 105, 0.38);
+      color: #ffffff !important;
+    }
+
+    .apt-badge-status-pending {
+      background: #fffbeb;
+      color: #d97706;
+      border: 1px solid #fde68a;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .apt-badge-status-paid {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .apt-trust-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #059669;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ======================================================================
+       1. GLOBAL UNIFIED DARK NAVY HEADER
+       ====================================================================== -->
+  <header class="shared-header mt-navbar" role="banner">
+    <div class="shared-header-inner mt-navbar-inner">
+
+      <!-- Multi Therapy Brand Identity -->
+      <a href="./index.html" class="shared-brand mt-brand" title="Multi Therapy Home">
+        <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="shared-logo mt-logo" width="58" height="58">
+        <div class="shared-brand-text">
+          <span class="shared-brand-title mt-brand-title">Multi Therapy</span>
+          <span class="shared-brand-subtitle mt-brand-subtitle">Every Individual Deserves Better Care.</span>
+        </div>
+      </a>
+
+      <!-- Center Navigation Links -->
+      <nav class="shared-nav-center mt-nav-center" aria-label="Main Navigation">
+        <ul class="shared-nav-list mt-nav-list" id="navMenu">
+          <li><a href="./index.html" class="shared-nav-link mt-nav-link" id="navHome">Home</a></li>
+          <li><a href="./patient-home.html" class="shared-nav-link mt-nav-link" id="navPatientHome">Patient Home</a></li>
+          <li><a href="./doctor-home.html" class="shared-nav-link mt-nav-link" id="navDoctorHome">Doctor Home</a></li>
+
+          <!-- Clinical Management Dropdown -->
+          <li class="nav-item-dropdown">
+            <a href="javascript:void(0)" class="nav-dropdown-toggle shared-nav-link mt-nav-link" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
+              <span>Clinical Management</span>
+              <svg class="dropdown-arrow-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2.5 4.5L6 8L9.5 4.5"></path>
+              </svg>
+            </a>
+            <div class="nav-dropdown-menu" aria-label="Clinical Management Submenu">
+              <a href="./doctors.html" class="nav-dropdown-link" id="dropDoctors">
+                <span class="nav-dropdown-icon">👨‍⚕️</span>
+                <span class="nav-dropdown-text">Doctors</span>
+              </a>
+              <a href="./patients.html" class="nav-dropdown-link" id="dropPatients">
+                <span class="nav-dropdown-icon">👥</span>
+                <span class="nav-dropdown-text">Patients</span>
+              </a>
+              <a href="./therapists.html" class="nav-dropdown-link" id="dropTherapists">
+                <span class="nav-dropdown-icon">👨‍⚕️</span>
+                <span class="nav-dropdown-text">Therapists</span>
+              </a>
+              <a href="./patient-appointments.html" class="nav-dropdown-link active" id="dropAppointments">
+                <span class="nav-dropdown-icon">📅</span>
+                <span class="nav-dropdown-text">Appointments</span>
+              </a>
+              <a href="./therapy-sessions.html" class="nav-dropdown-link" id="dropSessions">
+                <span class="nav-dropdown-icon">💪</span>
+                <span class="nav-dropdown-text">Therapy Sessions</span>
+              </a>
+              <a href="./exercises.html" class="nav-dropdown-link" id="dropExercises">
+                <span class="nav-dropdown-icon">🏃</span>
+                <span class="nav-dropdown-text">Exercises</span>
+              </a>
+            </div>
+          </li>
+
+          <li><a href="./login.html" class="shared-nav-link mt-nav-link" id="navPatientLogin">Patient Login</a></li>
+          <li><a href="./doctor-login.html" class="shared-nav-link mt-nav-link" id="navDoctorLogin">Doctor Login</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="shared-nav-right mt-nav-right">
+        <!-- Profile Pill -->
+        <div id="userProfileWrap" class="shared-profile-wrap" style="position: relative; display: inline-flex;">
+          <a href="./patient-profile.html" class="shared-user-pill mt-user" id="userProfileBtn" title="View Profile">
+            <div id="navAvatar" class="shared-avatar-fallback mt-user-default">👤</div>
+            <div class="shared-user-text mt-user-text">
+              <div class="shared-user-name mt-user-name" id="navUsername">Patient</div>
+              <div class="shared-user-role mt-user-role" id="navRole">Portal</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Logout Button -->
+        <button type="button" id="logoutBtn" class="shared-logout-btn mt-logout-btn" title="Sign Out">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Logout</span>
+        </button>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button type="button" class="shared-nav-toggle doc-nav-toggle" id="navToggle" aria-label="Toggle Navigation Menu">
+          ☰
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       2. APPOINTMENT CHECKOUT WORKSPACE
+       ====================================================================== -->
+  <main class="apt-checkout-wrap">
+
+    <!-- Hero Title -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+      <div>
+        <h1 class="fw-bold mb-1" style="color: #06152B; font-size: 28px;">
+          Appointment Booking &amp; Payment Checkout
+        </h1>
+        <p class="text-muted mb-0">
+          Review your clinical consultation details and complete secure payment to submit for doctor approval.
+        </p>
+      </div>
+      <div class="apt-trust-badge">
+        <span>🔒</span>
+        <span>256-bit SSL Encrypted Payment</span>
+      </div>
+    </div>
+
+    <!-- Alert Message Area -->
+    <div id="checkoutAlert" class="alert alert-danger mb-4" style="display: none;" role="alert"></div>
+
+    <!-- Payment Success Confirmation View (Hidden by default, shown after verified payment) -->
+    <div id="checkoutSuccessCard" class="apt-checkout-card text-center py-5" style="display: none; border-color: #a7f3d0; background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);">
+      <div style="font-size: 54px; margin-bottom: 16px;">🎉</div>
+      <h2 class="fw-bold mb-2" style="color: #065f46;">Payment Successfully Verified!</h2>
+      <div class="badge bg-success fs-6 px-3 py-2 mb-3" id="successStatusBadge">Status: Paid – Pending Doctor Approval</div>
+      <p class="text-muted mx-auto" style="max-width: 600px; font-size: 15px; line-height: 1.6;">
+        Your consultation fee of <strong id="successFeeText">₹10,900.00</strong> has been verified. 
+        <br>
+        Transaction Reference: <code id="successTxnRef" class="fw-bold text-dark">rzp_verified_ref</code>
+        <br>
+        We have dispatched an automated clinical notification to <strong id="successDocName">Dr. Specialist</strong> to review and confirm your requested session.
+      </p>
+
+      <div class="p-3 bg-white border rounded-3 mx-auto my-4 text-start" style="max-width: 500px;">
+        <div class="d-flex justify-content-between py-1"><span>Appointment ID:</span> <strong id="successApptId">#APT-Pending</strong></div>
+        <div class="d-flex justify-content-between py-1"><span>Specialist:</span> <strong id="successSpecialist">Dr. Specialist</strong></div>
+        <div class="d-flex justify-content-between py-1"><span>Scheduled For:</span> <strong id="successDateTime">Date • Time</strong></div>
+        <div class="d-flex justify-content-between py-1 border-top pt-2 mt-1"><span>Doctor Contact Phone:</span> <span class="text-primary fw-bold" id="successPhoneNote">🔒 Unlocked upon doctor acceptance</span></div>
+      </div>
+
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="./patient-appointments.html" class="apt-btn-pay" style="width: auto; padding: 12px 28px;">
+          <span>📅</span> <span>View in My Appointments</span>
+        </a>
+        <a href="./patient-home.html" class="btn btn-outline-secondary py-2 px-4 rounded-3 fw-bold">
+          <span>🏠</span> <span>Return to Patient Portal</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Active Checkout Form Grid -->
+    <div class="row g-4" id="checkoutGrid">
+
+      <!-- LEFT COLUMN: APPOINTMENT & PATIENT DETAILS -->
+      <div class="col-lg-7">
+
+        <!-- 1. Specialist & Slot Details Card -->
+        <div class="apt-checkout-card">
+          <div class="apt-checkout-title">
+            <span>🩺</span>
+            <span>Appointment Details</span>
+          </div>
+
+          <!-- Doctor Profile Banner -->
+          <div class="apt-doc-detail-box">
+            <div class="apt-doc-avatar-large" id="cardDocAvatar">👨‍⚕️</div>
+            <div>
+              <div class="badge bg-primary px-2 py-1 mb-1" id="cardSpecialistType">Doctor</div>
+              <h3 class="fw-bold mb-1" id="cardDocName" style="color: #06152B; font-size: 20px;">Dr. Specialist</h3>
+              <div class="text-muted small" id="cardDocSpec">Pediatric Neurology &amp; Rehabilitation</div>
+              <div class="text-secondary small mt-1" id="cardDocLocation">📍 Main Rehab Center (Jaipur)</div>
+            </div>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label class="form-label small fw-bold text-muted">Service / Appointment Type</label>
+              <div class="p-2 px-3 bg-light rounded-3 border fw-bold text-dark" id="displayApptType">
+                Medical Consultation (In-Person)
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label class="form-label small fw-bold text-muted">Scheduled Date &amp; Time Slot</label>
+              <div class="p-2 px-3 bg-light rounded-3 border fw-bold text-dark" id="displayDateTime">
+                Loading schedule...
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label small fw-bold text-muted">Consultation Purpose / Patient Reason</label>
+              <div class="p-2 px-3 bg-light rounded-3 border text-dark" id="displayReason" style="font-size: 13.5px; min-height: 44px;">
+                Mobility &amp; neuromuscular rehabilitation assessment
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Patient Profile Card -->
+        <div class="apt-checkout-card">
+          <div class="apt-checkout-title">
+            <span>👤</span>
+            <span>Patient Identity &amp; Contact Details</span>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label class="form-label small fw-bold text-muted">Patient Full Name</label>
+              <input type="text" class="form-control" id="inputPatientName" readonly style="background-color: #f8fafc; font-weight: 700;">
+            </div>
+
+            <div class="col-sm-6">
+              <label class="form-label small fw-bold text-muted">Patient Identification</label>
+              <input type="text" class="form-control" id="inputPatientId" readonly style="background-color: #f8fafc; font-weight: 700;">
+            </div>
+
+            <div class="col-sm-6">
+              <label class="form-label small fw-bold text-muted">Contact Phone (Required for Doctor Coordination)</label>
+              <input type="tel" class="form-control" id="inputPatientPhone" placeholder="Enter patient phone number" value="9468650893">
+              <small class="text-muted" style="font-size: 11.5px;">Visible only to assigned attending specialist.</small>
+            </div>
+
+            <div class="col-sm-6">
+              <label class="form-label small fw-bold text-muted">Email Address</label>
+              <input type="email" class="form-control" id="inputPatientEmail" placeholder="patient@example.com" value="patient@multitherapy.org">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: ORDER SUMMARY & PAYMENT ACTIONS -->
+      <div class="col-lg-5">
+        <div class="apt-checkout-card">
+          <div class="apt-checkout-title">
+            <span>💳</span>
+            <span>Payment Summary</span>
+          </div>
+
+          <div class="apt-checkout-row">
+            <span>Consultation Fee</span>
+            <span class="fw-bold text-dark" id="sumBaseFee">₹10,900.00</span>
+          </div>
+
+          <div class="apt-checkout-row">
+            <span>Clinical Platform Fee</span>
+            <span class="text-success fw-bold">FREE (Complimentary)</span>
+          </div>
+
+          <div class="apt-checkout-row">
+            <span>Medical Care GST</span>
+            <span class="text-muted">₹0.00 (Exempt)</span>
+          </div>
+
+          <div class="apt-checkout-row total">
+            <span>Total Payable</span>
+            <span class="text-success" id="sumTotalFee">₹10,900.00</span>
+          </div>
+
+          <!-- Payment Status Card -->
+          <div class="my-3 p-3 bg-light rounded-3 border">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="small fw-bold text-muted">Payment Status:</span>
+              <span class="apt-badge-status-pending" id="badgePaymentStatus">● Payment Pending</span>
+            </div>
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge bg-success rounded-pill px-2 py-1">Razorpay Verified</span>
+              <span class="small text-muted">Official Payment Gateway</span>
+            </div>
+            <div class="small text-muted" style="font-size: 12px; line-height: 1.5;">
+              Supports UPI (Google Pay, PhonePe, Paytm), Debit/Credit Cards (Visa, MasterCard, RuPay), and NetBanking.
+            </div>
+          </div>
+
+          <!-- Test Mode Banner / Warning -->
+          <div class="p-3 mb-3 bg-warning-subtle text-dark border border-warning rounded-3 small" id="testModeBanner">
+            <div class="fw-bold mb-1">⚡ Gateway Integration (Test Mode Active)</div>
+            <div>Secure server verification is enforced. Transactions are tracked in the database and require doctor approval.</div>
+          </div>
+
+          <!-- Checkout Button -->
+          <button type="button" class="apt-btn-pay" id="btnPayConsultation">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+              <line x1="1" y1="10" x2="23" y2="10"></line>
+            </svg>
+            <span id="btnPayText">Pay ₹10,900 with Razorpay</span>
+          </button>
+
+          <!-- Refund Guarantee Note -->
+          <div class="text-center mt-3 small text-muted" style="font-size: 11.5px; line-height: 1.5;">
+            🛡️ <strong>100% Refund Guarantee:</strong> If the attending specialist cannot accept your session, your consultation fee is automatically queued for instant refund.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Razorpay Checkout Official SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/api.js"></script>
+  <script src="./js/notifications.js"></script>
+  <script src="./js/clinical-dropdown.js"></script>
+  <script src="./js/appointment-checkout.js"></script>
+  <script src="./js/footer.js"></script>
+  <script src="./js/header.js" defer></script>
+</body>
+
+</html>
+

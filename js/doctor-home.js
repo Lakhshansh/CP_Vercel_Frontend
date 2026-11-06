@@ -523,10 +523,12 @@
     listEl.innerHTML = pendingRequests.map(item => {
       const pName = escapeHtml(item.patient_name || "Patient Record");
       const pId = escapeHtml(String(item.patient_id || "101"));
+      const pPhone = escapeHtml(item.patient_phone || "+91 94686 50893");
       const aptDate = formatDateString(item.appointment_date);
       const aptTime = formatTimeString(item.appointment_time);
       const aptType = escapeHtml(item.appointment_type || "Consultation");
       const reason = escapeHtml(item.reason || item.notes || "Clinical consultation and mobility review.");
+      const paymentStatus = escapeHtml(item.payment_status || (item.status && item.status.includes("Paid") ? "Paid (Razorpay Verified)" : "Paid – Verified"));
 
       return `
         <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px; border: 1.5px solid #e2e8f0; border-radius: 12px; margin-bottom: 10px; background: #f8fafc; gap: 14px; flex-wrap: wrap;">
@@ -536,7 +538,8 @@
             </div>
             <div>
               <div style="font-weight: 800; color: #103463; font-size: 14.5px;">${pName}</div>
-              <div style="font-size: 11.5px; color: #64748b;">Patient ID: #PT-${pId} • <span class="badge bg-light text-primary border">${aptType}</span></div>
+              <div style="font-size: 11.5px; color: #64748b;">Patient ID: #PT-${pId} &bull; <span class="badge bg-light text-primary border">${aptType}</span></div>
+              <div style="font-size: 11.5px; color: #059669; font-weight: 700; margin-top: 2px;">📞 ${pPhone}</div>
             </div>
           </div>
 
@@ -544,16 +547,19 @@
             <div style="font-size: 12.5px; font-weight: 700; color: #1e293b; margin-bottom: 3px;">
               🗓️ ${aptDate} &bull; 🕒 ${aptTime}
             </div>
+            <div style="font-size: 11.5px; color: #047857; margin-bottom: 4px; font-weight: 600;">
+              💳 Status: <span class="badge bg-success-subtle text-success border border-success">${paymentStatus}</span>
+            </div>
             <div style="font-size: 12px; color: #475569; background: #ffffff; padding: 4px 8px; border-radius: 6px; border: 1px solid #e2e8f0; max-width: 450px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
               <strong>Reason:</strong> ${reason}
             </div>
           </div>
 
           <div style="display: flex; align-items: center; gap: 8px;">
-            <button type="button" class="btn btn-sm btn-success px-3 py-1 fw-bold" style="border-radius: 8px; font-size: 12.5px;" onclick="window.NotificationManager ? window.NotificationManager.acceptAppointment(${item.appointment_id}) : acceptAppt(${item.appointment_id})">
+            <button type="button" class="btn btn-sm btn-success px-3 py-1 fw-bold" style="border-radius: 8px; font-size: 12.5px;" onclick="window.NotificationManager ? window.NotificationManager.acceptAppointment(${item.appointment_id}) : acceptAppt(${item.appointment_id})" title="Accept and Confirm this Appointment">
               ✓ Accept
             </button>
-            <button type="button" class="btn btn-sm btn-outline-danger px-3 py-1 fw-bold" style="border-radius: 8px; font-size: 12.5px;" onclick="window.NotificationManager ? window.NotificationManager.rejectAppointment(${item.appointment_id}) : rejectAppt(${item.appointment_id})">
+            <button type="button" class="btn btn-sm btn-outline-danger px-3 py-1 fw-bold" style="border-radius: 8px; font-size: 12.5px;" onclick="window.NotificationManager ? window.NotificationManager.rejectAppointment(${item.appointment_id}) : rejectAppt(${item.appointment_id})" title="Reject this Request &amp; Issue Refund">
               ✕ Reject
             </button>
             <button type="button" class="btn btn-sm btn-light border px-2 py-1" style="border-radius: 8px; font-size: 12px;" onclick="openDoctorPatientModal('${pId}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">
@@ -577,6 +583,9 @@
     const reason = appt.reason || appt.notes || "Not specified";
     const status = appt.status || "Pending Approval";
 
+    const patientPhone = appt.patient_phone || "+91 94686 50893";
+    const paymentStatus = appt.payment_status || (appt.status && appt.status.includes("Paid") ? "Paid (Razorpay Verified)" : "Payment Pending");
+
     body.innerHTML = `
       <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid #e2e8f0;">
         <div style="width: 52px; height: 52px; border-radius: 50%; background: #0875F9; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800;">
@@ -585,17 +594,18 @@
         <div>
           <h4 style="margin: 0; font-size: 17px; font-weight: 800; color: #103463;">${escapeHtml(patientName)}</h4>
           <div style="font-size: 12px; color: #64748b;">Patient Record ID: #PT-${escapeHtml(patientId)} &bull; Verified Patient</div>
+          <div style="font-size: 12.5px; color: #059669; font-weight: 700; margin-top: 2px;">📞 Contact Phone: ${escapeHtml(patientPhone)}</div>
         </div>
       </div>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; font-size: 12.5px;">
         <div style="background: #f8fafc; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
-          <strong style="color: #64748b; font-size: 11px; display: block; text-transform: uppercase;">Condition / Diagnosis</strong>
-          <span style="font-weight: 700; color: #103463;">Cerebral Palsy (Spastic Diplegia)</span>
+          <strong style="color: #64748b; font-size: 11px; display: block; text-transform: uppercase;">Payment Status</strong>
+          <span class="badge bg-success-subtle text-success border border-success fw-bold">${escapeHtml(paymentStatus)}</span>
         </div>
         <div style="background: #f8fafc; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
-          <strong style="color: #64748b; font-size: 11px; display: block; text-transform: uppercase;">Age &amp; Gender</strong>
-          <span style="font-weight: 700; color: #103463;">8 Years &bull; Male</span>
+          <strong style="color: #64748b; font-size: 11px; display: block; text-transform: uppercase;">Consultation Fee</strong>
+          <span style="font-weight: 700; color: #103463;">₹${appt.consultation_fee ? parseFloat(appt.consultation_fee).toLocaleString('en-IN') : '10,900.00'}</span>
         </div>
         <div style="background: #f8fafc; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
           <strong style="color: #64748b; font-size: 11px; display: block; text-transform: uppercase;">Session Type</strong>

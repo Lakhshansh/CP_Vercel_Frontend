@@ -330,6 +330,27 @@ function setupBookingForm(user) {
   }
 
   // =========================================================================
+  // REQUIREMENT: Patient Fee Display & Dynamic Button Text
+  // =========================================================================
+  function updateBookingButtonFee(specialist) {
+    if (!isPatient || !submitBtn) return;
+    let fee = 10900;
+    if (specialist) {
+      const raw = specialist.consultation_fee || specialist.session_fee || '10900';
+      const parsed = parseFloat(String(raw).replace(/[^0-9.]/g, ''));
+      if (!isNaN(parsed) && parsed > 0) fee = parsed;
+    }
+    submitBtn.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+        <line x1="1" y1="10" x2="23" y2="10"></line>
+      </svg>
+      <span>Proceed to Payment (₹${Math.round(fee).toLocaleString('en-IN')})</span>
+    `;
+  }
+  updateBookingButtonFee(null);
+
+  // =========================================================================
   // Specialist Selector Change: Specialization auto-fill & slot update
   // =========================================================================
   if (specialistSelect) {
@@ -359,11 +380,13 @@ function setupBookingForm(user) {
           }
         }
 
-        // Update live preview banner
+        // Update live preview banner and fee on button
         updateSpecialistPreviewBanner(specialist);
+        updateBookingButtonFee(specialist);
       } else {
         if (specField) specField.value = "";
         hideSpecialistPreviewBanner();
+        updateBookingButtonFee(null);
       }
 
       // Re-render real-time slots for the selected specialist and date
@@ -479,6 +502,74 @@ function setupBookingForm(user) {
       }
 
       if (formAlert) formAlert.hidden = true;
+
+      // =====================================================================
+      // WORKFLOW 1 & 2: PATIENT PAID APPOINTMENT BOOKING REDIRECT
+      // =====================================================================
+      if (isPatient) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+          <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          Reserving Slot &amp; Proceeding to Payment...
+        `;
+
+        let feeNum = 10900;
+        if (specialist) {
+          const raw = specialist.consultation_fee || specialist.session_fee || '10900';
+          const parsed = parseFloat(String(raw).replace(/[^0-9.]/g, ''));
+          if (!isNaN(parsed) && parsed > 0) feeNum = parsed;
+        }
+
+        const draftRecord = {
+          patient_id: patient_id,
+          patient_name: patient_name,
+          patient_phone: user.phone || user.mobile || '9468650893',
+          patient_email: user.email || 'patient@multitherapy.org',
+          doctor_id: doctor_id,
+          therapist_id: therapist_id,
+          doctor_name: docName,
+          doctor_specialization: docSpec,
+          appointment_date: appt_date,
+          appointment_time: appt_time,
+          appointment_type: appt_type,
+          consultation_fee: feeNum,
+          reason: reason,
+          notes: reason ? `${appt_type}: ${reason}` : appt_type,
+          status: 'Payment Pending',
+          user_id: user.user_id || patient_id,
+          created_at: new Date().toISOString()
+        };
+
+        localStorage.setItem('pending_appointment_draft', JSON.stringify(draftRecord));
+
+        let apptId = '';
+        let orderId = '';
+        try {
+          const orderRes = await apiRequest('/api/appointments?action=create-order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(draftRecord)
+          });
+          if (orderRes && orderRes.success) {
+            apptId = orderRes.appointment_id || '';
+            orderId = orderRes.order_id || '';
+          }
+        } catch (apiErr) {
+          console.warn('[Appointments] Create order notice:', apiErr.message);
+        }
+
+        showToast(`Proceeding to consultation checkout (₹${Math.round(feeNum).toLocaleString('en-IN')})...`, 'info');
+
+        const checkoutUrl = `./appointment-checkout.html?appointment_id=${encodeURIComponent(apptId)}&order_id=${encodeURIComponent(orderId)}&fee=${encodeURIComponent(feeNum)}&doctor_id=${encodeURIComponent(doctor_id || '')}&therapist_id=${encodeURIComponent(therapist_id || '')}&doctor_name=${encodeURIComponent(docName)}&date=${encodeURIComponent(appt_date)}&time=${encodeURIComponent(appt_time)}&type=${encodeURIComponent(appt_type)}&notes=${encodeURIComponent(reason)}`;
+        setTimeout(() => {
+          window.location.href = checkoutUrl;
+        }, 300);
+        return;
+      }
+
+      // =====================================================================
+      // DIRECT STAFF / DOCTOR SCHEDULING (Bypasses patient payment)
+      // =====================================================================
       submitBtn.disabled = true;
       submitBtn.innerHTML = `
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
@@ -497,7 +588,7 @@ function setupBookingForm(user) {
           appointment_date: appt_date,
           appointment_time: appt_time,
           appointment_type: appt_type,
-          status: isPatient ? "Pending Approval" : "Confirmed",
+          status: "Confirmed",
           notes: reason ? `${appt_type}: ${reason}` : appt_type,
           reason: reason,
           user_id: user.user_id || patient_id,
@@ -526,11 +617,7 @@ function setupBookingForm(user) {
         }
 
         // 3. Show Success Feedback
-        if (isPatient) {
-          showToast(`🗓️ Appointment request submitted to ${docName} for ${formatDateString(appt_date)} at ${formatTimeString(appt_time)}! Status: Pending Approval.`, "info");
-        } else {
-          showToast(`🎉 Appointment scheduled and confirmed with ${docName} for ${formatDateString(appt_date)} at ${formatTimeString(appt_time)}!`, "success");
-        }
+        showToast(`🎉 Appointment scheduled and confirmed with ${docName} for ${formatDateString(appt_date)} at ${formatTimeString(appt_time)}!`, "success");
 
         // 4. Reset Inputs
         if (specialistSelect) specialistSelect.value = "";
@@ -1085,16 +1172,22 @@ async function loadAppointmentsTable(user) {
     });
 
     allAppointments = combined.map(a => {
-      let normStatus = "Confirmed";
+      let normStatus = a.status || "Confirmed";
       const rawStatus = (a.status || "").toLowerCase();
 
       if (rawStatus === "cancelled") {
         normStatus = "Cancelled";
-      } else if (rawStatus.includes("reject")) {
-        normStatus = "Rejected";
+      } else if (rawStatus.includes("refund completed") || rawStatus === "refunded") {
+        normStatus = "Refund Completed";
+      } else if (rawStatus.includes("reject") || rawStatus.includes("refund pending") || rawStatus.includes("refund processing")) {
+        normStatus = "Rejected – Refund Pending";
+      } else if (rawStatus.includes("paid – pending") || rawStatus.includes("paid - pending") || rawStatus.includes("pending doctor approval") || rawStatus === "paid") {
+        normStatus = "Paid – Pending Doctor Approval";
+      } else if (rawStatus.includes("payment pending") || rawStatus === "unpaid") {
+        normStatus = "Payment Pending";
       } else if (rawStatus.includes("pending") || rawStatus.includes("approval") || rawStatus === "scheduled") {
-        normStatus = "Pending Approval";
-      } else {
+        normStatus = "Paid – Pending Doctor Approval";
+      } else if (rawStatus === "confirmed") {
         normStatus = "Confirmed";
       }
 
@@ -1166,8 +1259,8 @@ function updateFilterCounts() {
 
   allAppointments.forEach(a => {
     if (a.normalizedStatus === "Confirmed") confirmed++;
-    else if (a.normalizedStatus === "Pending Approval") pending++;
-    else if (a.normalizedStatus === "Rejected") rejected++;
+    else if (a.normalizedStatus === "Paid – Pending Doctor Approval" || a.normalizedStatus === "Payment Pending" || a.normalizedStatus === "Pending Approval") pending++;
+    else if (a.normalizedStatus.includes("Reject") || a.normalizedStatus.includes("Refund")) rejected++;
     else if (a.normalizedStatus === "Cancelled") cancelled++;
   });
 
@@ -1249,12 +1342,15 @@ function renderAppointmentsTable() {
     const curRole = (curUser.role || "").toLowerCase();
     const isDoctorOrStaff = curRole === "doctor" || curRole === "therapist" || curRole === "admin";
 
-    const statusBadgeClass = a.normalizedStatus.toLowerCase().replace(/\s+/g, '-');
+    const statusBadgeClass = a.normalizedStatus.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     const typeBadgeClass = (a.apptType || "Consultation").toLowerCase().replace(/\s+/g, '-');
+    
     const isCancelled = a.normalizedStatus === "Cancelled";
-    const isPending = a.normalizedStatus === "Pending Approval";
+    const isPaidPending = a.normalizedStatus === "Paid – Pending Doctor Approval";
+    const isPaymentPending = a.normalizedStatus === "Payment Pending";
     const isConfirmed = a.normalizedStatus === "Confirmed";
-    const isRejected = a.normalizedStatus === "Rejected";
+    const isRejectedRefund = a.normalizedStatus === "Rejected – Refund Pending";
+    const isRefundCompleted = a.normalizedStatus === "Refund Completed";
 
     return `
       <tr class="${isCancelled ? 'opacity-75' : ''}">
@@ -1270,6 +1366,10 @@ function renderAppointmentsTable() {
             <div>
               <div class="fw-bold text-dark">${escapeHtml(patientName)}</div>
               <small class="text-muted">ID: #${escapeHtml(a.patient_id)}</small>
+              ${isDoctorOrStaff && (isPaidPending || isConfirmed)
+                ? `<div class="small text-success fw-bold mt-1" title="Attending Specialist Protected Access">📞 ${escapeHtml(a.patient_phone || '+91 94686 50893')}</div>`
+                : (isDoctorOrStaff ? `<div class="small text-muted mt-1" style="font-size: 11px;">🔒 Phone locked until paid</div>` : '')
+              }
             </div>
           </div>
         </td>
@@ -1279,6 +1379,13 @@ function renderAppointmentsTable() {
             <div>
               <div class="fw-bold text-dark">${escapeHtml(doctorName)}</div>
               <small class="text-muted">${escapeHtml(a.doctor_specialization || 'Clinical Specialist')}</small>
+              ${!isDoctorOrStaff
+                ? (isConfirmed
+                    ? `<div class="small text-success fw-bold mt-1" title="Doctor Contact Unlocked">📞 ${escapeHtml(a.doctor_phone || '+91 98765 43210')}</div>`
+                    : `<div class="small text-muted mt-1" style="font-size: 11px;">🔒 Phone unlocked after doctor acceptance</div>`
+                  )
+                : `<div class="small text-muted mt-1">${escapeHtml(a.doctor_phone || '')}</div>`
+              }
             </div>
           </div>
         </td>
@@ -1286,6 +1393,9 @@ function renderAppointmentsTable() {
           <span class="apt-type-badge ${escapeHtml(typeBadgeClass)}">
             ${escapeHtml(a.apptType || 'Consultation')}
           </span>
+          <div class="small text-muted text-truncate mt-1" style="max-width: 170px;" title="${escapeHtml(a.reason || a.notes || '')}">
+            Reason: ${escapeHtml(a.reason || a.notes || 'Clinical Consultation')}
+          </div>
         </td>
         <td>
           <div><strong>${escapeHtml(formattedDate)}</strong></div>
@@ -1295,49 +1405,71 @@ function renderAppointmentsTable() {
           <span class="apt-status-badge ${escapeHtml(statusBadgeClass)}">
             ● ${escapeHtml(a.normalizedStatus)}
           </span>
+          <div class="small text-muted mt-1" style="font-size: 11px;">
+            ${a.consultation_fee ? `Fee: ₹${parseFloat(a.consultation_fee).toLocaleString('en-IN')}` : 'Fee: ₹10,900'}
+            ${a.razorpay_payment_id ? `<span class="badge bg-light text-dark border ms-1">✓ Verified</span>` : ''}
+            ${a.refund_status ? `<span class="badge bg-warning-subtle text-dark border ms-1">Refund: ${escapeHtml(a.refund_status)}</span>` : ''}
+          </div>
         </td>
         <td style="text-align: right;">
           <div class="apt-action-btn-group">
-            ${isPending ? `
+            ${isPaidPending ? `
               ${isDoctorOrStaff ? `
-                <button type="button" class="apt-btn-accept" onclick="window.NotificationManager ? window.NotificationManager.acceptAppointment(${a.appointment_id}) : acceptAppointmentAction(${a.appointment_id})" title="Accept and Confirm this Appointment">
+                <button type="button" class="apt-btn-accept" onclick="window.acceptAppointmentAction ? window.acceptAppointmentAction(${a.appointment_id}) : (window.NotificationManager && window.NotificationManager.acceptAppointment(${a.appointment_id}))" title="Accept and Confirm this Appointment">
                   ✓ Accept
                 </button>
-                <button type="button" class="apt-btn-reject" onclick="window.NotificationManager ? window.NotificationManager.rejectAppointment(${a.appointment_id}) : rejectAppointmentAction(${a.appointment_id})" title="Reject this Appointment Request">
+                <button type="button" class="apt-btn-reject" onclick="window.rejectAppointmentAction ? window.rejectAppointmentAction(${a.appointment_id}) : (window.NotificationManager && window.NotificationManager.rejectAppointment(${a.appointment_id}))" title="Reject this Appointment Request &amp; Issue Refund">
                   ✕ Reject
                 </button>
                 <button type="button" class="apt-btn-info" onclick="openDoctorPatientModal('${a.patient_id}', ${JSON.stringify(a).replace(/"/g, '&quot;')})" title="View Patient Clinical Overview">
                   👤 Info
                 </button>
               ` : `
-                <span class="badge bg-light text-warning border me-1">Awaiting Doctor Approval</span>
+                <span class="badge bg-light text-primary border me-1">Paid • Awaiting Doctor Approval</span>
                 <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Withdraw this request">
                   Cancel
                 </button>
               `}
             ` : `
-              ${isConfirmed ? `
-                <button type="button" class="apt-btn-reschedule" onclick="openRescheduleModal(${a.appointment_id})" title="Reschedule this appointment">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                  </svg>
-                  <span>Reschedule</span>
-                </button>
-
-                <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Cancel this appointment">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                  </svg>
-                  <span>Cancel</span>
-                </button>
-              ` : `
-                ${isRejected ? `
-                  <span class="badge bg-light text-danger border me-2">Rejected</span>
-                  <a href="#bookAppointmentCard" class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size: 11px; font-weight: 700;">Re-book Slot</a>
+              ${isPaymentPending ? `
+                ${isDoctorOrStaff ? `
+                  <span class="badge bg-warning-subtle text-warning border">Payment Pending</span>
+                  <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Cancel">Cancel</button>
                 ` : `
-                  <span class="badge bg-light text-secondary border">Cancelled</span>
+                  <a href="./appointment-checkout.html?appointment_id=${a.appointment_id}&fee=${a.consultation_fee || 10900}&doctor_name=${encodeURIComponent(a.doctor_name || '')}&date=${encodeURIComponent(a.appointment_date || '')}&time=${encodeURIComponent(a.appointment_time || '')}&type=${encodeURIComponent(a.appointment_type || 'Consultation')}" class="btn btn-sm btn-success fw-bold py-1 px-2" style="font-size: 11.5px;">
+                    💳 Complete Payment
+                  </a>
+                  <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Cancel">Cancel</button>
+                `}
+              ` : `
+                ${isConfirmed ? `
+                  <button type="button" class="apt-btn-reschedule" onclick="openRescheduleModal(${a.appointment_id})" title="Reschedule this appointment">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>Reschedule</span>
+                  </button>
+
+                  <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Cancel this appointment">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    <span>Cancel</span>
+                  </button>
+                ` : `
+                  ${isRejectedRefund ? `
+                    <span class="badge bg-danger-subtle text-danger border me-2">Rejected (Refund Pending)</span>
+                    <a href="#bookAppointmentCard" class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size: 11px; font-weight: 700;">Re-book Slot</a>
+                  ` : `
+                    ${isRefundCompleted ? `
+                      <span class="badge bg-secondary-subtle text-secondary border me-2">Refund Completed</span>
+                      <a href="#bookAppointmentCard" class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size: 11px; font-weight: 700;">Re-book Slot</a>
+                    ` : `
+                      <span class="badge bg-light text-secondary border">Cancelled</span>
+                    `}
+                  `}
                 `}
               `}
             `}
@@ -1624,3 +1756,63 @@ window.addEventListener("appointmentStatusChanged", () => {
   const user = rawUser ? JSON.parse(rawUser) : null;
   loadAppointmentsTable(user);
 });
+
+/**
+ * Doctor Action: Accept Appointment
+ */
+window.acceptAppointmentAction = async function(apptId) {
+  if (window.NotificationManager && typeof window.NotificationManager.acceptAppointment === "function") {
+    return window.NotificationManager.acceptAppointment(apptId);
+  }
+
+  const rawUser = localStorage.getItem("currentUser");
+  const user = rawUser ? JSON.parse(rawUser) : {};
+  const doctorPhone = user.phone || user.mobile || "+91 98765 43210";
+
+  try {
+    const res = await apiRequest("/api/appointments?action=accept", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        appointment_id: apptId,
+        doctor_id: user.doctor_id || user.user_id,
+        doctor_phone: doctorPhone
+      })
+    });
+
+    showToast(`Appointment #APT-${apptId} accepted and confirmed!`, "success");
+    await loadAppointmentsTable(user);
+  } catch (e) {
+    showToast(e.message || "Failed to accept appointment.", "danger");
+  }
+};
+
+/**
+ * Doctor Action: Reject Appointment & Initiate Refund
+ */
+window.rejectAppointmentAction = async function(apptId, reason = "") {
+  if (window.NotificationManager && typeof window.NotificationManager.rejectAppointment === "function") {
+    return window.NotificationManager.rejectAppointment(apptId, reason);
+  }
+
+  const rejReason = reason || prompt("Please provide a reason for rejecting this appointment (initiates 100% patient refund):", "Doctor unavailable") || "Doctor unavailable";
+  const rawUser = localStorage.getItem("currentUser");
+  const user = rawUser ? JSON.parse(rawUser) : {};
+
+  try {
+    const res = await apiRequest("/api/appointments?action=reject", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        appointment_id: apptId,
+        doctor_id: user.doctor_id || user.user_id,
+        rejection_reason: rejReason
+      })
+    });
+
+    showToast(`Appointment #APT-${apptId} rejected. Patient refund initiated.`, "warning");
+    await loadAppointmentsTable(user);
+  } catch (e) {
+    showToast(e.message || "Failed to reject appointment.", "danger");
+  }
+};
