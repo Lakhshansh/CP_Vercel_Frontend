@@ -35,42 +35,46 @@ function extractPatientDisplayName(u) {
   ];
   for (const c of candidates) {
     if (typeof c === "string") {
-      const trimmed = c.trim();
+      // Strip any "Dr." / "Dr" / "Doctor" prefix
+      let trimmed = c.trim().replace(/^(?:dr\.?|doctor)\s+/i, "").trim();
       const lower = trimmed.toLowerCase();
       if (
         trimmed.length > 0 &&
-        !["admin", "administrator", "patient", "user", "guest", "guest patient", "doctor", "dr.", "null", "undefined"].includes(lower) &&
+        !["admin", "administrator", "patient", "user", "guest", "guest patient", "doctor", "dr.", "dr", "null", "undefined"].includes(lower) &&
         !lower.startsWith("admin") &&
         !lower.startsWith("patient portal")
       ) {
         const parts = trimmed.split(" ");
-        return parts[0] || trimmed;
+        const first = parts[0] || trimmed;
+        return first.charAt(0).toUpperCase() + first.slice(1);
       }
     }
   }
   const pending = sessionStorage.getItem("signup_pending_name");
   if (pending && typeof pending === "string") {
-    const trimmed = pending.trim();
+    let trimmed = pending.trim().replace(/^(?:dr\.?|doctor)\s+/i, "").trim();
     const lower = trimmed.toLowerCase();
-    if (trimmed.length > 0 && !["admin", "patient", "doctor"].includes(lower)) {
+    if (trimmed.length > 0 && !["admin", "patient", "doctor", "dr.", "dr"].includes(lower)) {
       const parts = trimmed.split(" ");
-      return parts[0] || trimmed;
+      const first = parts[0] || trimmed;
+      return first.charAt(0).toUpperCase() + first.slice(1);
     }
   }
   return "";
 }
 
 /**
- * Updates the hero greeting to either "Welcome back, {Name}!" or "Welcome back!".
+ * Updates the hero greeting to either "Welcome back, {Name}!" or "Welcome back, Patient!".
  */
 function updateWelcomeGreeting(patientName) {
   const heroHeading = document.getElementById("heroHeading");
   if (!heroHeading) return;
-  if (patientName && patientName.trim()) {
-    heroHeading.innerHTML = `Welcome back, <span id="heroPatientName">${escapeHtml(patientName.trim())}</span>!`;
+  const clean = (patientName && typeof patientName === "string") ? patientName.trim() : "";
+  if (clean) {
+    heroHeading.innerHTML = `Welcome back, <span id="heroPatientName">${escapeHtml(clean)}</span>!`;
   } else {
-    // If the user's name is unavailable, display “Welcome back!” without a role name
-    heroHeading.innerHTML = `Welcome back!`;
+    // If the patient's name is unavailable, display “Welcome back, Patient!”
+    heroHeading.innerHTML = `Welcome back, <span id="heroPatientName">Patient</span>!`;
   }
 }
 
