@@ -250,10 +250,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      if (!medicalRegNo || medicalRegNo.length < 2) {
-        showDoctorMessage("Please enter your Medical Registration Number.");
-        return;
-      }
+      // Medical Registration Number is OPTIONAL - allow empty value or preserve if provided
+      // (Validation check removed per requirements)
 
       const allowedSpecs = ["Neurology", "Physiotherapy", "Pediatrics", "Occupational Therapy", "Other"];
       if (!specialization || !allowedSpecs.includes(specialization)) {
