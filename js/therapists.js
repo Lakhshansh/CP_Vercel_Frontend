@@ -219,10 +219,8 @@ function setupHeaderAndNavigation(user) {
     if (roleEl) roleEl.textContent = "Sign In";
     if (avatarEl) avatarEl.textContent = "👤";
     if (userProfileBtn) userProfileBtn.href = "./login.html";
-    if (logoutBtn) {
-      logoutBtn.innerHTML = `<span>🔑</span> Login`;
-      logoutBtn.onclick = () => { window.location.href = "./login.html"; };
-      return;
+    if (typeof window.updateHeaderAuthState === "function") {
+      window.updateHeaderAuthState(null);
     }
   }
 

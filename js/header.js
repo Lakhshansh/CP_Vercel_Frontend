@@ -5,12 +5,57 @@
  * - Brand "Multi Therapy" in bold white & tagline in cyan
  * - Symmetrically centered navigation links with bright blue active highlight
  * - Modern Clinical Management dropdown (white background, blue border, dark slate text)
- * - Right controls: Notification bell (badge 3) -> Profile pill -> Logout -> Contact -> Sign Up
+ * - Dynamic Right-Side Controls:
+ *     - When Logged Out: Login button -> Contact -> Sign Up
+ *     - When Logged In:  Notification bell -> User Profile pill -> Logout button -> Contact -> Sign Up
  * - Fully responsive with mobile hamburger toggle and zero overflow.
  */
 
 (function () {
   'use strict';
+
+  // 1. Immediately apply auth class to html element to prevent any visual flicker
+  function syncHtmlAuthClass(isLoggedIn) {
+    if (!document.documentElement) return;
+    if (isLoggedIn) {
+      document.documentElement.classList.add('is-logged-in');
+      document.documentElement.classList.remove('is-logged-out');
+    } else {
+      document.documentElement.classList.add('is-logged-out');
+      document.documentElement.classList.remove('is-logged-in');
+    }
+  }
+
+  function getCurrentUser() {
+    try {
+      const raw = localStorage.getItem('currentUser');
+      if (!raw || raw === 'null' || raw === 'undefined') return null;
+      const user = JSON.parse(raw);
+      if (user && typeof user === 'object') {
+        if (user.username || user.name || user.doctor_name || user.patient_name || user.user_id || user.email) {
+          return user;
+        }
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // Early sync on script load
+  try {
+    syncHtmlAuthClass(!!getCurrentUser());
+  } catch (_) {}
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
 
   function getBasePath() {
     if (typeof window === 'undefined') return './';
@@ -59,6 +104,32 @@
     const isApt = activeKey === 'appointments';
     const isTs = activeKey === 'therapy-sessions';
     const isEx = activeKey === 'exercises';
+
+    // Dynamic authentication state
+    const currentUser = getCurrentUser();
+    const isLoggedIn = !!currentUser;
+
+    let displayName = 'User';
+    let displayRole = 'Admin';
+    let profileUrl = `${base}doctor-profile.html`;
+    let initial = 'U';
+
+    if (currentUser) {
+      displayName = currentUser.doctor_name || currentUser.name || currentUser.patient_name || currentUser.username || 'User';
+      const rawRole = (currentUser.role || currentUser.doctor_specialization || currentUser.specialization || 'Member').toString();
+      displayRole = rawRole.charAt(0).toUpperCase() + rawRole.slice(1);
+      const cleanName = displayName.replace(/^Dr\.?\s*/i, '').trim();
+      initial = (cleanName.charAt(0) || displayName.charAt(0) || 'U').toUpperCase();
+
+      const rLower = rawRole.toLowerCase();
+      if (rLower.includes('doctor')) {
+        profileUrl = `${base}doctor-profile.html`;
+      } else if (rLower.includes('admin')) {
+        profileUrl = `${base}admin-dashboard.html`;
+      } else {
+        profileUrl = `${base}patient-profile.html`;
+      }
+    }
 
     return `
     <div class="shared-header-inner mt-navbar-inner">
@@ -120,11 +191,11 @@
         </ul>
       </nav>
 
-      <!-- Right-Side Controls: Notification -> Profile -> Logout -> Contact -> Sign Up -->
+      <!-- Right-Side Controls: Notification -> Profile -> Logout (when logged in) / Login (when logged out) -> Contact -> Sign Up -->
       <div class="shared-nav-right mt-nav-right">
 
-        <!-- 1. Notification Icon with Badge Count & Dropdown -->
-        <div class="shared-notif-wrap" style="position: relative;">
+        <!-- 1. Notification Icon with Badge Count & Dropdown (Visible when logged in) -->
+        <div class="shared-notif-wrap" style="position: relative; display: ${isLoggedIn ? 'block' : 'none'};">
           <button type="button" class="shared-notif-btn doc-notif-btn" id="btnHeaderNotifications" aria-label="Clinical Notifications" title="Clinical Notifications">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
@@ -163,21 +234,21 @@
           </div>
         </div>
 
-        <!-- 2. Admin / User Profile Pill -->
-        <div id="userProfileWrap" class="shared-profile-wrap" style="position: relative; display: inline-flex;">
-          <a href="${base}doctor-profile.html" class="shared-user-pill mt-user" id="userProfileBtn" title="View Profile">
+        <!-- 2. Admin / User Profile Pill (Visible when logged in) -->
+        <div id="userProfileWrap" class="shared-profile-wrap" style="position: relative; display: ${isLoggedIn ? 'inline-flex' : 'none'};">
+          <a href="${profileUrl}" class="shared-user-pill mt-user" id="userProfileBtn" title="View Profile">
             <img id="navAvatarImg" class="shared-avatar-img mt-user-photo d-none" alt="" style="display: none !important;" hidden>
-            <div id="navAvatar" class="shared-avatar-fallback mt-user-default">👤</div>
+            <div id="navAvatar" class="shared-avatar-fallback mt-user-default">${initial}</div>
             <div class="shared-user-text mt-user-text">
-              <div class="shared-user-name mt-user-name" id="navUsername">User</div>
-              <div class="shared-user-role mt-user-role" id="navRole">Admin</div>
+              <div class="shared-user-name mt-user-name" id="navUsername">${escapeHtml(displayName)}</div>
+              <div class="shared-user-role mt-user-role" id="navRole">${escapeHtml(displayRole)}</div>
             </div>
             <span class="shared-profile-caret mt-arrow">⌄</span>
           </a>
         </div>
 
-        <!-- 3. Logout Button -->
-        <button type="button" id="logoutBtn" class="shared-logout-btn mt-logout-btn" title="Sign Out">
+        <!-- 3. Logout Button (Visible when logged in) -->
+        <button type="button" id="logoutBtn" class="shared-logout-btn mt-logout-btn" title="Sign Out" style="display: ${isLoggedIn ? 'inline-flex' : 'none'};">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
@@ -185,6 +256,16 @@
           </svg>
           <span>Logout</span>
         </button>
+
+        <!-- 3b. Login Button (Visible when NOT logged in) -->
+        <a href="${base}login.html" id="btnHeaderLogin" class="shared-btn-login mt-btn-login ${isPatientLogin || isDoctorLogin ? 'active' : ''}" title="Login to Multi Therapy" style="display: ${isLoggedIn ? 'none' : 'inline-flex'};">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+            <polyline points="10 17 15 12 10 7"></polyline>
+            <line x1="15" y1="12" x2="3" y2="12"></line>
+          </svg>
+          <span>Login</span>
+        </a>
 
         <!-- 4 & 5. Public Actions: Contact & Sign Up -->
         <div id="publicNavActions" class="shared-public-actions">
@@ -214,6 +295,102 @@
       </div>
     </div>
     `;
+  }
+
+  /**
+   * Universal Logout Handler
+   * Clears session, resets auth state, and redirects to Home Page.
+   */
+  async function handleGlobalLogout(e) {
+    if (e && typeof e.preventDefault === 'function') e.preventDefault();
+
+    // 1. Non-blocking backend notification
+    try {
+      if (typeof window.apiRequest === 'function') {
+        try {
+          await window.apiRequest('/api/logout', { method: 'POST' });
+        } catch (_) {}
+      }
+    } catch (_) {}
+
+    // 2. Clear credentials from localStorage and sessionStorage
+    try {
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('adminToken');
+      localStorage.removeItem('adminRole');
+      sessionStorage.clear();
+    } catch (err) {
+      console.warn('Logout storage clear error:', err);
+    }
+
+    // 3. Immediately switch UI state to logged-out
+    syncHtmlAuthClass(false);
+    updateHeaderAuthState(null);
+
+    // 4. Dispatch logout event for other open components
+    try {
+      window.dispatchEvent(new CustomEvent('userLoggedOut'));
+    } catch (_) {}
+
+    // 5. Navigate to Home Page
+    const base = getBasePath();
+    window.location.href = base + 'index.html';
+  }
+
+  /**
+   * Dynamic Auth State Updater
+   * Toggles Login vs Logout, user profile pill, and notification bell
+   */
+  function updateHeaderAuthState(user) {
+    if (typeof user === 'undefined') {
+      user = getCurrentUser();
+    }
+    const isLoggedIn = !!user;
+    syncHtmlAuthClass(isLoggedIn);
+
+    const loginBtn = document.getElementById('btnHeaderLogin');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userProfileWrap = document.getElementById('userProfileWrap');
+    const notifWrap = document.querySelector('.shared-notif-wrap');
+
+    if (isLoggedIn) {
+      if (loginBtn) loginBtn.style.setProperty('display', 'none', 'important');
+      if (logoutBtn) logoutBtn.style.setProperty('display', 'inline-flex', 'important');
+      if (userProfileWrap) userProfileWrap.style.setProperty('display', 'inline-flex', 'important');
+      if (notifWrap) notifWrap.style.setProperty('display', 'block', 'important');
+
+      const base = getBasePath();
+      const displayName = user.doctor_name || user.name || user.patient_name || user.username || 'User';
+      const rawRole = (user.role || user.doctor_specialization || user.specialization || 'Member').toString();
+      const cleanRole = rawRole.charAt(0).toUpperCase() + rawRole.slice(1);
+
+      const navUsername = document.getElementById('navUsername');
+      const navRole = document.getElementById('navRole');
+      const navAvatar = document.getElementById('navAvatar');
+      const userProfileBtn = document.getElementById('userProfileBtn');
+
+      if (navUsername) navUsername.textContent = displayName;
+      if (navRole) navRole.textContent = cleanRole;
+      if (navAvatar) {
+        const cleanName = displayName.replace(/^Dr\.?\s*/i, '').trim();
+        navAvatar.textContent = (cleanName.charAt(0) || displayName.charAt(0) || 'U').toUpperCase();
+      }
+      if (userProfileBtn) {
+        const rLower = rawRole.toLowerCase();
+        if (rLower.includes('doctor')) {
+          userProfileBtn.href = `${base}doctor-profile.html`;
+        } else if (rLower.includes('admin')) {
+          userProfileBtn.href = `${base}admin-dashboard.html`;
+        } else {
+          userProfileBtn.href = `${base}patient-profile.html`;
+        }
+      }
+    } else {
+      if (loginBtn) loginBtn.style.setProperty('display', 'inline-flex', 'important');
+      if (logoutBtn) logoutBtn.style.setProperty('display', 'none', 'important');
+      if (userProfileWrap) userProfileWrap.style.setProperty('display', 'none', 'important');
+      if (notifWrap) notifWrap.style.setProperty('display', 'none', 'important');
+    }
   }
 
   function initHeader() {
@@ -254,9 +431,53 @@
         }
       }
 
-      // Re-trigger auth & notification controllers if loaded
+      // Wire up logout button
+      const logoutBtn = header.querySelector('#logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.removeEventListener('click', handleGlobalLogout);
+        logoutBtn.addEventListener('click', handleGlobalLogout);
+      }
+
+      // Wire up notification toggle dropdown
+      const notifBtn = header.querySelector('#btnHeaderNotifications');
+      const notifDropdown = header.querySelector('#headerNotifDropdown');
+      if (notifBtn && notifDropdown) {
+        notifBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const isOpen = notifDropdown.classList.contains('show');
+          document.querySelectorAll('.shared-notif-dropdown.show').forEach(d => d.classList.remove('show'));
+          if (!isOpen) notifDropdown.classList.add('show');
+        });
+        document.addEventListener('click', function() {
+          notifDropdown.classList.remove('show');
+        });
+      }
+
+      // Wire up mobile hamburger toggle
+      const navToggle = header.querySelector('#navToggle');
+      const navMenu = header.querySelector('#navMenu');
+      if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          navMenu.classList.toggle('open');
+        });
+        document.addEventListener('click', function(e) {
+          if (!header.contains(e.target)) {
+            navMenu.classList.remove('open');
+          }
+        });
+      }
+
+      // Sync auth state
+      const currentUser = getCurrentUser();
+      syncHtmlAuthClass(!!currentUser);
+      updateHeaderAuthState(currentUser);
+
+      // Re-trigger global auth/avatar photo renderer if loaded
       try {
-        if (typeof window.updateNavbarUserProfile === 'function') {
+        if (typeof window.renderNavbarUser === 'function') {
+          window.renderNavbarUser(currentUser);
+        } else if (typeof window.updateNavbarUserProfile === 'function') {
           window.updateNavbarUserProfile();
         }
       } catch (e) {
@@ -265,9 +486,24 @@
     }
   }
 
-  // Export public initializer
+  // Cross-tab and runtime synchronization
+  window.addEventListener('storage', function (e) {
+    if (e.key === 'currentUser' || e.key === null) {
+      updateHeaderAuthState();
+    }
+  });
+  window.addEventListener('userLoggedIn', function () {
+    updateHeaderAuthState();
+  });
+  window.addEventListener('userLoggedOut', function () {
+    updateHeaderAuthState();
+  });
+
+  // Export public initializers and controllers
   window.renderMultiTherapyHeader = initHeader;
   window.getMultiTherapyHeaderHTML = getHeaderHTML;
+  window.updateHeaderAuthState = updateHeaderAuthState;
+  window.handleGlobalLogout = handleGlobalLogout;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initHeader);

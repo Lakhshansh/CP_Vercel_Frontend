@@ -15,6 +15,19 @@
   <!-- Core Landing Design System -->
   <link rel="stylesheet" href="./css/landing.css?v=3.0">
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
+
+  <!-- Instant Auth State Class Detection to Prevent UI Flicker -->
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("currentUser");
+        var hasUser = !!(raw && raw !== "null" && raw !== "undefined" && JSON.parse(raw));
+        document.documentElement.classList.add(hasUser ? "is-logged-in" : "is-logged-out");
+      } catch (e) {
+        document.documentElement.classList.add("is-logged-out");
+      }
+    })();
+  </script>
 </head>
 <body>
 
@@ -137,7 +150,7 @@
           </a>
         </div>
 
-        <!-- 3. Logout Button -->
+        <!-- 3. Logout Button (Visible when logged in) -->
         <button type="button" id="logoutBtn" class="shared-logout-btn mt-logout-btn" title="Sign Out">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -146,6 +159,16 @@
           </svg>
           <span>Logout</span>
         </button>
+
+        <!-- 3b. Login Button (Visible when NOT logged in) -->
+        <a href="./login.html" id="btnHeaderLogin" class="shared-btn-login mt-btn-login" title="Login to Multi Therapy">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+            <polyline points="10 17 15 12 10 7"></polyline>
+            <line x1="15" y1="12" x2="3" y2="12"></line>
+          </svg>
+          <span>Login</span>
+        </a>
 
         <!-- 4 & 5. Public Actions: Contact & Sign Up -->
         <div id="publicNavActions" class="shared-public-actions">

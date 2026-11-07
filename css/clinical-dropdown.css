@@ -1494,24 +1494,24 @@ div.mt-user-default[style*="none"] {
 /* 5c. Control 3: Logout Button */
 .shared-logout-btn, #logoutBtn, .pt-logout-btn, .ts-logout-btn, .tp-logout-btn,
 .ex-logout-btn, .mt-logout-btn, .apt-logout-btn, .logout-btn {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 4px !important;
-  flex-shrink: 0 !important;
-  white-space: nowrap !important;
-  padding: 5px 11px !important;
-  border-radius: 999px !important;
-  font-size: 11.5px !important;
-  font-weight: 700 !important;
-  border: 1.5px solid rgba(239, 68, 68, 0.4) !important;
-  background: rgba(239, 68, 68, 0.12) !important;
-  color: #fca5a5 !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  text-decoration: none !important;
-  line-height: 1.2 !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
-  margin: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  border: 1.5px solid rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  line-height: 1.2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  margin: 0;
 }
 
 .shared-logout-btn:hover, #logoutBtn:hover, .pt-logout-btn:hover, .ts-logout-btn:hover,
@@ -1605,23 +1605,23 @@ div.mt-user-default[style*="none"] {
 /* 5g. Dedicated Login Button (where used in header) */
 .shared-btn-login, #btnHeaderLogin, .pt-btn-login, .doc-btn-login, .cp-btn-login,
 .apt-btn-login, .mt-btn-login {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 4px !important;
-  flex-shrink: 0 !important;
-  white-space: nowrap !important;
-  padding: 5px 12px !important;
-  border-radius: 999px !important;
-  font-size: 11.5px !important;
-  font-weight: 700 !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: #FFFFFF !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  text-decoration: none !important;
-  line-height: 1.2 !important;
-  margin: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  line-height: 1.2;
+  margin: 0;
 }
 
 .shared-btn-login:hover, #btnHeaderLogin:hover, .pt-btn-login:hover, .doc-btn-login:hover,
@@ -1630,6 +1630,41 @@ div.mt-user-default[style*="none"] {
   border-color: #1683FF !important;
   color: #00D9FF !important;
   transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(22, 131, 255, 0.25) !important;
+}
+
+/* 5h. Universal Auth State Visibility Rules */
+html.is-logged-out #logoutBtn,
+html.is-logged-out .shared-logout-btn,
+html.is-logged-out #userProfileWrap,
+html.is-logged-out .shared-profile-wrap,
+html.is-logged-out .shared-notif-wrap,
+html.is-logged-out #btnHeaderNotifications {
+  display: none !important;
+}
+
+html.is-logged-out #btnHeaderLogin,
+html.is-logged-out .shared-btn-login {
+  display: inline-flex !important;
+}
+
+html.is-logged-in #btnHeaderLogin,
+html.is-logged-in .shared-btn-login {
+  display: none !important;
+}
+
+html.is-logged-in #logoutBtn,
+html.is-logged-in .shared-logout-btn {
+  display: inline-flex !important;
+}
+
+html.is-logged-in #userProfileWrap,
+html.is-logged-in .shared-profile-wrap {
+  display: inline-flex !important;
+}
+
+html.is-logged-in .shared-notif-wrap {
+  display: block !important;
 }
 
 /* Subscription Button (optional/legacy support) */
@@ -1787,25 +1822,25 @@ div.mt-user-default[style*="none"] {
   }
 
   /* Compact button text collapsing on laptops */
-  .shared-btn-contact span, .shared-btn-signup span,
-  #btnHeaderContact span, #btnHeaderSignup span,
-  .pt-btn-contact span, .pt-btn-signup span,
-  .doc-btn-contact span, .doc-btn-signup span,
-  .apt-btn-contact span, .apt-btn-signup span,
+  .shared-btn-contact span, .shared-btn-signup span, .shared-btn-login span,
+  #btnHeaderContact span, #btnHeaderSignup span, #btnHeaderLogin span,
+  .pt-btn-contact span, .pt-btn-signup span, .pt-btn-login span,
+  .doc-btn-contact span, .doc-btn-signup span, .doc-btn-login span,
+  .apt-btn-contact span, .apt-btn-signup span, .apt-btn-login span,
   .tp-btn-contact span, .tp-btn-signup span,
   .ex-btn-contact span, .ex-btn-signup span,
-  .cp-btn-contact span, .cp-btn-signup span {
+  .cp-btn-contact span, .cp-btn-signup span, .cp-btn-login span {
     display: none !important;
   }
 
-  .shared-btn-contact, .shared-btn-signup,
-  #btnHeaderContact, #btnHeaderSignup,
-  .pt-btn-contact, .pt-btn-signup,
-  .doc-btn-contact, .doc-btn-signup,
-  .apt-btn-contact, .apt-btn-signup,
+  .shared-btn-contact, .shared-btn-signup, .shared-btn-login,
+  #btnHeaderContact, #btnHeaderSignup, #btnHeaderLogin,
+  .pt-btn-contact, .pt-btn-signup, .pt-btn-login,
+  .doc-btn-contact, .doc-btn-signup, .doc-btn-login,
+  .apt-btn-contact, .apt-btn-signup, .apt-btn-login,
   .tp-btn-contact, .tp-btn-signup,
   .ex-btn-contact, .ex-btn-signup,
-  .cp-btn-contact, .cp-btn-signup {
+  .cp-btn-contact, .cp-btn-signup, .cp-btn-login {
     padding: 5px 8px !important;
     min-width: 32px !important;
     justify-content: center !important;
@@ -1983,20 +2018,20 @@ div.mt-user-default[style*="none"] {
     margin-left: auto !important;
   }
 
-  .shared-btn-contact span, .shared-btn-signup span, #logoutBtn span.d-sm-inline,
-  #btnHeaderContact span, #btnHeaderSignup span,
-  .pt-btn-contact span, .pt-btn-signup span, .doc-btn-contact span, .doc-btn-signup span,
-  .apt-btn-contact span, .apt-btn-signup span, .tp-btn-contact span, .tp-btn-signup span,
+  .shared-btn-contact span, .shared-btn-signup span, .shared-btn-login span, #logoutBtn span.d-sm-inline,
+  #btnHeaderContact span, #btnHeaderSignup span, #btnHeaderLogin span,
+  .pt-btn-contact span, .pt-btn-signup span, .pt-btn-login span, .doc-btn-contact span, .doc-btn-signup span, .doc-btn-login span,
+  .apt-btn-contact span, .apt-btn-signup span, .apt-btn-login span, .tp-btn-contact span, .tp-btn-signup span,
   .ex-btn-contact span, .ex-btn-signup span {
     display: none !important;
   }
 
-  .shared-logout-btn, .shared-btn-contact, .shared-btn-signup,
-  #btnHeaderContact, #btnHeaderSignup, #logoutBtn,
-  .pt-btn-contact, .pt-btn-signup, .pt-logout-btn, .ts-logout-btn,
-  .doc-btn-contact, .doc-btn-signup, .apt-btn-contact, .apt-btn-signup,
+  .shared-logout-btn, .shared-btn-contact, .shared-btn-signup, .shared-btn-login,
+  #btnHeaderContact, #btnHeaderSignup, #btnHeaderLogin, #logoutBtn,
+  .pt-btn-contact, .pt-btn-signup, .pt-btn-login, .pt-logout-btn, .ts-logout-btn,
+  .doc-btn-contact, .doc-btn-signup, .doc-btn-login, .apt-btn-contact, .apt-btn-signup, .apt-btn-login,
   .apt-logout-btn, .tp-btn-contact, .tp-btn-signup, .tp-logout-btn,
-  .ex-btn-contact, .ex-btn-signup, .ex-logout-btn, .mt-logout-btn, .logout-btn {
+  .ex-btn-contact, .ex-btn-signup, .ex-logout-btn, .mt-logout-btn, .logout-btn, .mt-btn-login {
     padding: 6px 10px !important;
   }
 

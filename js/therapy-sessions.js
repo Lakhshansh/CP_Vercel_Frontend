@@ -245,6 +245,10 @@ document.addEventListener("DOMContentLoaded", async () => {
  * Configure Navbar user pill or login buttons
  */
 function setupNavbarAuth(user) {
+  if (typeof window.updateHeaderAuthState === "function") {
+    window.updateHeaderAuthState(user);
+  }
+
   const userProfileWrap = document.getElementById("userProfileWrap");
   const logoutBtn = document.getElementById("logoutBtn");
   const publicNavActions = document.getElementById("publicNavActions");
@@ -277,8 +281,8 @@ function setupNavbarAuth(user) {
       renderNavbarUser(user);
     }
   } else {
-    if (userProfileWrap) userProfileWrap.style.display = "inline-flex";
-    if (logoutBtn) logoutBtn.style.display = "inline-flex";
+    if (userProfileWrap) userProfileWrap.style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "none";
     if (publicNavActions) publicNavActions.style.display = "flex";
   }
 }
