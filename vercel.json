@@ -12,12 +12,27 @@
     { "source": "/api/cloudinary-upload", "destination": "/api/upload-photo" },
     { "source": "/api/cloudinary-delete", "destination": "/api/remove-profile-photo" },
     { "source": "/api/admin/login", "destination": "/api/admin-login" },
+    { "source": "/api/patient-login", "destination": "/api/patient-login" },
+    { "source": "/api/doctor-login", "destination": "/api/doctor-login" },
     { "source": "/api/admin/stats", "destination": "/api/admin-stats" },
     { "source": "/api/admin/analytics", "destination": "/api/admin-stats" },
     { "source": "/api/appointments/create-order", "destination": "/api/appointments?action=create-order" },
     { "source": "/api/appointments/verify-payment", "destination": "/api/appointments?action=verify-payment" },
     { "source": "/api/appointments/accept", "destination": "/api/appointments?action=accept" },
     { "source": "/api/appointments/reject", "destination": "/api/appointments?action=reject" },
-    { "source": "/api/appointments/refund", "destination": "/api/appointments?action=refund" }
+    { "source": "/api/appointments/refund", "destination": "/api/appointments?action=refund" },
+    { "source": "/api/contact", "destination": "/api/contact" },
+    { "source": "/appointments", "destination": "/appointments.html" },
+    { "source": "/doctor-appointments", "destination": "/doctor-appointments.html" },
+    { "source": "/patient-appointments", "destination": "/patient-appointments.html" },
+    { "source": "/patient-login", "destination": "/patient-login.html" },
+    { "source": "/doctor-login", "destination": "/doctor-login.html" },
+    { "source": "/admin-login", "destination": "/admin-login.html" },
+    { "source": "/book-appointment", "destination": "/patient-appointments.html#bookAppointmentCard" },
+    { "source": "/my-appointments", "destination": "/patient-appointments.html#myAppointmentsCard" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/services", "destination": "/services.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/progress-reports", "destination": "/progress-reports.html" }
   ]
 }

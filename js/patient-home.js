@@ -93,6 +93,27 @@ function initPatientSession() {
     }
   }
 
+  // Role Guard: Patient Portal requires authenticated Patient session
+  if (!user) {
+    window.location.replace("./login.html?redirect=patient-home.html");
+    return;
+  }
+
+  const role = (user.role || "").toLowerCase();
+  if (role === "admin" || role === "superadmin" || user.is_admin === true) {
+    sessionStorage.setItem("cross_role_alert", "Administrator session detected. Redirected to Admin Dashboard.");
+    window.location.replace("./admin-dashboard.html");
+    return;
+  }
+  if (role === "doctor") {
+    window.location.replace("./doctor-home.html");
+    return;
+  }
+  if (role === "therapist" || role === "physiotherapist") {
+    window.location.replace("./therapist-dashboard.html");
+    return;
+  }
+
   const patientName = extractPatientDisplayName(user);
   updateWelcomeGreeting(patientName);
 
@@ -341,7 +362,7 @@ function displayTherapistResults(therapists, selectedType, selectedLoc) {
           <span>⭐ ${t.rating}</span>
         </div>
       </div>
-      <a href="./appointments.html" style="background: #059669; color: #ffffff; text-decoration: none; padding: 8px 16px; font-size: 13px; font-weight: 700; border-radius: 8px; white-space: nowrap;">
+      <a href="./patient-appointments.html" style="background: #059669; color: #ffffff; text-decoration: none; padding: 8px 16px; font-size: 13px; font-weight: 700; border-radius: 8px; white-space: nowrap;">
         Book Session
       </a>
     </div>
@@ -385,7 +406,7 @@ function initQuickSearchModal() {
       { title: "Dr. Sarah Mitchell (Neurologist)", link: "./directory.html?specialization=Neurology", category: "Doctor" },
       { title: "Dr. Robert Chen (Physiotherapist)", link: "./directory.html?specialization=Physiotherapy", category: "Doctor" },
       { title: "Dr. Emily Rodriguez (Pediatrician)", link: "./directory.html?specialization=Pediatrics", category: "Doctor" },
-      { title: "Book Therapy Appointment", link: "./appointments.html", category: "Appointments" },
+      { title: "Book Therapy Appointment", link: "./patient-appointments.html", category: "Appointments" },
       { title: "Occupational Therapy Services", link: "#services", category: "Services" },
       { title: "Speech & Communication Therapy", link: "#services", category: "Services" },
       { title: "Exercise Management & Routines", link: "./exercises.html", category: "Exercises" }
@@ -425,3 +446,11 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
+
+
+// Back-Forward Cache (bfcache) Protection after logout
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted || (window.performance && window.performance.navigation && window.performance.navigation.type === 2)) {
+    initPatientSession();
+  }
+});

@@ -25,18 +25,28 @@
     const username = (user.username || "").toLowerCase();
     const email = (user.email || "").toLowerCase();
 
-    // Verify authorized single admin credentials
-    const isAuthorized =
-      (role === "admin" || role === "superadmin") &&
-      (username === "admin" || email === "admin@multitherapy.org" || isSessionActive);
+    // Verify authorized admin role from database session
+    const isAuthorized = (role === "admin" || role === "superadmin");
 
     if (!isAuthorized) {
-      console.warn("[Admin Guard] Unauthorized access attempt detected. Redirecting to admin-login.html.");
-      localStorage.removeItem("currentUser");
-      localStorage.removeItem("adminRole");
-      localStorage.removeItem("adminToken");
-      sessionStorage.removeItem("admin_logged_in");
-      window.location.replace("./admin-login.html?unauthorized=true");
+      console.warn("[Admin Guard] Unauthorized access attempt detected. Redirecting to appropriate portal.");
+      if (role === "patient") {
+        sessionStorage.setItem("cross_role_alert", "Access restricted to Administrator accounts. Redirected to Patient Dashboard.");
+        window.location.replace("./patient-home.html");
+        return;
+      }
+      if (role === "therapist" || role === "physiotherapist") {
+        sessionStorage.setItem("cross_role_alert", "Access restricted to Administrator accounts. Redirected to Therapist Dashboard.");
+        window.location.replace("./therapist-dashboard.html");
+        return;
+      }
+      if (role === "doctor" || role === "practitioner") {
+        sessionStorage.setItem("cross_role_alert", "Access restricted to Administrator accounts. Redirected to Doctor Dashboard.");
+        window.location.replace("./doctor-home.html");
+        return;
+      }
+      window.location.replace("./admin-login.html?redirect=admin-dashboard.html");
+      return;
     }
   } catch (err) {
     console.error("[Admin Guard] Error parsing session:", err);
@@ -638,4 +648,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Initial load
   await loadData();
+});
+
+
+// Back-Forward Cache (bfcache) Protection after logout
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted || (window.performance && window.performance.navigation && window.performance.navigation.type === 2)) {
+    const raw = localStorage.getItem("currentUser");
+    if (!raw && sessionStorage.getItem("admin_logged_in") !== "true") {
+      window.location.replace("./admin-login.html?redirect=admin-dashboard.html");
+    }
+  }
 });

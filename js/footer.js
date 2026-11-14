@@ -1,7 +1,9 @@
 /**
  * Multi Therapy - Global Professional Healthcare Footer Component
  * Standardizes the 4-column professional footer across all pages,
- * adjusts relative links for clean routing, and prevents duplicate footers.
+ * adjusts relative links for clean routing, and dynamically manages auth state:
+ * - When Logged In: Hides all login and signup links from the footer; shows role-specific dashboard link.
+ * - When Logged Out: Shows separate Patient Login, Doctor Login, Admin Login, Patient Sign Up, and Doctor Sign Up links.
  */
 
 (function () {
@@ -13,9 +15,7 @@
   function getBasePath() {
     if (typeof window === 'undefined') return './';
     const path = window.location.pathname.replace(/\\/g, '/');
-    // If inside a subfolder (e.g., /admin/ or /nested/), calculate relative depth
     const segments = path.split('/').filter(Boolean);
-    // Ignore root-level files like /doctors, /doctors.html, /index.html
     if (segments.length > 1) {
       const depth = segments.length - 1;
       return '../'.repeat(depth);
@@ -24,9 +24,38 @@
   }
 
   /**
+   * Get current auth user details.
+   */
+  function getAuth() {
+    let user = null;
+    const storage = (typeof window !== 'undefined' && window.localStorage) ? window.localStorage : (typeof localStorage !== 'undefined' ? localStorage : null);
+    const sStorage = (typeof window !== 'undefined' && window.sessionStorage) ? window.sessionStorage : (typeof sessionStorage !== 'undefined' ? sessionStorage : null);
+
+    try {
+      const raw = storage ? (storage.getItem('currentUser') || (sStorage ? sStorage.getItem('currentUser') : null)) : null;
+      if (raw) user = JSON.parse(raw);
+    } catch (e) { }
+
+    const adminRole = (storage ? (storage.getItem('adminRole') || '') : '').toLowerCase();
+    const isAdmin = (sStorage && sStorage.getItem('admin_logged_in') === 'true') || adminRole === 'superadmin' || adminRole === 'admin';
+    const isLoggedIn = !!(user && (user.user_id || user.username || user.email || user.role)) || isAdmin;
+    let role = (user && user.role ? user.role : (isAdmin ? 'admin' : '')).toLowerCase();
+    if (role === 'physiotherapist') role = 'doctor';
+    return { isLoggedIn, role };
+  }
+
+  /**
    * Return the canonical HTML template for the 4-column professional footer.
    */
   function getFooterHTML(base) {
+    const auth = getAuth();
+    const filename = typeof window !== 'undefined' ? (window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html') : '';
+    const isPatientHome = filename === 'patient-home.html';
+    let aptLink = `${base}patient-appointments.html`;
+    if (auth.isLoggedIn && (auth.role === 'doctor' || auth.role === 'therapist')) {
+      aptLink = `${base}doctor-appointments.html`;
+    }
+
     return `
     <div class="mt-footer-container">
       <div class="mt-footer-grid">
@@ -53,21 +82,29 @@
             <li><a href="${base}index.html#about"><span class="mt-footer-link-bullet">›</span> About Us</a></li>
             <li><a href="${base}index.html#services"><span class="mt-footer-link-bullet">›</span> Services</a></li>
             <li><a href="${base}subscription-pricing.html"><span class="mt-footer-link-bullet">›</span> Subscription Plans</a></li>
-            <li><a href="${base}login.html"><span class="mt-footer-link-bullet">›</span> Patient Login</a></li>
-            <li><a href="${base}doctor-login.html"><span class="mt-footer-link-bullet">›</span> Doctor Login</a></li>
+            ${!isPatientHome ? `
+              <li class="mt-footer-guest-only"><a href="${base}login.html"><span class="mt-footer-link-bullet">›</span> Patient Login</a></li>
+              <li class="mt-footer-guest-only"><a href="${base}doctor-login.html"><span class="mt-footer-link-bullet">›</span> Doctor Login</a></li>
+              <li class="mt-footer-guest-only"><a href="${base}admin-login.html"><span class="mt-footer-link-bullet">›</span> Admin Login</a></li>
+            ` : ''}
+            <li class="mt-footer-auth-patient"><a href="${base}patient-home.html"><span class="mt-footer-link-bullet">›</span> Patient Dashboard</a></li>
+            <li class="mt-footer-auth-doctor"><a href="${base}doctor-home.html"><span class="mt-footer-link-bullet">›</span> Doctor Dashboard</a></li>
+            <li class="mt-footer-auth-admin"><a href="${base}admin-dashboard.html"><span class="mt-footer-link-bullet">›</span> Admin Dashboard</a></li>
             <li><a href="${base}index.html#contact" id="footerContactLink"><span class="mt-footer-link-bullet">›</span> Contact</a></li>
           </ul>
         </div>
 
-        <!-- Column 3: Patient Portal -->
+        <!-- Column 3: Clinical Portals -->
         <div class="mt-footer-col mt-col-divider">
-          <h4 class="mt-footer-heading">Patient Portal</h4>
+          <h4 class="mt-footer-heading">Clinical Portals</h4>
           <ul class="mt-footer-links">
-            <li><a href="${base}appointments.html"><span class="mt-footer-link-bullet">›</span> Appointments</a></li>
+            <li><a href="${aptLink}"><span class="mt-footer-link-bullet">›</span> Appointments</a></li>
             <li><a href="${base}therapy-sessions.html"><span class="mt-footer-link-bullet">›</span> Therapy Sessions</a></li>
             <li><a href="${base}patients.html"><span class="mt-footer-link-bullet">›</span> Patients Directory</a></li>
-            <li><a href="${base}signup.html"><span class="mt-footer-link-bullet">›</span> Patient Sign Up</a></li>
-            <li><a href="${base}doctor-home.html"><span class="mt-footer-link-bullet">›</span> Doctor Portal</a></li>
+            <li><a href="${base}doctors.html"><span class="mt-footer-link-bullet">›</span> Doctors Directory</a></li>
+            <li><a href="${base}therapists.html"><span class="mt-footer-link-bullet">›</span> Therapists</a></li>
+            <li class="mt-footer-guest-only"><a href="${base}signup.html"><span class="mt-footer-link-bullet">›</span> Patient Sign Up</a></li>
+            <li class="mt-footer-guest-only"><a href="${base}doctor-signup.html"><span class="mt-footer-link-bullet">›</span> Doctor Sign Up</a></li>
           </ul>
         </div>
 
@@ -165,6 +202,46 @@
   }
 
   /**
+   * Synchronize visibility of footer elements based on auth role.
+   */
+  function updateFooterAuthState() {
+    const auth = getAuth();
+    const filename = typeof window !== 'undefined' ? (window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html') : '';
+    const isPatientHome = filename === 'patient-home.html';
+
+    if (isPatientHome) {
+      document.querySelectorAll('.mt-footer-links a[href*="login.html"], .mt-footer-links a[href*="doctor-login.html"], .mt-footer-links a[href*="admin-login.html"]').forEach(el => {
+        const li = el.closest('li');
+        if (li) {
+          li.style.setProperty('display', 'none', 'important');
+          if (typeof li.remove === 'function') li.remove();
+        } else {
+          el.style.setProperty('display', 'none', 'important');
+          if (typeof el.remove === 'function') el.remove();
+        }
+      });
+    }
+
+    // 1. When logged in: hide all guest-only links (Patient Login, Doctor Login, Admin Login, Patient Sign Up, Doctor Sign Up)
+    document.querySelectorAll('.mt-footer-guest-only').forEach(el => {
+      el.style.setProperty('display', auth.isLoggedIn ? 'none' : 'block', 'important');
+    });
+
+    // 2. Role-specific dashboard links
+    document.querySelectorAll('.mt-footer-auth-patient').forEach(el => {
+      el.style.setProperty('display', (auth.isLoggedIn && auth.role === 'patient') ? 'block' : 'none', 'important');
+    });
+
+    document.querySelectorAll('.mt-footer-auth-doctor').forEach(el => {
+      el.style.setProperty('display', (auth.isLoggedIn && (auth.role === 'doctor' || auth.role === 'therapist')) ? 'block' : 'none', 'important');
+    });
+
+    document.querySelectorAll('.mt-footer-auth-admin').forEach(el => {
+      el.style.setProperty('display', (auth.isLoggedIn && auth.role === 'admin') ? 'block' : 'none', 'important');
+    });
+  }
+
+  /**
    * Initialize and harmonize the footer across the page.
    */
   function initFooter() {
@@ -174,63 +251,50 @@
     const footers = document.querySelectorAll('footer');
 
     if (footers.length === 0) {
-      // Create new footer element
       const footerEl = document.createElement('footer');
       footerEl.className = 'mt-unified-footer';
       footerEl.setAttribute('role', 'contentinfo');
       footerEl.innerHTML = getFooterHTML(base);
       document.body.appendChild(footerEl);
     } else {
-      // Standardize the primary footer and remove any duplicate footers
-      const primaryFooter = footers[footers.length - 1]; // Use last footer (typically at end of page)
+      const primaryFooter = footers[footers.length - 1];
       primaryFooter.className = 'mt-unified-footer';
       primaryFooter.setAttribute('role', 'contentinfo');
+      primaryFooter.innerHTML = getFooterHTML(base);
 
-      // If the markup is outdated or non-standard, update its innerHTML cleanly
-      if (!primaryFooter.querySelector('.mt-footer-grid') || primaryFooter.classList.contains('mt-footer-wrap') || primaryFooter.classList.contains('mt-admin-footer')) {
-        primaryFooter.innerHTML = getFooterHTML(base);
-      } else {
-        // Adjust relative paths inside primary footer for nested paths if base is not './'
-        if (base !== './') {
-          primaryFooter.querySelectorAll('img[src^="./"], a[href^="./"]').forEach(function (el) {
-            if (el.tagName === 'IMG') {
-              const src = el.getAttribute('src');
-              if (src.startsWith('./')) el.setAttribute('src', base + src.slice(2));
-            } else if (el.tagName === 'A') {
-              const href = el.getAttribute('href');
-              if (href.startsWith('./')) el.setAttribute('href', base + href.slice(2));
-            }
-          });
-        }
-
-        // Ensure location displays official Approach Autism Society address
-        primaryFooter.querySelectorAll('.mt-footer-contact-item').forEach(function (item) {
-          if (item.textContent.includes('Location') && item.textContent.includes('Jaipur, Rajasthan, India')) {
-            const contentDiv = item.querySelector('div:last-child');
-            if (contentDiv) {
-              contentDiv.innerHTML = `
-                <div class="mt-footer-contact-label" style="font-size: 11.5px; color: #00d2ff; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;">Location</div>
-                <div class="mt-footer-org-name" style="font-size: 14px; font-weight: 700; color: #ffffff; line-height: 1.35; margin-bottom: 3px;">Approach Autism Society</div>
-                <div class="mt-footer-address-text" style="font-size: 13px; color: #cbd5e1; line-height: 1.55;">
-                  A-79, Nemi Nagar, Manish Marg,<br>
-                  Gandhi Path Road, Vaishali Nagar,<br>
-                  Jaipur, Rajasthan – 302021
-                </div>
-              `;
-            }
-          }
-        });
-      }
-
-      // Remove any earlier duplicate footer elements if present
       for (let i = 0; i < footers.length - 1; i++) {
-        footers[i].remove();
+        if (typeof footers[i].remove === 'function') {
+          footers[i].remove();
+        } else if (footers[i].parentNode) {
+          footers[i].parentNode.removeChild(footers[i]);
+        }
       }
     }
+
+    // Apply auth state visibility
+    updateFooterAuthState();
+  }
+
+  // Cross-tab and runtime listener
+  if (typeof window !== 'undefined') {
+    window.addEventListener('storage', function (e) {
+      if (e.key === 'currentUser' || e.key === 'adminRole' || e.key === 'adminToken') {
+        updateFooterAuthState();
+      }
+    });
+
+    window.addEventListener('userLoggedIn', function () {
+      updateFooterAuthState();
+    });
+
+    window.addEventListener('userLoggedOut', function () {
+      updateFooterAuthState();
+    });
   }
 
   // Export public initializer
   window.renderMultiTherapyFooter = initFooter;
+  window.updateFooterAuthState = updateFooterAuthState;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initFooter);
@@ -238,4 +302,3 @@
     initFooter();
   }
 })();
-

@@ -21,6 +21,7 @@
   <style>
       </style>
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
+  <link rel="stylesheet" href="./css/healthcare-theme.css">
 </head>
 <body class="patient-portal-theme">
 
@@ -191,11 +192,11 @@
       <!-- Left Content -->
       <div class="apt-hero-content">
         <div class="apt-hero-badge">
-          <span>🏥</span> Patient Appointment Scheduling
+          <span>🏥</span> Verified Specialist Care &amp; Clinical Consultation
         </div>
-        <h1 class="apt-hero-title">Patient Appointments</h1>
+        <h1 class="apt-hero-title">Book Your Appointment</h1>
         <p class="apt-hero-subtitle">
-          Schedule, manage, and track your clinical consultations and personalized therapy sessions.
+          Connect with qualified doctors and therapists for better care.
         </p>
 
         <div class="apt-hero-actions">
@@ -293,6 +294,21 @@
   <main class="apt-main-wrap">
 
     <div class="apt-toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <!-- In-Page Authentication Notice Banner (shown when session is unauthenticated, instead of silently redirecting) -->
+    <div id="authNoticeBanner" class="alert alert-warning d-flex align-items-center justify-content-between p-3 mb-4 rounded-3 border-warning shadow-sm" role="alert" style="display: none; background: #fffbeb; border: 1.5px solid #fde68a;">
+      <div class="d-flex align-items-center gap-2">
+        <span style="font-size: 22px;">⚠️</span>
+        <div>
+          <strong id="authNoticeTitle" style="color: #92400e;">Authentication Notice:</strong>
+          <span id="authNoticeText" style="color: #78350f;"> You are viewing the booking portal in guest mode. Please log in to manage and view your personal appointments.</span>
+        </div>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="./login.html?redirect=patient-appointments.html" class="btn btn-sm btn-primary fw-bold" id="authNoticeLoginBtn">Patient Login</a>
+        <a href="./doctor-login.html?redirect=patient-appointments.html" class="btn btn-sm btn-outline-primary fw-bold" id="authNoticeDocLoginBtn">Doctor Login</a>
+      </div>
+    </div>
 
     <div class="apt-two-col-grid">
 
@@ -429,7 +445,7 @@
             <!-- 7. Reason for Visit -->
             <div class="col-12 apt-form-group">
               <label for="apptReason" class="apt-form-label">
-                Reason for Visit / Clinical Notes
+                Symptoms / Notes
               </label>
               <textarea id="apptReason" class="apt-form-control" rows="3" placeholder="Describe the consultation purpose, symptoms, or current therapy goals (e.g. Mobility assessment, pediatric check-up, gait rehabilitation)..."></textarea>
             </div>
@@ -456,65 +472,77 @@
       <aside class="apt-card-box" id="findSpecialistCard" aria-labelledby="searchHeading">
         <div class="apt-card-header">
           <h2 class="apt-card-title" id="searchHeading">
-            <span>🔍</span> Specialists Directory
+            <span>🩺</span> Qualified Doctors &amp; Therapists
           </h2>
           <p class="apt-card-subtitle">
-            Search top pediatricians, neuro-physicians, and certified motor therapists.
+            Search top pediatricians, neurologists, motor physiotherapists, and speech specialists.
           </p>
         </div>
 
-        <!-- Doctor / Therapist Tabs -->
-        <div class="apt-tabs-bar" role="tablist">
-          <button type="button" class="apt-tab-btn active" id="tabSpecAll" role="tab" aria-selected="true">
-            All Specialists
+        <!-- 1. Doctor / Therapist Selector Tabs -->
+        <div class="apt-spec-selector-pills" role="tablist">
+          <button type="button" class="apt-spec-tab active" id="tabSpecAll" role="tab" aria-selected="true">
+            <span>🩺 All Specialists</span>
+            <span class="tab-count" id="countSpecAll">8</span>
           </button>
-          <button type="button" class="apt-tab-btn" id="tabSpecDoctor" role="tab" aria-selected="false">
-            Doctors
+          <button type="button" class="apt-spec-tab" id="tabSpecDoctor" role="tab" aria-selected="false">
+            <span>👨‍⚕️ Doctors</span>
+            <span class="tab-count" id="countSpecDoc">4</span>
           </button>
-          <button type="button" class="apt-tab-btn" id="tabSpecTherapist" role="tab" aria-selected="false">
-            Therapists
+          <button type="button" class="apt-spec-tab" id="tabSpecTherapist" role="tab" aria-selected="false">
+            <span>🏃 Therapists</span>
+            <span class="tab-count" id="countSpecTher">4</span>
           </button>
         </div>
 
-        <!-- Search Form Filters -->
-        <div class="row g-2 mb-3">
-          <div class="col-sm-6">
-            <label for="filterSpec" class="apt-form-label">Specialization</label>
-            <select id="filterSpec" class="apt-form-select">
-              <option value="all">All Specializations</option>
-              <option value="pediatric">Pediatric Neurology</option>
-              <option value="physio">Physical Therapy</option>
-              <option value="occupational">Occupational Therapy</option>
-              <option value="speech">Speech &amp; Language</option>
-              <option value="ortho">Orthopedic Rehabilitation</option>
-            </select>
-          </div>
+        <!-- 2 & 3. Search Doctor & Search Therapist Filters -->
+        <div class="apt-search-panel">
+          <div class="row g-2">
+            <!-- 2. Search doctor by name or specialization -->
+            <div class="col-12">
+              <label for="filterKeyword" class="form-label small fw-bold text-secondary mb-1">
+                Search Doctor by Name or Specialization
+              </label>
+              <div class="apt-search-input-wrap">
+                <span class="apt-search-icon-inside">🔍</span>
+                <input type="text" id="filterKeyword" class="apt-filter-input" placeholder="Search doctor by name or specialization (e.g. Dr. Sarah, Neurology)...">
+              </div>
+            </div>
 
-          <div class="col-sm-6">
-            <label for="filterLoc" class="apt-form-label">Location / City</label>
-            <select id="filterLoc" class="apt-form-select">
-              <option value="all">All Locations (Jaipur)</option>
-              <option value="jaipur-main">Main Rehab Center (Jaipur)</option>
-              <option value="tele">Tele-Consultation (Online)</option>
-            </select>
-          </div>
+            <!-- 3. Search therapist by therapy type -->
+            <div class="col-sm-6">
+              <label for="filterTherapyType" class="form-label small fw-bold text-secondary mb-1">
+                Therapy Type
+              </label>
+              <select id="filterTherapyType" class="apt-filter-select">
+                <option value="all">All Therapy Types &amp; Specialties</option>
+                <option value="pediatric">Pediatric Neurology</option>
+                <option value="physio">Physical Therapy &amp; Mobility</option>
+                <option value="occupational">Occupational &amp; Sensory</option>
+                <option value="speech">Speech &amp; Language</option>
+                <option value="gait">Gait &amp; Postural Rehab</option>
+                <option value="ortho">Orthopedic Rehabilitation</option>
+                <option value="cp">Child Development &amp; CP</option>
+              </select>
+            </div>
 
-          <div class="col-12 mt-2">
-            <input type="text" id="filterKeyword" class="apt-form-control" placeholder="Search specialist name or keyword...">
+            <!-- Location / Mode -->
+            <div class="col-sm-6">
+              <label for="filterLoc" class="form-label small fw-bold text-secondary mb-1">
+                Consultation Mode / Center
+              </label>
+              <select id="filterLoc" class="apt-filter-select">
+                <option value="all">All Locations (Jaipur &amp; Online)</option>
+                <option value="jaipur-main">Main Rehab Center (Jaipur)</option>
+                <option value="tele">Online Video Tele-Consultation</option>
+              </select>
+            </div>
           </div>
         </div>
 
-        <button type="button" class="apt-btn-search" id="btnSearchSpecialists">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <span>Search Specialist Roster</span>
-        </button>
-
-        <!-- Dynamic Specialists Results Cards -->
+        <!-- 4. Dynamic Doctor Profile Cards Container -->
         <div class="apt-specialists-list" id="specialistsResultsList" aria-live="polite">
-          <!-- Populated dynamically via JS -->
+          <!-- Populated dynamically via JS with photo, name, specialization, experience, availability & Book Appointment button -->
         </div>
 
       </aside>
@@ -579,13 +607,13 @@
         <table class="apt-table" id="appointmentsTable">
           <thead>
             <tr>
-              <th>Appointment ID</th>
-              <th>Patient</th>
-              <th>Specialist</th>
-              <th>Type</th>
-              <th>Date &amp; Time</th>
+              <th>Patient Name</th>
+              <th>Patient ID</th>
+              <th>Appointment Date</th>
+              <th>Time</th>
+              <th>Therapy Type</th>
               <th>Status</th>
-              <th style="text-align: right;">Action</th>
+              <th style="text-align: right;">Actions</th>
             </tr>
           </thead>
           <tbody id="apptsTableBody">

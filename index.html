@@ -15,24 +15,44 @@
   <!-- Core Landing Design System -->
   <link rel="stylesheet" href="./css/landing.css?v=3.0">
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
+  <link rel="stylesheet" href="./css/healthcare-theme.css">
 
   <!-- Instant Auth State Class Detection to Prevent UI Flicker -->
   <script>
     (function () {
       try {
-        var raw = localStorage.getItem("currentUser");
-        var hasUser = !!(raw && raw !== "null" && raw !== "undefined" && JSON.parse(raw));
-        document.documentElement.classList.add(hasUser ? "is-logged-in" : "is-logged-out");
+        var raw = localStorage.getItem("currentUser") || sessionStorage.getItem("currentUser");
+        var adminRole = (localStorage.getItem("adminRole") || "").toLowerCase();
+        var adminToken = localStorage.getItem("adminToken");
+        var isAdminSession = sessionStorage.getItem("admin_logged_in") === "true";
+        var user = null;
+        if (raw && raw !== "null" && raw !== "undefined") {
+          try { user = JSON.parse(raw); } catch (_) {}
+        }
+        var isAdmin = adminRole === "admin" || adminRole === "superadmin" || isAdminSession || !!adminToken || (user && (user.role === "admin" || user.role === "superadmin" || user.is_admin === true));
+        var isLoggedIn = !!(user || isAdmin);
+        var root = document.documentElement;
+        if (isLoggedIn) {
+          root.classList.add("is-logged-in");
+          root.classList.remove("is-logged-out");
+          if (isAdmin) root.classList.add("is-role-admin");
+          else if (user && (user.role === "doctor" || user.role === "practitioner")) root.classList.add("is-role-doctor");
+          else if (user && (user.role === "therapist" || user.role === "physiotherapist")) root.classList.add("is-role-therapist");
+          else root.classList.add("is-role-patient");
+        } else {
+          root.classList.add("is-logged-out");
+          root.classList.remove("is-logged-in");
+        }
       } catch (e) {
         document.documentElement.classList.add("is-logged-out");
       }
     })();
   </script>
 </head>
-<body>
+<body class="page-home">
 
   <!-- ======================================================================
-       1. HEADER / NAVIGATION BAR (WHITE ROUNDED NAVBAR WITH SOFT BLUE SHADOW)
+       1. HEADER / NAVIGATION BAR (SEHATOPD-INSPIRED CLEAN WHITE NAVBAR)
        ====================================================================== -->
   <header class="shared-header mt-navbar" role="banner">
     <div class="shared-header-inner mt-navbar-inner">
@@ -50,143 +70,66 @@
       <nav class="shared-nav-center mt-nav-center" aria-label="Main Navigation">
         <ul class="shared-nav-list mt-nav-list" id="navMenu">
           <li><a href="./index.html" class="shared-nav-link mt-nav-link active" id="navHome">Home</a></li>
-          <li><a href="./patient-home.html" class="shared-nav-link mt-nav-link " id="navPatientHome">Patient Home</a></li>
-          <li><a href="./doctor-home.html" class="shared-nav-link mt-nav-link " id="navDoctorHome">Doctor Home</a></li>
 
           <!-- Clinical Management Dropdown -->
-          <li class="nav-item-dropdown ">
-            <a href="javascript:void(0)" class="nav-dropdown-toggle shared-nav-link mt-nav-link " aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
+          <li class="nav-item-dropdown">
+            <a href="javascript:void(0)" class="nav-dropdown-toggle shared-nav-link mt-nav-link" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
               <span>Clinical Management</span>
               <svg class="dropdown-arrow-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M2.5 4.5L6 8L9.5 4.5"></path>
               </svg>
             </a>
             <div class="nav-dropdown-menu" aria-label="Clinical Management Submenu">
-              <a href="./doctors.html" class="nav-dropdown-link " id="dropDoctors">
+              <a href="./doctors.html" class="nav-dropdown-link" id="dropDoctors">
                 <span class="nav-dropdown-icon">👨‍⚕️</span>
                 <span class="nav-dropdown-text">Doctors</span>
               </a>
-              <a href="./patients.html" class="nav-dropdown-link " id="dropPatients">
+              <a href="./patients.html" class="nav-dropdown-link" id="dropPatients">
                 <span class="nav-dropdown-icon">👥</span>
                 <span class="nav-dropdown-text">Patients</span>
               </a>
-              <a href="./therapists.html" class="nav-dropdown-link " id="dropTherapists">
+              <a href="./therapists.html" class="nav-dropdown-link" id="dropTherapists">
                 <span class="nav-dropdown-icon">👨‍⚕️</span>
                 <span class="nav-dropdown-text">Therapists</span>
               </a>
-              <a href="./appointments.html" class="nav-dropdown-link " id="dropAppointments">
+              <a href="./patient-appointments.html" class="nav-dropdown-link" id="dropAppointments">
                 <span class="nav-dropdown-icon">📅</span>
                 <span class="nav-dropdown-text">Appointments</span>
               </a>
-              <a href="./therapy-sessions.html" class="nav-dropdown-link " id="dropTherapySessions">
+              <a href="./therapy-sessions.html" class="nav-dropdown-link" id="dropTherapySessions">
                 <span class="nav-dropdown-icon">💪</span>
                 <span class="nav-dropdown-text">Therapy Sessions</span>
               </a>
-              <a href="./exercises.html" class="nav-dropdown-link " id="dropExercises">
+              <a href="./exercises.html" class="nav-dropdown-link" id="dropExercises">
                 <span class="nav-dropdown-icon">🏃</span>
                 <span class="nav-dropdown-text">Exercises</span>
               </a>
             </div>
           </li>
 
-          <li><a href="./login.html" class="shared-nav-link mt-nav-link " id="navPatientLogin">Patient Login</a></li>
-          <li><a href="./doctor-login.html" class="shared-nav-link mt-nav-link " id="navDoctorLogin">Doctor Login</a></li>
+          <li><a href="./index.html#contact" class="shared-nav-link mt-nav-link" id="navHomeContact">Contact</a></li>
         </ul>
       </nav>
 
-      <!-- Right-Side Controls: Notification -> Profile -> Logout -> Contact -> Sign Up -->
+      <!-- Right-Side Controls: SehatOPD-inspired Three Login Buttons -->
       <div class="shared-nav-right mt-nav-right">
-
-        <!-- 1. Notification Icon with Badge Count & Dropdown -->
-        <div class="shared-notif-wrap" style="position: relative;">
-          <button type="button" class="shared-notif-btn doc-notif-btn" id="btnHeaderNotifications" aria-label="Clinical Notifications" title="Clinical Notifications">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-            </svg>
-            <span class="shared-notif-badge doc-notif-badge" id="headerNotifBadge" aria-hidden="true">3</span>
-          </button>
-
-          <!-- Notification Dropdown -->
-          <div class="shared-notif-dropdown doc-notif-dropdown" id="headerNotifDropdown" role="menu">
-            <div class="shared-notif-header">
-              <strong>Clinical Notifications</strong>
-              <span class="badge bg-primary" style="font-size: 11px;">Active</span>
-            </div>
-            <div class="shared-notif-item">
-              <span style="font-size: 16px;">⚡</span>
-              <div>
-                <div style="font-weight: 700; font-size: 12.5px; color: #0f172a;">Resend Email Active</div>
-                <div style="font-size: 11px; color: #64748b;">Doctor OTP delivery active.</div>
-              </div>
-            </div>
-            <div class="shared-notif-item">
-              <span style="font-size: 16px;">🗓️</span>
-              <div>
-                <div style="font-weight: 700; font-size: 12.5px; color: #0f172a;">Clinical Schedule Synced</div>
-                <div style="font-size: 11px; color: #64748b;">Patient appointments online.</div>
-              </div>
-            </div>
-            <div class="shared-notif-item">
-              <span style="font-size: 16px;">✅</span>
-              <div>
-                <div style="font-weight: 700; font-size: 12.5px; color: #0f172a;">TiDB Database Online</div>
-                <div style="font-size: 11px; color: #64748b;">Multi Therapy cloud connected.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 2. Admin / User Profile Pill -->
-        <div id="userProfileWrap" class="shared-profile-wrap" style="position: relative; display: inline-flex;">
-          <a href="./doctor-profile.html" class="shared-user-pill mt-user" id="userProfileBtn" title="View Profile">
-            <img id="navAvatarImg" class="shared-avatar-img mt-user-photo d-none" alt="" style="display: none !important;" hidden>
-            <div id="navAvatar" class="shared-avatar-fallback mt-user-default">👤</div>
-            <div class="shared-user-text mt-user-text">
-              <div class="shared-user-name mt-user-name" id="navUsername">User</div>
-              <div class="shared-user-role mt-user-role" id="navRole">Admin</div>
-            </div>
-            <span class="shared-profile-caret mt-arrow">⌄</span>
-          </a>
-        </div>
-
-        <!-- 3. Logout Button (Visible when logged in) -->
-        <button type="button" id="logoutBtn" class="shared-logout-btn mt-logout-btn" title="Sign Out">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-          <span>Logout</span>
-        </button>
-
-        <!-- 3b. Login Button (Visible when NOT logged in) -->
-        <a href="./login.html" id="btnHeaderLogin" class="shared-btn-login mt-btn-login" title="Login to Multi Therapy">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-            <polyline points="10 17 15 12 10 7"></polyline>
-            <line x1="15" y1="12" x2="3" y2="12"></line>
-          </svg>
-          <span>Login</span>
-        </a>
-
-        <!-- 4 & 5. Public Actions: Contact & Sign Up -->
-        <div id="publicNavActions" class="shared-public-actions">
-          <!-- Contact Button -->
-          <a href="./index.html#contact" class="shared-btn-contact doc-btn-contact" id="btnHeaderContact" title="Contact Multi Therapy Support">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-            </svg>
-            <span>Contact</span>
+        <div class="home-login-buttons-group" id="homeLoginButtonsGroup">
+          <!-- 1. Admin Login -->
+          <a href="admin-login.html" class="home-login-btn home-btn-admin" id="btnHomeAdminLogin" title="Admin Portal Login">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span>Admin Login</span>
           </a>
 
-          <!-- Sign Up Button -->
-          <a href="./signup.html" class="shared-btn-signup doc-btn-signup " id="btnHeaderSignup" title="Sign Up">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <span>Sign Up</span>
+          <!-- 2. Patient Login -->
+          <a href="https://cp-vercel-frontend.vercel.app/login.html" class="home-login-btn home-btn-patient" id="btnHomePatientLogin" title="Patient Portal Login">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span>Patient Login</span>
+          </a>
+
+          <!-- 3. Doctor Login -->
+          <a href="https://cp-vercel-frontend.vercel.app/doctor-login.html" class="home-login-btn home-btn-doctor" id="btnHomeDoctorLogin" title="Doctor Portal Login">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+            <span>Doctor Login</span>
           </a>
         </div>
 
@@ -194,7 +137,6 @@
         <button type="button" class="shared-nav-toggle doc-nav-toggle" id="navToggle" aria-label="Toggle Navigation Menu">
           ☰
         </button>
-
       </div>
     </div>
   </header>
@@ -445,10 +387,15 @@
           <p class="cp-access-desc">
             Book appointments, track therapy routines, and view clinical progress.
           </p>
-          <a href="./login.html" class="cp-access-btn btn-blue" id="btnPatientLogin">
-            <span>Login</span>
-            <span class="btn-arrow" aria-hidden="true">&rarr;</span>
-          </a>
+          <div style="display: flex; gap: 10px; margin-top: auto; flex-wrap: wrap; width: 100%;">
+            <a href="./patient-home.html" class="cp-access-btn btn-blue" id="btnPatientHome" style="flex: 1; min-width: 140px; text-align: center; justify-content: center;">
+              <span>Patient Home</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            <a href="./patient-login.html" class="cp-access-btn" id="btnPatientLogin" style="background: #f0f7ff; color: #0875F9; border: 1.5px solid #bfdbfe; font-weight: 700; padding: 11px 18px; border-radius: 9999px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.2s ease;">
+              <span>Patient Login</span>
+            </a>
+          </div>
         </article>
 
         <!-- Card 2: For Doctors (Green Theme) -->
@@ -464,10 +411,15 @@
           <p class="cp-access-desc">
             Manage clinical patients, daily schedules, therapist assignments, and charts.
           </p>
-          <a href="./doctor-login.html" class="cp-access-btn btn-green" id="btnDoctorLogin">
-            <span>Login</span>
-            <span class="btn-arrow" aria-hidden="true">&rarr;</span>
-          </a>
+          <div style="display: flex; gap: 10px; margin-top: auto; flex-wrap: wrap; width: 100%;">
+            <a href="./doctor-home.html" class="cp-access-btn btn-green" id="btnDoctorHome" style="flex: 1; min-width: 140px; text-align: center; justify-content: center;">
+              <span>Doctor Dashboard</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            <a href="./doctor-login.html" class="cp-access-btn" id="btnDoctorLogin" style="background: #ecfdf5; color: #078B69; border: 1.5px solid #a7f3d0; font-weight: 700; padding: 11px 18px; border-radius: 9999px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.2s ease;">
+              <span>Doctor Login</span>
+            </a>
+          </div>
         </article>
 
         <!-- Card 3: Subscription Plans (Purple Theme) -->
@@ -521,7 +473,7 @@
         <p class="cp-service-desc">
           Easily book, reschedule, and manage clinical consultations with certified specialists and therapists with instant reminders.
         </p>
-        <a href="./login.html" class="cp-service-link">
+        <a href="./patient-appointments.html" class="cp-service-link">
           <span>Manage Appointments</span>
           <span aria-hidden="true">&rarr;</span>
         </a>
@@ -557,7 +509,7 @@
         <p class="cp-service-desc">
           Personalized therapeutic exercise routines prescribed by attending clinicians with rep goals and home care guidance.
         </p>
-        <a href="./login.html" class="cp-service-link">
+        <a href="./exercises.html" class="cp-service-link">
           <span>Active Exercises</span>
           <span aria-hidden="true">&rarr;</span>
         </a>
@@ -577,7 +529,7 @@
         <p class="cp-service-desc">
           Quantitative milestone tracking, motor recovery scorecards, and physician-reviewed PDF clinical reports.
         </p>
-        <a href="./login.html" class="cp-service-link">
+        <a href="./therapy-sessions.html" class="cp-service-link">
           <span>Check Milestones</span>
           <span aria-hidden="true">&rarr;</span>
         </a>
@@ -597,7 +549,7 @@
         <p class="cp-service-desc">
           Collaborative tools empowering parents and family caregivers with home therapy instructions and direct clinician support.
         </p>
-        <a href="./login.html" class="cp-service-link">
+        <a href="./caregivers.html" class="cp-service-link">
           <span>Caregiver Guidance</span>
           <span aria-hidden="true">&rarr;</span>
         </a>
@@ -616,7 +568,7 @@
         <p class="cp-service-desc">
           NABH &amp; HIPAA-aligned cloud security with multi-factor authentication, encrypted medical records, and 24/7 availability.
         </p>
-        <a href="./signup.html" class="cp-service-link">
+        <a href="./subscription-pricing.html" class="cp-service-link" id="linkServiceSecurity">
           <span>Get Started Securely</span>
           <span aria-hidden="true">&rarr;</span>
         </a>
@@ -909,7 +861,7 @@
         <div class="mt-footer-col mt-col-divider">
           <h4 class="mt-footer-heading">Patient Portal</h4>
           <ul class="mt-footer-links">
-            <li><a href="./appointments.html"><span class="mt-footer-link-bullet">›</span> Appointments</a></li>
+            <li><a href="./patient-appointments.html"><span class="mt-footer-link-bullet">›</span> Appointments</a></li>
             <li><a href="./therapy-sessions.html"><span class="mt-footer-link-bullet">›</span> Therapy Sessions</a></li>
             <li><a href="./patients.html"><span class="mt-footer-link-bullet">›</span> Patients Directory</a></li>
             <li><a href="./signup.html"><span class="mt-footer-link-bullet">›</span> Patient Sign Up</a></li>
@@ -1094,42 +1046,117 @@
         `);
       }
 
-      // 4. Contact Form Submission Handler
+      // 4. Contact Form Submission Handler (Live API Connectivity & Real Email Delivery)
       const landingContactForm = document.getElementById("landingContactForm");
       const contactFormAlert = document.getElementById("contactFormAlert");
       const btnSubmitContact = document.getElementById("btnSubmitContact");
+      let isContactSubmitting = false;
+
+      function showContactAlert(message, type = "error") {
+        if (!contactFormAlert) return;
+        contactFormAlert.className = `cp-form-alert ${type}`;
+        contactFormAlert.innerHTML = message;
+        contactFormAlert.style.display = "block";
+        contactFormAlert.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      function resetContactSubmitButton() {
+        if (!btnSubmitContact) return;
+        btnSubmitContact.disabled = false;
+        btnSubmitContact.innerHTML = `
+          <span>Send Message</span>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        `;
+      }
 
       if (landingContactForm) {
-        landingContactForm.addEventListener("submit", (e) => {
+        landingContactForm.addEventListener("submit", async (e) => {
           e.preventDefault();
 
-          const name = document.getElementById("contactName")?.value.trim();
-          const email = document.getElementById("contactEmail")?.value.trim();
-          const subject = document.getElementById("contactSubject")?.value.trim();
-          const message = document.getElementById("contactMessage")?.value.trim();
-
-          if (!name || !email || !subject || !message) {
-            if (contactFormAlert) {
-              contactFormAlert.className = "cp-form-alert error";
-              contactFormAlert.textContent = "Please fill in all required fields (Name, Email, Subject, and Message).";
-              contactFormAlert.style.display = "block";
-              contactFormAlert.scrollIntoView({ behavior: "smooth", block: "center" });
-            }
+          // 12. Duplicate submission prevention
+          if (isContactSubmitting) {
+            console.warn("Contact form submission is already in progress.");
             return;
           }
 
+          const nameInput = document.getElementById("contactName");
+          const emailInput = document.getElementById("contactEmail");
+          const phoneInput = document.getElementById("contactPhone");
+          const roleInput = document.getElementById("contactRole");
+          const subjectInput = document.getElementById("contactSubject");
+          const messageInput = document.getElementById("contactMessage");
+
+          const name = (nameInput?.value || "").trim();
+          const email = (emailInput?.value || "").trim();
+          const phone = (phoneInput?.value || "").trim();
+          const role = (roleInput?.value || "general").trim();
+          const subject = (subjectInput?.value || "").trim();
+          const message = (messageInput?.value || "").trim();
+
+          // 2. Full Name required validation
+          if (!name) {
+            showContactAlert("<strong>Missing Name:</strong> Please enter your full name.", "error");
+            nameInput?.focus();
+            return;
+          }
+          if (name.length < 2) {
+            showContactAlert("<strong>Invalid Name:</strong> Full Name must be at least 2 characters.", "error");
+            nameInput?.focus();
+            return;
+          }
+
+          // 3. Email format validation
+          if (!email) {
+            showContactAlert("<strong>Missing Email:</strong> Please enter your email address.", "error");
+            emailInput?.focus();
+            return;
+          }
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (!emailRegex.test(email)) {
-            if (contactFormAlert) {
-              contactFormAlert.className = "cp-form-alert error";
-              contactFormAlert.textContent = "Please enter a valid email address.";
-              contactFormAlert.style.display = "block";
-              contactFormAlert.scrollIntoView({ behavior: "smooth", block: "center" });
-            }
+            showContactAlert("<strong>Invalid Email:</strong> Please enter a valid email address (e.g. name@example.com).", "error");
+            emailInput?.focus();
             return;
           }
 
-          // Show sending state
+          // 4. Phone number validation (optional, but validated if filled)
+          if (phone) {
+            const cleanPhone = phone.replace(/[\s\-\(\)\+]/g, "");
+            if (!/^\d{7,15}$/.test(cleanPhone)) {
+              showContactAlert("<strong>Invalid Phone:</strong> Please enter a valid contact number (7-15 digits) or leave it blank.", "error");
+              phoneInput?.focus();
+              return;
+            }
+          }
+
+          // 6. Subject required validation
+          if (!subject) {
+            showContactAlert("<strong>Missing Subject:</strong> Please enter a subject for your inquiry.", "error");
+            subjectInput?.focus();
+            return;
+          }
+          if (subject.length < 3) {
+            showContactAlert("<strong>Subject Too Short:</strong> Subject must be at least 3 characters.", "error");
+            subjectInput?.focus();
+            return;
+          }
+
+          // 7. Message required validation
+          if (!message) {
+            showContactAlert("<strong>Missing Message:</strong> Please enter your message or clinical inquiry.", "error");
+            messageInput?.focus();
+            return;
+          }
+          if (message.length < 10) {
+            showContactAlert("<strong>Message Too Short:</strong> Message must be at least 10 characters.", "error");
+            messageInput?.focus();
+            return;
+          }
+
+          // 8. Send Message button loading state & duplicate prevention
+          isContactSubmitting = true;
           if (btnSubmitContact) {
             btnSubmitContact.disabled = true;
             btnSubmitContact.innerHTML = `
@@ -1138,30 +1165,70 @@
             `;
           }
 
-          setTimeout(() => {
-            if (contactFormAlert) {
-              contactFormAlert.className = "cp-form-alert success";
-              contactFormAlert.innerHTML = `
-                <strong>Message Sent Successfully!</strong><br>
-                Thank you, ${escapeHtml(name)}. Your inquiry has been received by Multi Therapy clinical support. We will reach back to <strong>${escapeHtml(email)}</strong> shortly.
-              `;
-              contactFormAlert.style.display = "block";
-              contactFormAlert.scrollIntoView({ behavior: "smooth", block: "center" });
+          // 9. Flask & Vercel Backend API Connectivity
+          const payload = {
+            name,
+            email,
+            phone,
+            role,
+            userType: role,
+            subject,
+            message,
+            timestamp: new Date().toISOString()
+          };
+
+          const endpoints = [
+            "/api/contact",
+            "http://127.0.0.1:5000/api/contact",
+            "https://cp-backend-t590.onrender.com/api/contact"
+          ];
+
+          let responseData = null;
+          let lastErrorMessage = "";
+
+          for (const ep of endpoints) {
+            try {
+              const res = await fetch(ep, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+              });
+
+              if (res.ok) {
+                responseData = await res.json();
+                break;
+              } else if (res.status === 400 || res.status === 422) {
+                const errData = await res.json().catch(() => ({}));
+                lastErrorMessage = errData.error || errData.message || `Validation error from server (${res.status})`;
+                break;
+              } else if (res.status !== 404 && res.status !== 405) {
+                const errData = await res.json().catch(() => ({}));
+                lastErrorMessage = errData.error || errData.message || `Server returned HTTP ${res.status}`;
+              }
+            } catch (netErr) {
+              console.warn(`Connection attempt to ${ep} failed:`, netErr.message);
+              lastErrorMessage = netErr.message;
             }
+          }
+
+          // 11. Success and Error Messages
+          if (responseData && responseData.success) {
+            showContactAlert(`
+              <strong>✓ Message Sent Successfully!</strong><br>
+              Thank you, <strong>${escapeHtml(name)}</strong>. Your inquiry has been received by Multi Therapy clinical support and logged into our patient support network.
+              ${responseData.email_delivered ? '<br><span style="font-size: 13px; color: #047857;">✉️ Clinical team email notification has been dispatched.</span>' : ''}
+              <br><span style="font-size: 13px; color: #64748b;">Inquiry Reference ID: <strong>#MSG-${responseData.inquiry_id || Date.now()}</strong></span>
+            `, "success");
 
             landingContactForm.reset();
+          } else {
+            showContactAlert(`
+              <strong>⚠️ Delivery Notice:</strong> ${escapeHtml(lastErrorMessage || "Unable to send message to the clinical support server. Please check your internet connection or reach out directly on WhatsApp at +91 9468650893.")}
+            `, "error");
+          }
 
-            if (btnSubmitContact) {
-              btnSubmitContact.disabled = false;
-              btnSubmitContact.innerHTML = `
-                <span>Send Message</span>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <line x1="22" y1="2" x2="11" y2="13"/>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                </svg>
-              `;
-            }
-          }, 700);
+          isContactSubmitting = false;
+          resetContactSubmitButton();
         });
       }
 

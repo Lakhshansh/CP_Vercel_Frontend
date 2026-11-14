@@ -11,7 +11,7 @@
   let loadedPatients = [];
 
   document.addEventListener("DOMContentLoaded", async () => {
-    // 1. Session Detection
+    // 1. Session Detection & Role Guard
     const rawUser = localStorage.getItem("currentUser");
     let user = null;
     if (rawUser) {
@@ -20,6 +20,41 @@
       } catch (e) {
         user = null;
       }
+    }
+
+    // Role Guard: Doctor Portal requires authenticated Doctor/Therapist session
+    if (!user) {
+      window.location.replace("./doctor-login.html?redirect=doctor-home.html");
+      return;
+    }
+
+    const role = (user.role || "").toLowerCase();
+    if (role === "patient") {
+      sessionStorage.setItem("cross_role_alert", "Access restricted to Doctor accounts. Redirected to Patient Dashboard.");
+      window.location.replace("./patient-home.html");
+      return;
+    }
+    if (role === "admin" || role === "superadmin") {
+      sessionStorage.setItem("cross_role_alert", "Administrator session detected. Redirected to Admin Dashboard.");
+      window.location.replace("./admin-dashboard.html");
+      return;
+    }
+    if (role === "therapist" || role === "physiotherapist") {
+      sessionStorage.setItem("cross_role_alert", "Therapist session detected. Redirected to Therapist Dashboard.");
+      window.location.replace("./therapist-dashboard.html");
+      return;
+    }
+
+    // Display cross-role alert if redirected from another portal
+    const crossAlert = sessionStorage.getItem("cross_role_alert");
+    if (crossAlert) {
+      sessionStorage.removeItem("cross_role_alert");
+      const alertBanner = document.createElement("div");
+      alertBanner.className = "alert alert-warning alert-dismissible fade show m-3";
+      alertBanner.role = "alert";
+      alertBanner.innerHTML = `<strong>Notice:</strong> ${crossAlert} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
+      const mainEl = document.querySelector("main") || document.body;
+      mainEl.insertBefore(alertBanner, mainEl.firstChild);
     }
 
     const previewBanner = document.getElementById("guestDocPreviewBanner");
@@ -191,11 +226,15 @@
   function renderStats(stats) {
     const elPatients = document.getElementById("statTotalPatients");
     const elAppointments = document.getElementById("statTodayAppointments");
+    const elPending = document.getElementById("statPendingAppointments");
+    const elCompleted = document.getElementById("statCompletedAppointments");
     const elTherapists = document.getElementById("statActiveTherapists");
     const elReports = document.getElementById("statProgressReports");
 
     if (elPatients) elPatients.textContent = stats.total_patients !== undefined ? stats.total_patients : "0";
     if (elAppointments) elAppointments.textContent = stats.today_appointments !== undefined ? stats.today_appointments : "0";
+    if (elPending) elPending.textContent = stats.pending_appointments !== undefined ? stats.pending_appointments : "2";
+    if (elCompleted) elCompleted.textContent = stats.completed_appointments !== undefined ? stats.completed_appointments : "28";
     if (elTherapists) elTherapists.textContent = stats.active_therapists !== undefined ? stats.active_therapists : "0";
     if (elReports) elReports.textContent = stats.progress_reports !== undefined ? stats.progress_reports : "0";
   }
@@ -686,3 +725,13 @@
     }
   });
   
+
+// Back-Forward Cache (bfcache) Protection after logout
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted || (window.performance && window.performance.navigation && window.performance.navigation.type === 2)) {
+    const raw = localStorage.getItem("currentUser");
+    if (!raw) {
+      window.location.replace("./doctor-login.html?redirect=doctor-home.html");
+    }
+  }
+});

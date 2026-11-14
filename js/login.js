@@ -61,15 +61,18 @@ function formatLoginErrorMessage(error) {
     return "Network connection problem. You appear to be offline. Please check your internet connection.";
   }
 
-  // 3. Invalid credentials (HTTP 401, 403, or text match)
+  // 3. Unauthorized Role Portal Mismatch (HTTP 403)
+  if (error.status === 403 || lowerMsg.includes("unauthorized") || lowerMsg.includes("correct login portal")) {
+    return rawMsg || "Unauthorized: Please use the correct login portal.";
+  }
+
+  // 4. Invalid credentials (HTTP 401 or text match)
   if (
     error.status === 401 ||
-    error.status === 403 ||
     lowerMsg.includes("invalid") ||
     lowerMsg.includes("password") ||
     lowerMsg.includes("username") ||
-    lowerMsg.includes("credentials") ||
-    lowerMsg.includes("unauthorized")
+    lowerMsg.includes("credentials")
   ) {
     return rawMsg || "Invalid username or password. Please verify your credentials and try again.";
   }
@@ -111,9 +114,33 @@ function formatLoginErrorMessage(error) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Clear any previous session so new login starts clean
-  localStorage.removeItem("currentUser");
+  // If already logged in as Patient, automatically route to Patient Home
+  try {
+    const rawUser = localStorage.getItem("currentUser");
+    if (rawUser) {
+      const u = JSON.parse(rawUser);
+      if (u && (u.role || "").toLowerCase() === "patient") {
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetUrl = urlParams.get("redirect") || urlParams.get("next") || "./patient-home.html";
+        window.location.replace(targetUrl);
+        return;
+      }
+    }
+  } catch (e) {}
+
+  // Preserve existing session; do not wipe on load
   generateCaptcha();
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const redirectParam = urlParams.get("redirect") || urlParams.get("next");
+  if (redirectParam && redirectParam.includes("appointment")) {
+    const alertEl = document.getElementById("loginMessage");
+    if (alertEl) {
+      alertEl.className = "alert alert-info";
+      alertEl.textContent = "Please log in to access your Patient Appointments.";
+      alertEl.hidden = false;
+    }
+  }
 
   const refreshBtn = document.getElementById("refreshCaptcha");
   if (refreshBtn) refreshBtn.addEventListener("click", generateCaptcha);
@@ -188,13 +215,15 @@ document.addEventListener("DOMContentLoaded", () => {
             email: usernameVal,
             password: passwordVal,
             role: "patient",
+            portal: "patient",
             remember: rememberVal
           })
         });
 
-        // Role verification: Prevent Doctors from logging into Patient Portal
-        if (data.user && data.user.role && data.user.role.toLowerCase() === "doctor") {
-          showMessage("loginMessage", "This account is a Doctor account. Please log in via Doctor Login.", "warning");
+        // Role verification: Ensure strictly patient role only
+        const retRole = (data.user && data.user.role ? data.user.role : "").toLowerCase();
+        if (retRole !== "patient") {
+          showMessage("loginMessage", "Unauthorized: Please use the correct login portal.", "danger");
           generateCaptcha();
           return;
         }
@@ -212,9 +241,10 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("currentUser", JSON.stringify(userData));
         }
 
-        // Redirect to Patient Home Page only after successful authentication
+        // Redirect to target appointment page or Patient Home Page
+        const targetUrl = redirectParam || "./patient-home.html";
         setTimeout(() => {
-          window.location.href = "./patient-home.html";
+          window.location.href = targetUrl;
         }, 500);
 
       } catch (error) {

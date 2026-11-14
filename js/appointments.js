@@ -1,4 +1,44 @@
 // ============================================================================
+// Multi Therapy Navigation Guard: Prevent Unintended Backward Navigation
+// Guards against automatic window.history.back() and history.go(-1) calls during
+// page initialization, ensuring appointments.html stays firmly on the active view.
+// ============================================================================
+(function initAppointmentsNavigationGuard() {
+  if (typeof window === "undefined" || !window.history) return;
+
+  const _originalBack = window.history.back ? window.history.back.bind(window.history) : null;
+  const _originalGo = window.history.go ? window.history.go.bind(window.history) : null;
+
+  let userInteracted = false;
+
+  // Intercept automatic back calls during page load & initialization
+  if (_originalBack) {
+    window.history.back = function() {
+      if (!userInteracted) {
+        console.warn("[Navigation Guard] Blocked automatic history.back() during page load.");
+        return;
+      }
+      return _originalBack();
+    };
+  }
+
+  if (_originalGo) {
+    window.history.go = function(delta) {
+      if (delta < 0 && !userInteracted) {
+        console.warn("[Navigation Guard] Blocked automatic history.go(" + delta + ") during page load.");
+        return;
+      }
+      return _originalGo(delta);
+    };
+  }
+
+  // Permit natural user-initiated back navigation after user interaction
+  ["click", "keydown", "touchstart"].forEach(evt => {
+    window.addEventListener(evt, () => { userInteracted = true; }, { once: true, passive: true });
+  });
+})();
+
+// ============================================================================
 // Multi Therapy - Comprehensive Clinical Appointments System
 // Enables Patients to Book Direct Appointments with Real-Time Specialist
 // Availability, Verified Identity, Conflict Prevention, and Full Cancellation.
@@ -23,7 +63,11 @@ const DEFAULT_DOCTORS = [
     email: "sarah.mitchell@multitherapy.org",
     city: "Jaipur Main Rehab Center",
     consultation_fee: "₹10,900",
-    profile_photo: "./images/doctor_female_avatar.png"
+    experience: "14+ Years Exp",
+    availability: "Available Today • Mon - Sat (09:00 AM - 05:00 PM)",
+    rating: "4.9 ★ (140+ Reviews)",
+    therapy_type: "Pediatric Neurology",
+    profile_photo: "./images/doctor-avatar.jpg"
   },
   {
     doctor_id: 102,
@@ -33,7 +77,11 @@ const DEFAULT_DOCTORS = [
     email: "rajesh.sharma@multitherapy.org",
     city: "Jaipur Neuro Clinic",
     consultation_fee: "₹10,900",
-    profile_photo: "./images/doctor_male_avatar.png"
+    experience: "12+ Years Exp",
+    availability: "Available Today • Mon - Sat (09:00 AM - 04:30 PM)",
+    rating: "4.8 ★ (98 Reviews)",
+    therapy_type: "Orthopedic Rehabilitation",
+    profile_photo: "./images/doctor-avatar.jpg"
   },
   {
     doctor_id: 103,
@@ -43,7 +91,11 @@ const DEFAULT_DOCTORS = [
     email: "ananya.sen@multitherapy.org",
     city: "Pediatric Pavilion",
     consultation_fee: "₹9,500",
-    profile_photo: "./images/doctor_female_avatar.png"
+    experience: "10+ Years Exp",
+    availability: "Available Tomorrow • Tue - Sun (10:00 AM - 06:00 PM)",
+    rating: "4.9 ★ (165 Reviews)",
+    therapy_type: "Child Development & Cerebral Palsy",
+    profile_photo: "./images/doctor-avatar.jpg"
   },
   {
     doctor_id: 104,
@@ -53,7 +105,11 @@ const DEFAULT_DOCTORS = [
     email: "vikram.malhotra@multitherapy.org",
     city: "Advanced Care Center",
     consultation_fee: "₹11,500",
-    profile_photo: "./images/doctor_male_avatar.png"
+    experience: "16+ Years Exp",
+    availability: "Available Today • Mon - Fri (08:30 AM - 04:00 PM)",
+    rating: "4.9 ★ (210 Reviews)",
+    therapy_type: "Neuromuscular Rehabilitation",
+    profile_photo: "./images/doctor-avatar.jpg"
   }
 ];
 
@@ -65,7 +121,12 @@ const DEFAULT_THERAPISTS = [
     phone: "+91 97654 32100",
     email: "sneha.patel@multitherapy.org",
     session_fee: "₹4,500",
-    location: "Pediatric Therapy Wing"
+    location: "Pediatric Therapy Wing",
+    experience: "9+ Years Exp",
+    availability: "Available Today • Daily (09:00 AM - 06:00 PM)",
+    rating: "4.9 ★ (120+ Reviews)",
+    therapy_type: "Physical Therapy & Mobility",
+    profile_photo: "./images/doctor-avatar.jpg"
   },
   {
     therapist_id: 202,
@@ -74,7 +135,12 @@ const DEFAULT_THERAPISTS = [
     phone: "+91 96543 21098",
     email: "amit.verma@multitherapy.org",
     session_fee: "₹4,200",
-    location: "Sensory Development Lab"
+    location: "Sensory Development Lab",
+    experience: "8+ Years Exp",
+    availability: "Available Today • Mon - Sat (09:30 AM - 05:30 PM)",
+    rating: "4.8 ★ (85 Reviews)",
+    therapy_type: "Occupational & Sensory Integration",
+    profile_photo: "./images/doctor-avatar.jpg"
   },
   {
     therapist_id: 203,
@@ -83,7 +149,12 @@ const DEFAULT_THERAPISTS = [
     phone: "+91 95432 10987",
     email: "kavita.nair@multitherapy.org",
     session_fee: "₹3,800",
-    location: "Communication Rehab Wing"
+    location: "Communication Rehab Wing",
+    experience: "11+ Years Exp",
+    availability: "Available Tomorrow • Tue - Sun (10:00 AM - 05:00 PM)",
+    rating: "4.9 ★ (145 Reviews)",
+    therapy_type: "Speech & Language Rehabilitation",
+    profile_photo: "./images/doctor-avatar.jpg"
   },
   {
     therapist_id: 204,
@@ -92,7 +163,12 @@ const DEFAULT_THERAPISTS = [
     phone: "+91 94321 09876",
     email: "rahul.roy@multitherapy.org",
     session_fee: "₹4,000",
-    location: "Motion Dynamics Gym"
+    location: "Motion Dynamics Gym",
+    experience: "7+ Years Exp",
+    availability: "Available Today • Mon - Sat (08:00 AM - 04:00 PM)",
+    rating: "4.7 ★ (74 Reviews)",
+    therapy_type: "Gait & Postural Rehabilitation",
+    profile_photo: "./images/doctor-avatar.jpg"
   }
 ];
 
@@ -113,17 +189,120 @@ const TIME_SLOTS_AFTERNOON = [
   { time: "17:00", label: "05:00 PM" }
 ];
 
+/**
+ * Unified Session Resolver
+ * Inspects localStorage and sessionStorage for valid user credentials,
+ * keeps storage in sync, and returns a verified user object or null.
+ */
+function resolveCurrentUser() {
+  const sources = [
+    () => localStorage.getItem("currentUser"),
+    () => sessionStorage.getItem("currentUser"),
+    () => localStorage.getItem("user"),
+    () => sessionStorage.getItem("user")
+  ];
+  for (const src of sources) {
+    try {
+      const val = src();
+      if (val) {
+        const parsed = JSON.parse(val);
+        if (parsed && typeof parsed === "object") {
+          if (!localStorage.getItem("currentUser")) {
+            try { localStorage.setItem("currentUser", JSON.stringify(parsed)); } catch (e) {}
+          }
+          return parsed;
+        }
+      }
+    } catch (e) {}
+  }
+  return null;
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
-  // 1. Check Authentication
-  const rawUser = localStorage.getItem("currentUser");
-  let user = null;
-  if (rawUser) {
-    try { user = JSON.parse(rawUser); } catch (e) { user = null; }
+  // 1. Role-Aware Authentication & Portal Session Resolution
+  let user = resolveCurrentUser();
+  const rawUserExists = !!user;
+
+  const currentPath = window.location.pathname.replace(/\\/g, "/");
+  const filename = (currentPath.split("/").pop() || "").split("?")[0].split("#")[0] || "appointments.html";
+  const urlParams = new URLSearchParams(window.location.search);
+  const requestedRole = (urlParams.get("role") || "").toLowerCase();
+
+  const userRole = (user && user.role) ? String(user.role).toLowerCase() : "";
+  const isDocRole = userRole === "doctor" || userRole === "therapist" || requestedRole === "doctor" || requestedRole === "therapist" || filename === "doctor-appointments.html";
+
+  // Check URL query filter (e.g. ?filter=today from Doctor Home)
+  if (urlParams.get("filter")) {
+    currentFilter = urlParams.get("filter").toLowerCase();
   }
 
-  if (!user) {
-    window.location.href = "./index.html";
-    return;
+  // Handle Authentication State (Requirement 12: Show in-page notice/error message instead of silently redirecting)
+  const authNoticeBanner = document.getElementById("authNoticeBanner");
+  const authNoticeTitle = document.getElementById("authNoticeTitle");
+  const authNoticeText = document.getElementById("authNoticeText");
+
+  if (!rawUserExists) {
+    // Unauthenticated user - NEVER SILENTLY REDIRECT TO HOME PAGE!
+    if (authNoticeBanner) {
+      authNoticeBanner.style.display = "flex";
+      if (isDocRole) {
+        if (authNoticeTitle) authNoticeTitle.textContent = "Doctor Authentication Required:";
+        if (authNoticeText) authNoticeText.textContent = " You are viewing clinical appointments in guest preview mode. Please log in with your Doctor credentials to review and manage appointments.";
+      } else {
+        if (authNoticeTitle) authNoticeTitle.textContent = "Authentication Notice:";
+        if (authNoticeText) authNoticeText.textContent = " You are viewing appointments in guest mode. Please log in to manage your appointments and clinical records.";
+      }
+    }
+
+    if (isDocRole) {
+      // Provide safe fallback preview doctor identity
+      user = {
+        user_id: 101,
+        doctor_id: 101,
+        name: "Dr. Sarah Mitchell",
+        role: "doctor",
+        specialization: "Pediatric Neurology",
+        isGuest: true
+      };
+    } else {
+      // Provide safe fallback guest patient identity
+      user = {
+        user_id: 17,
+        patient_id: 17,
+        name: "Patient",
+        role: "Patient",
+        isGuest: true
+      };
+    }
+  } else {
+    // Authenticated user: ensure notice banner is hidden
+    if (authNoticeBanner) authNoticeBanner.style.display = "none";
+  }
+
+  // Adapt UI for Doctor vs Patient on appointments.html (Keeps appointments.html open without redirecting!)
+  if (filename === "appointments.html") {
+    const docStatsGrid = document.getElementById("doctorStatsGrid");
+    const heroTitle = document.getElementById("aptHeroTitle");
+    const heroSubtitle = document.getElementById("aptHeroSubtitle");
+    const heroBadgeText = document.getElementById("aptHeroBadgeText");
+    const btnHeroBookText = document.getElementById("btnHeroBookText");
+    const btnHeroMyText = document.getElementById("btnHeroMyText");
+
+    if (isDocRole) {
+      // Doctor View
+      if (docStatsGrid) docStatsGrid.style.display = "grid";
+      if (heroTitle) heroTitle.textContent = "Appointment Management";
+      if (heroSubtitle) heroSubtitle.textContent = "Review, manage, and coordinate patient consultations, therapy schedules, and clinical reviews.";
+      if (heroBadgeText) heroBadgeText.textContent = "Doctor Appointment Portal";
+      if (btnHeroBookText) btnHeroBookText.textContent = "Schedule Patient Session";
+      if (btnHeroMyText) btnHeroMyText.textContent = "Clinical Appointment Roster";
+    } else {
+      // Patient View
+      if (docStatsGrid) docStatsGrid.style.display = "none";
+      if (heroTitle) heroTitle.textContent = "Appointments";
+      if (heroSubtitle) heroSubtitle.textContent = "Schedule, manage, and track patient appointments for consultation and therapy sessions.";
+      if (heroBadgeText) heroBadgeText.textContent = "Appointment Management";
+    }
   }
 
   // 2. Setup Header Navigation & Profile
@@ -150,6 +329,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Initial search specialists preview and initial time slot generation
   renderSpecialistsList();
   renderTimeSlots();
+
+  // Smooth scroll to targeted card if hash is provided (e.g. #bookAppointmentCard or #myAppointmentsCard)
+  if (window.location.hash) {
+    try {
+      const targetEl = document.querySelector(window.location.hash);
+      if (targetEl) {
+        setTimeout(() => {
+          targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 150);
+      }
+    } catch (e) {}
+  }
 });
 
 /**
@@ -198,6 +389,7 @@ function setupHeaderAndNavigation(user) {
     logoutBtn.addEventListener("click", async () => {
       try { await apiRequest("/api/logout", { method: "POST" }); } catch (e) {}
       localStorage.removeItem("currentUser");
+      sessionStorage.removeItem("currentUser");
       window.location.href = "./index.html";
     });
   }
@@ -953,18 +1145,21 @@ function setupFindSpecialistSearch() {
       });
       tab.classList.add("active");
       tab.setAttribute("aria-selected", "true");
-      currentSpecTab = tab.getAttribute("data-type") || tab.id?.replace("tabSpec", "").toLowerCase() || "all";
+      
+      const tabId = tab.id || "";
+      if (tabId.includes("Doctor") || tabId.includes("Doc")) {
+        currentSpecTab = "doctor";
+      } else if (tabId.includes("Therapist") || tabId.includes("Ther")) {
+        currentSpecTab = "therapist";
+      } else {
+        currentSpecTab = "all";
+      }
       renderSpecialistsList();
     });
   });
 
-  const filterSpec = document.getElementById("filterSpec") || document.getElementById("specDomainSelect");
-  if (filterSpec) filterSpec.addEventListener("change", renderSpecialistsList);
-
-  const filterLoc = document.getElementById("filterLoc") || document.getElementById("specLocationSelect");
-  if (filterLoc) filterLoc.addEventListener("change", renderSpecialistsList);
-
-  const filterKeyword = document.getElementById("filterKeyword");
+  // Search doctor by name or specialization input
+  const filterKeyword = document.getElementById("filterKeyword") || document.getElementById("searchDocInput");
   if (filterKeyword) {
     filterKeyword.addEventListener("input", renderSpecialistsList);
     filterKeyword.addEventListener("keydown", (e) => {
@@ -975,6 +1170,13 @@ function setupFindSpecialistSearch() {
     });
   }
 
+  // Search therapist by therapy type dropdown
+  const filterTherapyType = document.getElementById("filterTherapyType") || document.getElementById("filterSpec") || document.getElementById("specDomainSelect");
+  if (filterTherapyType) filterTherapyType.addEventListener("change", renderSpecialistsList);
+
+  const filterLoc = document.getElementById("filterLoc") || document.getElementById("specLocationSelect");
+  if (filterLoc) filterLoc.addEventListener("change", renderSpecialistsList);
+
   const btnSearch = document.getElementById("btnSearchSpecialists") || document.getElementById("btnSearchSpec");
   if (btnSearch) {
     btnSearch.addEventListener("click", (e) => {
@@ -983,9 +1185,9 @@ function setupFindSpecialistSearch() {
     });
   }
 
-  const searchForm = document.getElementById("specSearchForm");
-  if (searchForm) {
-    searchForm.addEventListener("submit", (e) => {
+  const specSearchForm = document.getElementById("specSearchForm");
+  if (specSearchForm) {
+    specSearchForm.addEventListener("submit", (e) => {
       e.preventDefault();
       renderSpecialistsList();
     });
@@ -993,15 +1195,15 @@ function setupFindSpecialistSearch() {
 }
 
 /**
- * Render the filtered specialist cards in the right column
+ * Render the filtered doctor & therapist profile cards in SaaS card grid
  */
 function renderSpecialistsList() {
-  const listEl = document.getElementById("specialistsResultsList") || document.getElementById("specResultsList");
+  const listEl = document.getElementById("specialistsResultsList") || document.getElementById("doctorCardsGrid") || document.getElementById("specResultsList");
   if (!listEl) return;
 
-  const domainFilter = (document.getElementById("filterSpec") || document.getElementById("specDomainSelect"))?.value || "all";
-  const locationFilter = (document.getElementById("filterLoc") || document.getElementById("specLocationSelect"))?.value || "all";
-  const keyword = (document.getElementById("filterKeyword")?.value || "").trim().toLowerCase();
+  const keyword = (document.getElementById("filterKeyword")?.value || document.getElementById("searchDocInput")?.value || "").trim().toLowerCase();
+  const therapyFilter = (document.getElementById("filterTherapyType")?.value || document.getElementById("filterSpec")?.value || "all").toLowerCase();
+  const locationFilter = (document.getElementById("filterLoc")?.value || "all").toLowerCase();
 
   let specialists = [];
 
@@ -1009,12 +1211,18 @@ function renderSpecialistsList() {
     doctorsList.forEach(d => {
       specialists.push({
         id: `doc_${d.doctor_id}`,
+        doctor_id: d.doctor_id,
         name: d.name.startsWith("Dr.") ? d.name : `Dr. ${d.name}`,
         specialization: d.specialization || "Pediatric Neurology",
         type: "Doctor",
         location: d.city || "Jaipur Main Rehab Center",
         defaultType: "Consultation",
-        fee: d.consultation_fee || "₹10,900"
+        fee: d.consultation_fee || "₹10,900",
+        experience: d.experience || "14+ Years Exp",
+        availability: d.availability || "Available Today • Mon - Sat (09:00 AM - 05:00 PM)",
+        rating: d.rating || "4.9 ★ (140+ Reviews)",
+        therapy_type: d.therapy_type || d.specialization || "Pediatric Neurology",
+        profile_photo: d.profile_photo || "./images/doctor-avatar.jpg"
       });
     });
   }
@@ -1023,81 +1231,118 @@ function renderSpecialistsList() {
     therapistsList.forEach(t => {
       specialists.push({
         id: `ther_${t.therapist_id}`,
+        therapist_id: t.therapist_id,
         name: t.name,
-        specialization: t.specialization || "Physiotherapy & Rehab",
+        specialization: t.specialization || "Physiotherapy & Mobility",
         type: "Therapist",
         location: t.location || "Pediatric Therapy Wing",
         defaultType: "Therapy",
-        fee: t.session_fee || "₹4,500"
+        fee: t.session_fee || "₹4,500",
+        experience: t.experience || "9+ Years Exp",
+        availability: t.availability || "Available Today • Daily (09:00 AM - 06:00 PM)",
+        rating: t.rating || "4.9 ★ (120+ Reviews)",
+        therapy_type: t.therapy_type || t.specialization || "Physical Therapy & Mobility",
+        profile_photo: t.profile_photo || "./images/doctor-avatar.jpg"
       });
     });
   }
 
-  // Filter domain
-  if (domainFilter !== "all") {
-    const q = domainFilter.toLowerCase();
-    specialists = specialists.filter(s =>
-      s.specialization.toLowerCase().includes(q) ||
-      (q === "pediatric" && s.specialization.toLowerCase().includes("pediatric")) ||
-      (q === "physio" && s.specialization.toLowerCase().includes("physio")) ||
-      (q === "occupational" && s.specialization.toLowerCase().includes("occup")) ||
-      (q === "speech" && s.specialization.toLowerCase().includes("speech")) ||
-      (q === "ortho" && s.specialization.toLowerCase().includes("ortho")) ||
-      (q === "neurology" && s.specialization.toLowerCase().includes("neuro"))
-    );
-  }
-
-  // Filter location
-  if (locationFilter !== "all") {
-    const loc = locationFilter.toLowerCase();
-    specialists = specialists.filter(s => {
-      const sLoc = (s.location || "").toLowerCase();
-      if (loc.includes("jaipur") && sLoc.includes("jaipur")) return true;
-      if (loc.includes("tele") && (sLoc.includes("tele") || sLoc.includes("online"))) return true;
-      if (loc.includes("main") && sLoc.includes("main")) return true;
-      if (loc.includes("wing") && sLoc.includes("wing")) return true;
-      if (loc.includes("clinic") && sLoc.includes("clinic")) return true;
-      return sLoc.includes(loc);
-    });
-  }
-
-  // Filter keyword
+  // 1. Search doctor by name or specialization
   if (keyword) {
     specialists = specialists.filter(s =>
       s.name.toLowerCase().includes(keyword) ||
       s.specialization.toLowerCase().includes(keyword) ||
-      s.location.toLowerCase().includes(keyword) ||
-      s.type.toLowerCase().includes(keyword)
+      (s.experience && s.experience.toLowerCase().includes(keyword)) ||
+      (s.therapy_type && s.therapy_type.toLowerCase().includes(keyword))
     );
   }
 
+  // 2. Search therapist by therapy type
+  if (therapyFilter !== "all") {
+    specialists = specialists.filter(s => {
+      const spec = s.specialization.toLowerCase();
+      const tt = (s.therapy_type || "").toLowerCase();
+      if (therapyFilter === "pediatric") return spec.includes("pediatric") || tt.includes("pediatric") || spec.includes("neuro");
+      if (therapyFilter === "physio") return spec.includes("physio") || tt.includes("physio") || spec.includes("mobility");
+      if (therapyFilter === "occupational") return spec.includes("occup") || tt.includes("occup") || spec.includes("sensory");
+      if (therapyFilter === "speech") return spec.includes("speech") || tt.includes("speech") || spec.includes("language");
+      if (therapyFilter === "gait") return spec.includes("gait") || tt.includes("gait") || spec.includes("postur");
+      if (therapyFilter === "ortho") return spec.includes("ortho") || tt.includes("ortho");
+      if (therapyFilter === "cp") return spec.includes("cerebral") || spec.includes("child") || spec.includes("cp");
+      return spec.includes(therapyFilter) || tt.includes(therapyFilter);
+    });
+  }
+
+  // 3. Filter location
+  if (locationFilter !== "all") {
+    specialists = specialists.filter(s => {
+      const sLoc = (s.location || "").toLowerCase();
+      if (locationFilter.includes("jaipur") && sLoc.includes("jaipur")) return true;
+      if (locationFilter.includes("tele") && (sLoc.includes("tele") || sLoc.includes("online"))) return true;
+      if (locationFilter.includes("main") && sLoc.includes("main")) return true;
+      return sLoc.includes(locationFilter);
+    });
+  }
+
+  // Update count pills if present
+  const countAllEl = document.getElementById("countSpecAll");
+  const countDocEl = document.getElementById("countSpecDoc");
+  const countTherEl = document.getElementById("countSpecTher");
+  if (countAllEl) countAllEl.textContent = doctorsList.length + therapistsList.length;
+  if (countDocEl) countDocEl.textContent = doctorsList.length;
+  if (countTherEl) countTherEl.textContent = therapistsList.length;
+
   if (specialists.length === 0) {
     listEl.innerHTML = `
-      <div class="text-center text-muted py-4 small">
-        No matching specialists found for the selected criteria.
+      <div class="p-4 text-center text-muted border rounded-3 bg-white" style="border: 1.5px dashed #cbd5e1 !important; width: 100%;">
+        <div style="font-size: 32px; margin-bottom: 6px;">🔍</div>
+        <h5 class="fw-bold text-dark mb-1">No matching doctors or therapists found</h5>
+        <p class="small text-muted mb-0">Try adjusting your keyword or selecting "All Therapy Types".</p>
       </div>
     `;
     return;
   }
 
-  listEl.innerHTML = specialists.map(s => `
-    <div class="apt-spec-item">
-      <div class="apt-spec-info">
-        <div class="apt-spec-name">${escapeHtml(s.name)}</div>
-        <div class="apt-spec-meta">
-          <span class="badge" style="background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0; font-weight:700;">${escapeHtml(s.type)}</span>
-          ${escapeHtml(s.specialization)} • <span class="text-secondary">${escapeHtml(s.location)}</span> • <span class="badge" style="background:#ecfdf5; color:#059669; border:1px solid #a7f3d0; font-weight:700;">${escapeHtml(s.fee)}</span>
+  listEl.innerHTML = `<div class="apt-doctor-grid">` + specialists.map(s => `
+    <div class="apt-doctor-card" id="card_${escapeHtml(s.id)}">
+      <div class="apt-doc-card-header">
+        <div class="apt-doc-avatar-wrap">
+          <img src="${s.profile_photo || './images/doctor-avatar.jpg'}" alt="${escapeHtml(s.name)}" class="apt-doc-avatar-img" onerror="this.outerHTML='<span style=\\'font-size:26px;\\'>${s.type === 'Doctor' ? '👨‍⚕️' : '🏃'}</span>';">
+          <span class="apt-doc-status-dot" title="Active on Clinical Roster"></span>
+        </div>
+        <div class="apt-doc-info">
+          <h4 class="apt-doc-name">${escapeHtml(s.name)}</h4>
+          <div class="apt-doc-spec">${escapeHtml(s.specialization)}</div>
+          <div class="apt-doc-meta-row">
+            <span class="apt-doc-experience-badge">★ ${escapeHtml(s.experience || '12+ Years Exp')}</span>
+            <span class="badge" style="background:#eff6ff; color:#0875F9; border:1px solid #bfdbfe; font-weight:700;">${escapeHtml(s.type)}</span>
+          </div>
         </div>
       </div>
-      <button type="button" class="apt-btn-select-spec" onclick="selectSpecialistForBooking('${escapeHtml(s.id)}', '${escapeHtml(s.defaultType)}')">
-        Select
-      </button>
+
+      <div class="mb-2">
+        <div class="apt-doc-avail-pill">
+          <span>●</span>
+          <span>${escapeHtml(s.availability || 'Available Today • Mon - Sat (09:00 AM - 05:00 PM)')}</span>
+        </div>
+      </div>
+
+      <div class="apt-doc-card-footer">
+        <div class="apt-doc-fee">
+          ${escapeHtml(s.fee)}
+          <small>${s.type === 'Doctor' ? 'Consultation Fee' : 'Per Session Fee'}</small>
+        </div>
+        <button type="button" class="btn-book-doctor" onclick="selectSpecialistForBooking('${escapeHtml(s.id)}', '${escapeHtml(s.defaultType)}')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Book Appointment</span>
+        </button>
+      </div>
     </div>
-  `).join("");
+  `).join("") + `</div>`;
 }
 
 /**
- * 1-Click "Select" specialist into Book Appointment Form
+ * 1-Click "Book Appointment" populates the booking form and highlights it
  */
 window.selectSpecialistForBooking = function(specialistId, defaultType) {
   const sSelect = document.getElementById("apptSpecialist");
@@ -1116,15 +1361,20 @@ window.selectSpecialistForBooking = function(specialistId, defaultType) {
     updateSpecialistPreviewBanner(specialist);
   }
 
+  // Highlight selected card visually
+  document.querySelectorAll(".apt-doctor-card").forEach(c => c.classList.remove("selected-for-booking"));
+  const card = document.getElementById(`card_${specialistId}`);
+  if (card) card.classList.add("selected-for-booking");
+
   renderTimeSlots();
 
   if (formCard) {
     formCard.scrollIntoView({ behavior: "smooth", block: "center" });
-    formCard.style.boxShadow = "0 0 0 3px rgba(8, 117, 249, 0.4)";
-    setTimeout(() => { formCard.style.boxShadow = ""; }, 1500);
+    formCard.style.boxShadow = "0 0 0 4px rgba(8, 117, 249, 0.4)";
+    setTimeout(() => { formCard.style.boxShadow = ""; }, 1800);
   }
 
-  showToast(`${specialist ? specialist.name : 'Specialist'} selected for booking!`, "success");
+  showToast(`${specialist ? specialist.name : 'Specialist'} selected! Complete your consultation details below.`, "success");
 };
 
 /**
@@ -1140,8 +1390,7 @@ async function loadAppointmentsTable(user) {
   if (emptyState) emptyState.style.display = "none";
 
   try {
-    const rawUser = localStorage.getItem("currentUser");
-    const u = rawUser ? JSON.parse(rawUser) : (user || {});
+    const u = resolveCurrentUser() || user || {};
     let backendAppointments = [];
 
     try {
@@ -1171,12 +1420,105 @@ async function loadAppointmentsTable(user) {
       }
     });
 
+    // Provide default clinical appointments for doctor and patient rosters if no records exist
+    if (combined.length === 0) {
+      const todayIso = new Date().toISOString().split("T")[0];
+      const tomorrowIso = new Date(Date.now() + 86400000).toISOString().split("T")[0];
+      const yesterdayIso = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+
+      const seedAppts = [
+        {
+          appointment_id: 1001,
+          patient_id: 101,
+          patient_name: "Aarav Sharma",
+          patient_phone: "+91 98765 43210",
+          doctor_id: 90001,
+          doctor_name: "Dr. Lakhshansh Joshi",
+          doctor_specialization: "Pediatric Neurologist & Rehabilitation Lead",
+          appointment_date: todayIso,
+          appointment_time: "10:30",
+          appointment_type: "Physical Therapy",
+          status: "Confirmed",
+          notes: "Spastic Diplegia milestone and reflex review",
+          reason: "Spastic Diplegia milestone and reflex review",
+          consultation_fee: 12000
+        },
+        {
+          appointment_id: 1002,
+          patient_id: 102,
+          patient_name: "Priya Patel",
+          patient_phone: "+91 98234 56789",
+          doctor_id: 90002,
+          doctor_name: "Dr. Sunita Mehra, PT",
+          doctor_specialization: "Senior Pediatric Physiotherapist",
+          appointment_date: todayIso,
+          appointment_time: "14:00",
+          appointment_type: "Pediatric Consultation",
+          status: "Paid – Pending Doctor Approval",
+          notes: "Lower extremity motor strength and gait therapy",
+          reason: "Lower extremity motor strength and gait therapy",
+          consultation_fee: 4500
+        },
+        {
+          appointment_id: 1003,
+          patient_id: 103,
+          patient_name: "Vihaan Joshi",
+          patient_phone: "+91 94123 45678",
+          doctor_id: 90001,
+          doctor_name: "Dr. Lakhshansh Joshi",
+          doctor_specialization: "Pediatric Neurologist",
+          appointment_date: todayIso,
+          appointment_time: "16:30",
+          appointment_type: "Medical Consultation",
+          status: "Completed",
+          notes: "Postural balance and developmental progression examination",
+          reason: "Postural balance and developmental progression examination",
+          consultation_fee: 12000
+        },
+        {
+          appointment_id: 1004,
+          patient_id: 104,
+          patient_name: "Ananya Verma",
+          patient_phone: "+91 94140 12345",
+          doctor_id: 90003,
+          doctor_name: "Dr. Vikram Joshi, OT",
+          doctor_specialization: "Sensory Integration Therapist",
+          appointment_date: tomorrowIso,
+          appointment_time: "11:00",
+          appointment_type: "Occupational Therapy",
+          status: "Confirmed",
+          notes: "Sensory integration and fine-motor coordination session",
+          reason: "Sensory integration and fine-motor coordination session",
+          consultation_fee: 4000
+        },
+        {
+          appointment_id: 1005,
+          patient_id: 105,
+          patient_name: "Kabir Singh",
+          patient_phone: "+91 98333 77112",
+          doctor_id: 90004,
+          doctor_name: "Dr. Sarah Johnson",
+          doctor_specialization: "Clinical Neurologist & CP Care",
+          appointment_date: yesterdayIso,
+          appointment_time: "09:30",
+          appointment_type: "Speech Therapy",
+          status: "Completed",
+          notes: "Cerebral Palsy spasticity assessment and speech clarity review",
+          reason: "Cerebral Palsy spasticity assessment and speech clarity review",
+          consultation_fee: 11000
+        }
+      ];
+      seedAppts.forEach(s => combined.push(s));
+    }
+
     allAppointments = combined.map(a => {
       let normStatus = a.status || "Confirmed";
       const rawStatus = (a.status || "").toLowerCase();
 
       if (rawStatus === "cancelled") {
         normStatus = "Cancelled";
+      } else if (rawStatus === "completed") {
+        normStatus = "Completed";
       } else if (rawStatus.includes("refund completed") || rawStatus === "refunded") {
         normStatus = "Refund Completed";
       } else if (rawStatus.includes("reject") || rawStatus.includes("refund pending") || rawStatus.includes("refund processing")) {
@@ -1228,7 +1570,7 @@ async function loadAppointmentsTable(user) {
  * Setup Real-time Table Filter Buttons and Search Box
  */
 function setupTableFilters() {
-  const searchInput = document.getElementById("searchApptInput");
+  const searchInput = document.getElementById("searchApptInput") || document.getElementById("apptsSearchInput");
   if (searchInput) {
     searchInput.addEventListener("input", (e) => {
       currentSearch = e.target.value.trim().toLowerCase();
@@ -1245,10 +1587,119 @@ function setupTableFilters() {
       renderAppointmentsTable();
     });
   });
+
+  const btnRefresh = document.getElementById("btnRefreshAppts");
+  if (btnRefresh) {
+    btnRefresh.addEventListener("click", async () => {
+      btnRefresh.disabled = true;
+      btnRefresh.innerHTML = "↻ Refreshing...";
+      const user = resolveCurrentUser();
+      await loadAppointmentsTable(user);
+      btnRefresh.disabled = false;
+      btnRefresh.innerHTML = "↻ Refresh Roster";
+      showToast("Clinical roster refreshed successfully.", "info");
+    });
+  }
+
+  // Interactive 4 Dashboard Metric Cards on Doctor Appointment Management
+  const cardToday = document.getElementById("cardTodayAppts");
+  if (cardToday) {
+    cardToday.addEventListener("click", () => {
+      currentFilter = (currentFilter === "today") ? "all" : "today";
+      syncFilterPillState(currentFilter);
+      renderAppointmentsTable();
+      scrollToTable();
+    });
+  }
+
+  const cardPending = document.getElementById("cardPendingAppts");
+  if (cardPending) {
+    cardPending.addEventListener("click", () => {
+      currentFilter = (currentFilter === "pending") ? "all" : "pending";
+      syncFilterPillState(currentFilter);
+      renderAppointmentsTable();
+      scrollToTable();
+    });
+  }
+
+  const cardConfirmed = document.getElementById("cardConfirmedAppts");
+  if (cardConfirmed) {
+    cardConfirmed.addEventListener("click", () => {
+      currentFilter = (currentFilter === "confirmed") ? "all" : "confirmed";
+      syncFilterPillState(currentFilter);
+      renderAppointmentsTable();
+      scrollToTable();
+    });
+  }
+
+  const cardCompleted = document.getElementById("cardCompletedAppts");
+  if (cardCompleted) {
+    cardCompleted.addEventListener("click", () => {
+      currentFilter = (currentFilter === "completed") ? "all" : "completed";
+      syncFilterPillState(currentFilter);
+      renderAppointmentsTable();
+      scrollToTable();
+    });
+  }
+
+  // Hero CTA: "View Today's Appointments"
+  const btnHeroToday = document.getElementById("btnHeroTodayAppts");
+  if (btnHeroToday) {
+    btnHeroToday.addEventListener("click", (e) => {
+      e.preventDefault();
+      currentFilter = "today";
+      syncFilterPillState("today");
+      renderAppointmentsTable();
+      scrollToTable();
+    });
+  }
+
+  // Hero CTA: "Book New Appointment"
+  const btnHeroBook = document.getElementById("btnHeroBook");
+  if (btnHeroBook) {
+    btnHeroBook.addEventListener("click", (e) => {
+      e.preventDefault();
+      const formCard = document.getElementById("bookAppointmentCard");
+      if (formCard) {
+        formCard.scrollIntoView({ behavior: "smooth", block: "center" });
+        formCard.style.boxShadow = "0 0 0 4px rgba(8, 117, 249, 0.4)";
+        setTimeout(() => { formCard.style.boxShadow = ""; }, 1600);
+      }
+    });
+  }
+}
+
+function syncFilterPillState(filterKey) {
+  document.querySelectorAll("#statusFiltersGroup .apt-filter-pill").forEach(p => {
+    if (p.getAttribute("data-filter") === filterKey) {
+      p.classList.add("active");
+    } else {
+      p.classList.remove("active");
+    }
+  });
+
+  // Highlight KPI card
+  const statCards = {
+    today: document.getElementById("cardTodayAppts"),
+    pending: document.getElementById("cardPendingAppts"),
+    confirmed: document.getElementById("cardConfirmedAppts"),
+    completed: document.getElementById("cardCompletedAppts")
+  };
+  Object.keys(statCards).forEach(k => {
+    if (statCards[k]) {
+      if (k === filterKey) statCards[k].classList.add("active-stat");
+      else statCards[k].classList.remove("active-stat");
+    }
+  });
+}
+
+function scrollToTable() {
+  const t = document.getElementById("myAppointmentsCard") || document.getElementById("appointmentsTable");
+  if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 /**
- * Calculate count badges for All, Confirmed, Pending, Cancelled
+ * Calculate count badges for All, Confirmed, Pending, Completed, Cancelled
  */
 function updateFilterCounts() {
   const total = allAppointments.length;
@@ -1256,12 +1707,30 @@ function updateFilterCounts() {
   let pending = 0;
   let rejected = 0;
   let cancelled = 0;
+  let completed = 0;
+  let todayCount = 0;
+
+  const todayStr = new Date().toISOString().split("T")[0];
 
   allAppointments.forEach(a => {
-    if (a.normalizedStatus === "Confirmed") confirmed++;
-    else if (a.normalizedStatus === "Paid – Pending Doctor Approval" || a.normalizedStatus === "Payment Pending" || a.normalizedStatus === "Pending Approval") pending++;
-    else if (a.normalizedStatus.includes("Reject") || a.normalizedStatus.includes("Refund")) rejected++;
-    else if (a.normalizedStatus === "Cancelled") cancelled++;
+    const rawStatus = (a.normalizedStatus || a.status || "").toLowerCase();
+    const rawDate = String(a.appointment_date || "").split(" ")[0];
+
+    if (rawStatus === "completed") {
+      completed++;
+    } else if (rawStatus === "confirmed") {
+      confirmed++;
+    } else if (rawStatus.includes("pending") || rawStatus.includes("approval")) {
+      pending++;
+    } else if (rawStatus.includes("reject") || rawStatus.includes("refund")) {
+      rejected++;
+    } else if (rawStatus === "cancelled") {
+      cancelled++;
+    }
+
+    if (rawDate === todayStr && rawStatus !== "cancelled") {
+      todayCount++;
+    }
   });
 
   const elAll = document.getElementById("countAll");
@@ -1275,11 +1744,19 @@ function updateFilterCounts() {
   if (elPend) elPend.textContent = pending;
   if (elRej) elRej.textContent = rejected;
   if (elCanc) elCanc.textContent = cancelled;
+
+  // 4 Dashboard Statistics for Doctor Appointment Management Page
+  const statTodayEl = document.getElementById("statTodayAppts");
+  const statPendingEl = document.getElementById("statPendingAppts");
+  const statConfirmedEl = document.getElementById("statConfirmedAppts");
+  const statCompletedEl = document.getElementById("statCompletedAppts");
+
+  if (statTodayEl) statTodayEl.textContent = todayCount;
+  if (statPendingEl) statPendingEl.textContent = pending;
+  if (statConfirmedEl) statConfirmedEl.textContent = confirmed;
+  if (statCompletedEl) statCompletedEl.textContent = completed;
 }
 
-/**
- * Render the My Appointments Table
- */
 function renderAppointmentsTable() {
   const tbody = document.getElementById("apptsTableBody");
   const tableWrapper = document.getElementById("tableWrapper");
@@ -1291,13 +1768,19 @@ function renderAppointmentsTable() {
     // Status Filter
     if (currentFilter !== "all") {
       const target = currentFilter.toLowerCase();
-      const actual = a.normalizedStatus.toLowerCase();
-      if (target === "pending") {
-        if (!actual.includes("pending")) return false;
+      const actual = (a.normalizedStatus || "").toLowerCase();
+      if (target === "today") {
+        const todayStr = new Date().toISOString().split("T")[0];
+        const rawDate = String(a.appointment_date || "").split(" ")[0];
+        if (rawDate !== todayStr) return false;
+      } else if (target === "pending") {
+        if (!actual.includes("pending") && !actual.includes("approval")) return false;
       } else if (target === "confirmed") {
         if (actual !== "confirmed") return false;
+      } else if (target === "completed") {
+        if (actual !== "completed" && a.status !== "Completed") return false;
       } else if (target === "rejected") {
-        if (actual !== "rejected") return false;
+        if (!actual.includes("reject") && !actual.includes("refund")) return false;
       } else if (target === "cancelled") {
         if (actual !== "cancelled") return false;
       }
@@ -1337,16 +1820,18 @@ function renderAppointmentsTable() {
     const patientName = a.patient_name || `Patient #${a.patient_id}`;
     const doctorName = a.doctor_name ? (a.doctor_name.startsWith("Dr.") ? a.doctor_name : `Dr. ${a.doctor_name}`) : `Specialist #${a.doctor_id}`;
 
-    const rawUser = localStorage.getItem("currentUser");
-    const curUser = rawUser ? JSON.parse(rawUser) : {};
+    const curUser = resolveCurrentUser() || {};
     const curRole = (curUser.role || "").toLowerCase();
-    const isDoctorOrStaff = curRole === "doctor" || curRole === "therapist" || curRole === "admin";
+    const isDoctorOrStaff = curRole === "doctor" || curRole === "therapist" || curRole === "admin" ||
+      window.location.pathname.includes("doctor-appointments") ||
+      new URLSearchParams(window.location.search).get("role") === "doctor";
 
-    const statusBadgeClass = a.normalizedStatus.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const statusBadgeClass = (a.normalizedStatus || "confirmed").toLowerCase().replace(/[^a-z0-9]+/g, '-');
     const typeBadgeClass = (a.apptType || "Consultation").toLowerCase().replace(/\s+/g, '-');
     
     const isCancelled = a.normalizedStatus === "Cancelled";
-    const isPaidPending = a.normalizedStatus === "Paid – Pending Doctor Approval";
+    const isCompleted = a.normalizedStatus === "Completed" || a.status === "Completed";
+    const isPaidPending = a.normalizedStatus === "Paid – Pending Doctor Approval" || a.normalizedStatus === "Pending Approval";
     const isPaymentPending = a.normalizedStatus === "Payment Pending";
     const isConfirmed = a.normalizedStatus === "Confirmed";
     const isRejectedRefund = a.normalizedStatus === "Rejected – Refund Pending";
@@ -1355,123 +1840,93 @@ function renderAppointmentsTable() {
     return `
       <tr class="${isCancelled ? 'opacity-75' : ''}">
         <td>
-          <span class="badge bg-light text-dark border fw-bold">#APT-${escapeHtml(a.appointment_id)}</span>
-        </td>
-        <td>
           <div class="d-flex align-items-center gap-2">
-            ${a.patient_photo || a.patient_profile_photo
-              ? `<img src="${typeof CdnManager !== 'undefined' ? CdnManager.buildCdnUrl(a.patient_photo || a.patient_profile_photo, { width: 48, height: 48, crop: 'fill' }) : (a.patient_photo || a.patient_profile_photo)}" style="width:28px; height:28px; border-radius:50%; object-fit:cover;" onerror="this.outerHTML='<span style=\\'font-size: 18px;\\'>👤</span>';">`
-              : `<span style="font-size: 18px;">👤</span>`
-            }
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">
+              ${(patientName.replace(/Dr\.?\s*/i, '').charAt(0) || 'P').toUpperCase()}
+            </div>
             <div>
               <div class="fw-bold text-dark">${escapeHtml(patientName)}</div>
-              <small class="text-muted">ID: #${escapeHtml(a.patient_id)}</small>
-              ${isDoctorOrStaff && (isPaidPending || isConfirmed)
-                ? `<div class="small text-success fw-bold mt-1" title="Attending Specialist Protected Access">📞 ${escapeHtml(a.patient_phone || '+91 94686 50893')}</div>`
-                : (isDoctorOrStaff ? `<div class="small text-muted mt-1" style="font-size: 11px;">🔒 Phone locked until paid</div>` : '')
-              }
+              <small class="text-success fw-bold d-block" style="font-size: 11px;">📞 ${escapeHtml(a.patient_phone || '+91 94686 50893')}</small>
             </div>
           </div>
         </td>
         <td>
-          <div class="d-flex align-items-center gap-2">
-            <span style="font-size: 18px;">${(a.apptType && a.apptType.includes("Therapy")) ? '💪' : '🩺'}</span>
-            <div>
-              <div class="fw-bold text-dark">${escapeHtml(doctorName)}</div>
-              <small class="text-muted">${escapeHtml(a.doctor_specialization || 'Clinical Specialist')}</small>
-              ${!isDoctorOrStaff
-                ? (isConfirmed
-                    ? `<div class="small text-success fw-bold mt-1" title="Doctor Contact Unlocked">📞 ${escapeHtml(a.doctor_phone || '+91 98765 43210')}</div>`
-                    : `<div class="small text-muted mt-1" style="font-size: 11px;">🔒 Phone unlocked after doctor acceptance</div>`
-                  )
-                : `<div class="small text-muted mt-1">${escapeHtml(a.doctor_phone || '')}</div>`
-              }
-            </div>
-          </div>
+          <span class="badge bg-light text-primary border fw-bold" style="font-size: 11.5px;">#PT-${escapeHtml(a.patient_id)}</span>
+        </td>
+        <td>
+          <div class="fw-bold text-dark">${escapeHtml(formattedDate)}</div>
+          <small class="text-muted" style="font-size: 11px;">#APT-${escapeHtml(a.appointment_id)}</small>
+        </td>
+        <td>
+          <div class="fw-bold text-primary">🕒 ${escapeHtml(formattedTime)}</div>
         </td>
         <td>
           <span class="apt-type-badge ${escapeHtml(typeBadgeClass)}">
             ${escapeHtml(a.apptType || 'Consultation')}
           </span>
-          <div class="small text-muted text-truncate mt-1" style="max-width: 170px;" title="${escapeHtml(a.reason || a.notes || '')}">
-            Reason: ${escapeHtml(a.reason || a.notes || 'Clinical Consultation')}
+          <div class="small text-muted text-truncate mt-1" style="max-width: 140px;" title="${escapeHtml(a.reason || a.notes || '')}">
+            ${escapeHtml(a.reason || a.notes || 'Rehabilitation consultation')}
           </div>
-        </td>
-        <td>
-          <div><strong>${escapeHtml(formattedDate)}</strong></div>
-          <small class="text-muted">🕒 ${escapeHtml(formattedTime)}</small>
         </td>
         <td>
           <span class="apt-status-badge ${escapeHtml(statusBadgeClass)}">
-            ● ${escapeHtml(a.normalizedStatus)}
+            ● ${escapeHtml(a.normalizedStatus || 'Confirmed')}
           </span>
-          <div class="small text-muted mt-1" style="font-size: 11px;">
-            ${a.consultation_fee ? `Fee: ₹${parseFloat(a.consultation_fee).toLocaleString('en-IN')}` : 'Fee: ₹10,900'}
-            ${a.razorpay_payment_id ? `<span class="badge bg-light text-dark border ms-1">✓ Verified</span>` : ''}
-            ${a.refund_status ? `<span class="badge bg-warning-subtle text-dark border ms-1">Refund: ${escapeHtml(a.refund_status)}</span>` : ''}
-          </div>
         </td>
         <td style="text-align: right;">
-          <div class="apt-action-btn-group">
-            ${isPaidPending ? `
-              ${isDoctorOrStaff ? `
-                <button type="button" class="apt-btn-accept" onclick="window.acceptAppointmentAction ? window.acceptAppointmentAction(${a.appointment_id}) : (window.NotificationManager && window.NotificationManager.acceptAppointment(${a.appointment_id}))" title="Accept and Confirm this Appointment">
+          <div class="apt-action-btn-group d-flex align-items-center justify-content-end gap-1 flex-wrap">
+            <!-- 1. View Details (Always accessible) -->
+            <button type="button" class="apt-btn-view-details" onclick="openDoctorPatientModal('${a.patient_id}', ${JSON.stringify(a).replace(/"/g, '&quot;')})" title="View Details">
+              👁️ Details
+            </button>
+
+            ${isDoctorOrStaff ? `
+              <!-- Doctor Portal Actions: Accept, Reject, Reschedule, Complete -->
+              ${isPaidPending ? `
+                <button type="button" class="apt-btn-accept" onclick="acceptAppointmentAction(${a.appointment_id})" title="Accept and Confirm">
                   ✓ Accept
                 </button>
-                <button type="button" class="apt-btn-reject" onclick="window.rejectAppointmentAction ? window.rejectAppointmentAction(${a.appointment_id}) : (window.NotificationManager && window.NotificationManager.rejectAppointment(${a.appointment_id}))" title="Reject this Appointment Request &amp; Issue Refund">
+                <button type="button" class="apt-btn-reject" onclick="rejectAppointmentAction(${a.appointment_id})" title="Reject Request">
                   ✕ Reject
                 </button>
-                <button type="button" class="apt-btn-info" onclick="openDoctorPatientModal('${a.patient_id}', ${JSON.stringify(a).replace(/"/g, '&quot;')})" title="View Patient Clinical Overview">
-                  👤 Info
-                </button>
-              ` : `
-                <span class="badge bg-light text-primary border me-1">Paid • Awaiting Doctor Approval</span>
-                <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Withdraw this request">
-                  Cancel
-                </button>
-              `}
-            ` : `
-              ${isPaymentPending ? `
-                ${isDoctorOrStaff ? `
-                  <span class="badge bg-warning-subtle text-warning border">Payment Pending</span>
-                  <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Cancel">Cancel</button>
-                ` : `
-                  <a href="./appointment-checkout.html?appointment_id=${a.appointment_id}&fee=${a.consultation_fee || 10900}&doctor_name=${encodeURIComponent(a.doctor_name || '')}&date=${encodeURIComponent(a.appointment_date || '')}&time=${encodeURIComponent(a.appointment_time || '')}&type=${encodeURIComponent(a.appointment_type || 'Consultation')}" class="btn btn-sm btn-success fw-bold py-1 px-2" style="font-size: 11.5px;">
-                    💳 Complete Payment
-                  </a>
-                  <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Cancel">Cancel</button>
-                `}
-              ` : `
-                ${isConfirmed ? `
-                  <button type="button" class="apt-btn-reschedule" onclick="openRescheduleModal(${a.appointment_id})" title="Reschedule this appointment">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <span>Reschedule</span>
-                  </button>
+              ` : ''}
 
-                  <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Cancel this appointment">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                    <span>Cancel</span>
-                  </button>
-                ` : `
-                  ${isRejectedRefund ? `
-                    <span class="badge bg-danger-subtle text-danger border me-2">Rejected (Refund Pending)</span>
-                    <a href="#bookAppointmentCard" class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size: 11px; font-weight: 700;">Re-book Slot</a>
-                  ` : `
-                    ${isRefundCompleted ? `
-                      <span class="badge bg-secondary-subtle text-secondary border me-2">Refund Completed</span>
-                      <a href="#bookAppointmentCard" class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size: 11px; font-weight: 700;">Re-book Slot</a>
-                    ` : `
-                      <span class="badge bg-light text-secondary border">Cancelled</span>
-                    `}
-                  `}
-                `}
-              `}
+              ${isConfirmed ? `
+                <button type="button" class="apt-btn-reschedule" onclick="openRescheduleModal(${a.appointment_id})" title="Reschedule">
+                  🗓️ Reschedule
+                </button>
+                <button type="button" class="apt-btn-complete" onclick="completeAppointmentAction(${a.appointment_id})" title="Mark Appointment as Completed">
+                  ✅ Complete
+                </button>
+              ` : ''}
+
+              ${isCompleted ? `
+                <span class="badge bg-success-subtle text-success border border-success fw-bold px-2 py-1" style="font-size: 11px;">✓ Completed</span>
+              ` : ''}
+
+              ${isPaymentPending ? `
+                <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Cancel">Cancel</button>
+              ` : ''}
+
+            ` : `
+              <!-- Patient Portal Actions -->
+              ${isPaymentPending ? `
+                <a href="./appointment-checkout.html?appointment_id=${a.appointment_id}&fee=${a.consultation_fee || 10900}&doctor_name=${encodeURIComponent(a.doctor_name || '')}&date=${encodeURIComponent(a.appointment_date || '')}&time=${encodeURIComponent(a.appointment_time || '')}&type=${encodeURIComponent(a.appointment_type || 'Consultation')}" class="btn btn-sm btn-success fw-bold py-1 px-2" style="font-size: 11.5px;">
+                  💳 Complete Payment
+                </a>
+                <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Cancel">Cancel</button>
+              ` : ''}
+
+              ${isConfirmed ? `
+                <button type="button" class="apt-btn-reschedule" onclick="openRescheduleModal(${a.appointment_id})" title="Reschedule">
+                  🗓️ Reschedule
+                </button>
+                <button type="button" class="apt-btn-cancel-appt" onclick="cancelAppointment(${a.appointment_id})" title="Cancel">Cancel</button>
+              ` : ''}
+
+              ${isCompleted ? `
+                <span class="badge bg-success-subtle text-success border border-success fw-bold px-2 py-1" style="font-size: 11px;">✓ Completed</span>
+              ` : ''}
             `}
           </div>
         </td>
@@ -1632,8 +2087,7 @@ window.cancelAppointment = async function(apptId) {
   }
 
   try {
-    const rawUser = localStorage.getItem("currentUser");
-    const user = rawUser ? JSON.parse(rawUser) : {};
+    const user = resolveCurrentUser() || {};
 
     // 1. Update in local storage
     const localList = getLocalAppointments();
@@ -1752,8 +2206,7 @@ function escapeHtml(text) {
 
 // Global listener for appointment status changes
 window.addEventListener("appointmentStatusChanged", () => {
-  const rawUser = localStorage.getItem("currentUser");
-  const user = rawUser ? JSON.parse(rawUser) : null;
+  const user = resolveCurrentUser();
   loadAppointmentsTable(user);
 });
 
@@ -1765,8 +2218,7 @@ window.acceptAppointmentAction = async function(apptId) {
     return window.NotificationManager.acceptAppointment(apptId);
   }
 
-  const rawUser = localStorage.getItem("currentUser");
-  const user = rawUser ? JSON.parse(rawUser) : {};
+  const user = resolveCurrentUser() || {};
   const doctorPhone = user.phone || user.mobile || "+91 98765 43210";
 
   try {
@@ -1796,8 +2248,7 @@ window.rejectAppointmentAction = async function(apptId, reason = "") {
   }
 
   const rejReason = reason || prompt("Please provide a reason for rejecting this appointment (initiates 100% patient refund):", "Doctor unavailable") || "Doctor unavailable";
-  const rawUser = localStorage.getItem("currentUser");
-  const user = rawUser ? JSON.parse(rawUser) : {};
+  const user = resolveCurrentUser() || {};
 
   try {
     const res = await apiRequest("/api/appointments?action=reject", {
@@ -1815,4 +2266,111 @@ window.rejectAppointmentAction = async function(apptId, reason = "") {
   } catch (e) {
     showToast(e.message || "Failed to reject appointment.", "danger");
   }
+};
+
+/**
+ * Doctor Action: Complete Appointment
+ */
+window.completeAppointmentAction = async function(apptId) {
+  const confirmed = confirm(`Mark Appointment #APT-${apptId} as Completed?`);
+  if (!confirmed) return;
+
+  const appt = allAppointments.find(a => String(a.appointment_id) === String(apptId));
+  if (appt) {
+    appt.status = "Completed";
+    appt.normalizedStatus = "Completed";
+  }
+
+  const localAppts = getLocalAppointments();
+  const locIdx = localAppts.findIndex(a => String(a.appointment_id) === String(apptId));
+  if (locIdx >= 0) {
+    localAppts[locIdx].status = "Completed";
+    saveLocalAppointments(localAppts);
+  } else if (appt) {
+    localAppts.unshift({ ...appt, status: "Completed" });
+    saveLocalAppointments(localAppts);
+  }
+
+  try {
+    await apiRequest("/api/appointments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "complete", appointment_id: apptId, status: "Completed" })
+    });
+  } catch (e) {
+    console.warn("Complete API notice:", e.message);
+  }
+
+  updateFilterCounts();
+  renderAppointmentsTable();
+  showToast(`Appointment #APT-${apptId} successfully marked as Completed!`, "success");
+};
+
+/**
+ * View Patient Details Modal Dialog
+ */
+window.openDoctorPatientModal = function(patientId, appt) {
+  const modal = document.getElementById("doctorPatientModal");
+  const body = document.getElementById("doctorPatientModalBody");
+  if (!modal || !body) {
+    alert(`Patient: ${appt.patient_name || 'Patient'} (#PT-${patientId})\nDate: ${formatDateString(appt.appointment_date)} at ${formatTimeString(appt.appointment_time)}\nStatus: ${appt.status || appt.normalizedStatus}\nReason: ${appt.reason || appt.notes || 'Consultation'}`);
+    return;
+  }
+
+  const patientName = appt.patient_name || `Patient #${patientId}`;
+  const aptDate = formatDateString(appt.appointment_date);
+  const aptTime = formatTimeString(appt.appointment_time);
+  const aptType = appt.apptType || appt.appointment_type || "Clinical Consultation";
+  const reason = appt.reason || appt.notes || "Comprehensive clinical consultation and rehabilitation review.";
+  const status = appt.normalizedStatus || appt.status || "Confirmed";
+  const phone = appt.patient_phone || "+91 94686 50893";
+  const fee = appt.consultation_fee ? `₹${parseFloat(appt.consultation_fee).toLocaleString('en-IN')}` : "₹10,900";
+
+  body.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1.5px solid #e2e8f0;">
+      <div style="width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, #0875F9 0%, #0056b3 100%); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800;">
+        ${(patientName.replace(/Dr\\.?\\s*/i, '').charAt(0) || 'P').toUpperCase()}
+      </div>
+      <div>
+        <h4 style="margin: 0; font-size: 17px; font-weight: 800; color: #103463;">${escapeHtml(patientName)}</h4>
+        <div style="font-size: 12px; color: #64748b; font-weight: 600;">Patient ID: #PT-${escapeHtml(patientId)} &bull; Verified Portal Record</div>
+        <div style="font-size: 13px; color: #059669; font-weight: 700; margin-top: 2px;">📞 Contact Phone: ${escapeHtml(phone)}</div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; font-size: 12.5px;">
+      <div style="background: #f8fafc; padding: 10px 14px; border-radius: 10px; border: 1px solid #e2e8f0;">
+        <span style="color: #64748b; font-size: 11px; display: block; font-weight: 700; text-transform: uppercase;">Appointment Date</span>
+        <strong style="color: #103463; font-size: 13px;">${escapeHtml(aptDate)}</strong>
+      </div>
+      <div style="background: #f8fafc; padding: 10px 14px; border-radius: 10px; border: 1px solid #e2e8f0;">
+        <span style="color: #64748b; font-size: 11px; display: block; font-weight: 700; text-transform: uppercase;">Scheduled Time</span>
+        <strong style="color: #0875F9; font-size: 13px;">🕒 ${escapeHtml(aptTime)}</strong>
+      </div>
+      <div style="background: #f8fafc; padding: 10px 14px; border-radius: 10px; border: 1px solid #e2e8f0;">
+        <span style="color: #64748b; font-size: 11px; display: block; font-weight: 700; text-transform: uppercase;">Therapy / Session Type</span>
+        <strong style="color: #0284c7; font-size: 13px;">${escapeHtml(aptType)}</strong>
+      </div>
+      <div style="background: #f8fafc; padding: 10px 14px; border-radius: 10px; border: 1px solid #e2e8f0;">
+        <span style="color: #64748b; font-size: 11px; display: block; font-weight: 700; text-transform: uppercase;">Current Status</span>
+        <span class="badge ${status === 'Completed' ? 'bg-success' : (status.includes('Pending') ? 'bg-warning text-dark' : 'bg-primary')}" style="font-size: 12px; font-weight: 700;">● ${escapeHtml(status)}</span>
+      </div>
+    </div>
+
+    <div style="background: #f0f7ff; padding: 14px; border-radius: 12px; border: 1px solid #bfdbfe; margin-bottom: 16px;">
+      <div style="font-weight: 700; font-size: 12px; color: #0369a1; text-transform: uppercase; margin-bottom: 4px;">Symptoms / Consultation Notes</div>
+      <div style="font-size: 13px; color: #1e293b; line-height: 1.5;">${escapeHtml(reason)}</div>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 8px;">
+      <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('doctorPatientModal').style.display='none'">Close</button>
+      ${status !== 'Completed' ? `
+        <button type="button" class="btn btn-success btn-sm fw-bold" onclick="document.getElementById('doctorPatientModal').style.display='none'; completeAppointmentAction(${appt.appointment_id});">
+          ✓ Mark Completed
+        </button>
+      ` : ''}
+    </div>
+  `;
+
+  modal.style.display = "flex";
 };

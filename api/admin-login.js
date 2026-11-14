@@ -113,29 +113,32 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // Requirement 3: Only ONE authorized Admin account is allowed to access the admin panel
     const normalizedInput = usernameInput.toLowerCase();
-    const isAuthorizedAdminIdentity =
-      normalizedInput === "admin" ||
-      normalizedInput === "admin@multitherapy.org";
-
-    if (!isAuthorizedAdminIdentity) {
-      return res.status(403).json({
-        success: false,
-        message: "Access restricted. Only the single authorized Multi Therapy Administrator is permitted to access the admin portal."
-      });
-    }
-
     let user = null;
     let db = await getDbConnection();
 
     if (db) {
       try {
         const [rows] = await db.query(
-          "SELECT user_id, username, email, password, role, profile_photo FROM users WHERE (username = 'admin' OR email = 'admin@multitherapy.org') AND (role = 'Admin' OR role = 'admin') LIMIT 1"
+          "SELECT user_id, username, email, password, role, profile_photo FROM users WHERE (LOWER(username) = LOWER(?) OR LOWER(email) = LOWER(?)) AND LOWER(role) IN ('admin', 'superadmin') LIMIT 1",
+          [usernameInput, usernameInput]
         );
         if (rows && rows.length > 0) {
           user = rows[0];
+        } else {
+          // Cross-role verification: Check if user exists with another role
+          const [crossRows] = await db.query(
+            "SELECT user_id, username, email, role FROM users WHERE LOWER(username) = LOWER(?) OR LOWER(email) = LOWER(?) LIMIT 1",
+            [usernameInput, usernameInput]
+          );
+          if (crossRows && crossRows.length > 0) {
+            const foundRole = crossRows[0].role || "User";
+            return res.status(403).json({
+              success: false,
+              error: "unauthorized_role",
+              message: "Unauthorized: Access restricted to Administrators only. Please use the correct login portal."
+            });
+          }
         }
       } catch (dbErr) {
         console.error("[admin-login] Database query error:", dbErr.message);
@@ -148,8 +151,8 @@ module.exports = async function handler(req, res) {
     let passwordValid = false;
     if (user && user.password) {
       passwordValid = verifyPassword(passwordInput, user.password);
-    } else if (!user && isAuthorizedAdminIdentity && passwordInput === "admin123") {
-      // Offline / fallback verification for single authorized admin
+    } else if (!user && (normalizedInput === "admin" || normalizedInput === "admin@multitherapy.org") && passwordInput === "admin123") {
+      // Offline / fallback verification for administrator
       user = {
         user_id: 1,
         username: "admin",

@@ -844,6 +844,7 @@
     }
   </style>
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
+  <link rel="stylesheet" href="./css/healthcare-theme.css">
 </head>
 <body>
 
@@ -1289,6 +1290,12 @@
                 <span>👤 Switch to Patient Portal →</span>
               </a>
             </div>
+            <div style="margin-top: 6px;">
+              System Administrator?
+              <a href="./admin-login.html" style="color: #078B69; font-weight: 700; text-decoration: none; margin-left: 4px;">
+                <span>⚙️ Admin Login →</span>
+              </a>
+            </div>
           </div>
 
           <!-- Micro Trust & Security Badges -->
@@ -1508,8 +1515,33 @@
       if (docCaptchaInput) docCaptchaInput.value = "";
     }
 
-    // Initialize CAPTCHA
+    // If already logged in as Doctor or Therapist, automatically route to appropriate Dashboard
+    try {
+      const rawDoc = localStorage.getItem("currentUser");
+      if (rawDoc) {
+        const u = JSON.parse(rawDoc);
+        const r = (u && u.role ? u.role : "").toLowerCase();
+        const urlParams = new URLSearchParams(window.location.search);
+        if (r === "therapist" || r === "physiotherapist") {
+          const targetUrl = urlParams.get("redirect") || urlParams.get("next") || "./therapist-dashboard.html";
+          window.location.replace(targetUrl);
+          return;
+        } else if (r === "doctor") {
+          const targetUrl = urlParams.get("redirect") || urlParams.get("next") || "./doctor-home.html";
+          window.location.replace(targetUrl);
+          return;
+        }
+      }
+    } catch (e) {}
+
+    // Initialize CAPTCHA & Check redirect query parameter
     generateDocCaptcha();
+    const docUrlParams = new URLSearchParams(window.location.search);
+    const docRedirectParam = docUrlParams.get("redirect") || docUrlParams.get("next");
+    if (docRedirectParam && docRedirectParam.includes("appointment")) {
+      showAlert("Please log in to access Doctor Appointment Management.", "info");
+    }
+
     const docCaptchaRefresh = document.getElementById("docCaptchaRefresh");
     if (docCaptchaRefresh) {
       docCaptchaRefresh.addEventListener("click", generateDocCaptcha);
@@ -1591,13 +1623,15 @@
               username: username,
               password: password,
               role: "doctor",
+              portal: "doctor",
               remember: remember
             })
           });
 
-          // Role verification: Prevent Patients from logging into Doctor Portal
-          if (data.user && data.user.role && data.user.role.toLowerCase() === "patient") {
-            showAlert("This account is a Patient account. Please log in via Patient Login.", "danger");
+          // Role verification: Only Doctor accounts allowed
+          const userRole = (data.user && data.user.role ? data.user.role : "").toLowerCase();
+          if (userRole !== "doctor") {
+            showAlert("Unauthorized: Access restricted to authorized Doctors only. Please use the correct login portal.", "danger");
             generateDocCaptcha();
             return;
           }
@@ -1605,22 +1639,26 @@
           showAlert(data.message || "Doctor authentication successful! Redirecting to Doctor Home...", "success");
 
           if (data.user) {
-            const uName = data.user.username || "admin";
+            const uName = data.user.username || "doctor";
             const cachedPhoto = localStorage.getItem("mt_doc_photo_" + uName);
             localStorage.setItem("currentUser", JSON.stringify({
               ...data.user,
               role: "Doctor",
-              doctor_name: data.user.doctor_name || ("Dr. " + (data.user.username || "Practitioner")),
+              doctor_name: data.user.doctor_name || (data.user.name ? (data.user.name.startsWith("Dr.") ? data.user.name : "Dr. " + data.user.name) : ("Dr. " + (data.user.username || "Practitioner"))),
               profile_photo: data.user.profile_photo || cachedPhoto || null
             }));
           }
 
           setTimeout(() => {
-            window.location.href = "./doctor-home.html";
+            window.location.href = docRedirectParam || "./doctor-home.html";
           }, 500);
 
         } catch (err) {
-          showAlert(err.message || "Doctor login failed. Please verify your username and password.");
+          if (err.status === 403 || (err.message && err.message.toLowerCase().includes("unauthorized"))) {
+            showAlert(err.message || "Unauthorized: Access restricted to authorized Doctors only.", "danger");
+          } else {
+            showAlert(err.message || "Doctor login failed. Please verify your username and password.");
+          }
           generateDocCaptcha();
         }
       });
@@ -1703,7 +1741,7 @@
         localStorage.setItem("currentUser", JSON.stringify(doctorUser));
 
         setTimeout(() => {
-          window.location.href = "./doctor-home.html";
+          window.location.href = docRedirectParam || "./doctor-home.html";
         }, 600);
       });
     }

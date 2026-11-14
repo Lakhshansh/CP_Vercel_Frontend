@@ -16,18 +16,18 @@
   <link rel="stylesheet" href="./css/landing.css?v=2.2">
   <link rel="stylesheet" href="./css/patient-home.css?v=2.2">
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
+  <link rel="stylesheet" href="./css/healthcare-theme.css">
 </head>
-<body>
+<body class="page-patient-home">
 
-  <!-- Top Guest Preview Banner (Only visible when unauthenticated) -->
+    <!-- Top Guest Preview Banner (Only visible when unauthenticated) -->
   <div class="ph-preview-banner" id="guestPreviewBanner" style="display: none; background: #e0f2fe; border-bottom: 1px solid #bae6fd; padding: 9px 16px;">
     <div class="ph-container" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
       <div style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: #0369a1; font-weight: 600;">
         <span style="font-size: 15px;">👋</span>
-        <span><strong>Patient Portal Preview:</strong> You are exploring sample patient data. Log in or create an account to access personalized health records.</span>
+        <span><strong>Patient Portal Preview:</strong> You are exploring sample patient data. Create an account to access personalized health records.</span>
       </div>
       <div style="display: flex; align-items: center; gap: 8px;">
-        <a href="./login.html" class="ph-btn-primary" style="padding: 5px 14px; font-size: 12.5px; text-decoration: none;">Patient Login</a>
         <a href="./signup.html" class="ph-btn-outline" style="padding: 5px 14px; font-size: 12.5px; background: #ffffff; text-decoration: none;">Sign Up</a>
       </div>
     </div>
@@ -36,7 +36,7 @@
   <!-- ======================================================================
        1. PATIENT HEADER / NAVIGATION BAR
        ====================================================================== -->
-  <header class="shared-header mt-navbar" role="banner">
+    <header class="shared-header mt-navbar" role="banner">
     <div class="shared-header-inner mt-navbar-inner">
 
       <!-- Multi Therapy Brand Identity -->
@@ -48,59 +48,17 @@
         </div>
       </a>
 
-      <!-- Center Navigation Links -->
+      <!-- Center Navigation Links (Patient: ONLY Patient Home) -->
       <nav class="shared-nav-center mt-nav-center" aria-label="Main Navigation">
         <ul class="shared-nav-list mt-nav-list" id="navMenu">
-          <li><a href="./index.html" class="shared-nav-link mt-nav-link " id="navHome">Home</a></li>
           <li><a href="./patient-home.html" class="shared-nav-link mt-nav-link active" id="navPatientHome">Patient Home</a></li>
-          <li><a href="./doctor-home.html" class="shared-nav-link mt-nav-link " id="navDoctorHome">Doctor Home</a></li>
-
-          <!-- Clinical Management Dropdown -->
-          <li class="nav-item-dropdown ">
-            <a href="javascript:void(0)" class="nav-dropdown-toggle shared-nav-link mt-nav-link " aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
-              <span>Clinical Management</span>
-              <svg class="dropdown-arrow-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M2.5 4.5L6 8L9.5 4.5"></path>
-              </svg>
-            </a>
-            <div class="nav-dropdown-menu" aria-label="Clinical Management Submenu">
-              <a href="./doctors.html" class="nav-dropdown-link " id="dropDoctors">
-                <span class="nav-dropdown-icon">👨‍⚕️</span>
-                <span class="nav-dropdown-text">Doctors</span>
-              </a>
-              <a href="./patients.html" class="nav-dropdown-link " id="dropPatients">
-                <span class="nav-dropdown-icon">👥</span>
-                <span class="nav-dropdown-text">Patients</span>
-              </a>
-              <a href="./therapists.html" class="nav-dropdown-link " id="dropTherapists">
-                <span class="nav-dropdown-icon">👨‍⚕️</span>
-                <span class="nav-dropdown-text">Therapists</span>
-              </a>
-              <a href="./appointments.html" class="nav-dropdown-link " id="dropAppointments">
-                <span class="nav-dropdown-icon">📅</span>
-                <span class="nav-dropdown-text">Appointments</span>
-              </a>
-              <a href="./therapy-sessions.html" class="nav-dropdown-link " id="dropTherapySessions">
-                <span class="nav-dropdown-icon">💪</span>
-                <span class="nav-dropdown-text">Therapy Sessions</span>
-              </a>
-              <a href="./exercises.html" class="nav-dropdown-link " id="dropExercises">
-                <span class="nav-dropdown-icon">🏃</span>
-                <span class="nav-dropdown-text">Exercises</span>
-              </a>
-            </div>
-          </li>
-
-          <li><a href="./login.html" class="shared-nav-link mt-nav-link " id="navPatientLogin">Patient Login</a></li>
-          <li><a href="./doctor-login.html" class="shared-nav-link mt-nav-link " id="navDoctorLogin">Doctor Login</a></li>
         </ul>
       </nav>
 
-      <!-- Right-Side Controls: Notification -> Profile -> Logout -> Contact -> Sign Up -->
+      <!-- Right-Side Controls: Notifications -> Profile -> Logout -> Contact -->
       <div class="shared-nav-right mt-nav-right">
-
         <!-- 1. Notification Icon with Badge Count & Dropdown -->
-        <div class="shared-notif-wrap" style="position: relative;">
+        <div class="shared-notif-wrap" id="headerNotifWrap" style="position: relative; display: inline-flex;">
           <button type="button" class="shared-notif-btn doc-notif-btn" id="btnHeaderNotifications" aria-label="Clinical Notifications" title="Clinical Notifications">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
@@ -139,14 +97,14 @@
           </div>
         </div>
 
-        <!-- 2. Admin / User Profile Pill -->
+        <!-- 2. Patient Profile Pill -->
         <div id="userProfileWrap" class="shared-profile-wrap" style="position: relative; display: inline-flex;">
-          <a href="./doctor-profile.html" class="shared-user-pill mt-user" id="userProfileBtn" title="View Profile">
+          <a href="./patient-profile.html" class="shared-user-pill mt-user" id="userProfileBtn" title="Patient Profile">
             <img id="navAvatarImg" class="shared-avatar-img mt-user-photo d-none" alt="" style="display: none !important;" hidden>
-            <div id="navAvatar" class="shared-avatar-fallback mt-user-default">👤</div>
+            <div id="navAvatar" class="shared-avatar-fallback mt-user-default">P</div>
             <div class="shared-user-text mt-user-text">
-              <div class="shared-user-name mt-user-name" id="navUsername">User</div>
-              <div class="shared-user-role mt-user-role" id="navRole">Admin</div>
+              <div class="shared-user-name mt-user-name" id="navUsername">Patient</div>
+              <div class="shared-user-role mt-user-role" id="navRole">Patient</div>
             </div>
             <span class="shared-profile-caret mt-arrow">⌄</span>
           </a>
@@ -162,23 +120,13 @@
           <span>Logout</span>
         </button>
 
-        <!-- 4 & 5. Public Actions: Contact & Sign Up -->
+        <!-- 4. Contact Button -->
         <div id="publicNavActions" class="shared-public-actions">
-          <!-- Contact Button -->
           <a href="./index.html#contact" class="shared-btn-contact doc-btn-contact" id="btnHeaderContact" title="Contact Multi Therapy Support">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
             <span>Contact</span>
-          </a>
-
-          <!-- Sign Up Button -->
-          <a href="./signup.html" class="shared-btn-signup doc-btn-signup " id="btnHeaderSignup" title="Sign Up">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <span>Sign Up</span>
           </a>
         </div>
 
@@ -186,10 +134,13 @@
         <button type="button" class="shared-nav-toggle doc-nav-toggle" id="navToggle" aria-label="Toggle Navigation Menu">
           ☰
         </button>
-
       </div>
     </div>
   </header>
+
+  <div class="mt-app-wrapper">
+    <aside id="mtSidebar" class="mt-sidebar"></aside>
+    <div class="mt-main-content" style="padding:0;">
 
   <!-- ======================================================================
        2. HERO SECTION
@@ -340,6 +291,57 @@
   </main>
 
   <!-- ======================================================================
+       PATIENT DASHBOARD CARDS (4 ESSENTIAL METRICS)
+       ====================================================================== -->
+  <section class="ph-stat-cards-section" style="padding: 24px 0 10px;">
+    <div class="ph-container">
+      <div class="mt-stat-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; margin-bottom: 24px;">
+        
+        <!-- Card 1: My Appointments -->
+        <a href="./patient-appointments.html#myAppointmentsCard" id="cardMyAppointments" class="mt-stat-card" style="text-decoration: none;">
+          <div class="mt-stat-info">
+            <span class="mt-stat-label">My Appointments</span>
+            <span class="mt-stat-number" id="statMyAppts">3</span>
+            <span class="mt-stat-sub">1 Upcoming Consultation</span>
+          </div>
+          <div class="mt-stat-icon-wrap icon-blue">📅</div>
+        </a>
+
+        <!-- Card 2: My Doctors -->
+        <a href="./doctors.html" id="cardMyDoctors" class="mt-stat-card" style="text-decoration: none;">
+          <div class="mt-stat-info">
+            <span class="mt-stat-label">My Doctors</span>
+            <span class="mt-stat-number" id="statMyDoctors">2</span>
+            <span class="mt-stat-sub">Assigned Neurologists</span>
+          </div>
+          <div class="mt-stat-icon-wrap icon-green">🩺</div>
+        </a>
+
+        <!-- Card 3: My Therapists -->
+        <a href="./therapists.html" id="cardMyTherapists" class="mt-stat-card" style="text-decoration: none;">
+          <div class="mt-stat-info">
+            <span class="mt-stat-label">My Therapists</span>
+            <span class="mt-stat-number" id="statMyTherapists">3</span>
+            <span class="mt-stat-sub">Physical &amp; Speech</span>
+          </div>
+          <div class="mt-stat-icon-wrap icon-purple">🧑‍⚕️</div>
+        </a>
+
+        <!-- Card 4: My Progress Reports -->
+        <a href="./exercises.html" id="cardMyProgressReports" class="mt-stat-card" style="text-decoration: none;">
+          <div class="mt-stat-info">
+            <span class="mt-stat-label">My Progress Reports</span>
+            <span class="mt-stat-number" id="statMyReports">8</span>
+            <span class="mt-stat-sub">Mobility Milestones</span>
+          </div>
+          <div class="mt-stat-icon-wrap icon-amber">📈</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
        3. MAIN FEATURE CARDS (4 ESSENTIAL CARDS)
        ====================================================================== -->
   <section class="ph-features-section" aria-labelledby="featuresHeading">
@@ -433,7 +435,7 @@
         </a>
 
         <!-- 1. My Appointments -->
-        <a href="./patient-appointments.html" class="ph-quick-card">
+        <a href="./patient-appointments.html#myAppointmentsCard" class="ph-quick-card">
           <div class="ph-quick-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           </div>
@@ -700,8 +702,6 @@
             <li><a href="./index.html#about"><span class="mt-footer-link-bullet">›</span> About Us</a></li>
             <li><a href="./index.html#services"><span class="mt-footer-link-bullet">›</span> Services</a></li>
             <li><a href="./subscription-pricing.html"><span class="mt-footer-link-bullet">›</span> Subscription Plans</a></li>
-            <li><a href="./login.html"><span class="mt-footer-link-bullet">›</span> Patient Login</a></li>
-            <li><a href="./doctor-login.html"><span class="mt-footer-link-bullet">›</span> Doctor Login</a></li>
             <li><a href="./index.html#contact" id="footerContactLink"><span class="mt-footer-link-bullet">›</span> Contact</a></li>
           </ul>
         </div>
@@ -710,7 +710,7 @@
         <div class="mt-footer-col mt-col-divider">
           <h4 class="mt-footer-heading">Patient Portal</h4>
           <ul class="mt-footer-links">
-            <li><a href="./appointments.html"><span class="mt-footer-link-bullet">›</span> Appointments</a></li>
+            <li><a href="./patient-appointments.html"><span class="mt-footer-link-bullet">›</span> Appointments</a></li>
             <li><a href="./therapy-sessions.html"><span class="mt-footer-link-bullet">›</span> Therapy Sessions</a></li>
             <li><a href="./patients.html"><span class="mt-footer-link-bullet">›</span> Patients Directory</a></li>
             <li><a href="./signup.html"><span class="mt-footer-link-bullet">›</span> Patient Sign Up</a></li>
@@ -901,30 +901,43 @@
         }[m]));
       }
 
-      const previewBanner = document.getElementById("guestPreviewBanner");
-
+      // Strictly enforce role-based authentication on Patient Dashboard
       if (!user) {
-        // GUEST / PREVIEW DEMO MODE
-        if (previewBanner) previewBanner.style.display = "block";
-        updateWelcomeGreeting(""); // Shows "Welcome back, Patient!"
-        const navName = document.getElementById("navPatientName");
-        if (navName) navName.textContent = "Patient";
-        const navRole = document.getElementById("navPatientRole");
-        if (navRole) navRole.textContent = "Patient Portal";
-      } else {
-        // AUTHENTICATED PATIENT SESSION
-        if (previewBanner) previewBanner.style.display = "none";
+        window.location.replace("./patient-login.html?redirect=patient-home.html");
+        return;
+      }
 
-        // If a Doctor accidentally accesses Patient Portal, offer easy navigation
-        if (user.role && user.role.toLowerCase() === "doctor") {
-          const navDoctorSwitch = document.getElementById("navDoctorSwitch");
-          if (navDoctorSwitch) {
-            navDoctorSwitch.textContent = "Switch to Doctor Dashboard ↗";
-            navDoctorSwitch.style.backgroundColor = "#ecfdf5";
-            navDoctorSwitch.style.borderRadius = "8px";
-            navDoctorSwitch.style.padding = "4px 10px";
-          }
-        }
+      const userRole = (user.role || "").toLowerCase();
+      if (userRole === "doctor" || userRole === "practitioner") {
+        sessionStorage.setItem("cross_role_alert", "Access restricted to Patient accounts. Redirected to Doctor Dashboard.");
+        window.location.replace("./doctor-home.html");
+        return;
+      }
+      if (userRole === "therapist" || userRole === "physiotherapist") {
+        sessionStorage.setItem("cross_role_alert", "Access restricted to Patient accounts. Redirected to Therapist Dashboard.");
+        window.location.replace("./therapist-dashboard.html");
+        return;
+      }
+      if (userRole === "admin" || userRole === "superadmin") {
+        sessionStorage.setItem("cross_role_alert", "Administrator session detected. Redirected to Admin Dashboard.");
+        window.location.replace("./admin-dashboard.html");
+        return;
+      }
+
+      const previewBanner = document.getElementById("guestPreviewBanner");
+      if (previewBanner) previewBanner.style.display = "none";
+
+      // Display cross-role alert if redirected from other dashboards
+      const crossAlert = sessionStorage.getItem("cross_role_alert");
+      if (crossAlert) {
+        sessionStorage.removeItem("cross_role_alert");
+        const alertBanner = document.createElement("div");
+        alertBanner.className = "alert alert-warning alert-dismissible fade show m-3";
+        alertBanner.role = "alert";
+        alertBanner.innerHTML = `<strong>Notice:</strong> ${escapeHtml(crossAlert)} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
+        const mainEl = document.querySelector("main") || document.body;
+        mainEl.insertBefore(alertBanner, mainEl.firstChild);
+      }
 
         // Dynamically resolve and update patient display names
         let patientName = extractPatientDisplayName(user);
@@ -1046,6 +1059,7 @@
   </a>
 
   <script src="./js/clinical-dropdown.js"></script>
+  <script src="./js/sidebar.js"></script>
   <script src="./js/footer.js"></script>
   <script src="./js/header.js" defer></script>
 </body>

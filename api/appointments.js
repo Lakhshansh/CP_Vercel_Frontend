@@ -243,15 +243,11 @@ module.exports = async function handler(req, res) {
         // Prevent double booking / verify specialist availability
         const [conflicts] = await conn.query(
           `SELECT appointment_id, status FROM appointments 
-           WHERE (
-             (doctor_id IS NOT NULL AND doctor_id = ?) 
-             OR (therapist_id IS NOT NULL AND therapist_id = ?)
-             OR (doctor_name = ? AND ? <> '')
-           )
+           WHERE doctor_id IS NOT NULL AND doctor_id = ?
              AND appointment_date = ? 
              AND appointment_time = ? 
-             AND status NOT IN ('Cancelled', 'Rejected – Refund Pending', 'Refund Completed')`,
-          [validDoctorId || 0, validTherapistId || 0, docName, docName, appointment_date, appointment_time]
+             AND status NOT IN ('Cancelled', 'Rejected', 'Rejected – Refund Pending', 'Refund Completed')`,
+          [validDoctorId || 0, appointment_date, appointment_time]
         );
 
         if (conflicts.length > 0) {
@@ -299,28 +295,21 @@ module.exports = async function handler(req, res) {
           if (uRow) validUserId = uRow.user_id;
         }
 
-        // 1. Insert appointment with status: 'Payment Pending'
+        // 1. Insert appointment with status: 'Payment Pending' (compatible with 10-column schema)
+        const apptNotes = `${appointment_type || 'Consultation'} | Fee: ₹${consultation_fee || 10900} | Specialist: ${docName} | Patient: ${patient_name}${reason ? ' | ' + reason : ''}`;
         const [insertRes] = await conn.query(
           `INSERT INTO appointments (
-            patient_id, doctor_id, therapist_id, appointment_date, appointment_time,
-            reason, status, notes, user_id, appointment_type, consultation_fee,
-            payment_status, payment_method, patient_phone, doctor_phone, patient_name, doctor_name
-          ) VALUES (?, ?, ?, ?, ?, ?, 'Payment Pending', ?, ?, ?, ?, 'Payment Pending', 'razorpay', ?, ?, ?, ?)`,
+            patient_id, doctor_id, appointment_date, appointment_time,
+            reason, status, notes, user_id
+          ) VALUES (?, ?, ?, ?, ?, 'Payment Pending', ?, ?)`,
           [
             validPatientId,
             validDoctorId,
-            validTherapistId,
             appointment_date,
             appointment_time,
-            reason,
-            reason ? `${appointment_type}: ${reason}` : appointment_type,
-            validUserId,
-            appointment_type,
-            consultation_fee,
-            patPhone,
-            docPhone,
-            patient_name,
-            docName
+            reason || "",
+            apptNotes,
+            validUserId
           ]
         );
 
@@ -352,9 +341,9 @@ module.exports = async function handler(req, res) {
           }
         }
 
-        // Update appointment with generated order_id
+        // Update appointment notes with generated order_id
         await conn.query(
-          "UPDATE appointments SET razorpay_order_id = ? WHERE appointment_id = ?",
+          "UPDATE appointments SET notes = CONCAT(COALESCE(notes, ''), ' | Order: ', ?) WHERE appointment_id = ?",
           [order_id, appointment_id]
         );
 
@@ -465,12 +454,9 @@ module.exports = async function handler(req, res) {
         await conn.query(
           `UPDATE appointments SET 
             status = ?,
-            payment_status = 'Paid',
-            razorpay_payment_id = ?,
-            razorpay_signature = ?,
-            updated_at = NOW()
+            notes = CONCAT(COALESCE(notes, ''), ' | Payment ID: ', ?)
            WHERE appointment_id = ?`,
-          [newStatus, razorpay_payment_id, razorpay_signature || "verified_test_sig", appointment_id]
+          [newStatus, razorpay_payment_id || "verified_test_pay", appointment_id]
         );
 
         // Record in payments table
@@ -480,16 +466,15 @@ module.exports = async function handler(req, res) {
             `INSERT INTO payments (
               payment_code, user_id, amount, currency, payment_method,
               razorpay_order_id, razorpay_payment_id, razorpay_signature,
-              status, appointment_id, created_at
-            ) VALUES (?, ?, ?, 'INR', 'razorpay', ?, ?, ?, 'captured', ?, NOW())`,
+              status, created_at
+            ) VALUES (?, ?, ?, 'INR', 'razorpay', ?, ?, ?, 'captured', NOW())`,
             [
               paymentCode,
               appt.user_id || appt.patient_id,
               appt.consultation_fee || 10900.0,
               razorpay_order_id,
               razorpay_payment_id,
-              razorpay_signature || "verified_test_sig",
-              appointment_id
+              razorpay_signature || "verified_test_sig"
             ]
           );
         } catch (payErr) {
@@ -575,7 +560,7 @@ module.exports = async function handler(req, res) {
 
         // Update status to Confirmed
         await conn.query(
-          "UPDATE appointments SET status = 'Confirmed', updated_at = NOW() WHERE appointment_id = ?",
+          "UPDATE appointments SET status = 'Confirmed' WHERE appointment_id = ?",
           [appointment_id]
         );
 
@@ -682,20 +667,12 @@ module.exports = async function handler(req, res) {
         await conn.query(
           `UPDATE appointments SET 
             status = ?,
-            payment_status = ?,
-            rejection_reason = ?,
-            refund_id = ?,
-            refund_status = ?,
-            refund_amount = ?,
-            updated_at = NOW()
+            notes = CONCAT(COALESCE(notes, ''), ' | Rejection: ', ?, ' | Refund: ', ?)
            WHERE appointment_id = ?`,
           [
             newStatus,
-            refundStatus === "Processed" ? "Refund Completed" : "Refund Pending",
-            reason,
-            refundId,
+            reason || "Not specified",
             refundStatus,
-            appt.consultation_fee || 0,
             appointment_id
           ]
         );
@@ -741,7 +718,6 @@ module.exports = async function handler(req, res) {
             a.appointment_id,
             a.patient_id,
             a.doctor_id,
-            a.therapist_id,
             a.appointment_date,
             a.appointment_time,
             a.reason,
@@ -749,27 +725,16 @@ module.exports = async function handler(req, res) {
             a.notes,
             a.created_at,
             a.user_id,
-            a.appointment_type,
-            a.consultation_fee,
-            a.payment_status,
-            a.payment_method,
-            a.razorpay_order_id,
-            a.razorpay_payment_id,
-            a.refund_id,
-            a.refund_status,
-            a.refund_amount,
-            a.rejection_reason,
-            COALESCE(a.patient_name, p.name) AS patient_name,
-            COALESCE(a.doctor_name, d.name, t.name) AS doctor_name,
-            COALESCE(d.specialization, t.specialization, 'Rehabilitation Care') AS doctor_specialization,
+            COALESCE(p.name, 'Patient') AS patient_name,
+            COALESCE(d.name, 'Doctor') AS doctor_name,
+            COALESCE(d.specialization, 'Rehabilitation Care') AS doctor_specialization,
             p.contact AS raw_patient_phone,
-            COALESCE(d.contact, t.contact) AS raw_doctor_phone,
+            d.contact AS raw_doctor_phone,
             p.profile_photo AS patient_photo,
-            COALESCE(d.profile_photo, t.profile_photo) AS doctor_photo
+            d.profile_photo AS doctor_photo
           FROM appointments a
           LEFT JOIN patients p ON a.patient_id = p.patient_id
           LEFT JOIN doctors d ON a.doctor_id = d.doctor_id
-          LEFT JOIN therapists t ON a.therapist_id = t.therapist_id
           WHERE 1=1
         `;
         const params = [];

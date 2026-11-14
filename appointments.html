@@ -18,6 +18,7 @@
   <!-- External Stylesheet Reference -->
   <link rel="stylesheet" href="css/appointments.css">
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
+  <link rel="stylesheet" href="./css/healthcare-theme.css">
 </head>
 <body>
 
@@ -194,11 +195,11 @@
       
       <!-- Left Content -->
       <div class="apt-hero-content">
-        <div class="apt-hero-badge">
-          <span>🏥</span> Appointment Management
+        <div class="apt-hero-badge" id="aptHeroBadge">
+          <span>🏥</span> <span id="aptHeroBadgeText">Appointment Management</span>
         </div>
-        <h1 class="apt-hero-title">Appointments</h1>
-        <p class="apt-hero-subtitle">
+        <h1 class="apt-hero-title" id="aptHeroTitle">Appointments</h1>
+        <p class="apt-hero-subtitle" id="aptHeroSubtitle">
           Schedule, manage, and track patient appointments for consultation and therapy sessions.
         </p>
 
@@ -212,7 +213,7 @@
               <line x1="12" y1="14" x2="12" y2="18"></line>
               <line x1="10" y1="16" x2="14" y2="16"></line>
             </svg>
-            <span>Book New Appointment</span>
+            <span id="btnHeroBookText">Book New Appointment</span>
           </a>
 
           <a href="#myAppointmentsCard" class="apt-btn-hero-secondary" id="btnHeroMy">
@@ -223,7 +224,7 @@
               <line x1="16" y1="17" x2="8" y2="17"></line>
               <polyline points="10 9 9 9 8 9"></polyline>
             </svg>
-            <span>My Appointments</span>
+            <span id="btnHeroMyText">My Appointments</span>
           </a>
         </div>
       </div>
@@ -300,6 +301,53 @@
 
     <!-- Floating Toast Notification Container -->
     <div class="apt-toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <!-- In-Page Authentication Notice Banner (shown when session is unauthenticated, instead of silently redirecting) -->
+    <div id="authNoticeBanner" class="alert alert-warning d-flex align-items-center justify-content-between p-3 mb-4 rounded-3 border-warning shadow-sm" role="alert" style="display: none; background: #fffbeb; border: 1.5px solid #fde68a;">
+      <div class="d-flex align-items-center gap-2">
+        <span style="font-size: 22px;">⚠️</span>
+        <div>
+          <strong id="authNoticeTitle" style="color: #92400e;">Authentication Notice:</strong>
+          <span id="authNoticeText" style="color: #78350f;"> You are viewing appointments in guest mode. Please log in to manage your appointments.</span>
+        </div>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="./login.html?redirect=appointments.html" class="btn btn-sm btn-primary fw-bold" id="authNoticeLoginBtn">Patient Login</a>
+        <a href="./doctor-login.html?redirect=appointments.html" class="btn btn-sm btn-outline-primary fw-bold" id="authNoticeDocLoginBtn">Doctor Login</a>
+      </div>
+    </div>
+
+    <!-- Doctor Statistics Grid (Displayed when user is Doctor / Staff) -->
+    <section class="doc-stats-grid mb-4" id="doctorStatsGrid" aria-label="Clinical Metrics Overview" style="display: none;">
+      <div class="doc-stat-card active" id="cardTodayAppts" role="button" tabindex="0" title="Click to filter Today's Appointments">
+        <div class="doc-stat-icon-wrap icon-blue">📅</div>
+        <div class="doc-stat-info">
+          <div class="doc-stat-label">Today's Appointments</div>
+          <div class="doc-stat-value" id="statTodayAppts">0</div>
+        </div>
+      </div>
+      <div class="doc-stat-card" id="cardPendingAppts" role="button" tabindex="0" title="Click to filter Pending Appointments">
+        <div class="doc-stat-icon-wrap icon-amber">⏳</div>
+        <div class="doc-stat-info">
+          <div class="doc-stat-label">Pending Appointments</div>
+          <div class="doc-stat-value" id="statPendingAppts">0</div>
+        </div>
+      </div>
+      <div class="doc-stat-card" id="cardConfirmedAppts" role="button" tabindex="0" title="Click to filter Confirmed Appointments">
+        <div class="doc-stat-icon-wrap icon-green">✅</div>
+        <div class="doc-stat-info">
+          <div class="doc-stat-label">Confirmed Appointments</div>
+          <div class="doc-stat-value" id="statConfirmedAppts">0</div>
+        </div>
+      </div>
+      <div class="doc-stat-card" id="cardCompletedAppts" role="button" tabindex="0" title="Click to filter Completed Appointments">
+        <div class="doc-stat-icon-wrap icon-purple">🏁</div>
+        <div class="doc-stat-info">
+          <div class="doc-stat-label">Completed Appointments</div>
+          <div class="doc-stat-value" id="statCompletedAppts">0</div>
+        </div>
+      </div>
+    </section>
 
     <div class="apt-two-col-grid">
 

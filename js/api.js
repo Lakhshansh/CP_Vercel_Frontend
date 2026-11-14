@@ -200,12 +200,7 @@ function renderNavbarUser(user) {
       try { user = JSON.parse(raw); } catch (e) { user = null; }
     }
   }
-  if (!user) {
-    if (typeof window.updateHeaderAuthState === "function") {
-      window.updateHeaderAuthState(null);
-    }
-    return;
-  }
+  if (!user) return;
 
   const displayName = user.doctor_name || user.name || user.username || "User";
   const displayRole = user.doctor_specialization || user.specialization || user.role || "Admin";
@@ -306,10 +301,6 @@ function renderNavbarUser(user) {
     testImg.src = photoSrc;
   } else {
     showFallbackOnly();
-  }
-
-  if (typeof window.updateHeaderAuthState === "function") {
-    window.updateHeaderAuthState(user);
   }
 }
 window.renderNavbarUser = renderNavbarUser;

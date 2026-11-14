@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doctor Appointments &amp; Clinical Roster | Every Individual Deserves Better Care.</title>
+  <title>Appointment Management | Multi Therapy</title>
   <meta name="description" content="Multi Therapy - Doctor & Specialist Appointments Portal. Manage clinical consultations, approve patient bookings, and coordinate rehabilitation sessions.">
   <link rel="icon" href="./images/multi_therapy_logo_100x100.png" type="image/png">
 
@@ -224,6 +224,7 @@
     }
   </style>
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
+  <link rel="stylesheet" href="./css/healthcare-theme.css">
 </head>
 <body class="doctor-portal-theme">
 
@@ -394,34 +395,30 @@
       <!-- Left Content -->
       <div class="apt-hero-content">
         <div class="apt-hero-badge">
-          <span>🩺</span> Physician &amp; Therapist Roster Management
+          <span>🩺</span> Clinical Care &amp; Roster Management
         </div>
-        <h1 class="apt-hero-title">Doctor Appointments</h1>
+        <h1 class="apt-hero-title">Appointment Management</h1>
         <p class="apt-hero-subtitle">
-          Manage clinical consultation queues, schedule therapy sessions, coordinate patient care pathways, and update appointment statuses.
+          Monitor patient queues, accept bookings, schedule sessions, and track rehabilitation progress.
         </p>
 
         <div class="apt-hero-actions">
-          <a href="#bookAppointmentCard" class="apt-btn-hero-primary" id="btnHeroBook">
+          <a href="#myAppointmentsCard" class="apt-btn-hero-primary" id="btnHeroTodayAppts">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
               <line x1="16" y1="2" x2="16" y2="6"></line>
               <line x1="8" y1="2" x2="8" y2="6"></line>
               <line x1="3" y1="10" x2="21" y2="10"></line>
-              <line x1="12" y1="14" x2="12" y2="18"></line>
-              <line x1="10" y1="16" x2="14" y2="16"></line>
             </svg>
-            <span>Schedule Patient Session</span>
+            <span>View Today's Appointments</span>
           </a>
 
-          <a href="#myAppointmentsCard" class="apt-btn-hero-secondary" id="btnHeroMy">
+          <a href="#bookAppointmentCard" class="apt-btn-hero-secondary" id="btnHeroBook">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
-            <span>Clinical Appointments Roster</span>
+            <span>Schedule Patient Session</span>
           </a>
         </div>
       </div>
@@ -485,34 +482,34 @@
     </div>
   </section>
 
-  <!-- Doctor Schedule Metrics Overview -->
-  <section class="doc-metrics-grid" aria-label="Clinical Metrics Overview">
-    <div class="doc-metric-card">
-      <div class="doc-metric-icon icon-teal">📅</div>
-      <div>
-        <div class="doc-metric-num" id="statTodayAppts">8</div>
-        <div class="doc-metric-label">Today's Sessions</div>
+  <!-- Doctor Dashboard Statistics (4 KPI Cards) -->
+  <section class="doc-stats-grid" aria-label="Clinical Metrics Overview">
+    <div class="doc-stat-card active" id="cardTodayAppts" role="button" tabindex="0" title="Click to filter Today's Appointments">
+      <div class="doc-stat-icon-wrap icon-blue">📅</div>
+      <div class="doc-stat-info">
+        <div class="doc-stat-number" id="statTodayAppts">0</div>
+        <div class="doc-stat-label">Today's Appointments</div>
       </div>
     </div>
-    <div class="doc-metric-card">
-      <div class="doc-metric-icon icon-amber">⏳</div>
-      <div>
-        <div class="doc-metric-num" id="statPendingAppts">3</div>
-        <div class="doc-metric-label">Pending Approval</div>
+    <div class="doc-stat-card" id="cardPendingAppts" role="button" tabindex="0" title="Click to filter Pending Appointments">
+      <div class="doc-stat-icon-wrap icon-amber">⏳</div>
+      <div class="doc-stat-info">
+        <div class="doc-stat-number" id="statPendingAppts">0</div>
+        <div class="doc-stat-label">Pending Appointments</div>
       </div>
     </div>
-    <div class="doc-metric-card">
-      <div class="doc-metric-icon icon-blue">✅</div>
-      <div>
-        <div class="doc-metric-num" id="statConfirmedAppts">12</div>
-        <div class="doc-metric-label">Confirmed Sessions</div>
+    <div class="doc-stat-card" id="cardConfirmedAppts" role="button" tabindex="0" title="Click to filter Confirmed Appointments">
+      <div class="doc-stat-icon-wrap icon-teal">✅</div>
+      <div class="doc-stat-info">
+        <div class="doc-stat-number" id="statConfirmedAppts">0</div>
+        <div class="doc-stat-label">Confirmed Appointments</div>
       </div>
     </div>
-    <div class="doc-metric-card">
-      <div class="doc-metric-icon icon-purple">👥</div>
-      <div>
-        <div class="doc-metric-num" id="statActivePatients">24</div>
-        <div class="doc-metric-label">Assigned Patients</div>
+    <div class="doc-stat-card" id="cardCompletedAppts" role="button" tabindex="0" title="Click to filter Completed Appointments">
+      <div class="doc-stat-icon-wrap icon-purple">🎯</div>
+      <div class="doc-stat-info">
+        <div class="doc-stat-number" id="statCompletedAppts">0</div>
+        <div class="doc-stat-label">Completed Appointments</div>
       </div>
     </div>
   </section>
@@ -523,6 +520,21 @@
   <main class="apt-main-wrap">
 
     <div class="apt-toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <!-- In-Page Authentication Notice Banner (shown when session is unauthenticated, instead of silently redirecting) -->
+    <div id="authNoticeBanner" class="alert alert-warning d-flex align-items-center justify-content-between p-3 mb-4 rounded-3 border-warning shadow-sm" role="alert" style="display: none; background: #fffbeb; border: 1.5px solid #fde68a;">
+      <div class="d-flex align-items-center gap-2">
+        <span style="font-size: 22px;">⚠️</span>
+        <div>
+          <strong id="authNoticeTitle" style="color: #92400e;">Authentication Notice:</strong>
+          <span id="authNoticeText" style="color: #78350f;"> Please log in with your Doctor credentials to review and manage patient appointments.</span>
+        </div>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="./doctor-login.html?redirect=doctor-appointments.html" class="btn btn-sm btn-primary fw-bold" id="authNoticeDocLoginBtn">Doctor Login</a>
+        <a href="./login.html?redirect=doctor-appointments.html" class="btn btn-sm btn-outline-primary fw-bold" id="authNoticeLoginBtn">Patient Login</a>
+      </div>
+    </div>
 
     <div class="apt-two-col-grid">
 
@@ -659,7 +671,7 @@
             <!-- 7. Reason for Visit -->
             <div class="col-12 apt-form-group">
               <label for="apptReason" class="apt-form-label">
-                Reason for Visit / Clinical Notes
+                Symptoms / Notes
               </label>
               <textarea id="apptReason" class="apt-form-control" rows="3" placeholder="Describe the consultation purpose, symptoms, or current therapy goals (e.g. Mobility assessment, pediatric check-up, gait rehabilitation)..."></textarea>
             </div>
@@ -809,13 +821,13 @@
         <table class="apt-table" id="appointmentsTable">
           <thead>
             <tr>
-              <th>Appointment ID</th>
-              <th>Patient</th>
-              <th>Specialist</th>
-              <th>Type</th>
-              <th>Date &amp; Time</th>
+              <th>Patient Name</th>
+              <th>Patient ID</th>
+              <th>Appointment Date</th>
+              <th>Time</th>
+              <th>Therapy Type</th>
               <th>Status</th>
-              <th style="text-align: right;">Action</th>
+              <th style="text-align: right;">Actions</th>
             </tr>
           </thead>
           <tbody id="apptsTableBody">

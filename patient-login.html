@@ -1,0 +1,1455 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patient Login | Every Individual Deserves Better Care.</title>
+  <meta name="description" content="Access your Multi Therapy patient account to book appointments, view personalized therapy sessions, track clinical milestones, and connect with caring doctors.">
+  <link rel="icon" href="./images/multi_therapy_logo_100x100.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Landing Design System -->
+  <link rel="stylesheet" href="./css/landing.css?v=2.0">
+
+  <style>
+    /* ==========================================================================
+       PATIENT LOGIN PAGE DEDICATED STYLING
+       ========================================================================== */
+    :root {
+      --pt-blue-primary: #0d6efd;
+      --pt-blue-dark: #0b5ed7;
+      --pt-blue-light: #e0f2fe;
+      --pt-blue-soft: #f0f7ff;
+      --pt-navy: #103463;
+      --pt-text-main: #1e293b;
+      --pt-text-muted: #64748b;
+      --pt-border: #e2e8f0;
+      --pt-card-bg: #ffffff;
+      --pt-radius-lg: 26px;
+      --pt-radius-md: 14px;
+      --pt-radius-sm: 8px;
+    }
+
+    body {
+      background-color: #f7fbfe;
+      color: var(--pt-text-main);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Outer Wrapper */
+    .patient-page-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+      position: relative;
+      background: radial-gradient(circle at 10% 20%, rgba(13, 110, 253, 0.06) 0%, transparent 45%),
+                  radial-gradient(circle at 90% 80%, rgba(2, 132, 199, 0.07) 0%, transparent 45%),
+                  #f7fbfe;
+    }
+
+    /* Ambient Background Subtle Blobs */
+    .patient-ambient-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .patient-blob-1 {
+      width: 420px;
+      height: 420px;
+      background: rgba(13, 110, 253, 0.05);
+      top: -60px;
+      left: -80px;
+    }
+    .patient-blob-2 {
+      width: 480px;
+      height: 480px;
+      background: rgba(56, 189, 248, 0.06);
+      bottom: -80px;
+      right: -80px;
+    }
+
+    /* Two-Column Responsive Layout Container */
+    .patient-layout-container {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 52px;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* --------------------------------------------------------------------------
+       LEFT INFORMATION COLUMN
+       -------------------------------------------------------------------------- */
+    .patient-info-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Welcome Pill */
+    .patient-welcome-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--pt-blue-light);
+      color: #0284c7;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      width: fit-content;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.08);
+    }
+
+    .patient-welcome-badge svg {
+      color: #0284c7;
+    }
+
+    /* Main Title */
+    .patient-hero-title {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--pt-navy);
+      line-height: 1.15;
+      letter-spacing: -0.6px;
+      margin: 0 0 12px 0;
+    }
+
+    .patient-hero-title span {
+      color: var(--pt-blue-primary);
+    }
+
+    /* Subtitle Description */
+    .patient-hero-subtitle {
+      font-size: 16px;
+      color: var(--pt-text-muted);
+      line-height: 1.6;
+      margin: 0 0 24px 0;
+      max-width: 490px;
+    }
+
+    /* Handwritten Slogan Box */
+    .patient-slogan-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Caveat', cursive;
+      font-size: 27px;
+      font-weight: 700;
+      color: #0284c7;
+      margin-bottom: 24px;
+    }
+
+    .patient-slogan-heart {
+      color: #e11d48;
+      display: inline-block;
+      animation: heartbeat 2s infinite ease-in-out;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.22); }
+    }
+
+    /* Healthcare Illustration / Patient Session Badge */
+    .patient-illustration-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: 18px;
+      padding: 14px 18px;
+      margin-bottom: 26px;
+      box-shadow: 0 8px 24px rgba(16, 52, 99, 0.05);
+      max-width: 490px;
+    }
+
+    .patient-avatar-thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 3px solid #ffffff;
+      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+    }
+
+    .patient-thumb-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .patient-thumb-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--pt-navy);
+      margin-bottom: 2px;
+    }
+
+    .patient-thumb-desc {
+      font-size: 13px;
+      color: var(--pt-text-muted);
+      line-height: 1.4;
+    }
+
+    /* 4 Healthcare Features Grid */
+    .patient-features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      max-width: 500px;
+    }
+
+    .patient-feature-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      border: 1px solid #edf2f7;
+      border-radius: var(--pt-radius-md);
+      padding: 12px 14px;
+      box-shadow: 0 2px 8px rgba(16, 52, 99, 0.03);
+      transition: all 0.25s ease;
+    }
+
+    .patient-feature-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(13, 110, 253, 0.08);
+      border-color: #bfdbfe;
+    }
+
+    .patient-feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--pt-blue-soft);
+      color: var(--pt-blue-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .patient-feature-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .patient-feature-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--pt-navy);
+      line-height: 1.25;
+    }
+
+    .patient-feature-sub {
+      font-size: 11.5px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    /* --------------------------------------------------------------------------
+       RIGHT LOGIN CARD COLUMN
+       -------------------------------------------------------------------------- */
+    .patient-card-col {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .patient-login-card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--pt-card-bg);
+      border-radius: var(--pt-radius-lg);
+      box-shadow: 0 20px 60px rgba(16, 52, 99, 0.09), 0 4px 16px rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      padding: 38px 36px 32px;
+      position: relative;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    /* Top Blue Accent Stripe */
+    .patient-login-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #0d6efd 0%, #0284c7 50%, #38bdf8 100%);
+    }
+
+    /* Card Header: Centered Logo & Title */
+    .patient-card-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .patient-card-logo-wrap {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: #ffffff;
+      padding: 3px;
+      box-shadow: 0 6px 18px rgba(13, 110, 253, 0.16);
+      border: 2px solid #e0f2fe;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .patient-card-logo {
+      width: 88px !important;
+      height: 88px !important;
+      max-width: 58px !important;
+      max-height: 58px !important;
+      border-radius: 50% !important;
+      object-fit: contain !important;
+      display: block !important;
+    }
+
+    .patient-card-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--pt-navy);
+      letter-spacing: -0.3px;
+      margin: 0 0 6px 0;
+    }
+
+    .patient-card-sub {
+      font-size: 14px;
+      color: var(--pt-text-muted);
+      margin: 0;
+    }
+
+    /* Form Elements */
+    .patient-form-group {
+      margin-bottom: 18px;
+    }
+
+    .patient-form-label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 7px;
+    }
+
+    .patient-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .patient-input-icon {
+      position: absolute;
+      left: 14px;
+      width: 19px;
+      height: 19px;
+      color: #94a3b8;
+      pointer-events: none;
+      transition: color 0.2s ease;
+    }
+
+    .patient-input {
+      width: 100%;
+      height: 48px;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 0 16px 0 44px;
+      font-size: 14.5px;
+      font-family: inherit;
+      color: #0f172a;
+      transition: all 0.2s ease;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .patient-input:focus {
+      background: #ffffff;
+      border-color: var(--pt-blue-primary);
+      box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.12);
+    }
+
+    .patient-input:focus + .patient-input-icon,
+    .patient-input-wrap:focus-within .patient-input-icon {
+      color: var(--pt-blue-primary);
+    }
+
+    /* Password Toggle Button */
+    .patient-pw-toggle {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px 8px;
+      font-size: 16px;
+      color: #64748b;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .patient-pw-toggle:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    /* Security Check / CAPTCHA Box */
+    .patient-captcha-section {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+    }
+
+    .patient-captcha-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .patient-captcha-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .patient-captcha-display {
+      flex: 1;
+      background: #ffffff;
+      border: 1.5px dashed #94a3b8;
+      border-radius: 8px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 5px;
+      color: #1e293b;
+      text-align: center;
+      padding: 6px 10px;
+      user-select: none;
+      min-width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .patient-captcha-refresh {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #475569;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .patient-captcha-refresh:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+      transform: rotate(45deg);
+    }
+
+    .patient-captcha-input {
+      flex: 1.2;
+      height: 40px;
+      padding: 0 12px !important;
+      font-size: 14px;
+      text-align: center;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Options Row: Remember Me & Forgot Password */
+    .patient-form-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      font-size: 13.5px;
+    }
+
+    .patient-remember-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #475569;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 500;
+    }
+
+    .patient-remember-label input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      accent-color: var(--pt-blue-primary);
+      cursor: pointer;
+    }
+
+    .patient-forgot-link {
+      color: var(--pt-blue-primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .patient-forgot-link:hover {
+      color: var(--pt-blue-dark);
+      text-decoration: underline;
+    }
+
+    /* Feedback Alert Message */
+    .patient-alert {
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      margin-bottom: 16px;
+      display: none;
+      line-height: 1.45;
+    }
+
+    .patient-alert:not([hidden]) {
+      display: block;
+    }
+
+    .alert-danger {
+      background-color: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .alert-success {
+      background-color: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .alert-warning {
+      background-color: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    .alert-info {
+      background-color: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+
+    /* Primary Submit Button: Login as Patient */
+    .patient-btn-primary {
+      width: 100%;
+      height: 50px;
+      background: var(--pt-blue-primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      font-size: 15.5px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 18px rgba(13, 110, 253, 0.28);
+      transition: all 0.25s ease;
+    }
+
+    .patient-btn-primary:hover {
+      background: var(--pt-blue-dark);
+      transform: translateY(-1.5px);
+      box-shadow: 0 8px 22px rgba(13, 110, 253, 0.38);
+    }
+
+    .patient-btn-primary:active {
+      transform: translateY(0);
+    }
+
+    /* OR Divider */
+    .patient-divider {
+      position: relative;
+      text-align: center;
+      margin: 22px 0;
+    }
+
+    .patient-divider::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    .patient-divider span {
+      position: relative;
+      background: #ffffff;
+      padding: 0 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* Sign Up Secondary Action */
+    .patient-signup-btn {
+      width: 100%;
+      height: 48px;
+      background: #ffffff;
+      color: var(--pt-blue-primary);
+      border: 1.5px solid var(--pt-blue-primary);
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      box-sizing: border-box;
+    }
+
+    .patient-signup-btn:hover {
+      background: #f0f7ff;
+      border-color: var(--pt-blue-dark);
+      color: var(--pt-blue-dark);
+      transform: translateY(-1px);
+    }
+
+    .patient-signup-btn strong {
+      font-weight: 800;
+      text-decoration: underline;
+    }
+
+    /* Switch to Doctor Login Link */
+    .patient-doctor-switch {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid #f1f5f9;
+      text-align: center;
+      font-size: 13px;
+      color: var(--pt-text-muted);
+    }
+
+    .patient-doctor-switch a {
+      color: #087f5b;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 4px;
+      transition: color 0.2s ease;
+    }
+
+    .patient-doctor-switch a:hover {
+      color: #065f46;
+      text-decoration: underline;
+    }
+
+    /* Verification Micro Badges */
+    .patient-trust-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 16px;
+      font-size: 11.5px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .patient-trust-bar span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* --------------------------------------------------------------------------
+       RESPONSIVE ADJUSTMENTS
+       -------------------------------------------------------------------------- */
+    @media (max-width: 1024px) {
+      .patient-layout-container {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .patient-info-col {
+        align-items: center;
+        text-align: center;
+      }
+      .patient-hero-subtitle {
+        max-width: 580px;
+      }
+      .patient-illustration-card {
+        max-width: 480px;
+        text-align: left;
+      }
+      .patient-features-grid {
+        max-width: 480px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .patient-page-wrapper {
+        padding: 24px 16px;
+      }
+      .patient-hero-title {
+        font-size: 32px;
+      }
+      .patient-hero-subtitle {
+        font-size: 14.5px;
+      }
+      .patient-slogan-wrap {
+        font-size: 23px;
+      }
+      .patient-login-card {
+        padding: 28px 20px 24px;
+        border-radius: 20px;
+      }
+      .patient-features-grid {
+        grid-template-columns: 1fr;
+        width: 100%;
+      }
+      .patient-captcha-row {
+        flex-wrap: wrap;
+      }
+      .patient-captcha-display {
+        flex: 1 1 100px;
+      }
+      .patient-captcha-input {
+        flex: 1 1 100%;
+        margin-top: 6px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="./css/clinical-dropdown.css">
+  <link rel="stylesheet" href="./css/healthcare-theme.css">
+</head>
+<body>
+
+  <!-- ======================================================================
+       HEADER / NAVBAR (Consistent 90px height, 60px logo, single-row links)
+       ====================================================================== -->
+  <header class="shared-header mt-navbar" role="banner">
+    <div class="shared-header-inner mt-navbar-inner">
+
+      <!-- Multi Therapy Brand Identity -->
+      <a href="./index.html" class="shared-brand mt-brand" title="Multi Therapy Home">
+        <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="shared-logo mt-logo" width="58" height="58">
+        <div class="shared-brand-text">
+          <span class="shared-brand-title mt-brand-title">Multi Therapy</span>
+          <span class="shared-brand-subtitle mt-brand-subtitle">Every Individual Deserves Better Care.</span>
+        </div>
+      </a>
+
+      <!-- Center Navigation Links -->
+      <nav class="shared-nav-center mt-nav-center" aria-label="Main Navigation">
+        <ul class="shared-nav-list mt-nav-list" id="navMenu">
+          <li><a href="./index.html" class="shared-nav-link mt-nav-link " id="navHome">Home</a></li>
+          <li><a href="./patient-home.html" class="shared-nav-link mt-nav-link " id="navPatientHome">Patient Home</a></li>
+          <li><a href="./doctor-home.html" class="shared-nav-link mt-nav-link " id="navDoctorHome">Doctor Home</a></li>
+
+          <!-- Clinical Management Dropdown -->
+          <li class="nav-item-dropdown ">
+            <a href="javascript:void(0)" class="nav-dropdown-toggle shared-nav-link mt-nav-link " aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
+              <span>Clinical Management</span>
+              <svg class="dropdown-arrow-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2.5 4.5L6 8L9.5 4.5"></path>
+              </svg>
+            </a>
+            <div class="nav-dropdown-menu" aria-label="Clinical Management Submenu">
+              <a href="./doctors.html" class="nav-dropdown-link " id="dropDoctors">
+                <span class="nav-dropdown-icon">👨‍⚕️</span>
+                <span class="nav-dropdown-text">Doctors</span>
+              </a>
+              <a href="./patients.html" class="nav-dropdown-link " id="dropPatients">
+                <span class="nav-dropdown-icon">👥</span>
+                <span class="nav-dropdown-text">Patients</span>
+              </a>
+              <a href="./therapists.html" class="nav-dropdown-link " id="dropTherapists">
+                <span class="nav-dropdown-icon">👨‍⚕️</span>
+                <span class="nav-dropdown-text">Therapists</span>
+              </a>
+              <a href="./appointments.html" class="nav-dropdown-link " id="dropAppointments">
+                <span class="nav-dropdown-icon">📅</span>
+                <span class="nav-dropdown-text">Appointments</span>
+              </a>
+              <a href="./therapy-sessions.html" class="nav-dropdown-link " id="dropTherapySessions">
+                <span class="nav-dropdown-icon">💪</span>
+                <span class="nav-dropdown-text">Therapy Sessions</span>
+              </a>
+              <a href="./exercises.html" class="nav-dropdown-link " id="dropExercises">
+                <span class="nav-dropdown-icon">🏃</span>
+                <span class="nav-dropdown-text">Exercises</span>
+              </a>
+            </div>
+          </li>
+
+          <li><a href="./login.html" class="shared-nav-link mt-nav-link active" id="navPatientLogin">Patient Login</a></li>
+          <li><a href="./doctor-login.html" class="shared-nav-link mt-nav-link " id="navDoctorLogin">Doctor Login</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right-Side Controls: Notification -> Profile -> Logout -> Contact -> Sign Up -->
+      <div class="shared-nav-right mt-nav-right">
+
+        <!-- 1. Notification Icon with Badge Count & Dropdown -->
+        <div class="shared-notif-wrap" style="position: relative;">
+          <button type="button" class="shared-notif-btn doc-notif-btn" id="btnHeaderNotifications" aria-label="Clinical Notifications" title="Clinical Notifications">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="shared-notif-badge doc-notif-badge" id="headerNotifBadge" aria-hidden="true">3</span>
+          </button>
+
+          <!-- Notification Dropdown -->
+          <div class="shared-notif-dropdown doc-notif-dropdown" id="headerNotifDropdown" role="menu">
+            <div class="shared-notif-header">
+              <strong>Clinical Notifications</strong>
+              <span class="badge bg-primary" style="font-size: 11px;">Active</span>
+            </div>
+            <div class="shared-notif-item">
+              <span style="font-size: 16px;">⚡</span>
+              <div>
+                <div style="font-weight: 700; font-size: 12.5px; color: #0f172a;">Resend Email Active</div>
+                <div style="font-size: 11px; color: #64748b;">Doctor OTP delivery active.</div>
+              </div>
+            </div>
+            <div class="shared-notif-item">
+              <span style="font-size: 16px;">🗓️</span>
+              <div>
+                <div style="font-weight: 700; font-size: 12.5px; color: #0f172a;">Clinical Schedule Synced</div>
+                <div style="font-size: 11px; color: #64748b;">Patient appointments online.</div>
+              </div>
+            </div>
+            <div class="shared-notif-item">
+              <span style="font-size: 16px;">✅</span>
+              <div>
+                <div style="font-weight: 700; font-size: 12.5px; color: #0f172a;">TiDB Database Online</div>
+                <div style="font-size: 11px; color: #64748b;">Multi Therapy cloud connected.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Admin / User Profile Pill -->
+        <div id="userProfileWrap" class="shared-profile-wrap" style="position: relative; display: inline-flex;">
+          <a href="./doctor-profile.html" class="shared-user-pill mt-user" id="userProfileBtn" title="View Profile">
+            <img id="navAvatarImg" class="shared-avatar-img mt-user-photo d-none" alt="" style="display: none !important;" hidden>
+            <div id="navAvatar" class="shared-avatar-fallback mt-user-default">👤</div>
+            <div class="shared-user-text mt-user-text">
+              <div class="shared-user-name mt-user-name" id="navUsername">User</div>
+              <div class="shared-user-role mt-user-role" id="navRole">Admin</div>
+            </div>
+            <span class="shared-profile-caret mt-arrow">⌄</span>
+          </a>
+        </div>
+
+        <!-- 3. Logout Button -->
+        <button type="button" id="logoutBtn" class="shared-logout-btn mt-logout-btn" title="Sign Out">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Logout</span>
+        </button>
+
+        <!-- 4 & 5. Public Actions: Contact & Sign Up -->
+        <div id="publicNavActions" class="shared-public-actions">
+          <!-- Contact Button -->
+          <a href="./index.html#contact" class="shared-btn-contact doc-btn-contact" id="btnHeaderContact" title="Contact Multi Therapy Support">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span>Contact</span>
+          </a>
+
+          <!-- Sign Up Button -->
+          <a href="./signup.html" class="shared-btn-signup doc-btn-signup " id="btnHeaderSignup" title="Sign Up">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Sign Up</span>
+          </a>
+        </div>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button type="button" class="shared-nav-toggle doc-nav-toggle" id="navToggle" aria-label="Toggle Navigation Menu">
+          ☰
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       MAIN CONTENT: PATIENT LOGIN TWO-COLUMN LAYOUT
+       ====================================================================== -->
+  <main class="patient-page-wrapper">
+    <!-- Ambient Blur Accents -->
+    <div class="patient-ambient-blob patient-blob-1" aria-hidden="true"></div>
+    <div class="patient-ambient-blob patient-blob-2" aria-hidden="true"></div>
+
+    <div class="patient-layout-container">
+
+      <!-- ==================================================================
+           LEFT COLUMN: PATIENT PORTAL INFORMATION
+           ================================================================== -->
+      <section class="patient-info-col" aria-labelledby="patientWelcomeHeading">
+        <!-- Top Pill Badge -->
+        <div class="patient-welcome-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span>WELCOME BACK</span>
+        </div>
+
+        <!-- Main Title -->
+        <h1 class="patient-hero-title" id="patientWelcomeHeading">
+          Patient <span>Login</span>
+        </h1>
+
+        <!-- Subtitle Description -->
+        <p class="patient-hero-subtitle">
+          Access your account to book appointments, view therapy sessions, and track your progress with dedicated clinical care and support.
+        </p>
+
+        <!-- Slogan -->
+        <div class="patient-slogan-wrap" aria-label="Slogan">
+          <span>Every Step Matters</span>
+          <span class="patient-slogan-heart" aria-hidden="true">♥</span>
+        </div>
+
+        <!-- Healthcare Patient Session Illustration Card -->
+        <div class="patient-illustration-card">
+          <img src="./images/patient-avatar.svg" alt="" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJwYXRHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMGIzYzczIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMwODY2ZjUiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMjg0YzciLz48L2xpbmVhckdyYWRpZW50PjxmZWRyb3BTaGFkb3cgaWQ9InNoYWRvdyIgeD0iLTEwJSIgeT0iLTEwJSIgd2lkdGg9IjEyMCUiIGhlaWdodD0iMTIwJSI+PGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjQiIHN0ZERldmlhdGlvbj0iNCIgZmxvb2QtY29sb3I9IiMwMDAiIGZsb29kLW9wYWNpdHk9IjAuMTUiLz48L2ZpbHRlcj48L2RlZnM+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5NiIgZmlsbD0idXJsKCNwYXRHcmFkKSIvPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2Utb3BhY2l0eT0iMC4zIi8+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsdGVyPSJ1cmwoI3NoYWRvdykiPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjcyIiByPSIzMiIvPjxwYXRoIGQ9Ik0gNDUsMTYyIEMgNDUsMTI0IDcyLDExOCAxMDAsMTE4IEMgMTI4LDExOCAxNTUsMTI0IDE1NSwxNjIgQyAxNTUsMTY4IDE1MCwxNzIgMTQ0LDE3MiBMIDU2LDE3MiBDIDUwLDE3MiA0NSwxNjggNDUsMTYyIFoiLz48cGF0aCBkPSJNIDEwMCwxMzggQyA5NiwxMzMgODgsMTMzIDg1LDEzOCBDIDgyLDE0MyA4NSwxNDggMTAwLDE1NyBDIDExNSwxNDggMTE4LDE0MyAxMTUsMTM4IEMgMTEyLDEzMyAxMDQsMTMzIDEwMCwxMzggWiIgZmlsbD0iIzM4YmRmOCIvPjwvZz48L3N2Zz4='; this.onerror=null;" class="patient-avatar-thumb">
+          <div class="patient-thumb-info">
+            <span class="patient-thumb-title">Personalized Therapy &amp; Care</span>
+            <span class="patient-thumb-desc">Direct access to your physiotherapists, speech specialists, and occupational therapists.</span>
+          </div>
+        </div>
+
+        <!-- Four Feature Items Grid -->
+        <div class="patient-features-grid">
+          <!-- 1. Book Appointments -->
+          <div class="patient-feature-card">
+            <div class="patient-feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <div class="patient-feature-text">
+              <span class="patient-feature-title">Book Appointments</span>
+              <span class="patient-feature-sub">Schedule therapy with ease</span>
+            </div>
+          </div>
+
+          <!-- 2. Track Progress -->
+          <div class="patient-feature-card">
+            <div class="patient-feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+            </div>
+            <div class="patient-feature-text">
+              <span class="patient-feature-title">Track Progress</span>
+              <span class="patient-feature-sub">Monitor recovery milestones</span>
+            </div>
+          </div>
+
+          <!-- 3. View Therapy Plans -->
+          <div class="patient-feature-card">
+            <div class="patient-feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+            <div class="patient-feature-text">
+              <span class="patient-feature-title">View Therapy Plans</span>
+              <span class="patient-feature-sub">Custom exercise assignments</span>
+            </div>
+          </div>
+
+          <!-- 4. Better Support -->
+          <div class="patient-feature-card">
+            <div class="patient-feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="M9 12l2 2 4-4"></path>
+              </svg>
+            </div>
+            <div class="patient-feature-text">
+              <span class="patient-feature-title">Better Support</span>
+              <span class="patient-feature-sub">Direct clinical assistance</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           RIGHT COLUMN: PATIENT LOGIN CARD
+           ================================================================== -->
+      <section class="patient-card-col" aria-label="Patient Sign In Form">
+        <div class="patient-login-card">
+
+          <!-- Card Header -->
+          <div class="patient-card-header">
+            <div class="patient-card-logo-wrap">
+              <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="patient-card-logo" width="88" height="88">
+            </div>
+            <h2 class="patient-card-title">Patient Login</h2>
+            <p class="patient-card-sub">Sign in to continue to your account.</p>
+          </div>
+
+          <!-- Login Form (Exact IDs preserved for js/login.js) -->
+          <form id="loginForm" autocomplete="on">
+
+            <!-- Email Address / Username Field -->
+            <div class="patient-form-group">
+              <label class="patient-form-label" for="username">Email Address</label>
+              <div class="patient-input-wrap">
+                <svg class="patient-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <input class="patient-input" type="text" id="username" placeholder="Enter your email or username" autocomplete="username" required>
+              </div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="patient-form-group">
+              <label class="patient-form-label" for="loginPassword">Password</label>
+              <div class="patient-input-wrap">
+                <svg class="patient-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <input class="patient-input" type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password" required>
+                <button type="button" id="togglePassword" class="patient-pw-toggle" aria-label="Show or hide password">
+                  👁️
+                </button>
+              </div>
+            </div>
+
+            <!-- Security Check (CAPTCHA Required by js/login.js) -->
+            <div class="patient-captcha-section">
+              <div class="patient-captcha-header">
+                <span>🔐 Security Verification</span>
+                <span style="font-weight: 500; font-size: 11px; color: #64748b;">Case-insensitive</span>
+              </div>
+              <div class="patient-captcha-row">
+                <div id="captchaText" class="patient-captcha-display" aria-live="polite">Loading...</div>
+                <button type="button" id="refreshCaptcha" class="patient-captcha-refresh" title="Refresh CAPTCHA code" aria-label="Refresh code">
+                  ↻
+                </button>
+                <input id="captchaInput" class="patient-input patient-captcha-input" type="text" placeholder="Enter code" autocomplete="off" maxlength="5" required>
+              </div>
+            </div>
+
+            <!-- Options: Remember Me & Forgot Password -->
+            <div class="patient-form-options">
+              <label class="patient-remember-label">
+                <input type="checkbox" id="remember" checked>
+                <span>Remember Me</span>
+              </label>
+              <a href="./patient-forgot.html" id="forgotLink" class="patient-forgot-link">Forgot Password?</a>
+            </div>
+
+            <!-- Alert Message for Login Results / Errors -->
+            <div id="loginMessage" class="patient-alert" hidden aria-live="assertive"></div>
+
+            <!-- Primary Action Button -->
+            <button type="submit" id="btnPatientSubmit" class="patient-btn-primary">
+              <span>Login as Patient</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </form>
+
+          <!-- OR Divider -->
+          <div class="patient-divider">
+            <span>OR</span>
+          </div>
+
+          <!-- Sign Up Secondary Action -->
+          <a href="./signup.html" class="patient-signup-btn" id="btnPatientSignupLink">
+            <span>Don't have an account? <strong>Sign Up</strong></span>
+          </a>
+
+          <!-- Preview Patient Home Direct Link -->
+          <div style="margin-top: 14px; text-align: center;">
+            <a href="./patient-home.html" style="font-size: 13px; color: #0875F9; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+              <span>👀 Explore Patient Home Dashboard (Preview) &rarr;</span>
+            </a>
+          </div>
+
+          <!-- Switch to Doctor Login -->
+          <div class="patient-doctor-switch">
+            <span>Are you a Healthcare Practitioner?</span>
+            <a href="./doctor-login.html" title="Access Physician &amp; Therapist Portal">
+              <span>🩺 Doctor Login →</span>
+            </a>
+          </div>
+          <div style="text-align: center; margin-top: 10px; font-size: 13px; color: #64748b;">
+            <span>System Administrator?</span>
+            <a href="./admin-login.html" style="color: #0875F9; font-weight: 700; text-decoration: none; margin-left: 4px;">⚙️ Admin Login &rarr;</a>
+          </div>
+
+          <!-- Micro Trust Badges -->
+          <div class="patient-trust-bar">
+            <span>🔒 256-Bit SSL Encrypted</span>
+            <span>•</span>
+            <span>🏥 HIPAA Compliant</span>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ======================================================================
+       FOOTER
+       ====================================================================== -->
+    <!-- Unified Multi Therapy 4-Column Professional Healthcare Footer -->
+  <footer class="mt-unified-footer" role="contentinfo">
+    <div class="mt-footer-container">
+      <div class="mt-footer-grid">
+        
+        <!-- Column 1: Brand -->
+        <div class="mt-footer-col mt-col-divider">
+          <div class="mt-footer-brand-wrap">
+            <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="mt-footer-logo" width="52" height="52">
+            <div>
+              <div class="mt-footer-brand-title">Multi Therapy</div>
+              <div class="mt-footer-brand-tagline">Care • Support • Progress • Together</div>
+            </div>
+          </div>
+          <p class="mt-footer-desc">
+            A comprehensive clinical management platform empowering Cerebral Palsy patients, doctors, physiotherapists, and family caregivers.
+          </p>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="mt-footer-col mt-col-divider">
+          <h4 class="mt-footer-heading">Quick Links</h4>
+          <ul class="mt-footer-links">
+            <li><a href="./index.html"><span class="mt-footer-link-bullet">›</span> Home</a></li>
+            <li><a href="./index.html#about"><span class="mt-footer-link-bullet">›</span> About Us</a></li>
+            <li><a href="./index.html#services"><span class="mt-footer-link-bullet">›</span> Services</a></li>
+            <li><a href="./subscription-pricing.html"><span class="mt-footer-link-bullet">›</span> Subscription Plans</a></li>
+            <li><a href="./login.html"><span class="mt-footer-link-bullet">›</span> Patient Login</a></li>
+            <li><a href="./doctor-login.html"><span class="mt-footer-link-bullet">›</span> Doctor Login</a></li>
+            <li><a href="./index.html#contact" id="footerContactLink"><span class="mt-footer-link-bullet">›</span> Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Patient Portal -->
+        <div class="mt-footer-col mt-col-divider">
+          <h4 class="mt-footer-heading">Patient Portal</h4>
+          <ul class="mt-footer-links">
+            <li><a href="./appointments.html"><span class="mt-footer-link-bullet">›</span> Appointments</a></li>
+            <li><a href="./therapy-sessions.html"><span class="mt-footer-link-bullet">›</span> Therapy Sessions</a></li>
+            <li><a href="./patients.html"><span class="mt-footer-link-bullet">›</span> Patients Directory</a></li>
+            <li><a href="./signup.html"><span class="mt-footer-link-bullet">›</span> Patient Sign Up</a></li>
+            <li><a href="./doctor-home.html"><span class="mt-footer-link-bullet">›</span> Doctor Portal</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Support & Location -->
+        <div class="mt-footer-col">
+          <h4 class="mt-footer-heading">Support &amp; Location</h4>
+          <div class="mt-footer-contact-list">
+            
+            <div class="mt-footer-contact-item">
+              <div class="mt-footer-icon-box">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/>
+                </svg>
+              </div>
+              <div>
+                <div style="font-size: 11.5px; color: #00d2ff; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">WhatsApp</div>
+                <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" style="font-weight: 700; font-size: 14.5px;">+91 9468650893</a>
+              </div>
+            </div>
+
+            <div class="mt-footer-contact-item">
+              <div class="mt-footer-icon-box">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <div>
+                <div style="font-size: 11.5px; color: #00d2ff; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Email</div>
+                <a href="mailto:info@multitherapy.org">info@multitherapy.org</a>
+              </div>
+            </div>
+
+            <div class="mt-footer-contact-item">
+              <div class="mt-footer-icon-box">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <div>
+                <div style="font-size: 11.5px; color: #00d2ff; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Working Hours</div>
+                <span>Mon–Sat, 8:00 AM–6:00 PM</span>
+              </div>
+            </div>
+
+            <div class="mt-footer-contact-item">
+              <div class="mt-footer-icon-box">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div>
+                <div class="mt-footer-contact-label" style="font-size: 11.5px; color: #00d2ff; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;">Location</div>
+                <div class="mt-footer-org-name" style="font-size: 14px; font-weight: 700; color: #ffffff; line-height: 1.35; margin-bottom: 3px;">Approach Autism Society</div>
+                <div class="mt-footer-address-text" style="font-size: 13px; color: #cbd5e1; line-height: 1.55;">
+                  A-79, Nemi Nagar, Manish Marg,<br>
+                  Gandhi Path Road, Vaishali Nagar,<br>
+                  Jaipur, Rajasthan – 302021
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="mt-footer-bottom">
+        <div class="mt-footer-copyright">
+          <span>&copy; 2026 Multi Therapy. All rights reserved.</span>
+          <span style="opacity: 0.5;">•</span>
+          <span style="color: #38bdf8; font-size: 12px;">Care • Support • Progress • Together</span>
+        </div>
+        <div class="mt-footer-social-wrap">
+          <a href="https://www.youtube.com/@multitherapy" target="_blank" rel="noopener noreferrer" class="mt-social-btn" title="YouTube" aria-label="Multi Therapy on YouTube">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.376.55 9.376.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/multitherapy" target="_blank" rel="noopener noreferrer" class="mt-social-btn" title="Instagram" aria-label="Multi Therapy on Instagram">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/multitherapy" target="_blank" rel="noopener noreferrer" class="mt-social-btn" title="LinkedIn" aria-label="Multi Therapy on LinkedIn">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/multitherapy" target="_blank" rel="noopener noreferrer" class="mt-social-btn" title="Facebook" aria-label="Multi Therapy on Facebook">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ======================================================================
+       INFORMATIONAL MODAL (About, Services, Contact Details)
+       ====================================================================== -->
+  <div class="cp-modal-backdrop" id="infoModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="cp-modal-card">
+      <div class="cp-modal-header">
+        <h3 class="cp-modal-title" id="infoModalTitle">Multi Therapy Care</h3>
+        <button class="cp-modal-close" id="infoModalCloseBtn" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="cp-modal-body" id="infoModalBody">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Core JavaScript Handlers -->
+  <script src="./js/api.js?v=2.1"></script>
+  <script src="./js/cdn.js"></script>
+  <script src="./js/login.js?v=2.1"></script>
+
+  <script>
+    // Mobile navigation toggle
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("navMenu");
+    if (navToggle && navMenu) {
+      navToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        navMenu.classList.toggle("open");
+      });
+
+      navMenu.querySelectorAll(".cp-nav-link").forEach(link => {
+        link.addEventListener("click", () => {
+          navMenu.classList.remove("open");
+        });
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!navMenu.contains(e.target) && e.target !== navToggle) {
+          navMenu.classList.remove("open");
+        }
+      });
+    }
+
+    // Modal dialog controller for About, Services, and Contact
+    const infoModal = document.getElementById("infoModal");
+    const infoModalTitle = document.getElementById("infoModalTitle");
+    const infoModalBody = document.getElementById("infoModalBody");
+    const infoModalCloseBtn = document.getElementById("infoModalCloseBtn");
+
+    function openInfoModal(title, content) {
+      if (!infoModal) return;
+      infoModalTitle.textContent = title;
+      infoModalBody.innerHTML = content;
+      infoModal.classList.add("open");
+      infoModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeInfoModal() {
+      if (!infoModal) return;
+      infoModal.classList.remove("open");
+      infoModal.setAttribute("aria-hidden", "true");
+    }
+
+    if (infoModalCloseBtn) {
+      infoModalCloseBtn.addEventListener("click", closeInfoModal);
+    }
+    if (infoModal) {
+      infoModal.addEventListener("click", (e) => {
+        if (e.target === infoModal) closeInfoModal();
+      });
+    }
+
+    // Contact modal
+    function showContactDialog() {
+      openInfoModal("Contact Multi Therapy Support", `
+        <p style="margin-bottom: 12px;">Our clinical care team is here to support patients, families, and therapists.</p>
+        <div style="background: #f0f7ff; padding: 14px 18px; border-radius: 10px; margin: 16px 0; border-left: 4px solid #0d6efd; font-size: 14px; line-height: 1.8;">
+          <div><a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp" style="color: #0d6efd; font-weight: 700; text-decoration: none; display: inline-flex; align-items: flex-start; gap: 8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #25D366; flex-shrink: 0; margin-top: 2px;" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7.02 8.48 7.02 9.68C7.02 10.88 7.89 12.04 8.01 12.2C8.13 12.37 9.72 14.82 12.16 15.87C12.74 16.12 13.19 16.27 13.55 16.38C14.13 16.57 14.67 16.54 15.08 16.48C15.55 16.41 16.51 15.9 16.71 15.33C16.92 14.76 16.92 14.28 16.86 14.17C16.79 14.07 16.63 14.01 16.38 13.89C16.14 13.77 14.93 13.18 14.71 13.1C14.48 13.02 14.32 12.98 14.16 13.22C13.99 13.46 13.53 14.01 13.39 14.17C13.25 14.33 13.11 14.35 12.87 14.23C12.63 14.11 11.85 13.85 10.92 13.03C10.2 12.39 9.71 11.6 9.57 11.36C9.43 11.12 9.55 10.99 9.68 10.87C9.79 10.76 9.92 10.59 10.05 10.44C10.17 10.29 10.21 10.18 10.29 10.02C10.37 9.86 10.33 9.72 10.27 9.6C10.21 9.48 9.73 8.29 9.53 7.81C9.33 7.33 9.14 7.4 8.99 7.39C8.85 7.38 8.69 7.38 8.53 7.38V7.33Z"/></svg><span style="display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.35;"><strong style="font-size: 13px;">Help Desk:</strong><span style="font-size: 11.5px; color: #0284c7; font-weight: 600;">📱 Only WhatsApp Us</span><strong style="font-size: 14px; letter-spacing: 0.3px;">+91 9468650893</strong></span></a></div>
+          <div>✉️ <strong>General Inquiries:</strong> info@multitherapy.com</div>
+          <div>🏥 <strong>Clinical Emergency:</strong> Available 24/7 via Healthcare Portal</div>
+        </div>
+        <p style="font-size: 13px; color: #64748b;">For existing therapy session changes or doctor notes, please log in or reach out directly to your attending clinician.</p>
+      `);
+    }
+
+    const btnHeaderContact = document.getElementById("btnHeaderContact");
+    if (btnHeaderContact) {
+      btnHeaderContact.addEventListener("click", (e) => {
+        e.preventDefault();
+        showContactDialog();
+      });
+    }
+
+    const navContact = document.getElementById("navContact");
+    if (navContact) {
+      navContact.addEventListener("click", (e) => {
+        e.preventDefault();
+        showContactDialog();
+      });
+    }
+
+    // About modal
+    const navAbout = document.getElementById("navAbout");
+    if (navAbout) {
+      navAbout.addEventListener("click", (e) => {
+        e.preventDefault();
+        openInfoModal("About Multi Therapy Care", `
+          <p><strong>Multi Therapy</strong> is a comprehensive clinical management platform uniting patients, therapists, doctors, and family caregivers.</p>
+          <p style="margin-top: 12px;">We simplify therapy scheduling, track motor and communication milestones, and empower patients through every phase of neuromuscular rehabilitation.</p>
+          <div style="background: #f0f7ff; padding: 12px 16px; border-radius: 8px; margin-top: 14px; border-left: 4px solid #0284c7;">
+            💡 <em>"Better Care, Brighter Tomorrow — Every Step Matters."</em>
+          </div>
+        `);
+      });
+    }
+
+    // Services modal
+    const navServices = document.getElementById("navServices");
+    if (navServices) {
+      navServices.addEventListener("click", (e) => {
+        e.preventDefault();
+        openInfoModal("Specialized Patient Therapy Services", `
+          <ul style="padding-left: 20px; margin: 10px 0; line-height: 1.8;">
+            <li><strong>Physiotherapy &amp; Mobility:</strong> Gait training, posture correction, and range-of-motion assessments.</li>
+            <li><strong>Occupational Therapy:</strong> Daily functional independence and adaptive device assistance.</li>
+            <li><strong>Speech &amp; Communication Therapy:</strong> Oral-motor rehabilitation and speech development.</li>
+            <li><strong>Rehabilitation Analytics:</strong> Quantitative milestone tracking and physician progress reports.</li>
+          </ul>
+        `);
+      });
+    }
+  </script>
+  <!-- Floating WhatsApp Us Button -->
+  <a href="https://wa.me/919468650893" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: inline-flex; align-items: center; text-decoration: none; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22)); transition: transform 0.25s ease;">
+    <img src="./images/whatsapp-us.png" alt="WhatsApp Us" style="height: 48px; width: auto; display: block; border-radius: 9999px;">
+  </a>
+
+  <script src="./js/clinical-dropdown.js"></script>
+  <script src="./js/footer.js"></script>
+  <script src="./js/header.js" defer></script>
+</body>
+</html>

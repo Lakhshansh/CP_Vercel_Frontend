@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Therapist Dashboard | Multi Therapy - Practitioner Portal</title>
+  <meta name="description" content="Multi Therapy - Specialist Therapist & Rehabilitation Portal. Manage Cerebral Palsy therapy sessions, assigned patients, rehabilitation exercises, and motor milestones.">
+  <link rel="icon" href="./images/multi_therapy_logo_100x100.png" type="image/png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Landing & Doctor/Therapist Styles -->
+  <link rel="stylesheet" href="./css/landing.css?v=2.2">
+  <link rel="stylesheet" href="./css/doctor-home.css?v=2.3">
+  <link rel="stylesheet" href="./css/clinical-dropdown.css">
+  <link rel="stylesheet" href="./css/healthcare-theme.css">
+</head>
+<body class="is-role-therapist">
+
+  <!-- ======================================================================
+       1. THERAPIST HEADER / NAVIGATION BAR
+       ====================================================================== -->
+  <header class="shared-header mt-navbar" role="banner">
+    <div class="shared-header-inner mt-navbar-inner">
+
+      <!-- Multi Therapy Brand Identity -->
+      <a href="./index.html" class="shared-brand mt-brand" title="Multi Therapy Home">
+        <img src="./images/multi_therapy_logo_100x100.png" alt="Multi Therapy Logo" class="shared-logo mt-logo" width="58" height="58">
+        <div class="shared-brand-text">
+          <span class="shared-brand-title mt-brand-title">Multi Therapy</span>
+          <span class="shared-brand-subtitle mt-brand-subtitle">Every Individual Deserves Better Care.</span>
+        </div>
+      </a>
+
+      <!-- Center Navigation Links (Therapist: ONLY Therapist Dashboard & Clinical Management) -->
+      <nav class="shared-nav-center mt-nav-center" aria-label="Main Navigation">
+        <ul class="shared-nav-list mt-nav-list" id="navMenu">
+          <li><a href="./therapist-dashboard.html" class="shared-nav-link mt-nav-link active" id="navTherapistHome" title="Therapist Dashboard">Therapist Dashboard</a></li>
+
+          <!-- Clinical Management Dropdown -->
+          <li class="nav-item-dropdown">
+            <a href="javascript:void(0)" class="nav-dropdown-toggle shared-nav-link mt-nav-link" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
+              <span>Clinical Management</span>
+              <svg class="dropdown-arrow-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2.5 4.5L6 8L9.5 4.5"></path>
+              </svg>
+            </a>
+            <div class="nav-dropdown-menu" aria-label="Clinical Management Submenu">
+              <a href="./therapy-sessions.html" class="nav-dropdown-link" id="dropTherapySessions">
+                <span class="nav-dropdown-icon">💪</span>
+                <span class="nav-dropdown-text">Therapy Sessions</span>
+              </a>
+              <a href="./patients.html" class="nav-dropdown-link" id="dropPatients">
+                <span class="nav-dropdown-icon">👥</span>
+                <span class="nav-dropdown-text">Patients</span>
+              </a>
+              <a href="./doctor-appointments.html" class="nav-dropdown-link" id="dropAppointments">
+                <span class="nav-dropdown-icon">📅</span>
+                <span class="nav-dropdown-text">Appointments</span>
+              </a>
+              <a href="./exercises.html" class="nav-dropdown-link" id="dropExercises">
+                <span class="nav-dropdown-icon">🏃</span>
+                <span class="nav-dropdown-text">Exercises</span>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Right-Side Controls: Notifications -> Profile -> Logout -> Contact -->
+      <div class="shared-nav-right mt-nav-right">
+        <!-- 1. Notification Icon with Badge Count & Dropdown -->
+        <div class="shared-notif-wrap" id="headerNotifWrap" style="position: relative; display: inline-flex;">
+          <button type="button" class="shared-notif-btn doc-notif-btn" id="btnHeaderNotifications" aria-label="Clinical Notifications" title="Clinical Notifications">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="shared-notif-badge doc-notif-badge" id="headerNotifBadge" aria-hidden="true">3</span>
+          </button>
+
+          <!-- Notification Dropdown -->
+          <div class="shared-notif-dropdown doc-notif-dropdown" id="headerNotifDropdown" role="menu">
+            <div class="shared-notif-header">
+              <strong>Clinical Notifications</strong>
+              <span class="badge bg-primary" style="font-size: 11px;">Active</span>
+            </div>
+            <div class="shared-notif-item">
+              <span style="font-size: 16px;">⚡</span>
+              <div>
+                <div style="font-weight: 700; font-size: 12.5px; color: #0f172a;">Therapy Schedule Synced</div>
+                <div style="font-size: 11px; color: #64748b;">Daily neuromuscular session slots loaded.</div>
+              </div>
+            </div>
+            <div class="shared-notif-item">
+              <span style="font-size: 16px;">🏃</span>
+              <div>
+                <div style="font-weight: 700; font-size: 12.5px; color: #0f172a;">Motor Milestone Updated</div>
+                <div style="font-size: 11px; color: #64748b;">Patient balance scores recorded.</div>
+              </div>
+            </div>
+            <div class="shared-notif-item">
+              <span style="font-size: 16px;">✅</span>
+              <div>
+                <div style="font-weight: 700; font-size: 12.5px; color: #0f172a;">TiDB Database Online</div>
+                <div style="font-size: 11px; color: #64748b;">Multi Therapy cloud connected.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Therapist Profile Pill & Dropdown -->
+        <div id="userProfileWrap" class="shared-profile-wrap" style="position: relative; display: inline-flex;">
+          <button type="button" class="shared-user-pill mt-user" id="userProfileBtn" aria-expanded="false" aria-haspopup="true" aria-controls="userProfileDropdown" title="User Profile Menu">
+            <div id="navAvatar" class="shared-avatar-fallback mt-user-default">T</div>
+            <div class="shared-user-text mt-user-text">
+              <div class="shared-user-name mt-user-name" id="navUsername">Therapist</div>
+              <div class="shared-user-role mt-user-role" id="navRole">Specialist</div>
+            </div>
+            <svg class="shared-profile-caret mt-arrow" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M2.5 4.5L6 8L9.5 4.5"></path>
+            </svg>
+          </button>
+
+          <!-- Profile Dropdown Menu -->
+          <div class="shared-profile-dropdown" id="userProfileDropdown" role="menu" aria-label="User Account Menu">
+            <div class="profile-dropdown-header">
+              <div class="profile-dropdown-user-info">
+                <div class="profile-dropdown-avatar">T</div>
+                <div class="profile-dropdown-user-details">
+                  <div class="profile-dropdown-name" id="dropdownUsername">Therapist</div>
+                  <div class="profile-dropdown-role-badge">Therapist</div>
+                </div>
+              </div>
+            </div>
+            <div class="profile-dropdown-divider"></div>
+            <div class="profile-dropdown-items">
+              <a href="./doctor-profile.html" class="profile-dropdown-item" id="dropItemProfile" role="menuitem">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>My Profile</span>
+              </a>
+              <a href="./doctor-profile.html#changePasswordForm" class="profile-dropdown-item" id="dropItemSettings" role="menuitem">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                <span>Account Settings</span>
+              </a>
+              <a href="./therapist-dashboard.html" class="profile-dropdown-item" id="dropItemDashboard" role="menuitem">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="9"></rect>
+                  <rect x="14" y="3" width="7" height="5"></rect>
+                  <rect x="14" y="12" width="7" height="9"></rect>
+                  <rect x="3" y="16" width="7" height="5"></rect>
+                </svg>
+                <span>My Dashboard</span>
+                <span class="profile-dropdown-badge">Therapist Dashboard</span>
+              </a>
+            </div>
+            <div class="profile-dropdown-divider"></div>
+            <div class="profile-dropdown-footer">
+              <button type="button" class="profile-dropdown-item profile-dropdown-logout" id="dropdownLogoutBtn" role="menuitem">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span>Logout</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Prominent Logout Button -->
+        <button type="button" id="logoutBtn" class="shared-logout-btn mt-logout-btn" title="Sign Out of Multi Therapy">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Logout</span>
+        </button>
+
+        <!-- 4. Contact Button -->
+        <div id="publicNavActions" class="shared-public-actions">
+          <a href="./index.html#contact" class="shared-btn-contact doc-btn-contact" id="btnHeaderContact" title="Contact Multi Therapy Support">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span>Contact</span>
+          </a>
+        </div>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button type="button" class="shared-nav-toggle doc-nav-toggle" id="navToggle" aria-label="Toggle Navigation Menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mt-app-wrapper">
+    <aside id="mtSidebar" class="mt-sidebar"></aside>
+    <div class="mt-main-content" style="padding:0;">
+
+      <!-- ======================================================================
+           2. THERAPIST HERO / WELCOME SECTION (BLUE & WHITE HEALTHCARE DESIGN)
+           ====================================================================== -->
+      <section class="doc-hero-section">
+        <div class="doc-container">
+          <div class="doc-hero-grid">
+            
+            <!-- Hero Left Column -->
+            <div>
+              <div class="doc-clinic-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+                <span>THERAPIST CLINICAL OVERVIEW</span>
+              </div>
+
+              <h1 class="doc-hero-title">
+                Welcome back, <span id="heroTherapistName">Specialist Therapist</span>!
+              </h1>
+
+              <p class="doc-hero-subtitle">
+                Coordinate multidisciplinary rehabilitation, record motor skill milestones, conduct guided exercise sessions, and evaluate functional progress for assigned Cerebral Palsy patients.
+              </p>
+
+              <div class="doc-hero-actions">
+                <a href="./therapy-sessions.html" class="doc-btn-primary">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <span>View Today's Therapy Sessions</span>
+                </a>
+
+                <a href="./exercises.html" class="doc-btn-secondary">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                  </svg>
+                  <span>Rehabilitation Exercises</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Hero Right Column: Therapist Profile Photo Card -->
+            <div style="display: flex; justify-content: center;">
+              <div class="doc-illustration-card">
+                <div class="doc-hero-avatar-wrap">
+                  <div style="width: 100px; height: 100px; border-radius: 50%; background: #0284c7; color: #ffffff; font-size: 38px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);">T</div>
+                  <span class="doc-hero-status-dot" title="Available for Sessions"></span>
+                </div>
+                <div class="doc-card-name" id="therapistIllustrationName">Specialist Therapist</div>
+                <div class="doc-card-spec" id="therapistIllustrationSpec">Pediatric Physical &amp; Occupational Therapist</div>
+                <div class="doc-card-badge">● Available for Consultations</div>
+                <div class="doc-card-meta">
+                  <span id="therapistHeroDate">Today</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           3. DASHBOARD STATISTICS CARDS (4 ESSENTIAL METRICS)
+           ====================================================================== -->
+      <section class="doc-stats-section" aria-label="Clinical Metrics Overview">
+        <div class="doc-container">
+          <div class="doc-stats-grid">
+            
+            <!-- 1. Assigned Patients -->
+            <div class="doc-stat-card">
+              <div class="doc-stat-info">
+                <span class="doc-stat-label">Assigned Patients</span>
+                <span class="doc-stat-number" id="statAssignedPatients">14</span>
+                <span class="doc-stat-desc">Active rehabilitation profiles</span>
+              </div>
+              <div class="doc-stat-icon-wrap icon-patients">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- 2. Today's Sessions -->
+            <div class="doc-stat-card">
+              <div class="doc-stat-info">
+                <span class="doc-stat-label">Today's Sessions</span>
+                <span class="doc-stat-number" id="statTodaySessions">5</span>
+                <span class="doc-stat-desc">Scheduled rehabilitation appointments</span>
+              </div>
+              <div class="doc-stat-icon-wrap icon-schedule">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- 3. Exercises Prescribed -->
+            <div class="doc-stat-card">
+              <div class="doc-stat-info">
+                <span class="doc-stat-label">Exercises Prescribed</span>
+                <span class="doc-stat-number" id="statExercisesPrescribed">18</span>
+                <span class="doc-stat-desc">Active mobility routines</span>
+              </div>
+              <div class="doc-stat-icon-wrap icon-therapists">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                  <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                  <line x1="6" y1="1" x2="6" y2="4"/>
+                  <line x1="10" y1="1" x2="10" y2="4"/>
+                  <line x1="14" y1="1" x2="14" y2="4"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- 4. Progress Reports Completed -->
+            <div class="doc-stat-card">
+              <div class="doc-stat-info">
+                <span class="doc-stat-label">Progress Reports</span>
+                <span class="doc-stat-number" id="statReportsCompleted">42</span>
+                <span class="doc-stat-desc">Evaluations logged</span>
+              </div>
+              <div class="doc-stat-icon-wrap icon-reports">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10 9 9 9 8 9"/>
+                </svg>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           4. QUICK CLINICAL ACTIONS
+           ====================================================================== -->
+      <section class="doc-actions-section" aria-labelledby="actionsHeading">
+        <div class="doc-container">
+          <h2 class="doc-section-title" id="actionsHeading">Quick Clinical Actions</h2>
+          <div class="doc-actions-grid">
+            
+            <a href="./therapy-sessions.html" class="doc-action-card">
+              <div class="doc-action-icon-wrap">💪</div>
+              <div class="doc-action-title">Log Therapy Session</div>
+              <div class="doc-action-desc">Record neuromuscular, physical or occupational session progress.</div>
+            </a>
+
+            <a href="./exercises.html" class="doc-action-card">
+              <div class="doc-action-icon-wrap">🏃</div>
+              <div class="doc-action-title">Manage Exercises</div>
+              <div class="doc-action-desc">Prescribe posture, balance, and gait retraining routines.</div>
+            </a>
+
+            <a href="./patients.html" class="doc-action-card">
+              <div class="doc-action-icon-wrap">👥</div>
+              <div class="doc-action-title">Patient Records</div>
+              <div class="doc-action-desc">Review assigned clinical records, diagnoses and care plans.</div>
+            </a>
+
+            <a href="./doctor-appointments.html" class="doc-action-card">
+              <div class="doc-action-icon-wrap">📅</div>
+              <div class="doc-action-title">Session Appointments</div>
+              <div class="doc-action-desc">Review today's appointments and clinical consultations.</div>
+            </a>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           5. MAIN THERAPIST PANELS (SESSIONS & PATIENTS)
+           ====================================================================== -->
+      <section class="doc-panels-section" style="padding: 24px 0 60px 0;">
+        <div class="doc-container">
+          <div class="doc-panels-grid">
+            
+            <!-- Left: Today's Therapy Sessions -->
+            <div class="doc-panel-card">
+              <div class="doc-panel-header">
+                <h3 class="doc-panel-title">Today's Therapy Schedule</h3>
+                <a href="./therapy-sessions.html" class="doc-btn-secondary" style="padding: 4px 12px; font-size: 12px;">View All</a>
+              </div>
+              <div class="doc-panel-body" style="padding: 16px;">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  
+                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+                    <div>
+                      <div style="font-weight: 700; color: #0f172a; font-size: 14px;">Aarav Patel (Age 8, Spastic Diplegia)</div>
+                      <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Pediatric Physiotherapy • 10:00 AM - 10:45 AM</div>
+                    </div>
+                    <span style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 3px 10px; border-radius: 9999px; font-size: 11px; font-weight: 700;">Confirmed</span>
+                  </div>
+
+                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+                    <div>
+                      <div style="font-weight: 700; color: #0f172a; font-size: 14px;">Ananya Gupta (Age 11, GMFCS Level II)</div>
+                      <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Fine Motor Occupational Therapy • 11:30 AM - 12:15 PM</div>
+                    </div>
+                    <span style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; padding: 3px 10px; border-radius: 9999px; font-size: 11px; font-weight: 700;">In Progress</span>
+                  </div>
+
+                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+                    <div>
+                      <div style="font-weight: 700; color: #0f172a; font-size: 14px;">Rohan Mehra (Age 6, Hemiplegic CP)</div>
+                      <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Gait &amp; Balance Retraining • 2:00 PM - 2:45 PM</div>
+                    </div>
+                    <span style="background: #fef3c7; color: #d97706; border: 1px solid #fde68a; padding: 3px 10px; border-radius: 9999px; font-size: 11px; font-weight: 700;">Scheduled</span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Assigned Patients Progress Overview -->
+            <div class="doc-panel-card">
+              <div class="doc-panel-header">
+                <h3 class="doc-panel-title">Assigned Patients Overview</h3>
+                <a href="./patients.html" class="doc-btn-secondary" style="padding: 4px 12px; font-size: 12px;">Directory</a>
+              </div>
+              <div class="doc-panel-body" style="padding: 16px;">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  
+                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+                    <div>
+                      <div style="font-weight: 700; color: #0f172a; font-size: 14px;">Dev Sharma</div>
+                      <div style="font-size: 12px; color: #64748b; margin-top: 2px;">18 Sessions Completed • GMFCS Level I</div>
+                    </div>
+                    <div style="font-size: 13px; font-weight: 800; color: #0284c7;">+14% Mobility</div>
+                  </div>
+
+                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+                    <div>
+                      <div style="font-weight: 700; color: #0f172a; font-size: 14px;">Pooja Verma</div>
+                      <div style="font-size: 12px; color: #64748b; margin-top: 2px;">24 Sessions Completed • Quadriplegic CP</div>
+                    </div>
+                    <div style="font-size: 13px; font-weight: 800; color: #059669;">Stable Control</div>
+                  </div>
+
+                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+                    <div>
+                      <div style="font-weight: 700; color: #0f172a; font-size: 14px;">Kabir Malhotra</div>
+                      <div style="font-size: 12px; color: #64748b; margin-top: 2px;">12 Sessions Completed • Ataxic CP</div>
+                    </div>
+                    <div style="font-size: 13px; font-weight: 800; color: #0284c7;">+19% Coordination</div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <footer class="mt-unified-footer" role="contentinfo"></footer>
+
+  <script src="./js/clinical-dropdown.js"></script>
+  <script src="./js/sidebar.js"></script>
+  <script src="./js/footer.js"></script>
+  <script src="./js/header.js" defer></script>
+  <script src="./js/therapist-dashboard.js"></script>
+</body>
+</html>
+

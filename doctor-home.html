@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="./css/landing.css?v=2.2">
   <link rel="stylesheet" href="./css/doctor-home.css?v=2.3">
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
+  <link rel="stylesheet" href="./css/healthcare-theme.css">
 </head>
 <body>
 
@@ -36,7 +37,7 @@
   <!-- ======================================================================
        1. DOCTOR HEADER / NAVIGATION BAR
        ====================================================================== -->
-  <header class="shared-header mt-navbar" role="banner">
+    <header class="shared-header mt-navbar" role="banner">
     <div class="shared-header-inner mt-navbar-inner">
 
       <!-- Multi Therapy Brand Identity -->
@@ -48,59 +49,45 @@
         </div>
       </a>
 
-      <!-- Center Navigation Links -->
+      <!-- Center Navigation Links (Doctor: ONLY Doctor Home and Clinical Management) -->
       <nav class="shared-nav-center mt-nav-center" aria-label="Main Navigation">
         <ul class="shared-nav-list mt-nav-list" id="navMenu">
-          <li><a href="./index.html" class="shared-nav-link mt-nav-link " id="navHome">Home</a></li>
-          <li><a href="./patient-home.html" class="shared-nav-link mt-nav-link " id="navPatientHome">Patient Home</a></li>
           <li><a href="./doctor-home.html" class="shared-nav-link mt-nav-link active" id="navDoctorHome">Doctor Home</a></li>
 
           <!-- Clinical Management Dropdown -->
-          <li class="nav-item-dropdown ">
-            <a href="javascript:void(0)" class="nav-dropdown-toggle shared-nav-link mt-nav-link " aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
+          <li class="nav-item-dropdown">
+            <a href="javascript:void(0)" class="nav-dropdown-toggle shared-nav-link mt-nav-link" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
               <span>Clinical Management</span>
               <svg class="dropdown-arrow-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M2.5 4.5L6 8L9.5 4.5"></path>
               </svg>
             </a>
             <div class="nav-dropdown-menu" aria-label="Clinical Management Submenu">
-              <a href="./doctors.html" class="nav-dropdown-link " id="dropDoctors">
-                <span class="nav-dropdown-icon">👨‍⚕️</span>
-                <span class="nav-dropdown-text">Doctors</span>
-              </a>
-              <a href="./patients.html" class="nav-dropdown-link " id="dropPatients">
+              <a href="./patients.html" class="nav-dropdown-link" id="dropPatients">
                 <span class="nav-dropdown-icon">👥</span>
                 <span class="nav-dropdown-text">Patients</span>
               </a>
-              <a href="./therapists.html" class="nav-dropdown-link " id="dropTherapists">
-                <span class="nav-dropdown-icon">👨‍⚕️</span>
-                <span class="nav-dropdown-text">Therapists</span>
-              </a>
-              <a href="./appointments.html" class="nav-dropdown-link " id="dropAppointments">
+              <a href="./doctor-appointments.html" class="nav-dropdown-link" id="dropAppointments">
                 <span class="nav-dropdown-icon">📅</span>
                 <span class="nav-dropdown-text">Appointments</span>
               </a>
-              <a href="./therapy-sessions.html" class="nav-dropdown-link " id="dropTherapySessions">
+              <a href="./therapy-sessions.html" class="nav-dropdown-link" id="dropTherapySessions">
                 <span class="nav-dropdown-icon">💪</span>
                 <span class="nav-dropdown-text">Therapy Sessions</span>
               </a>
-              <a href="./exercises.html" class="nav-dropdown-link " id="dropExercises">
+              <a href="./exercises.html" class="nav-dropdown-link" id="dropExercises">
                 <span class="nav-dropdown-icon">🏃</span>
                 <span class="nav-dropdown-text">Exercises</span>
               </a>
             </div>
           </li>
-
-          <li><a href="./login.html" class="shared-nav-link mt-nav-link " id="navPatientLogin">Patient Login</a></li>
-          <li><a href="./doctor-login.html" class="shared-nav-link mt-nav-link " id="navDoctorLogin">Doctor Login</a></li>
         </ul>
       </nav>
 
-      <!-- Right-Side Controls: Notification -> Profile -> Logout -> Contact -> Sign Up -->
+      <!-- Right-Side Controls: Notifications -> Profile -> Logout -> Contact -->
       <div class="shared-nav-right mt-nav-right">
-
         <!-- 1. Notification Icon with Badge Count & Dropdown -->
-        <div class="shared-notif-wrap" style="position: relative;">
+        <div class="shared-notif-wrap" id="headerNotifWrap" style="position: relative; display: inline-flex;">
           <button type="button" class="shared-notif-btn doc-notif-btn" id="btnHeaderNotifications" aria-label="Clinical Notifications" title="Clinical Notifications">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
@@ -139,14 +126,14 @@
           </div>
         </div>
 
-        <!-- 2. Admin / User Profile Pill -->
+        <!-- 2. Doctor Profile Pill -->
         <div id="userProfileWrap" class="shared-profile-wrap" style="position: relative; display: inline-flex;">
-          <a href="./doctor-profile.html" class="shared-user-pill mt-user" id="userProfileBtn" title="View Profile">
+          <a href="./doctor-profile.html" class="shared-user-pill mt-user" id="userProfileBtn" title="Doctor Profile">
             <img id="navAvatarImg" class="shared-avatar-img mt-user-photo d-none" alt="" style="display: none !important;" hidden>
-            <div id="navAvatar" class="shared-avatar-fallback mt-user-default">👤</div>
+            <div id="navAvatar" class="shared-avatar-fallback mt-user-default">D</div>
             <div class="shared-user-text mt-user-text">
-              <div class="shared-user-name mt-user-name" id="navUsername">User</div>
-              <div class="shared-user-role mt-user-role" id="navRole">Admin</div>
+              <div class="shared-user-name mt-user-name" id="navUsername">Doctor</div>
+              <div class="shared-user-role mt-user-role" id="navRole">Senior Practitioner</div>
             </div>
             <span class="shared-profile-caret mt-arrow">⌄</span>
           </a>
@@ -162,23 +149,13 @@
           <span>Logout</span>
         </button>
 
-        <!-- 4 & 5. Public Actions: Contact & Sign Up -->
+        <!-- 4. Contact Button -->
         <div id="publicNavActions" class="shared-public-actions">
-          <!-- Contact Button -->
           <a href="./index.html#contact" class="shared-btn-contact doc-btn-contact" id="btnHeaderContact" title="Contact Multi Therapy Support">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
             <span>Contact</span>
-          </a>
-
-          <!-- Sign Up Button -->
-          <a href="./signup.html" class="shared-btn-signup doc-btn-signup " id="btnHeaderSignup" title="Sign Up">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <span>Sign Up</span>
           </a>
         </div>
 
@@ -186,10 +163,13 @@
         <button type="button" class="shared-nav-toggle doc-nav-toggle" id="navToggle" aria-label="Toggle Navigation Menu">
           ☰
         </button>
-
       </div>
     </div>
   </header>
+
+  <div class="mt-app-wrapper">
+    <aside id="mtSidebar" class="mt-sidebar"></aside>
+    <div class="mt-main-content" style="padding:0;">
 
   <!-- ======================================================================
        2. DOCTOR HERO / WELCOME SECTION (BLUE & WHITE HEALTHCARE DESIGN)
@@ -216,7 +196,7 @@
           </p>
 
           <div class="doc-hero-actions">
-            <a href="./doctor-appointments.html" class="doc-btn-primary">
+            <a href="./doctor-appointments.html?filter=today#myAppointmentsCard" class="doc-btn-primary">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                 <line x1="16" y1="2" x2="16" y2="6"/>
@@ -297,35 +277,34 @@
           </div>
         </div>
 
-        <!-- 3. Active Therapists -->
+        <!-- 3. Pending Appointments -->
         <div class="doc-stat-card">
           <div class="doc-stat-info">
-            <span class="doc-stat-label">Active Therapists</span>
-            <span class="doc-stat-number" id="statActiveTherapists">—</span>
-            <span class="doc-stat-sub">Licensed Practitioners</span>
+            <span class="doc-stat-label">Pending Appointments</span>
+            <span class="doc-stat-number" id="statPendingAppointments">2</span>
+            <span class="doc-stat-sub">Awaiting Review</span>
+            <span id="statActiveTherapists" style="display:none;">18</span>
           </div>
           <div class="doc-stat-icon-wrap c-amber" aria-hidden="true">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              <path d="M9 12l2 2 4-4"/>
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
           </div>
         </div>
 
-        <!-- 4. Progress Reports -->
+        <!-- 4. Completed Appointments -->
         <div class="doc-stat-card">
           <div class="doc-stat-info">
-            <span class="doc-stat-label">Progress Reports</span>
-            <span class="doc-stat-number" id="statProgressReports">—</span>
-            <span class="doc-stat-sub">Clinical Evaluations</span>
+            <span class="doc-stat-label">Completed Appointments</span>
+            <span class="doc-stat-number" id="statCompletedAppointments">28</span>
+            <span class="doc-stat-sub">Finished Consultations</span>
+            <span id="statProgressReports" style="display:none;">14</span>
           </div>
           <div class="doc-stat-icon-wrap c-purple" aria-hidden="true">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-              <line x1="10" y1="9" x2="8" y2="9"/>
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
           </div>
         </div>
@@ -720,7 +699,7 @@
         <div class="mt-footer-col mt-col-divider">
           <h4 class="mt-footer-heading">Patient Portal</h4>
           <ul class="mt-footer-links">
-            <li><a href="./appointments.html"><span class="mt-footer-link-bullet">›</span> Appointments</a></li>
+            <li><a href="./doctor-appointments.html"><span class="mt-footer-link-bullet">›</span> Appointments</a></li>
             <li><a href="./therapy-sessions.html"><span class="mt-footer-link-bullet">›</span> Therapy Sessions</a></li>
             <li><a href="./patients.html"><span class="mt-footer-link-bullet">›</span> Patients Directory</a></li>
             <li><a href="./signup.html"><span class="mt-footer-link-bullet">›</span> Patient Sign Up</a></li>
@@ -831,6 +810,7 @@
   <script src="./js/notifications.js"></script>
   <script src="./js/doctor-home.js?v=2.3"></script>
   <script src="./js/clinical-dropdown.js"></script>
+  <script src="./js/sidebar.js"></script>
   <script src="./js/footer.js"></script>
 
   <!-- Authorized Patient Profile Modal for Doctor -->

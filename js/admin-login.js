@@ -93,13 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Client-side quick check: Requirement 3 - Only ONE authorized Admin account
       const normalizedInput = usernameVal.toLowerCase();
-      if (normalizedInput !== "admin" && normalizedInput !== "admin@multitherapy.org") {
-        showAdminMessage("Access restricted. Only the single authorized Multi Therapy Administrator can access this portal.", "danger");
-        generateAdminCaptcha();
-        return;
-      }
 
       const submitBtn = document.getElementById("btnAdminSubmit");
       const originalText = submitBtn ? submitBtn.innerHTML : "";
@@ -114,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
           email: usernameVal,
           password: passwordVal,
           role: "admin",
+          portal: "admin",
           remember: rememberVal
         };
 
@@ -151,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Validate admin role in returned user object
         const userRole = (data?.user?.role || "").toLowerCase();
         if (userRole !== "admin" && userRole !== "superadmin") {
-          throw new Error("Access restricted: Logged in account does not possess Administrator privileges.");
+          throw new Error("Unauthorized: Access restricted to Administrators only. Please use the correct login portal.");
         }
 
         showAdminMessage(data?.message || "Authentication successful! Redirecting to Administration Dashboard...", "success");
