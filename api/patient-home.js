@@ -1,6 +1,11 @@
 // Serverless function for Vercel: /api/patient/home
 // Returns Patient dashboard data and validates Patient role against database
-const mysql = require("mysql2/promise");
+let mysql = null;
+try {
+  mysql = require("mysql2/promise");
+} catch (e) {
+  mysql = null;
+}
 
 async function getDbConnection() {
   const host = process.env.DB_HOST || "gateway01.ap-northeast-1.prod.aws.tidbcloud.com";
