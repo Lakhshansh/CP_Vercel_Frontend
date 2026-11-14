@@ -58,6 +58,7 @@
     }
 
     const previewBanner = document.getElementById("guestDocPreviewBanner");
+    if (previewBanner) previewBanner.remove();
     const heroName = document.getElementById("heroDocName");
     const navName = document.getElementById("docNavName");
     const navRole = document.getElementById("docNavRole");
@@ -85,7 +86,7 @@
       // Authenticated Doctor Session
       if (previewBanner) previewBanner.style.display = "none";
 
-      const docName = user.doctor_name || user.name || (user.username ? ("Dr. " + user.username) : "Dr. Practitioner");
+      const docName = user.doctor_name || (user.name ? (user.name.startsWith("Dr.") ? user.name : "Dr. " + user.name) : (user.username ? ("Dr. " + user.username) : "Doctor"));
       if (heroName) heroName.textContent = docName;
       if (navName) navName.textContent = docName;
       if (cardName) cardName.textContent = docName;
@@ -143,16 +144,26 @@
     const btnLogout = document.getElementById("btnDocLogout");
     if (btnLogout) {
       btnLogout.addEventListener("click", async (e) => {
-        e.preventDefault();
+        if (e && typeof e.preventDefault === "function") e.preventDefault();
+        if (typeof window.handleGlobalLogout === "function") {
+          window.handleGlobalLogout(e);
+          return;
+        }
         try {
           if (typeof apiRequest === "function") {
             await apiRequest("/api/logout", { method: "POST" });
+          } else if (typeof fetch === "function") {
+            await fetch("/api/logout", { method: "POST", credentials: "include" }).catch(() => {});
           }
-        } catch (err) {
-          // ignore
-        }
-        localStorage.removeItem("currentUser");
-        window.location.href = "./doctor-login.html";
+        } catch (err) {}
+        try {
+          localStorage.removeItem("currentUser");
+          localStorage.removeItem("adminRole");
+          localStorage.removeItem("adminToken");
+          localStorage.removeItem("token");
+          sessionStorage.clear();
+        } catch (_) {}
+        window.location.replace("./index.html");
       });
     }
 
@@ -171,13 +182,43 @@
 
     try {
       let res = null;
+      let statusCode = 200;
       if (typeof apiRequest === "function") {
-        res = await apiRequest(`/api/doctor/home${userIdParam}`);
+        try {
+          res = await apiRequest(`/api/doctor/home${userIdParam}`);
+        } catch (apiErr) {
+          if (apiErr && apiErr.status) statusCode = apiErr.status;
+          if (apiErr && apiErr.data) res = apiErr.data;
+        }
       } else {
-        const response = await fetch(`/api/doctor/home${userIdParam}`);
+        const response = await fetch(`/api/doctor/home${userIdParam}`, { credentials: "include" });
+        statusCode = response.status;
         if (response.ok) {
           res = await response.json();
+        } else {
+          try { res = await response.json(); } catch (_) {}
         }
+      }
+
+      // Check cross-role forbidden (HTTP 403)
+      if (statusCode === 403 || (res && res.error && res.error.toLowerCase().includes("forbidden"))) {
+        sessionStorage.setItem("cross_role_alert", "Access restricted to Doctor accounts. Redirected to your dashboard.");
+        const currentRole = (user && user.role ? user.role : "").toLowerCase();
+        if (currentRole === "patient") {
+          window.location.replace("./patient-home.html");
+        } else if (currentRole === "admin") {
+          window.location.replace("./admin-dashboard.html");
+        } else {
+          window.location.replace("./doctor-login.html");
+        }
+        return;
+      }
+
+      // Check unauthorized / session expired (HTTP 401)
+      if (statusCode === 401 || (res && res.error && res.error.toLowerCase().includes("unauthorized"))) {
+        localStorage.removeItem("currentUser");
+        window.location.replace("./doctor-login.html?redirect=doctor-home.html");
+        return;
       }
 
       if (res && res.success) {

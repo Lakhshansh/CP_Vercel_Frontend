@@ -50,7 +50,7 @@
   function getFooterHTML(base) {
     const auth = getAuth();
     const filename = typeof window !== 'undefined' ? (window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html') : '';
-    const isPatientHome = filename === 'patient-home.html';
+    const isDashboard = ['patient-home.html', 'doctor-home.html', 'therapist-dashboard.html', 'admin-dashboard.html'].includes(filename);
     let aptLink = `${base}patient-appointments.html`;
     if (auth.isLoggedIn && (auth.role === 'doctor' || auth.role === 'therapist')) {
       aptLink = `${base}doctor-appointments.html`;
@@ -82,7 +82,7 @@
             <li><a href="${base}index.html#about"><span class="mt-footer-link-bullet">›</span> About Us</a></li>
             <li><a href="${base}index.html#services"><span class="mt-footer-link-bullet">›</span> Services</a></li>
             <li><a href="${base}subscription-pricing.html"><span class="mt-footer-link-bullet">›</span> Subscription Plans</a></li>
-            ${!isPatientHome ? `
+            ${!isDashboard ? `
               <li class="mt-footer-guest-only"><a href="${base}login.html"><span class="mt-footer-link-bullet">›</span> Patient Login</a></li>
               <li class="mt-footer-guest-only"><a href="${base}doctor-login.html"><span class="mt-footer-link-bullet">›</span> Doctor Login</a></li>
               <li class="mt-footer-guest-only"><a href="${base}admin-login.html"><span class="mt-footer-link-bullet">›</span> Admin Login</a></li>
@@ -103,8 +103,10 @@
             <li><a href="${base}patients.html"><span class="mt-footer-link-bullet">›</span> Patients Directory</a></li>
             <li><a href="${base}doctors.html"><span class="mt-footer-link-bullet">›</span> Doctors Directory</a></li>
             <li><a href="${base}therapists.html"><span class="mt-footer-link-bullet">›</span> Therapists</a></li>
-            <li class="mt-footer-guest-only"><a href="${base}signup.html"><span class="mt-footer-link-bullet">›</span> Patient Sign Up</a></li>
-            <li class="mt-footer-guest-only"><a href="${base}doctor-signup.html"><span class="mt-footer-link-bullet">›</span> Doctor Sign Up</a></li>
+            ${!isDashboard ? `
+              <li class="mt-footer-guest-only"><a href="${base}signup.html"><span class="mt-footer-link-bullet">›</span> Patient Sign Up</a></li>
+              <li class="mt-footer-guest-only"><a href="${base}doctor-signup.html"><span class="mt-footer-link-bullet">›</span> Doctor Sign Up</a></li>
+            ` : ''}
           </ul>
         </div>
 
@@ -207,10 +209,10 @@
   function updateFooterAuthState() {
     const auth = getAuth();
     const filename = typeof window !== 'undefined' ? (window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html') : '';
-    const isPatientHome = filename === 'patient-home.html';
+    const isDashboard = ['patient-home.html', 'doctor-home.html', 'therapist-dashboard.html', 'admin-dashboard.html'].includes(filename);
 
-    if (isPatientHome) {
-      document.querySelectorAll('.mt-footer-links a[href*="login.html"], .mt-footer-links a[href*="doctor-login.html"], .mt-footer-links a[href*="admin-login.html"]').forEach(el => {
+    if (isDashboard) {
+      document.querySelectorAll('.mt-footer-links a[href*="login.html"], .mt-footer-links a[href*="doctor-login.html"], .mt-footer-links a[href*="admin-login.html"], .mt-footer-links a[href*="signup.html"], .mt-footer-links a[href*="doctor-signup.html"], .mt-footer-guest-only').forEach(el => {
         const li = el.closest('li');
         if (li) {
           li.style.setProperty('display', 'none', 'important');

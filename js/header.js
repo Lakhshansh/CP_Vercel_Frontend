@@ -239,6 +239,7 @@
     const isDoctorHome = activeKey === 'doctor-home';
     const isTherapistDash = activeKey === 'therapist-dashboard';
     const isAdminDash = activeKey === 'admin';
+    const isDashboard = isPatientHome || isDoctorHome || isTherapistDash || isAdminDash;
     const isClinical = ['doctors', 'patients', 'therapists', 'appointments', 'therapy-sessions', 'exercises', 'caregivers'].includes(activeKey);
     const isPatientLogin = activeKey === 'patient-login';
     const isDoctorLogin = activeKey === 'doctor-login';
@@ -272,7 +273,7 @@
       <!-- Center Navigation Links (Role-Aware) -->
       <nav class="shared-nav-center mt-nav-center" aria-label="Main Navigation">
         <ul class="shared-nav-list mt-nav-list" id="navMenu">
-          ${!auth.isLoggedIn && !isPatientHome ? `
+          ${!auth.isLoggedIn && !isDashboard ? `
             <!-- GUEST / LOGGED-OUT NAVIGATION (on public pages) -->
             ${isHome ? `
               <!-- HOME PAGE CLEAN TOP NAVIGATION (SEHATOPD INSPIRED) -->
@@ -313,10 +314,10 @@
               </li>
               <li><a href="${base}index.html#contact" class="shared-nav-link mt-nav-link" id="navHomeContact">Contact</a></li>
             ` : `
-              <!-- NON-HOMEPAGE GUEST NAVIGATION -->
+              <!-- NON-HOMEPAGE GUEST NAVIGATION (Directory & General Pages) -->
               <li><a href="${base}index.html" class="shared-nav-link mt-nav-link ${isHome ? 'active' : ''}" id="navHome">Home</a></li>
-              <li><a href="${base}patient-home.html" class="shared-nav-link mt-nav-link ${isPatientHome ? 'active' : ''}" id="navPatientHome">Patient Home</a></li>
-              <li><a href="${base}doctor-home.html" class="shared-nav-link mt-nav-link ${isDoctorHome ? 'active' : ''}" id="navDoctorHome">Doctor Home</a></li>
+              <li><a href="${base}patient-home.html" class="shared-nav-link mt-nav-link" id="navPatientHome">Patient Home</a></li>
+              <li><a href="${base}doctor-home.html" class="shared-nav-link mt-nav-link" id="navDoctorHome">Doctor Home</a></li>
 
               <!-- Clinical Management Dropdown -->
               <li class="nav-item-dropdown ${isClinical ? 'active' : ''}">
@@ -361,13 +362,44 @@
           ` : ''}
 
           ${!auth.isLoggedIn && isPatientHome ? `
-            <!-- GUEST ON PATIENT HOME: Show ONLY Patient Home (No Login Links) -->
-            <li><a href="${base}patient-home.html" class="shared-nav-link mt-nav-link active" id="navPatientHome" title="Patient Home">Patient Dashboard</a></li>
+            <!-- GUEST / INITIAL DOM ON PATIENT HOME: Show ONLY Patient Home -->
+            <li><a href="${base}patient-home.html" class="shared-nav-link mt-nav-link active" id="navPatientHome" title="Patient Home">Patient Home</a></li>
+          ` : ''}
+
+          ${!auth.isLoggedIn && isDoctorHome ? `
+            <!-- GUEST / INITIAL DOM ON DOCTOR HOME: Show ONLY Doctor Home and Clinical Management -->
+            <li><a href="${base}doctor-home.html" class="shared-nav-link mt-nav-link active" id="navDoctorHome" title="Doctor Home">Doctor Home</a></li>
+            <li class="nav-item-dropdown ${isClinical ? 'active' : ''}">
+              <a href="javascript:void(0)" class="nav-dropdown-toggle shared-nav-link mt-nav-link ${isClinical ? 'active' : ''}" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
+                <span>Clinical Management</span>
+                <svg class="dropdown-arrow-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2.5 4.5L6 8L9.5 4.5"></path>
+                </svg>
+              </a>
+              <div class="nav-dropdown-menu" aria-label="Clinical Management Submenu">
+                <a href="${base}patients.html" class="nav-dropdown-link" id="dropPatients">
+                  <span class="nav-dropdown-icon">👥</span>
+                  <span class="nav-dropdown-text">Patients</span>
+                </a>
+                <a href="${base}doctor-appointments.html" class="nav-dropdown-link" id="dropAppointments">
+                  <span class="nav-dropdown-icon">📅</span>
+                  <span class="nav-dropdown-text">Appointments</span>
+                </a>
+                <a href="${base}therapy-sessions.html" class="nav-dropdown-link" id="dropTherapySessions">
+                  <span class="nav-dropdown-icon">💪</span>
+                  <span class="nav-dropdown-text">Therapy Sessions</span>
+                </a>
+                <a href="${base}exercises.html" class="nav-dropdown-link" id="dropExercises">
+                  <span class="nav-dropdown-icon">🏃</span>
+                  <span class="nav-dropdown-text">Exercises</span>
+                </a>
+              </div>
+            </li>
           ` : ''}
 
           ${auth.isLoggedIn && auth.role === 'doctor' ? `
-            <!-- DOCTOR NAVIGATION: Show Doctor Dashboard and Clinical Management -->
-            <li><a href="${base}doctor-home.html" class="shared-nav-link mt-nav-link ${isDoctorHome ? 'active' : ''}" id="navDoctorHome" title="Doctor Home">Doctor Dashboard</a></li>
+            <!-- DOCTOR NAVIGATION: Show Doctor Home and Clinical Management -->
+            <li><a href="${base}doctor-home.html" class="shared-nav-link mt-nav-link ${isDoctorHome ? 'active' : ''}" id="navDoctorHome" title="Doctor Home">Doctor Home</a></li>
 
             <!-- Clinical Management Dropdown -->
             <li class="nav-item-dropdown ${isClinical ? 'active' : ''}">
@@ -437,8 +469,8 @@
           ` : ''}
 
           ${auth.isLoggedIn && auth.role === 'patient' ? `
-            <!-- PATIENT NAVIGATION: Show ONLY Patient Dashboard -->
-            <li><a href="${base}patient-home.html" class="shared-nav-link mt-nav-link ${isPatientHome ? 'active' : ''}" id="navPatientHome" title="Patient Home">Patient Dashboard</a></li>
+            <!-- PATIENT NAVIGATION: Show ONLY Patient Home -->
+            <li><a href="${base}patient-home.html" class="shared-nav-link mt-nav-link ${isPatientHome ? 'active' : ''}" id="navPatientHome" title="Patient Home">Patient Home</a></li>
           ` : ''}
         </ul>
       </nav>
@@ -597,7 +629,7 @@
               <span>Contact</span>
             </a>
 
-            ${!auth.isLoggedIn ? `
+            ${!auth.isLoggedIn && !isDashboard ? `
               <!-- Sign Up Button (Guest Only on Other Pages) -->
               <a href="${base}signup.html" class="shared-btn-signup doc-btn-signup ${isSignup ? 'active' : ''}" id="btnHeaderSignup" title="Sign Up">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -823,13 +855,14 @@
 
     const filename = window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html';
     const isAuthFormPage = ['patient-login.html', 'login.html', 'doctor-login.html', 'admin-login.html', 'signup.html', 'doctor-signup.html'].includes(filename);
-    const isPatientHomePage = filename === 'patient-home.html';
+    const isDashboardPage = ['patient-home.html', 'doctor-home.html', 'therapist-dashboard.html', 'admin-dashboard.html'].includes(filename);
 
-    // On patient-home.html: unconditionally remove Patient Login, Doctor Login, Admin Login from visible navigation
-    if (isPatientHomePage) {
-      if (document.body) document.body.classList.add('page-patient-home');
-      if (document.documentElement) document.documentElement.classList.add('page-patient-home');
-      document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderLogin, #btnPatientLogin, #btnDoctorLogin, a[href*="login.html"], a[href*="patient-login.html"], a[href*="doctor-login.html"], a[href*="admin-login.html"]').forEach(el => {
+    // On all dashboard pages: unconditionally remove all Login and Sign Up buttons and preview banners
+    if (isDashboardPage) {
+      if (document.body) document.body.classList.add('page-' + filename.replace('.html', ''));
+      if (document.documentElement) document.documentElement.classList.add('page-' + filename.replace('.html', ''));
+      document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderLogin, #btnPatientLogin, #btnDoctorLogin, #btnHeaderSignup, .shared-btn-signup, .doc-btn-signup, .btn-header-signup, .mt-signup-btn, .shared-btn-login, .mt-login-btn, #homeLoginButtonsGroup, .home-login-btn, a[href*="login.html"], a[href*="patient-login.html"], a[href*="doctor-login.html"], a[href*="admin-login.html"], a[href*="signup.html"], a[href*="doctor-signup.html"]').forEach(el => {
+        if (el.closest('#userProfileWrap') || el.id === 'logoutBtn' || el.classList.contains('shared-logout-btn') || el.classList.contains('profile-dropdown-item')) return;
         const parentLi = el.closest('li');
         if (parentLi) {
           parentLi.style.setProperty('display', 'none', 'important');
@@ -839,6 +872,10 @@
           if (typeof el.remove === 'function') el.remove();
         }
       });
+      const b1 = document.getElementById('guestDocPreviewBanner');
+      if (b1) { b1.style.setProperty('display', 'none', 'important'); if (typeof b1.remove === 'function') b1.remove(); }
+      const b2 = document.getElementById('guestPreviewBanner');
+      if (b2) { b2.style.setProperty('display', 'none', 'important'); if (typeof b2.remove === 'function') b2.remove(); }
     }
 
     if (auth.isLoggedIn) {

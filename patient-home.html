@@ -20,19 +20,6 @@
 </head>
 <body class="page-patient-home">
 
-    <!-- Top Guest Preview Banner (Only visible when unauthenticated) -->
-  <div class="ph-preview-banner" id="guestPreviewBanner" style="display: none; background: #e0f2fe; border-bottom: 1px solid #bae6fd; padding: 9px 16px;">
-    <div class="ph-container" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-      <div style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: #0369a1; font-weight: 600;">
-        <span style="font-size: 15px;">👋</span>
-        <span><strong>Patient Portal Preview:</strong> You are exploring sample patient data. Create an account to access personalized health records.</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <a href="./signup.html" class="ph-btn-outline" style="padding: 5px 14px; font-size: 12.5px; background: #ffffff; text-decoration: none;">Sign Up</a>
-      </div>
-    </div>
-  </div>
-
   <!-- ======================================================================
        1. PATIENT HEADER / NAVIGATION BAR
        ====================================================================== -->
@@ -1036,14 +1023,26 @@
 
       // Handle Logout
       function handleLogout(e) {
-        if (e) e.preventDefault();
+        if (e && typeof e.preventDefault === "function") e.preventDefault();
+        if (typeof window.handleGlobalLogout === "function") {
+          window.handleGlobalLogout(e);
+          return;
+        }
         try {
           if (typeof apiRequest === "function") {
             apiRequest("/api/logout", { method: "POST" });
+          } else if (typeof fetch === "function") {
+            fetch("/api/logout", { method: "POST", credentials: "include" }).catch(() => {});
           }
         } catch (err) {}
-        localStorage.removeItem("currentUser");
-        window.location.href = "./index.html";
+        try {
+          localStorage.removeItem("currentUser");
+          localStorage.removeItem("adminRole");
+          localStorage.removeItem("adminToken");
+          localStorage.removeItem("token");
+          sessionStorage.clear();
+        } catch (_) {}
+        window.location.replace("./index.html");
       }
 
       const btnLogout = document.getElementById("btnLogout");
