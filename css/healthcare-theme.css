@@ -1535,20 +1535,21 @@ table.table td {
 }
 
 /* ==========================================================================
-   HOMEPAGE HEADER (SEHATOPD-INSPIRED CLEAN WHITE / LIGHT NAVBAR)
+   HOMEPAGE HEADER (DARK NAVY BLUE #0B2B50 WITH WHITE & LIGHT BLUE BRANDING)
    Shown ONLY on the main Home Page (index.html / .page-home)
    ========================================================================== */
 body.page-home header.shared-header,
 body.page-home .shared-header,
 body.page-home .mt-navbar,
 html body.page-home header {
-  background: #ffffff !important;
-  border-bottom: 1px solid #e2e8f0 !important;
-  box-shadow: 0 2px 14px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+  background: #0B2B50 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
   position: sticky !important;
   top: 0 !important;
   z-index: 1050 !important;
   padding: 10px 24px !important;
+  transition: background 0.3s ease, box-shadow 0.3s ease !important;
 }
 
 body.page-home .shared-header-inner,
@@ -1561,7 +1562,7 @@ body.page-home .mt-navbar-inner {
   gap: 16px !important;
 }
 
-/* Brand on Left for Home Page */
+/* 2. Brand Identity on Left: Logo clearly visible */
 body.page-home .shared-brand,
 body.page-home .mt-brand {
   display: flex !important;
@@ -1576,38 +1577,54 @@ body.page-home .mt-logo {
   width: 52px !important;
   height: 52px !important;
   border-radius: 50% !important;
-  border: 2px solid #0284c7 !important;
-  background: #ffffff !important;
+  border: 2px solid #38BDF8 !important;
+  background: #FFFFFF !important;
   padding: 2px !important;
-  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.16) !important;
+  box-shadow: 0 2px 10px rgba(56, 189, 248, 0.35) !important;
   object-fit: contain !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease !important;
 }
 
+body.page-home .shared-brand:hover .shared-logo,
+body.page-home .mt-brand:hover .mt-logo {
+  transform: scale(1.06) !important;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.55) !important;
+}
+
+/* 3. Website Name: White (#FFFFFF) */
 body.page-home .shared-brand-title,
 body.page-home .mt-brand-title {
   font-size: 20px !important;
   font-weight: 800 !important;
-  color: #06172f !important;
+  color: #FFFFFF !important;
   line-height: 1.15 !important;
   letter-spacing: -0.02em !important;
+  transition: color 0.2s ease !important;
 }
 
+body.page-home .shared-brand:hover .shared-brand-title,
+body.page-home .mt-brand:hover .mt-brand-title {
+  color: #FFFFFF !important;
+}
+
+/* 4. Tagline: Light Blue (#38BDF8) */
 body.page-home .shared-brand-subtitle,
 body.page-home .mt-brand-subtitle {
   font-size: 11.5px !important;
   font-weight: 600 !important;
-  color: #0284c7 !important;
+  color: #38BDF8 !important;
   letter-spacing: 0.01em !important;
   display: block !important;
   margin-top: 1px !important;
+  transition: color 0.2s ease !important;
 }
 
-/* Center Nav Links on White Background */
+/* 5. Navigation Links: White (#FFFFFF) with smooth hover */
 body.page-home .shared-nav-list,
 body.page-home .mt-nav-list {
   display: flex !important;
   align-items: center !important;
-  gap: 4px !important;
+  gap: 6px !important;
   list-style: none !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -1615,44 +1632,56 @@ body.page-home .mt-nav-list {
 
 body.page-home .shared-nav-link,
 body.page-home .mt-nav-link {
-  color: #334155 !important;
+  color: #FFFFFF !important;
   font-size: 14px !important;
   font-weight: 600 !important;
-  padding: 7px 15px !important;
+  padding: 7px 16px !important;
   border-radius: 9999px !important;
   text-decoration: none !important;
-  transition: all 0.2s ease !important;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
   display: inline-flex !important;
   align-items: center !important;
+  border: 1px solid transparent !important;
 }
 
 body.page-home .shared-nav-link:hover,
 body.page-home .mt-nav-link:hover {
-  color: #0875f9 !important;
-  background: #f0f7ff !important;
+  color: #38BDF8 !important;
+  background: rgba(56, 189, 248, 0.14) !important;
+  border-color: rgba(56, 189, 248, 0.3) !important;
+  transform: translateY(-1px) !important;
 }
 
 body.page-home .shared-nav-link.active,
 body.page-home .mt-nav-link.active {
-  color: #0875f9 !important;
-  background: #e0f2fe !important;
+  color: #FFFFFF !important;
+  background: #0875F9 !important;
   font-weight: 700 !important;
+  border-color: #38BDF8 !important;
+  box-shadow: 0 2px 10px rgba(8, 117, 249, 0.4) !important;
 }
 
 body.page-home .nav-dropdown-toggle {
-  color: #334155 !important;
+  color: #FFFFFF !important;
 }
 
 body.page-home .nav-dropdown-toggle:hover {
-  color: #0875f9 !important;
-  background: #f0f7ff !important;
+  color: #38BDF8 !important;
+  background: rgba(56, 189, 248, 0.14) !important;
+  border-color: rgba(56, 189, 248, 0.3) !important;
 }
 
 body.page-home .dropdown-arrow-icon {
-  stroke: #64748b !important;
+  stroke: #38BDF8 !important;
+  transition: transform 0.22s ease !important;
 }
 
-/* Three Login Buttons (Right Side) - SehatOPD Inspired */
+body.page-home .nav-item-dropdown:hover .dropdown-arrow-icon,
+body.page-home .nav-item-dropdown.open .dropdown-arrow-icon {
+  transform: rotate(180deg) !important;
+}
+
+/* 6 & 7. Three Login Buttons (Right Side): White background, blue text, smooth hover effects */
 .home-login-buttons-group {
   display: inline-flex;
   align-items: center;
@@ -1668,102 +1697,144 @@ body.page-home .dropdown-arrow-icon {
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 13.5px;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none !important;
-  background: #ffffff;
-  border: 1.5px solid #cbd5e1;
-  color: #1e293b;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #FFFFFF !important;
+  border: 1.5px solid #FFFFFF !important;
+  color: #0875F9 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
   white-space: nowrap;
   line-height: 1.25;
+  cursor: pointer;
 }
 
 .home-login-btn svg {
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  stroke: currentColor;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .home-login-btn:hover svg {
-  transform: scale(1.08);
+  transform: scale(1.12) !important;
 }
 
-/* 1. Admin Login Button */
+/* 1. Admin Login Button: White background, deep blue text */
 .home-btn-admin {
-  background: #ffffff;
-  border-color: #cbd5e1;
-  color: #334155;
+  background: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+  color: #0B2B50 !important;
+}
+
+.home-btn-admin svg {
+  stroke: #0B2B50 !important;
 }
 
 .home-btn-admin:hover,
 .home-btn-admin:focus-visible {
-  background: #f8fafc;
-  border-color: #94a3b8;
-  color: #0f172a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  background: #F0F9FF !important;
+  border-color: #38BDF8 !important;
+  color: #0875F9 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28), 0 0 12px rgba(56, 189, 248, 0.45) !important;
 }
 
-/* 2. Patient Login Button */
+.home-btn-admin:hover svg {
+  stroke: #0875F9 !important;
+}
+
+/* 2. Patient Login Button: White background, vibrant blue text */
 .home-btn-patient {
-  background: #ffffff;
-  border-color: #93c5fd;
-  color: #0284c7;
+  background: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+  color: #0875F9 !important;
+}
+
+.home-btn-patient svg {
+  stroke: #0875F9 !important;
 }
 
 .home-btn-patient:hover,
 .home-btn-patient:focus-visible {
-  background: #f0f7ff;
-  border-color: #0875f9;
-  color: #0060d4;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(8, 117, 249, 0.16);
+  background: #F0F9FF !important;
+  border-color: #38BDF8 !important;
+  color: #0056B3 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28), 0 0 14px rgba(56, 189, 248, 0.5) !important;
 }
 
-/* 3. Doctor Login Button */
+.home-btn-patient:hover svg {
+  stroke: #0056B3 !important;
+}
+
+/* 3. Doctor Login Button: White background, medical cyan-blue text */
 .home-btn-doctor {
-  background: #ffffff;
-  border-color: #0875f9;
-  color: #0875f9;
+  background: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+  color: #0284C7 !important;
+}
+
+.home-btn-doctor svg {
+  stroke: #0284C7 !important;
 }
 
 .home-btn-doctor:hover,
 .home-btn-doctor:focus-visible {
-  background: #0875f9;
-  border-color: #0875f9;
-  color: #ffffff !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(8, 117, 249, 0.28);
+  background: #F0F9FF !important;
+  border-color: #38BDF8 !important;
+  color: #0369A1 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28), 0 0 14px rgba(56, 189, 248, 0.5) !important;
 }
 
-/* Mobile Toggle on White Header */
+.home-btn-doctor:hover svg {
+  stroke: #0369A1 !important;
+}
+
+/* Mobile Toggle on Dark Navy Header */
 body.page-home .shared-nav-toggle,
 body.page-home .doc-nav-toggle {
-  color: #0f172a !important;
-  border-color: #cbd5e1 !important;
-  background: #f8fafc !important;
+  color: #FFFFFF !important;
+  border-color: rgba(56, 189, 248, 0.4) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  padding: 6px 10px !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
 }
 
 body.page-home .shared-nav-toggle:hover {
-  background: #e2e8f0 !important;
+  background: rgba(56, 189, 248, 0.2) !important;
+  color: #38BDF8 !important;
+  border-color: #38BDF8 !important;
 }
 
-/* Mobile Responsiveness for Homepage Header */
+/* 8. Mobile Responsiveness for Homepage Header */
 @media (max-width: 991px) {
   body.page-home .shared-nav-list,
   body.page-home #navMenu {
-    background: #ffffff !important;
-    border-bottom: 2px solid #e2e8f0 !important;
-    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12) !important;
+    background: #0B2B50 !important;
+    border-bottom: 2px solid rgba(56, 189, 248, 0.3) !important;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  body.page-home .shared-nav-link,
+  body.page-home .mt-nav-link {
+    color: #FFFFFF !important;
+  }
+
+  body.page-home .shared-nav-link:hover,
+  body.page-home .mt-nav-link:hover {
+    color: #38BDF8 !important;
+    background: rgba(56, 189, 248, 0.15) !important;
   }
 
   .home-login-buttons-group {
     display: inline-flex;
-    gap: 6px;
+    gap: 8px;
   }
 
   .home-login-btn {
-    padding: 6px 11px;
+    padding: 7px 12px;
     font-size: 12.5px;
   }
 }
@@ -1794,7 +1865,7 @@ body.page-home .shared-nav-toggle:hover {
     gap: 8px;
     margin-top: 12px;
     padding-top: 12px;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
     width: 100%;
   }
 
