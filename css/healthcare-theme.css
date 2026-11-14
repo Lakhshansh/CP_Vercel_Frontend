@@ -1681,37 +1681,53 @@ body.page-home .nav-item-dropdown.open .dropdown-arrow-icon {
   transform: rotate(180deg) !important;
 }
 
-/* 6 & 7. Three Login Buttons (Right Side): White background, blue text, smooth hover effects */
+/* 6, 7 & 8. Three Login Buttons (Right Side): Consistent Height, Padding, Radius & Spacing */
 .home-login-buttons-group {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .home-login-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 13.5px;
-  font-weight: 700;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  padding: 0 16px !important;
+  border-radius: 8px !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
   text-decoration: none !important;
   background: #FFFFFF !important;
   border: 1.5px solid #FFFFFF !important;
   color: #0875F9 !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
   transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  white-space: nowrap;
-  line-height: 1.25;
-  cursor: pointer;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+}
+
+.home-login-btn span {
+  display: inline-block !important;
+  white-space: nowrap !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
 }
 
 .home-login-btn svg {
-  flex-shrink: 0;
-  stroke: currentColor;
+  width: 15px !important;
+  height: 15px !important;
+  flex-shrink: 0 !important;
+  stroke: currentColor !important;
   transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
@@ -1719,7 +1735,7 @@ body.page-home .nav-item-dropdown.open .dropdown-arrow-icon {
   transform: scale(1.12) !important;
 }
 
-/* 1. Admin Login Button: White background, deep blue text */
+/* 1. Admin Login Button: White background, deep navy text */
 .home-btn-admin {
   background: #FFFFFF !important;
   border-color: #FFFFFF !important;
@@ -1808,7 +1824,7 @@ body.page-home .shared-nav-toggle:hover {
   border-color: #38BDF8 !important;
 }
 
-/* 8. Mobile Responsiveness for Homepage Header */
+/* 9. Mobile Responsiveness for Homepage Header */
 @media (max-width: 991px) {
   body.page-home .shared-nav-list,
   body.page-home #navMenu {
@@ -1829,51 +1845,83 @@ body.page-home .shared-nav-toggle:hover {
   }
 
   .home-login-buttons-group {
-    display: inline-flex;
-    gap: 8px;
+    display: inline-flex !important;
+    gap: 8px !important;
   }
 
   .home-login-btn {
-    padding: 7px 12px;
-    font-size: 12.5px;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    padding: 0 12px !important;
+    font-size: 12.5px !important;
+  }
+
+  .home-login-btn span {
+    font-size: 12.5px !important;
   }
 }
 
 @media (max-width: 768px) {
+  body.page-home header.shared-header {
+    padding: 8px 14px !important;
+  }
+
   .home-login-buttons-group {
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: flex-end;
+    display: inline-flex !important;
+    gap: 6px !important;
   }
 
   .home-login-btn {
-    padding: 6px 10px;
-    font-size: 12px;
-    gap: 5px;
+    height: 33px !important;
+    min-height: 33px !important;
+    max-height: 33px !important;
+    padding: 0 10px !important;
+    font-size: 11.5px !important;
+    gap: 5px !important;
+  }
+
+  .home-login-btn span {
+    font-size: 11.5px !important;
+  }
+
+  .home-login-btn svg {
+    width: 13px !important;
+    height: 13px !important;
   }
 }
 
-@media (max-width: 576px) {
-  .home-login-buttons-group {
+@media (max-width: 520px) {
+  body.page-home .shared-brand-subtitle,
+  body.page-home .mt-brand-subtitle {
     display: none !important;
   }
 
-  body.page-home .shared-nav-list.open .home-mobile-login-wrap,
-  body.page-home #navMenu.open .home-mobile-login-wrap {
-    display: flex !important;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    width: 100%;
+  body.page-home .shared-logo,
+  body.page-home .mt-logo {
+    width: 42px !important;
+    height: 42px !important;
   }
 
-  body.page-home .shared-nav-list .home-mobile-login-wrap .home-login-btn,
-  body.page-home #navMenu .home-mobile-login-wrap .home-login-btn {
-    width: 100%;
-    justify-content: center;
-    padding: 10px 16px;
-    font-size: 13.5px;
+  .home-login-buttons-group {
+    gap: 4px !important;
+  }
+
+  .home-login-btn {
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    padding: 0 7px !important;
+    font-size: 11px !important;
+    gap: 4px !important;
+  }
+
+  .home-login-btn span {
+    font-size: 11px !important;
+  }
+
+  .home-login-btn svg {
+    width: 12px !important;
+    height: 12px !important;
   }
 }
