@@ -8,6 +8,7 @@ try {
 }
 
 async function getDbConnection() {
+  if (!mysql) return null;
   const host = process.env.DB_HOST || "gateway01.ap-northeast-1.prod.aws.tidbcloud.com";
   const user = process.env.DB_USER || "4EUekCnG6wabVPE.root";
   const password = process.env.DB_PASSWORD || "HA8jMiinRaOyEdgP";

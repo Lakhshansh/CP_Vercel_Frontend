@@ -1,10 +1,9 @@
 {
   "name": "cp_vercel_frontend",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This is the first Vercel-ready frontend layer extracted from the existing Flask project.",
   "main": "index.js",
   "scripts": {
-    "build": "node -e \"console.log('Multi Therapy deployment build ready')\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
