@@ -50,11 +50,15 @@
   function getFooterHTML(base) {
     const auth = getAuth();
     const filename = typeof window !== 'undefined' ? (window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html') : '';
-    const isDashboard = ['patient-home.html', 'doctor-home.html', 'therapist-dashboard.html', 'admin-dashboard.html'].includes(filename);
+    const cleanFilename = filename.replace(/\.html$/, '');
+    const isDashboard = ['patient-home', 'doctor-home', 'therapist-dashboard', 'admin-dashboard'].includes(cleanFilename);
     let aptLink = `${base}patient-appointments.html`;
     if (auth.isLoggedIn && (auth.role === 'doctor' || auth.role === 'therapist')) {
       aptLink = `${base}doctor-appointments.html`;
     }
+    const patientsLink = (auth.isLoggedIn && (auth.role === 'doctor' || auth.role === 'therapist' || auth.role === 'admin'))
+      ? `${base}patients.html`
+      : `${base}login.html?redirect=patients.html`;
 
     return `
     <div class="mt-footer-container">
@@ -82,7 +86,7 @@
             <li><a href="${base}index.html#about"><span class="mt-footer-link-bullet">›</span> About Us</a></li>
             <li><a href="${base}index.html#services"><span class="mt-footer-link-bullet">›</span> Services</a></li>
             <li><a href="${base}subscription-pricing.html"><span class="mt-footer-link-bullet">›</span> Subscription Plans</a></li>
-            ${!isDashboard ? `
+            ${!auth.isLoggedIn && !isDashboard ? `
               <li class="mt-footer-guest-only"><a href="${base}login.html"><span class="mt-footer-link-bullet">›</span> Patient Login</a></li>
               <li class="mt-footer-guest-only"><a href="${base}doctor-login.html"><span class="mt-footer-link-bullet">›</span> Doctor Login</a></li>
               <li class="mt-footer-guest-only"><a href="${base}admin-login.html"><span class="mt-footer-link-bullet">›</span> Admin Login</a></li>
@@ -100,10 +104,10 @@
           <ul class="mt-footer-links">
             <li><a href="${aptLink}"><span class="mt-footer-link-bullet">›</span> Appointments</a></li>
             <li><a href="${base}therapy-sessions.html"><span class="mt-footer-link-bullet">›</span> Therapy Sessions</a></li>
-            <li><a href="${base}patients.html"><span class="mt-footer-link-bullet">›</span> Patients Directory</a></li>
+            <li><a href="${patientsLink}"><span class="mt-footer-link-bullet">›</span> Patients Directory</a></li>
             <li><a href="${base}doctors.html"><span class="mt-footer-link-bullet">›</span> Doctors Directory</a></li>
             <li><a href="${base}therapists.html"><span class="mt-footer-link-bullet">›</span> Therapists</a></li>
-            ${!isDashboard ? `
+            ${!auth.isLoggedIn && !isDashboard ? `
               <li class="mt-footer-guest-only"><a href="${base}signup.html"><span class="mt-footer-link-bullet">›</span> Patient Sign Up</a></li>
               <li class="mt-footer-guest-only"><a href="${base}doctor-signup.html"><span class="mt-footer-link-bullet">›</span> Doctor Sign Up</a></li>
             ` : ''}
@@ -209,18 +213,14 @@
   function updateFooterAuthState() {
     const auth = getAuth();
     const filename = typeof window !== 'undefined' ? (window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html') : '';
-    const isDashboard = ['patient-home.html', 'doctor-home.html', 'therapist-dashboard.html', 'admin-dashboard.html'].includes(filename);
+    const cleanFilename = filename.replace(/\.html$/, '');
+    const isDashboard = ['patient-home', 'doctor-home', 'therapist-dashboard', 'admin-dashboard'].includes(cleanFilename);
 
-    if (isDashboard) {
-      document.querySelectorAll('.mt-footer-links a[href*="login.html"], .mt-footer-links a[href*="doctor-login.html"], .mt-footer-links a[href*="admin-login.html"], .mt-footer-links a[href*="signup.html"], .mt-footer-links a[href*="doctor-signup.html"], .mt-footer-guest-only').forEach(el => {
-        const li = el.closest('li');
-        if (li) {
-          li.style.setProperty('display', 'none', 'important');
-          if (typeof li.remove === 'function') li.remove();
-        } else {
-          el.style.setProperty('display', 'none', 'important');
-          if (typeof el.remove === 'function') el.remove();
-        }
+    if (isDashboard || auth.isLoggedIn) {
+      document.querySelectorAll('.mt-footer-links a[href*="login"], .mt-footer-links a[href*="signup"], .mt-footer-guest-only').forEach(el => {
+        const li = el.closest('li') || el;
+        li.style.setProperty('display', 'none', 'important');
+        if (isDashboard && typeof li.remove === 'function') li.remove();
       });
     }
 

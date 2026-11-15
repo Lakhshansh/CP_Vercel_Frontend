@@ -516,6 +516,18 @@ html.is-logged-in #btnHeaderLogin,
 html.is-logged-in .shared-btn-login,
 html.is-logged-in .mt-login-btn,
 html.is-logged-in .mt-signup-btn,
+body.is-logged-in #homeLoginButtonsGroup,
+body.is-logged-in .home-login-btn,
+body.is-logged-in #btnHomeAdminLogin,
+body.is-logged-in #btnHomePatientLogin,
+body.is-logged-in #btnHomeDoctorLogin,
+body.is-logged-in .mt-footer-guest-only,
+html.is-logged-in #homeLoginButtonsGroup,
+html.is-logged-in .home-login-btn,
+html.is-logged-in #btnHomeAdminLogin,
+html.is-logged-in #btnHomePatientLogin,
+html.is-logged-in #btnHomeDoctorLogin,
+html.is-logged-in .mt-footer-guest-only,
 html.is-logged-in .mt-auth-guest-only {
   display: none !important;
 }

@@ -23,6 +23,22 @@
     <link rel="stylesheet" href="./css/patients.css">
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
   <link rel="stylesheet" href="./css/healthcare-theme.css">
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("currentUser");
+        var user = raw ? JSON.parse(raw) : null;
+        if (!user) {
+          window.location.replace("./login.html?redirect=patients.html");
+          return;
+        }
+        var role = (user.role || "").toLowerCase();
+        if (role === "patient") {
+          window.location.replace("./patient-home.html");
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 
 <body>

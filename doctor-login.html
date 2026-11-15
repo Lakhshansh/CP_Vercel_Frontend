@@ -1649,8 +1649,9 @@
             }));
           }
 
+          const safeRedirect = (docRedirectParam && !docRedirectParam.toLowerCase().includes("login")) ? docRedirectParam : "./doctor-home.html";
           setTimeout(() => {
-            window.location.href = docRedirectParam || "./doctor-home.html";
+            window.location.href = safeRedirect;
           }, 500);
 
         } catch (err) {
@@ -1740,8 +1741,9 @@
         };
         localStorage.setItem("currentUser", JSON.stringify(doctorUser));
 
+        const safeOtpRedirect = (docRedirectParam && !docRedirectParam.toLowerCase().includes("login")) ? docRedirectParam : "./doctor-home.html";
         setTimeout(() => {
-          window.location.href = docRedirectParam || "./doctor-home.html";
+          window.location.href = safeOtpRedirect;
         }, 600);
       });
     }

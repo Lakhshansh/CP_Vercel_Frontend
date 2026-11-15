@@ -87,26 +87,27 @@
 
   function getActiveKey() {
     if (typeof window === 'undefined') return 'home';
-    const filename = window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html';
+    const rawFile = window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html';
+    const clean = rawFile.replace(/\.html$/, '');
 
-    if (filename === '' || filename === 'index.html') return 'home';
-    if (filename === 'patient-home.html') return 'patient-home';
-    if (filename === 'doctor-home.html') return 'doctor-home';
-    if (filename === 'therapist-dashboard.html') return 'therapist-dashboard';
-    if (filename === 'doctors.html') return 'doctors';
-    if (filename === 'patients.html') return 'patients';
-    if (filename === 'therapists.html') return 'therapists';
-    if (filename === 'appointments.html' || filename === 'patient-appointments.html' || filename === 'doctor-appointments.html') return 'appointments';
-    if (filename === 'therapy-sessions.html') return 'therapy-sessions';
-    if (filename === 'exercises.html') return 'exercises';
-    if (filename === 'caregivers.html') return 'caregivers';
-    if (filename === 'patient-login.html' || filename === 'login.html' || filename === 'patient-forgot.html') return 'patient-login';
-    if (filename === 'doctor-login.html' || filename === 'doctor-forgot.html') return 'doctor-login';
-    if (filename === 'admin-login.html') return 'admin-login';
-    if (filename === 'doctor-profile.html') return 'doctor-profile';
-    if (filename === 'patient-profile.html') return 'patient-profile';
-    if (filename === 'signup.html' || filename === 'doctor-signup.html') return 'signup';
-    if (filename === 'admin-dashboard.html' || filename.startsWith('admin-')) return 'admin';
+    if (clean === '' || clean === 'index' || clean === 'home') return 'home';
+    if (clean === 'patient-home') return 'patient-home';
+    if (clean === 'doctor-home') return 'doctor-home';
+    if (clean === 'therapist-dashboard') return 'therapist-dashboard';
+    if (clean === 'doctors') return 'doctors';
+    if (clean === 'patients') return 'patients';
+    if (clean === 'therapists') return 'therapists';
+    if (clean === 'appointments' || clean === 'patient-appointments' || clean === 'doctor-appointments') return 'appointments';
+    if (clean === 'therapy-sessions') return 'therapy-sessions';
+    if (clean === 'exercises') return 'exercises';
+    if (clean === 'caregivers') return 'caregivers';
+    if (clean === 'patient-login' || clean === 'login' || clean === 'patient-forgot') return 'patient-login';
+    if (clean === 'doctor-login' || clean === 'doctor-forgot') return 'doctor-login';
+    if (clean === 'admin-login') return 'admin-login';
+    if (clean === 'doctor-profile') return 'doctor-profile';
+    if (clean === 'patient-profile') return 'patient-profile';
+    if (clean === 'signup' || clean === 'doctor-signup') return 'signup';
+    if (clean === 'admin-dashboard' || clean.startsWith('admin-')) return 'admin';
     return '';
   }
 
@@ -257,6 +258,9 @@
     const profileHref = `${base}${auth.profileUrl}`;
     const settingsHref = `${base}${auth.settingsUrl}`;
     const dashboardHref = `${base}${auth.dashboardUrl}`;
+    const patientsLink = (auth.isLoggedIn && (auth.role === 'doctor' || auth.role === 'therapist' || auth.role === 'admin'))
+      ? `${base}patients.html`
+      : `${base}login.html?redirect=patients.html`;
 
     return `
     <div class="shared-header-inner mt-navbar-inner">
@@ -290,7 +294,7 @@
                     <span class="nav-dropdown-icon">👨‍⚕️</span>
                     <span class="nav-dropdown-text">Doctors</span>
                   </a>
-                  <a href="${base}patients.html" class="nav-dropdown-link ${isPt ? 'active' : ''}" id="dropPatients">
+                  <a href="${patientsLink}" class="nav-dropdown-link ${isPt ? 'active' : ''}" id="dropPatients">
                     <span class="nav-dropdown-icon">👥</span>
                     <span class="nav-dropdown-text">Patients</span>
                   </a>
@@ -332,7 +336,7 @@
                     <span class="nav-dropdown-icon">👨‍⚕️</span>
                     <span class="nav-dropdown-text">Doctors</span>
                   </a>
-                  <a href="${base}patients.html" class="nav-dropdown-link ${isPt ? 'active' : ''}" id="dropPatients">
+                  <a href="${patientsLink}" class="nav-dropdown-link ${isPt ? 'active' : ''}" id="dropPatients">
                     <span class="nav-dropdown-icon">👥</span>
                     <span class="nav-dropdown-text">Patients</span>
                   </a>
@@ -605,15 +609,15 @@
         ${!auth.isLoggedIn && isHome ? `
           <!-- Three Login Buttons (Right Side) - Inspired by SehatOPD government header (Home Page ONLY) -->
           <div class="home-login-buttons-group" id="homeLoginButtonsGroup">
-            <a href="admin-login.html" class="home-login-btn home-btn-admin" id="btnHomeAdminLogin" title="Admin Portal Login">
+            <a href="${base}admin-login.html" class="home-login-btn home-btn-admin" id="btnHomeAdminLogin" title="Admin Portal Login">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
               <span>Admin Login</span>
             </a>
-            <a href="https://cp-vercel-frontend.vercel.app/login.html" class="home-login-btn home-btn-patient" id="btnHomePatientLogin" title="Patient Portal Login">
+            <a href="${base}login.html" class="home-login-btn home-btn-patient" id="btnHomePatientLogin" title="Patient Portal Login">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
               <span>Patient Login</span>
             </a>
-            <a href="https://cp-vercel-frontend.vercel.app/doctor-login.html" class="home-login-btn home-btn-doctor" id="btnHomeDoctorLogin" title="Doctor Portal Login">
+            <a href="${base}doctor-login.html" class="home-login-btn home-btn-doctor" id="btnHomeDoctorLogin" title="Doctor Portal Login">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
               <span>Doctor Login</span>
             </a>
@@ -853,15 +857,16 @@
       }
     }
 
-    const filename = window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html';
-    const isAuthFormPage = ['patient-login.html', 'login.html', 'doctor-login.html', 'admin-login.html', 'signup.html', 'doctor-signup.html'].includes(filename);
-    const isDashboardPage = ['patient-home.html', 'doctor-home.html', 'therapist-dashboard.html', 'admin-dashboard.html'].includes(filename);
+    const rawFilename = window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html';
+    const cleanFilename = rawFilename.replace(/\.html$/, '');
+    const isAuthFormPage = ['patient-login', 'login', 'doctor-login', 'admin-login', 'signup', 'doctor-signup'].includes(cleanFilename);
+    const isDashboardPage = ['patient-home', 'doctor-home', 'therapist-dashboard', 'admin-dashboard'].includes(cleanFilename);
 
     // On all dashboard pages: unconditionally remove all Login and Sign Up buttons and preview banners
     if (isDashboardPage) {
-      if (document.body) document.body.classList.add('page-' + filename.replace('.html', ''));
-      if (document.documentElement) document.documentElement.classList.add('page-' + filename.replace('.html', ''));
-      document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderLogin, #btnPatientLogin, #btnDoctorLogin, #btnHeaderSignup, .shared-btn-signup, .doc-btn-signup, .btn-header-signup, .mt-signup-btn, .shared-btn-login, .mt-login-btn, #homeLoginButtonsGroup, .home-login-btn, a[href*="login.html"], a[href*="patient-login.html"], a[href*="doctor-login.html"], a[href*="admin-login.html"], a[href*="signup.html"], a[href*="doctor-signup.html"]').forEach(el => {
+      if (document.body) document.body.classList.add('page-' + cleanFilename);
+      if (document.documentElement) document.documentElement.classList.add('page-' + cleanFilename);
+      document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderLogin, #btnPatientLogin, #btnDoctorLogin, #btnHeaderSignup, .shared-btn-signup, .doc-btn-signup, .btn-header-signup, .mt-signup-btn, .shared-btn-login, .mt-login-btn, #homeLoginButtonsGroup, .home-login-btn, a[href*="login"], a[href*="signup"]').forEach(el => {
         if (el.closest('#userProfileWrap') || el.id === 'logoutBtn' || el.classList.contains('shared-logout-btn') || el.classList.contains('profile-dropdown-item')) return;
         const parentLi = el.closest('li');
         if (parentLi) {
@@ -887,7 +892,7 @@
       });
 
       // 2. Hide all Login elements
-      document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderLogin, #btnPatientLogin, #btnDoctorLogin, .shared-btn-login, .mt-login-btn, #homeLoginButtonsGroup, .home-login-btn').forEach(el => {
+      document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderLogin, #btnPatientLogin, #btnDoctorLogin, .shared-btn-login, .mt-login-btn, #homeLoginButtonsGroup, .home-login-btn, #btnHomeAdminLogin, #btnHomePatientLogin, #btnHomeDoctorLogin').forEach(el => {
         el.style.setProperty('display', 'none', 'important');
         const parentLi = el.closest('li');
         if (parentLi) parentLi.style.setProperty('display', 'none', 'important');
@@ -900,11 +905,32 @@
           const href = (el.getAttribute('href') || '').toLowerCase();
           const text = (el.textContent || '').trim().toLowerCase();
 
-          const isAuthHref = href.endsWith('login.html') || href.endsWith('patient-login.html') || href.endsWith('doctor-login.html') ||
-                             href.endsWith('admin-login.html') || href.endsWith('signup.html') || href.endsWith('doctor-signup.html');
-          const isAuthText = text === 'patient login' || text === 'doctor login' || text === 'admin login' || text === 'sign up' || text === 'patient sign up' || text === 'doctor sign up';
+          if (href.includes('logout') || text.includes('logout')) return;
+
+          const isAuthHref = href.includes('login') || href.includes('signup');
+          const isAuthText = text === 'patient login' || text === 'doctor login' || text === 'admin login' || text === 'sign up' || text === 'patient sign up' || text === 'doctor sign up' || text === 'login';
 
           if (isAuthHref || isAuthText) {
+            const parentCard = el.closest('.cp-access-card');
+            if (parentCard) {
+              // Adapt homepage portal cards
+              if (auth.role === 'patient' && (el.id === 'btnPatientLogin' || parentCard.id === 'cardPatientLogin')) {
+                el.style.removeProperty('display');
+                el.setAttribute('href', './patient-home.html');
+                el.innerHTML = '<span>Go to Patient Dashboard &rarr;</span>';
+                return;
+              } else if (auth.role === 'doctor' && (el.id === 'btnDoctorLogin' || parentCard.id === 'cardDoctorLogin')) {
+                el.style.removeProperty('display');
+                el.setAttribute('href', './doctor-home.html');
+                el.innerHTML = '<span>Go to Doctor Dashboard &rarr;</span>';
+                return;
+              } else if (auth.role === 'admin') {
+                el.style.removeProperty('display');
+                el.setAttribute('href', './admin-dashboard.html');
+                el.innerHTML = '<span>Go to Admin Dashboard &rarr;</span>';
+                return;
+              }
+            }
             el.style.setProperty('display', 'none', 'important');
             const parentLi = el.closest('li');
             if (parentLi) parentLi.style.setProperty('display', 'none', 'important');
@@ -1302,35 +1328,45 @@
     window.addEventListener('pageshow', function (event) {
       const isBackNav = event.persisted || (window.performance && window.performance.navigation && window.performance.navigation.type === 2);
       const auth = getAuthUser();
-      const filename = window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html';
-      const isProtected = ['patient-home.html', 'doctor-home.html', 'therapist-dashboard.html', 'admin-dashboard.html', 'doctor-profile.html', 'patient-profile.html'].includes(filename);
+      const rawFile = window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html';
+      const cleanFilename = rawFile.replace(/\.html$/, '');
+      const isProtected = ['patient-home', 'doctor-home', 'therapist-dashboard', 'admin-dashboard', 'doctor-profile', 'patient-profile', 'patients'].includes(cleanFilename);
 
       if (isProtected && !auth.isLoggedIn) {
+        if (cleanFilename === 'patients') {
+          window.location.replace(getBasePath() + 'login.html?redirect=patients.html');
+          return;
+        }
         window.location.replace(getBasePath() + 'index.html');
         return;
       }
 
-      if (filename === 'patient-home.html' && auth.role === 'admin') {
+      if (cleanFilename === 'patient-home' && auth.role === 'admin') {
         window.location.replace(getBasePath() + 'admin-dashboard.html');
         return;
       }
 
-      if (filename === 'patient-home.html' && (auth.role === 'doctor' || auth.role === 'therapist')) {
+      if (cleanFilename === 'patient-home' && (auth.role === 'doctor' || auth.role === 'therapist')) {
         window.location.replace(getBasePath() + 'doctor-home.html');
         return;
       }
 
-      if (filename === 'doctor-home.html' && auth.role === 'patient') {
+      if (cleanFilename === 'doctor-home' && auth.role === 'patient') {
         window.location.replace(getBasePath() + 'patient-home.html');
         return;
       }
 
-      if (filename === 'doctor-home.html' && auth.role === 'admin') {
+      if (cleanFilename === 'doctor-home' && auth.role === 'admin') {
         window.location.replace(getBasePath() + 'admin-dashboard.html');
         return;
       }
 
-      if (filename.startsWith('admin-') && filename !== 'admin-login.html' && auth.role !== 'admin') {
+      if (cleanFilename === 'patients' && auth.role === 'patient') {
+        window.location.replace(getBasePath() + 'patient-home.html');
+        return;
+      }
+
+      if (cleanFilename.startsWith('admin-') && cleanFilename !== 'admin-login' && auth.role !== 'admin') {
         window.location.replace(getBasePath() + 'admin-login.html');
         return;
       }

@@ -121,7 +121,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const u = JSON.parse(rawUser);
       if (u && (u.role || "").toLowerCase() === "patient") {
         const urlParams = new URLSearchParams(window.location.search);
-        const targetUrl = urlParams.get("redirect") || urlParams.get("next") || "./patient-home.html";
+        const rawTarget = urlParams.get("redirect") || urlParams.get("next");
+        const targetUrl = (rawTarget && !rawTarget.toLowerCase().includes("login")) ? rawTarget : "./patient-home.html";
         window.location.replace(targetUrl);
         return;
       }
@@ -241,8 +242,8 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("currentUser", JSON.stringify(userData));
         }
 
-        // Redirect to target appointment page or Patient Home Page
-        const targetUrl = redirectParam || "./patient-home.html";
+        // Redirect to target appointment page or Patient Home Page (never loop back to login)
+        const targetUrl = (redirectParam && !redirectParam.toLowerCase().includes("login")) ? redirectParam : "./patient-home.html";
         setTimeout(() => {
           window.location.href = targetUrl;
         }, 500);

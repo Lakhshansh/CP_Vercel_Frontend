@@ -25,6 +25,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  // Clinical Management Guard: Access requires authenticated Doctor, Therapist, or Admin
+  if (!currentUser) {
+    sessionStorage.setItem("cross_role_alert", "Please log in to access the clinical Patients summary.");
+    window.location.replace("./login.html?redirect=patients.html");
+    return;
+  }
+
+  const userRole = (currentUser.role || "").toLowerCase();
+  if (userRole === "patient") {
+    sessionStorage.setItem("cross_role_alert", "Access to clinical patient directory is restricted to healthcare providers.");
+    window.location.replace("./patient-home.html");
+    return;
+  }
+
   // Update Navbar based on authentication
   setupNavbarAuth(currentUser);
 

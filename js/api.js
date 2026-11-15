@@ -37,6 +37,11 @@ function resolveInitialApiBase() {
     if (isLocalFrontend) {
       return LOCAL_API_BASE;
     }
+
+    // When running on live web (Vercel or custom domain), use same-origin relative API
+    if (window.location.protocol.startsWith("http")) {
+      return "";
+    }
   }
 
   return PROD_API_BASE;
@@ -71,15 +76,23 @@ async function apiRequest(path, options = {}) {
 
   // Build candidate backend endpoints in priority order
   const candidates = [];
-  if (API_BASE_URL) candidates.push(API_BASE_URL);
+  if (typeof API_BASE_URL === "string") candidates.push(API_BASE_URL);
 
   const isLocalFrontend =
     typeof window !== "undefined" &&
-    (window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost");
+    (window.location.hostname === "127.0.0.1" ||
+     window.location.hostname === "localhost" ||
+     window.location.protocol === "file:");
+
+  const isWebOrigin =
+    typeof window !== "undefined" &&
+    window.location.protocol.startsWith("http");
 
   const fallbacks = isLocalFrontend
-    ? [LOCAL_API_BASE, LOCAL_API_FALLBACK, PROD_API_BASE]
-    : [PROD_API_BASE, LOCAL_API_BASE, LOCAL_API_FALLBACK];
+    ? [LOCAL_API_BASE, LOCAL_API_FALLBACK, "", PROD_API_BASE]
+    : (isWebOrigin
+        ? ["", PROD_API_BASE, LOCAL_API_BASE, LOCAL_API_FALLBACK]
+        : [PROD_API_BASE, LOCAL_API_BASE, LOCAL_API_FALLBACK]);
 
   for (const fb of fallbacks) {
     if (!candidates.includes(fb)) {
