@@ -19,14 +19,13 @@ function resolveInitialApiBase() {
     if (window.VITE_API_BASE_URL) return window.VITE_API_BASE_URL;
     if (window.API_BASE_URL) return window.API_BASE_URL;
 
+    // Purge outdated Render or external API URLs from localStorage on web domains
     try {
       const stored = localStorage.getItem("API_BASE_URL");
-      if (stored && typeof stored === "string" && stored.trim()) {
-        return stored.trim();
+      if (stored && (stored.includes("onrender.com") || stored.includes("cp-backend"))) {
+        localStorage.removeItem("API_BASE_URL");
       }
-    } catch (e) {
-      // localStorage may be restricted in private browsing
-    }
+    } catch (e) {}
 
     // When running locally, prefer local backend
     const isLocalFrontend =
@@ -42,6 +41,13 @@ function resolveInitialApiBase() {
     if (window.location.protocol.startsWith("http")) {
       return "";
     }
+
+    try {
+      const stored = localStorage.getItem("API_BASE_URL");
+      if (stored && typeof stored === "string" && stored.trim()) {
+        return stored.trim();
+      }
+    } catch (e) {}
   }
 
   return PROD_API_BASE;
@@ -74,10 +80,6 @@ async function apiRequest(path, options = {}) {
     );
   }
 
-  // Build candidate backend endpoints in priority order
-  const candidates = [];
-  if (typeof API_BASE_URL === "string") candidates.push(API_BASE_URL);
-
   const isLocalFrontend =
     typeof window !== "undefined" &&
     (window.location.hostname === "127.0.0.1" ||
@@ -87,6 +89,14 @@ async function apiRequest(path, options = {}) {
   const isWebOrigin =
     typeof window !== "undefined" &&
     window.location.protocol.startsWith("http");
+
+  // Build candidate backend endpoints in priority order
+  const candidates = [];
+  if (isWebOrigin && !isLocalFrontend) {
+    candidates.push(""); // Priority #1 on live web is ALWAYS same-origin serverless
+  } else if (typeof API_BASE_URL === "string") {
+    candidates.push(API_BASE_URL);
+  }
 
   const fallbacks = isLocalFrontend
     ? [LOCAL_API_BASE, LOCAL_API_FALLBACK, "", PROD_API_BASE]
@@ -163,9 +173,11 @@ async function apiRequest(path, options = {}) {
       // Successful response: persist working base URL
       if (API_BASE_URL !== base) {
         API_BASE_URL = base;
-        try {
-          localStorage.setItem("API_BASE_URL", base);
-        } catch (e) {}
+        if (!isWebOrigin || isLocalFrontend) {
+          try {
+            localStorage.setItem("API_BASE_URL", base);
+          } catch (e) {}
+        }
       }
 
       return data;

@@ -146,6 +146,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const refreshBtn = document.getElementById("refreshCaptcha");
   if (refreshBtn) refreshBtn.addEventListener("click", generateCaptcha);
 
+  // Quick Fill Patient Demo Credentials
+  const btnFillPatientDemo = document.getElementById("btnFillPatientDemo");
+  if (btnFillPatientDemo) {
+    btnFillPatientDemo.addEventListener("click", () => {
+      const uInput = document.getElementById("username");
+      const pInput = document.getElementById("loginPassword");
+      const cInput = document.getElementById("captchaInput");
+      if (uInput) uInput.value = "patient1";
+      if (pInput) pInput.value = "patient123";
+      if (cInput) {
+        const code = sessionStorage.getItem("captcha") || (document.getElementById("captchaText") ? document.getElementById("captchaText").textContent.trim() : "");
+        cInput.value = code;
+      }
+    });
+  }
+
+
   // Toggle Password Visibility
   const toggleBtn = document.getElementById("togglePassword");
   if (toggleBtn) {
