@@ -318,6 +318,15 @@
                 </div>
               </li>
               <li><a href="${base}index.html#contact" class="shared-nav-link mt-nav-link" id="navHomeContact">Contact</a></li>
+            ` : isAdminLogin ? `
+              <!-- ADMIN LOGIN PAGE NAVIGATION ONLY -->
+              <li><a href="${base}index.html" class="shared-nav-link mt-nav-link" id="navHome">Home</a></li>
+              <li><a href="${base}index.html#services" class="shared-nav-link mt-nav-link" id="navServices">Services</a></li>
+              <li><a href="${base}index.html#about" class="shared-nav-link mt-nav-link" id="navAbout">About</a></li>
+              <li><a href="${base}login.html" class="shared-nav-link mt-nav-link" id="navPatientLogin">Patient Login</a></li>
+              <li><a href="${base}doctor-login.html" class="shared-nav-link mt-nav-link" id="navDoctorLogin">Doctor Login</a></li>
+              <li class="d-md-none"><a href="${base}index.html#contact" class="shared-nav-link mt-nav-link" id="navContact">Contact</a></li>
+              <li class="d-md-none"><a href="${base}signup.html" class="shared-nav-link mt-nav-link" id="navSignup">Sign Up</a></li>
             ` : `
               <!-- NON-HOMEPAGE GUEST NAVIGATION (Directory & General Pages) -->
               <li><a href="${base}index.html" class="shared-nav-link mt-nav-link ${isHome ? 'active' : ''}" id="navHome">Home</a></li>
@@ -636,8 +645,8 @@
               <span>Contact</span>
             </a>
 
-            ${!auth.isLoggedIn && !isDashboard && !isLoginPage ? `
-              <!-- Sign Up Button (Guest Only on Other Pages) -->
+            ${!auth.isLoggedIn && !isDashboard && (!isLoginPage || isAdminLogin) ? `
+              <!-- Sign Up Button (Guest Only on Other Pages & Admin Login) -->
               <a href="${base}signup.html" class="shared-btn-signup doc-btn-signup ${isSignup ? 'active' : ''}" id="btnHeaderSignup" title="Sign Up">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -891,9 +900,9 @@
       if (b2) { b2.style.setProperty('display', 'none', 'important'); if (typeof b2.remove === 'function') b2.remove(); }
     }
 
-    // On all login pages (Patient Login, Doctor Login, Admin Login): unconditionally remove Login and Sign Up navigation buttons
-    const isLoginPage = ['patient-login', 'login', 'doctor-login', 'admin-login'].includes(cleanFilename);
-    if (isLoginPage) {
+    // On patient & doctor login pages: unconditionally remove Login and Sign Up navigation buttons
+    const isOtherLoginPage = ['patient-login', 'login', 'doctor-login'].includes(cleanFilename);
+    if (isOtherLoginPage) {
       document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderLogin, #btnPatientLogin, #btnDoctorLogin, #btnHeaderSignup, .shared-btn-signup, .doc-btn-signup, .btn-header-signup, .mt-signup-btn, .shared-btn-login, .mt-login-btn, #homeLoginButtonsGroup, .home-login-btn').forEach(el => {
         const parentLi = el.closest('li');
         if (parentLi) {
@@ -903,6 +912,28 @@
           el.style.setProperty('display', 'none', 'important');
           if (typeof el.remove === 'function') el.remove();
         }
+      });
+    }
+
+    // On Admin Login page (admin-login.html):
+    // HIDE: Patient Home, Doctor Home, Clinical Management dropdown, Admin Login
+    // SHOW: Home, Patient Login (login.html), Doctor Login (doctor-login.html), Contact, Sign Up, Services, About
+    if (cleanFilename === 'admin-login') {
+      document.querySelectorAll('#navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown, #navAdminLogin, #btnHomeAdminLogin, #homeLoginButtonsGroup').forEach(el => {
+        const parentLi = el.closest('li');
+        if (parentLi) {
+          parentLi.style.setProperty('display', 'none', 'important');
+          if (typeof parentLi.remove === 'function') parentLi.remove();
+        } else {
+          el.style.setProperty('display', 'none', 'important');
+          if (typeof el.remove === 'function') el.remove();
+        }
+      });
+
+      document.querySelectorAll('#navHome, #navServices, #navAbout, #navPatientLogin, #navDoctorLogin, #btnHeaderContact, #btnHeaderSignup, .shared-btn-contact, .shared-btn-signup, #publicNavActions, #navContact, #navSignup').forEach(el => {
+        el.style.removeProperty('display');
+        const parentLi = el.closest('li');
+        if (parentLi) parentLi.style.removeProperty('display');
       });
     }
 
@@ -1043,29 +1074,44 @@
         el.style.setProperty('display', 'none', 'important');
       });
 
-      const isCurrentLoginPage = ['patient-login', 'login', 'doctor-login', 'admin-login'].includes(cleanFilename);
+      if (cleanFilename === 'admin-login') {
+        // Enforce admin-login header visibility on guest mode
+        document.querySelectorAll('#navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown, #navAdminLogin, #btnHomeAdminLogin, #homeLoginButtonsGroup').forEach(el => {
+          el.style.setProperty('display', 'none', 'important');
+          const parentLi = el.closest('li');
+          if (parentLi) parentLi.style.setProperty('display', 'none', 'important');
+        });
 
-      document.querySelectorAll('#navHome, #navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown').forEach(el => {
-        el.style.removeProperty('display');
-        const parentLi = el.closest('li');
-        if (parentLi) parentLi.style.removeProperty('display');
-      });
-
-      if (!isCurrentLoginPage) {
-        document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderSignup').forEach(el => {
+        document.querySelectorAll('#navHome, #navServices, #navAbout, #navPatientLogin, #navDoctorLogin, #btnHeaderContact, #btnHeaderSignup, .shared-btn-contact, .shared-btn-signup, #publicNavActions, #navContact, #navSignup').forEach(el => {
           el.style.removeProperty('display');
           const parentLi = el.closest('li');
           if (parentLi) parentLi.style.removeProperty('display');
         });
       } else {
-        document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderSignup, .shared-btn-signup, .doc-btn-signup, #homeLoginButtonsGroup, .home-login-btn').forEach(el => {
-          el.style.setProperty('display', 'none', 'important');
+        const isCurrentLoginPage = ['patient-login', 'login', 'doctor-login'].includes(cleanFilename);
+
+        document.querySelectorAll('#navHome, #navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown').forEach(el => {
+          el.style.removeProperty('display');
           const parentLi = el.closest('li');
-          if (parentLi) parentLi.style.setProperty('display', 'none', 'important');
+          if (parentLi) parentLi.style.removeProperty('display');
         });
+
+        if (!isCurrentLoginPage) {
+          document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderSignup').forEach(el => {
+            el.style.removeProperty('display');
+            const parentLi = el.closest('li');
+            if (parentLi) parentLi.style.removeProperty('display');
+          });
+        } else {
+          document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderSignup, .shared-btn-signup, .doc-btn-signup, #homeLoginButtonsGroup, .home-login-btn').forEach(el => {
+            el.style.setProperty('display', 'none', 'important');
+            const parentLi = el.closest('li');
+            if (parentLi) parentLi.style.setProperty('display', 'none', 'important');
+          });
+        }
       }
 
-      if (filename === 'index.html' || filename === '') {
+      if (rawFilename === 'index.html' || cleanFilename === 'index' || cleanFilename === '') {
         document.querySelectorAll('#homeLoginButtonsGroup, .home-login-btn').forEach(el => {
           el.style.removeProperty('display');
         });
@@ -1308,6 +1354,12 @@
     if (header) {
       header.className = 'shared-header mt-navbar';
       header.setAttribute('role', 'banner');
+
+      if (activeKey === 'admin-login') {
+        header.style.setProperty('background', '#0B2B50', 'important');
+        header.style.setProperty('border-bottom', '1px solid rgba(255, 255, 255, 0.12)', 'important');
+        header.style.setProperty('box-shadow', '0 4px 20px rgba(0, 0, 0, 0.3)', 'important');
+      }
 
       // Preserve existing live DB status if present on admin pages
       const existingDbBadge = document.getElementById('liveDbBadge');
