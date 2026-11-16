@@ -88,7 +88,7 @@ module.exports = async function handler(req, res) {
 
           // Check if doctor record exists
           const [docRows] = await db.execute(
-            `SELECT doctor_id, name, specialization, contact, email, gender, profile_photo, cloudinary_public_id 
+            `SELECT doctor_id, name, specialization, contact, email, gender, profile_photo, cloudinary_public_id, experience_years 
              FROM doctors WHERE user_id = ? LIMIT 1`,
             [targetUid]
           );
@@ -102,6 +102,10 @@ module.exports = async function handler(req, res) {
             userRecord.specialty = userRecord.specialization;
             userRecord.phone = doc.contact || userRecord.phone;
             userRecord.email = doc.email || userRecord.email;
+            if (doc.experience_years !== undefined && doc.experience_years !== null) {
+              userRecord.experience_years = parseFloat(doc.experience_years) || 0;
+              userRecord.experience = `${userRecord.experience_years} Years`;
+            }
             if (doc.profile_photo) {
               userRecord.profile_photo = doc.profile_photo;
             }
@@ -181,6 +185,12 @@ module.exports = async function handler(req, res) {
           const specialty = safeVal(body.specialization || body.specialty);
           const hospital = safeVal(body.hospital_name || body.hospital);
           const address = safeVal(body.hospital_address || body.address);
+          const rawExp = body.experience_years !== undefined ? body.experience_years : body.experience;
+          let expVal = null;
+          if (rawExp !== undefined && rawExp !== null && String(rawExp).trim() !== "") {
+            const parsedExp = parseFloat(String(rawExp).replace(/[^0-9.]/g, ""));
+            if (!isNaN(parsedExp)) expVal = parsedExp;
+          }
 
           const isRemove = body.profile_photo === "REMOVE" || body.profile_photo === null;
           const photoProvided = body.profile_photo !== undefined;
@@ -226,10 +236,11 @@ module.exports = async function handler(req, res) {
                  email = COALESCE(?, email),
                  contact = COALESCE(?, contact),
                  specialization = COALESCE(?, specialization),
+                 experience_years = COALESCE(?, experience_years),
                  profile_photo = ?,
                  cloudinary_public_id = ?
                WHERE user_id = ?`,
-              [docName, email, phone, specialty, photoUrl, cloudPid, targetUid]
+              [docName, email, phone, specialty, expVal, photoUrl, cloudPid, targetUid]
             );
           } else {
             await db.execute(
@@ -237,9 +248,10 @@ module.exports = async function handler(req, res) {
                  name = COALESCE(?, name),
                  email = COALESCE(?, email),
                  contact = COALESCE(?, contact),
-                 specialization = COALESCE(?, specialization)
+                 specialization = COALESCE(?, specialization),
+                 experience_years = COALESCE(?, experience_years)
                WHERE user_id = ?`,
-              [docName, email, phone, specialty, targetUid]
+              [docName, email, phone, specialty, expVal, targetUid]
             );
           }
 

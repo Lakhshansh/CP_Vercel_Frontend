@@ -520,15 +520,15 @@ function setupDoctorProfileForm() {
     e.preventDefault();
     if (profileMessage) profileMessage.hidden = true;
 
-    const docName = document.getElementById("docFullName").value.trim();
-    const license = document.getElementById("docRegNumber").value.trim();
-    const specialty = document.getElementById("docSpecialization").value;
-    const email = document.getElementById("docEmail").value.trim();
-    const phone = document.getElementById("docPhone").value.trim();
-    const hospital = document.getElementById("docHospital").value.trim();
-    const address = document.getElementById("docAddress").value.trim();
-    const experience = document.getElementById("docExperience").value.trim();
-    const qualification = document.getElementById("docQualification").value.trim();
+    const docName = (document.getElementById("profDocName") || document.getElementById("docFullName") || {}).value?.trim() || "";
+    const license = (document.getElementById("profDocLicense") || document.getElementById("docRegNumber") || {}).value?.trim() || "";
+    const specialty = (document.getElementById("profDocSpecialty") || document.getElementById("docSpecialization") || {}).value || "";
+    const email = (document.getElementById("profDocEmail") || document.getElementById("docEmail") || {}).value?.trim() || "";
+    const phone = (document.getElementById("profDocPhone") || document.getElementById("docPhone") || {}).value?.trim() || "";
+    const hospital = (document.getElementById("profDocHospital") || document.getElementById("docHospital") || {}).value?.trim() || "";
+    const address = (document.getElementById("profDocAddress") || document.getElementById("docAddress") || {}).value?.trim() || "";
+    const experience = (document.getElementById("profDocExperience") || document.getElementById("docExperience") || {}).value?.trim() || "";
+    const qualification = (document.getElementById("profDocQualification") || document.getElementById("docQualification") || {}).value?.trim() || "";
 
     const btn = document.getElementById("btnSaveDocProfile");
     const originalText = btn ? btn.innerHTML : "";
@@ -559,6 +559,7 @@ function setupDoctorProfileForm() {
         hospital_address: address,
         address: address,
         experience: experience,
+        experience_years: parseFloat(experience.replace(/[^0-9.]/g, "")) || 0,
         qualification: qualification,
         profile_photo: currentUserState.profile_photo,
         cloudinary_public_id: currentUserState.cloudinary_public_id
@@ -722,16 +723,20 @@ function populateDoctorProfile(user) {
   if (regTagEl) regTagEl.textContent = `REG: #${displayLicense}`;
 
   // Form Inputs
-  const fNameInput = document.getElementById("docFullName");
-  const uNameInput = document.getElementById("docUsername");
-  const licenseInput = document.getElementById("docRegNumber");
-  const specialtyInput = document.getElementById("docSpecialization");
-  const emailInput = document.getElementById("docEmail");
-  const phoneInput = document.getElementById("docPhone");
-  const hospitalInput = document.getElementById("docHospital");
-  const addressInput = document.getElementById("docAddress");
-  const expInput = document.getElementById("docExperience");
-  const qualInput = document.getElementById("docQualification");
+  const fNameInput = document.getElementById("profDocName") || document.getElementById("docFullName");
+  const uNameInput = document.getElementById("profDocUsername") || document.getElementById("docUsername");
+  const licenseInput = document.getElementById("profDocLicense") || document.getElementById("docRegNumber");
+  const specialtyInput = document.getElementById("profDocSpecialty") || document.getElementById("docSpecialization");
+  const emailInput = document.getElementById("profDocEmail") || document.getElementById("docEmail");
+  const phoneInput = document.getElementById("profDocPhone") || document.getElementById("docPhone");
+  const hospitalInput = document.getElementById("profDocHospital") || document.getElementById("docHospital");
+  const addressInput = document.getElementById("profDocAddress") || document.getElementById("docAddress");
+  const expInput = document.getElementById("profDocExperience") || document.getElementById("docExperience");
+  const qualInput = document.getElementById("profDocQualification") || document.getElementById("docQualification");
+
+  const displayExperience = (user.experience_years !== undefined && user.experience_years !== null)
+    ? `${user.experience_years} Years`
+    : (user.experience || "12+ Years");
 
   if (fNameInput) fNameInput.value = displayName;
   if (uNameInput) uNameInput.value = displayUsername;
@@ -741,8 +746,13 @@ function populateDoctorProfile(user) {
   if (phoneInput) phoneInput.value = user.phone || "+91 9468650893";
   if (hospitalInput) hospitalInput.value = user.hospital_name || user.hospital || "Multi Therapy Rehabilitation Center";
   if (addressInput) addressInput.value = user.hospital_address || user.address || "Jaipur, Rajasthan";
-  if (expInput) expInput.value = user.experience || "12+ Years";
+  if (expInput) expInput.value = displayExperience;
   if (qualInput) qualInput.value = user.qualification || "MBBS, MD (Pediatrics), DM (Neuro)";
+
+  const expBadgeEl = document.getElementById("docExpBadgeText");
+  if (expBadgeEl) {
+    expBadgeEl.textContent = `${displayExperience} Exp`;
+  }
 
   // Navbar User Info
   const navUser = document.getElementById("navUsername");

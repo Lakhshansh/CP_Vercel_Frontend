@@ -610,7 +610,9 @@ async function fetchBackendDoctors() {
         reviewsCount: 50 + (idx * 7) % 60,
         hospital: bd.hospital_name || bd.clinic_name || "Multi Therapy Clinical Center",
         location: bd.address || "Medical Plaza",
-        experienceYears: 10 + (idx * 2) % 15,
+        experienceYears: (bd.experience_years !== undefined && bd.experience_years !== null && !isNaN(parseFloat(bd.experience_years)))
+          ? parseFloat(bd.experience_years)
+          : ((bd.experience && !isNaN(parseFloat(bd.experience))) ? parseFloat(bd.experience) : (10 + (idx * 2) % 15)),
         availability: "Available Today",
         isAvailableToday: true,
         photo: bd.photo || bd.profile_photo || "",

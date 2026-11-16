@@ -293,6 +293,7 @@
             <span class="doc-spec-badge">
               <span>🩺</span> ${escapeHtml(d.specialization || 'General Practice')}
             </span>
+            ${d.experience_years !== undefined && d.experience_years !== null ? `<div style="font-size: 11.5px; color: #64748b; margin-top: 3px;">💼 ${escapeHtml(String(d.experience_years))} Yrs Exp</div>` : ''}
           </td>
           <td>
             <a href="tel:${escapeHtml(d.contact || '')}" class="text-decoration-none" style="color: #0f172a; font-weight: 600;">

@@ -237,6 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const fullName = (formData.get("full_name") || "").toString().trim();
       const medicalRegNo = (formData.get("medical_reg_no") || "").toString().trim();
       const specialization = (formData.get("specialization") || "").toString().trim();
+      const experienceYearsRaw = (formData.get("experience_years") || "").toString().trim();
       const email = (formData.get("email") || "").toString().trim();
       const phone = (formData.get("phone") || "").toString().trim();
       const hospitalName = (formData.get("hospital_name") || "").toString().trim();
@@ -256,6 +257,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const allowedSpecs = ["Neurology", "Physiotherapy", "Pediatrics", "Occupational Therapy", "Other"];
       if (!specialization || !allowedSpecs.includes(specialization)) {
         showDoctorMessage("Please select a valid Medical Specialization.");
+        return;
+      }
+
+      const experienceYears = parseFloat(experienceYearsRaw);
+      if (!experienceYearsRaw || isNaN(experienceYears) || experienceYears < 0) {
+        showDoctorMessage("Please enter valid years of experience (0 or greater).");
+        const expInput = document.getElementById("doctorExperience");
+        if (expInput) {
+          expInput.focus();
+        }
         return;
       }
 
@@ -326,6 +337,8 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.set("medical_reg_no", medicalRegNo);
       formData.set("specialization", specialization);
       formData.set("doctor_specialization", specialization);
+      formData.set("experience_years", experienceYears.toString());
+      formData.set("experience", experienceYears.toString());
       formData.set("hospital_name", hospitalName);
       formData.set("clinic_name", hospitalName);
       formData.set("address", address);
