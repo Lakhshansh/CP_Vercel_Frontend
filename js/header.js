@@ -281,44 +281,15 @@
         <ul class="shared-nav-list mt-nav-list" id="navMenu">
           ${!auth.isLoggedIn && !isDashboard ? `
             <!-- GUEST / LOGGED-OUT NAVIGATION (on public pages) -->
-            ${isHome ? `
-              <!-- HOME PAGE CLEAN TOP NAVIGATION (SEHATOPD INSPIRED) -->
-              <li><a href="${base}index.html" class="shared-nav-link mt-nav-link active" id="navHome">Home</a></li>
-              <li class="nav-item-dropdown ${isClinical ? 'active' : ''}">
-                <a href="javascript:void(0)" class="nav-dropdown-toggle shared-nav-link mt-nav-link ${isClinical ? 'active' : ''}" aria-haspopup="true" aria-expanded="false" id="navClinicalDropdown">
-                  <span>Clinical Management</span>
-                  <svg class="dropdown-arrow-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M2.5 4.5L6 8L9.5 4.5"></path>
-                  </svg>
-                </a>
-                <div class="nav-dropdown-menu" aria-label="Clinical Management Submenu">
-                  <a href="${base}doctors.html" class="nav-dropdown-link ${isDoc ? 'active' : ''}" id="dropDoctors">
-                    <span class="nav-dropdown-icon">👨‍⚕️</span>
-                    <span class="nav-dropdown-text">Doctors</span>
-                  </a>
-                  <a href="${patientsLink}" class="nav-dropdown-link ${isPt ? 'active' : ''}" id="dropPatients">
-                    <span class="nav-dropdown-icon">👥</span>
-                    <span class="nav-dropdown-text">Patients</span>
-                  </a>
-                  <a href="${base}therapists.html" class="nav-dropdown-link ${isTp ? 'active' : ''}" id="dropTherapists">
-                    <span class="nav-dropdown-icon">👨‍⚕️</span>
-                    <span class="nav-dropdown-text">Therapists</span>
-                  </a>
-                  <a href="${base}patient-appointments.html" class="nav-dropdown-link ${isApt ? 'active' : ''}" id="dropAppointments">
-                    <span class="nav-dropdown-icon">📅</span>
-                    <span class="nav-dropdown-text">Appointments</span>
-                  </a>
-                  <a href="${base}therapy-sessions.html" class="nav-dropdown-link ${isTs ? 'active' : ''}" id="dropTherapySessions">
-                    <span class="nav-dropdown-icon">💪</span>
-                    <span class="nav-dropdown-text">Therapy Sessions</span>
-                  </a>
-                  <a href="${base}exercises.html" class="nav-dropdown-link ${isEx ? 'active' : ''}" id="dropExercises">
-                    <span class="nav-dropdown-icon">🏃</span>
-                    <span class="nav-dropdown-text">Exercises</span>
-                  </a>
-                </div>
-              </li>
-              <li><a href="${base}index.html#contact" class="shared-nav-link mt-nav-link" id="navHomeContact">Contact</a></li>
+            ${isHome || isPatientLogin || isDoctorLogin ? `
+              <!-- HOME, PATIENT LOGIN & DOCTOR LOGIN NAVIGATION -->
+              <li><a href="${base}index.html" class="shared-nav-link mt-nav-link ${isHome ? 'active' : ''}" id="navHome">Home</a></li>
+              <li><a href="${base}index.html#services" class="shared-nav-link mt-nav-link" id="navServices">Services</a></li>
+              <li><a href="${base}index.html#about" class="shared-nav-link mt-nav-link" id="navAbout">About</a></li>
+              <li><a href="${base}login.html" class="shared-nav-link mt-nav-link ${isPatientLogin ? 'active' : ''}" id="navPatientLogin">Patient Login</a></li>
+              <li><a href="${base}doctor-login.html" class="shared-nav-link mt-nav-link ${isDoctorLogin ? 'active' : ''}" id="navDoctorLogin">Doctor Login</a></li>
+              <li><a href="${base}admin-login.html" class="shared-nav-link mt-nav-link" id="navAdminLogin">Admin Login</a></li>
+              <li class="d-md-none"><a href="${base}index.html#contact" class="shared-nav-link mt-nav-link" id="navContact">Contact</a></li>
             ` : isAdminLogin ? `
               <!-- ADMIN LOGIN PAGE NAVIGATION ONLY -->
               <li><a href="${base}index.html" class="shared-nav-link mt-nav-link" id="navHome">Home</a></li>
@@ -625,24 +596,8 @@
           </button>
         ` : ''}
 
-        ${!auth.isLoggedIn && isHome ? `
-          <!-- Three Login Buttons (Right Side) - Inspired by SehatOPD government header (Home Page ONLY) -->
-          <div class="home-login-buttons-group" id="homeLoginButtonsGroup">
-            <a href="${base}admin-login.html" class="home-login-btn home-btn-admin" id="btnHomeAdminLogin" title="Admin Portal Login">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-              <span>Admin Login</span>
-            </a>
-            <a href="${base}login.html" class="home-login-btn home-btn-patient" id="btnHomePatientLogin" title="Patient Portal Login">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-              <span>Patient Login</span>
-            </a>
-            <a href="${base}doctor-login.html" class="home-login-btn home-btn-doctor" id="btnHomeDoctorLogin" title="Doctor Portal Login">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-              <span>Doctor Login</span>
-            </a>
-          </div>
-        ` : `
-          <!-- Public Actions (Non-Home Pages) -->
+        ${!auth.isLoggedIn ? `
+          <!-- Public Actions -->
           <div id="publicNavActions" class="shared-public-actions">
             <!-- Contact Button (Always visible) -->
             <a href="${base}index.html#contact" class="shared-btn-contact doc-btn-contact" id="btnHeaderContact" title="Contact Multi Therapy Support">
@@ -652,7 +607,7 @@
               <span>Contact</span>
             </a>
 
-            ${!auth.isLoggedIn && !isDashboard && !isLoginPage && !isSignup ? `
+            ${!isDashboard && !isLoginPage && !isSignup && !isHome ? `
               <!-- Sign Up Button (Guest Only on Other Pages) -->
               <a href="${base}signup.html" class="shared-btn-signup doc-btn-signup" id="btnHeaderSignup" title="Sign Up">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -663,7 +618,7 @@
               </a>
             ` : ''}
           </div>
-        `}
+        ` : ''}
 
         <!-- Mobile Hamburger Toggle -->
         <button type="button" class="shared-nav-toggle doc-nav-toggle" id="navToggle" aria-label="Toggle Navigation Menu">
@@ -907,21 +862,6 @@
       if (b2) { b2.style.setProperty('display', 'none', 'important'); if (typeof b2.remove === 'function') b2.remove(); }
     }
 
-    // On patient & doctor login pages: unconditionally remove Login and Sign Up navigation buttons
-    const isOtherLoginPage = ['patient-login', 'login', 'doctor-login'].includes(cleanFilename);
-    if (isOtherLoginPage) {
-      document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderLogin, #btnPatientLogin, #btnDoctorLogin, #btnHeaderSignup, .shared-btn-signup, .doc-btn-signup, .btn-header-signup, .mt-signup-btn, .shared-btn-login, .mt-login-btn, #homeLoginButtonsGroup, .home-login-btn').forEach(el => {
-        const parentLi = el.closest('li');
-        if (parentLi) {
-          parentLi.style.setProperty('display', 'none', 'important');
-          if (typeof parentLi.remove === 'function') parentLi.remove();
-        } else {
-          el.style.setProperty('display', 'none', 'important');
-          if (typeof el.remove === 'function') el.remove();
-        }
-      });
-    }
-
     // On Admin Login page (admin-login.html):
     // HIDE: Patient Home, Doctor Home, Clinical Management dropdown, Admin Login, Sign Up
     // SHOW: Home, Patient Login (login.html), Doctor Login (doctor-login.html), Contact, Services, About
@@ -1113,33 +1053,36 @@
         // Ensure Patient Login links to login.html
         const ptLogin = document.getElementById('navPatientLogin');
         if (ptLogin) ptLogin.setAttribute('href', './login.html');
-      } else {
-        const isCurrentLoginPage = ['patient-login', 'login', 'doctor-login'].includes(cleanFilename);
+      } else if (cleanFilename === 'index' || cleanFilename === '' || cleanFilename === 'home' || cleanFilename === 'login' || cleanFilename === 'patient-login' || cleanFilename === 'doctor-login') {
+        // Enforce home, patient-login, and doctor-login header visibility on guest mode
+        // HIDE: Patient Home, Doctor Home, Clinical Management dropdown, Sign Up, old home login buttons group
+        document.querySelectorAll('#navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown, #homeLoginButtonsGroup, #btnHomeAdminLogin, #btnHomePatientLogin, #btnHomeDoctorLogin, #btnHeaderSignup, #navSignup, #navSignupMobile, .shared-btn-signup, .doc-btn-signup, .btn-header-signup').forEach(el => {
+          el.style.setProperty('display', 'none', 'important');
+          const parentLi = el.closest('li');
+          if (parentLi) parentLi.style.setProperty('display', 'none', 'important');
+        });
 
+        // SHOW: Home, Services, About, Patient Login, Doctor Login, Admin Login, Contact
+        document.querySelectorAll('#navHome, #navServices, #navAbout, #navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderContact, .shared-btn-contact, #publicNavActions, #navContact').forEach(el => {
+          el.style.removeProperty('display');
+          const parentLi = el.closest('li');
+          if (parentLi) parentLi.style.removeProperty('display');
+        });
+
+        // Ensure Patient Login links to login.html
+        const ptLogin = document.getElementById('navPatientLogin');
+        if (ptLogin) ptLogin.setAttribute('href', './login.html');
+      } else {
         document.querySelectorAll('#navHome, #navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown').forEach(el => {
           el.style.removeProperty('display');
           const parentLi = el.closest('li');
           if (parentLi) parentLi.style.removeProperty('display');
         });
 
-        if (!isCurrentLoginPage) {
-          document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderSignup').forEach(el => {
-            el.style.removeProperty('display');
-            const parentLi = el.closest('li');
-            if (parentLi) parentLi.style.removeProperty('display');
-          });
-        } else {
-          document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderSignup, .shared-btn-signup, .doc-btn-signup, #homeLoginButtonsGroup, .home-login-btn').forEach(el => {
-            el.style.setProperty('display', 'none', 'important');
-            const parentLi = el.closest('li');
-            if (parentLi) parentLi.style.setProperty('display', 'none', 'important');
-          });
-        }
-      }
-
-      if (rawFilename === 'index.html' || cleanFilename === 'index' || cleanFilename === '') {
-        document.querySelectorAll('#homeLoginButtonsGroup, .home-login-btn').forEach(el => {
+        document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderSignup').forEach(el => {
           el.style.removeProperty('display');
+          const parentLi = el.closest('li');
+          if (parentLi) parentLi.style.removeProperty('display');
         });
       }
 
@@ -1381,7 +1324,7 @@
       header.className = 'shared-header mt-navbar';
       header.setAttribute('role', 'banner');
 
-      if (activeKey === 'admin-login' || activeKey === 'signup') {
+      if (activeKey === 'admin-login' || activeKey === 'signup' || activeKey === 'home' || activeKey === 'patient-login' || activeKey === 'doctor-login') {
         header.style.setProperty('background', '#0B2B50', 'important');
         header.style.setProperty('border-bottom', '1px solid rgba(255, 255, 255, 0.12)', 'important');
         header.style.setProperty('box-shadow', '0 4px 20px rgba(0, 0, 0, 0.3)', 'important');
