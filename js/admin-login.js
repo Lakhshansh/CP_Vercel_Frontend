@@ -26,6 +26,23 @@ function generateAdminCaptcha() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Unconditionally remove any sidebar from admin-login.html before authentication
+  const removeSidebar = () => {
+    document.querySelectorAll('#mtSidebar, .mt-sidebar, .admin-sidebar, aside.mt-sidebar, #mtSidebarOverlay').forEach(el => {
+      el.style.setProperty('display', 'none', 'important');
+      if (typeof el.remove === 'function') el.remove();
+    });
+    const appWrapper = document.querySelector('.mt-app-wrapper');
+    if (appWrapper) {
+      appWrapper.style.setProperty('margin-left', '0', 'important');
+      appWrapper.style.setProperty('padding-left', '0', 'important');
+    }
+  };
+  removeSidebar();
+  window.addEventListener('pageshow', removeSidebar);
+  setTimeout(removeSidebar, 50);
+  setTimeout(removeSidebar, 200);
+
   // If already logged in as authorized admin, redirect to admin dashboard
   try {
     const existingUser = JSON.parse(localStorage.getItem("currentUser") || "null");

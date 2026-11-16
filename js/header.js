@@ -673,10 +673,15 @@
   }
 
   /**
-   * Automatically ensure sidebar.js is loaded
+   * Automatically ensure sidebar.js is loaded (only on authenticated/authorized dashboard views)
    */
   function injectSidebarScript() {
     if (typeof document === 'undefined') return;
+    const rawFile = window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html';
+    const clean = rawFile.replace(/\.html$/, '');
+    if (['admin-login', 'login', 'patient-login', 'doctor-login', 'signup', 'doctor-signup', 'forgot', 'doctor-forgot', 'patient-forgot', 'index', ''].includes(clean)) {
+      return;
+    }
     if (!document.querySelector('script[src*="sidebar.js"]') && typeof window.renderMultiTherapySidebar !== 'function') {
       const script = document.createElement('script');
       script.src = getBasePath() + 'js/sidebar.js';

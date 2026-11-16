@@ -213,17 +213,51 @@
     const activeFile = getActiveFilename();
     const base = getBasePath();
 
+    // NEVER render sidebar on login, signup, forgot password, or public landing pages
+    const isLoginPage = [
+      'admin-login.html',
+      'login.html',
+      'patient-login.html',
+      'doctor-login.html',
+      'signup.html',
+      'doctor-signup.html',
+      'forgot.html',
+      'patient-forgot.html',
+      'doctor-forgot.html',
+      'index.html',
+      ''
+    ].includes(activeFile);
+
+    if (isLoginPage || activeFile === 'admin-login.html' || activeFile.includes('login')) {
+      const existing = document.getElementById('mtSidebar');
+      if (existing) {
+        existing.style.setProperty('display', 'none', 'important');
+        if (typeof existing.remove === 'function') existing.remove();
+      }
+      return;
+    }
+
     // Check if this page should have an active role sidebar
-    const isAdminPage = activeFile.startsWith('admin-');
-    const isDoctorPage = ['doctor-home.html', 'doctor-profile.html', 'doctor-appointments.html'].includes(activeFile) || (role === 'doctor' && ['patients.html', 'therapy-sessions.html'].includes(activeFile));
-    const isPatientPage = ['patient-home.html', 'patient-profile.html', 'patient-appointments.html', 'exercises.html'].includes(activeFile) || (role === 'patient' && ['therapy-sessions.html', 'doctors.html', 'therapists.html'].includes(activeFile));
-
+    // Admin sidebar appears ONLY after successful Admin authentication, never to unauthenticated users or on admin-login
     let sidebarTargetRole = null;
-    if (isAdminPage || role === 'admin') sidebarTargetRole = 'admin';
-    else if (isDoctorPage || (role === 'doctor' && !['index.html', 'login.html', 'patient-login.html', 'signup.html'].includes(activeFile))) sidebarTargetRole = 'doctor';
-    else if (isPatientPage || (role === 'patient' && !['index.html', 'login.html', 'doctor-login.html', 'signup.html'].includes(activeFile))) sidebarTargetRole = 'patient';
+    if (role === 'admin' && activeFile !== 'admin-login.html') {
+      sidebarTargetRole = 'admin';
+    } else if (role === 'doctor') {
+      const isDoctorPage = ['doctor-home.html', 'doctor-profile.html', 'doctor-appointments.html', 'patients.html', 'therapy-sessions.html', 'exercises.html'].includes(activeFile);
+      if (isDoctorPage) sidebarTargetRole = 'doctor';
+    } else if (role === 'patient') {
+      const isPatientPage = ['patient-home.html', 'patient-profile.html', 'patient-appointments.html', 'exercises.html', 'therapy-sessions.html', 'doctors.html', 'therapists.html'].includes(activeFile);
+      if (isPatientPage) sidebarTargetRole = 'patient';
+    }
 
-    if (!sidebarTargetRole) return;
+    if (!sidebarTargetRole) {
+      const existing = document.getElementById('mtSidebar');
+      if (existing) {
+        existing.style.setProperty('display', 'none', 'important');
+        if (typeof existing.remove === 'function') existing.remove();
+      }
+      return;
+    }
 
     let sidebar = document.getElementById('mtSidebar');
     if (!sidebar) {
