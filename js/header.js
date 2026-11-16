@@ -1083,54 +1083,66 @@
     const filename = window.location.pathname.split('/').pop().split('?')[0].split('#')[0] || 'index.html';
     if (filename !== '' && filename !== 'index.html') return;
 
+    // Unconditionally remove any separate Patient Home or Doctor Dashboard buttons from Homepage cards
+    document.querySelectorAll('#btnPatientHome, #btnDoctorHome').forEach(el => {
+      el.style.setProperty('display', 'none', 'important');
+      if (typeof el.remove === 'function') el.remove();
+    });
+
     const btnPatientLogin = document.getElementById('btnPatientLogin');
     const btnDoctorLogin = document.getElementById('btnDoctorLogin');
-    const btnPatientHome = document.getElementById('btnPatientHome');
-    const btnDoctorHome = document.getElementById('btnDoctorHome');
 
     if (auth.isLoggedIn) {
-      if (btnPatientLogin) btnPatientLogin.style.setProperty('display', 'none', 'important');
-      if (btnDoctorLogin) btnDoctorLogin.style.setProperty('display', 'none', 'important');
-
       if (auth.role === 'patient') {
-        if (btnPatientHome) {
-          const span = btnPatientHome.querySelector('span:first-child');
+        if (btnPatientLogin) {
+          btnPatientLogin.style.removeProperty('display');
+          btnPatientLogin.href = './patient-home.html';
+          const span = btnPatientLogin.querySelector('span');
           if (span) span.textContent = 'Go to Patient Dashboard';
-          btnPatientHome.style.flex = '1 1 100%';
         }
-        if (btnDoctorHome) {
-          const span = btnDoctorHome.querySelector('span:first-child');
-          if (span) span.textContent = 'Doctor Portal (Doctor Only)';
+        if (btnDoctorLogin) {
+          btnDoctorLogin.style.removeProperty('display');
+          btnDoctorLogin.href = './doctor-login.html';
+          const span = btnDoctorLogin.querySelector('span');
+          if (span) span.textContent = 'Doctor Login';
         }
       } else if (auth.role === 'doctor') {
-        if (btnDoctorHome) {
-          const span = btnDoctorHome.querySelector('span:first-child');
+        if (btnDoctorLogin) {
+          btnDoctorLogin.style.removeProperty('display');
+          btnDoctorLogin.href = './doctor-home.html';
+          const span = btnDoctorLogin.querySelector('span');
           if (span) span.textContent = 'Go to Doctor Dashboard';
-          btnDoctorHome.style.flex = '1 1 100%';
         }
-        if (btnPatientHome) {
-          const span = btnPatientHome.querySelector('span:first-child');
-          if (span) span.textContent = 'Patient Portal (Patient Only)';
+        if (btnPatientLogin) {
+          btnPatientLogin.style.removeProperty('display');
+          btnPatientLogin.href = './patient-login.html';
+          const span = btnPatientLogin.querySelector('span');
+          if (span) span.textContent = 'Patient Login';
         }
       } else if (auth.role === 'therapist') {
-        if (btnDoctorHome) {
-          const span = btnDoctorHome.querySelector('span:first-child');
+        if (btnDoctorLogin) {
+          btnDoctorLogin.style.removeProperty('display');
+          btnDoctorLogin.href = './therapist-dashboard.html';
+          const span = btnDoctorLogin.querySelector('span');
           if (span) span.textContent = 'Go to Therapist Dashboard';
-          btnDoctorHome.style.flex = '1 1 100%';
         }
-        if (btnPatientHome) {
-          const span = btnPatientHome.querySelector('span:first-child');
-          if (span) span.textContent = 'Patient Portal (Patient Only)';
+        if (btnPatientLogin) {
+          btnPatientLogin.style.removeProperty('display');
+          btnPatientLogin.href = './patient-login.html';
+          const span = btnPatientLogin.querySelector('span');
+          if (span) span.textContent = 'Patient Login';
         }
       } else if (auth.role === 'admin') {
-        if (btnPatientHome) {
-          btnPatientHome.href = './patients.html';
-          const span = btnPatientHome.querySelector('span:first-child');
+        if (btnPatientLogin) {
+          btnPatientLogin.style.removeProperty('display');
+          btnPatientLogin.href = './patients.html';
+          const span = btnPatientLogin.querySelector('span');
           if (span) span.textContent = 'Manage Patients';
         }
-        if (btnDoctorHome) {
-          btnDoctorHome.href = './doctors.html';
-          const span = btnDoctorHome.querySelector('span:first-child');
+        if (btnDoctorLogin) {
+          btnDoctorLogin.style.removeProperty('display');
+          btnDoctorLogin.href = './doctors.html';
+          const span = btnDoctorLogin.querySelector('span');
           if (span) span.textContent = 'Manage Doctors';
         }
       }
@@ -1146,18 +1158,6 @@
         btnDoctorLogin.href = './doctor-login.html';
         const span = btnDoctorLogin.querySelector('span');
         if (span) span.textContent = 'Doctor Login';
-      }
-      if (btnPatientHome) {
-        btnPatientHome.href = './patient-home.html';
-        const span = btnPatientHome.querySelector('span:first-child');
-        if (span) span.textContent = 'Patient Home';
-        btnPatientHome.style.flex = '1';
-      }
-      if (btnDoctorHome) {
-        btnDoctorHome.href = './doctor-home.html';
-        const span = btnDoctorHome.querySelector('span:first-child');
-        if (span) span.textContent = 'Doctor Dashboard';
-        btnDoctorHome.style.flex = '1';
       }
     }
   }
