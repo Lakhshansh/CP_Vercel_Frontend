@@ -334,7 +334,6 @@
               <li><a href="${base}doctor-login.html" class="shared-nav-link mt-nav-link" id="navDoctorLogin">Doctor Login</a></li>
               <li><a href="${base}admin-login.html" class="shared-nav-link mt-nav-link" id="navAdminLogin">Admin Login</a></li>
               <li class="d-md-none"><a href="${base}index.html#contact" class="shared-nav-link mt-nav-link" id="navContact">Contact</a></li>
-              <li class="d-md-none"><a href="${base}signup.html" class="shared-nav-link mt-nav-link active" id="navSignupMobile">Sign Up</a></li>
             ` : `
               <!-- NON-HOMEPAGE GUEST NAVIGATION (Directory & General Pages) -->
               <li><a href="${base}index.html" class="shared-nav-link mt-nav-link ${isHome ? 'active' : ''}" id="navHome">Home</a></li>
@@ -653,9 +652,9 @@
               <span>Contact</span>
             </a>
 
-            ${!auth.isLoggedIn && !isDashboard && !isLoginPage ? `
+            ${!auth.isLoggedIn && !isDashboard && !isLoginPage && !isSignup ? `
               <!-- Sign Up Button (Guest Only on Other Pages) -->
-              <a href="${base}signup.html" class="shared-btn-signup doc-btn-signup ${isSignup ? 'active' : ''}" id="btnHeaderSignup" title="Sign Up">
+              <a href="${base}signup.html" class="shared-btn-signup doc-btn-signup" id="btnHeaderSignup" title="Sign Up">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                   <circle cx="12" cy="7" r="4"/>
@@ -1097,15 +1096,15 @@
         });
       } else if (cleanFilename === 'signup' || cleanFilename === 'doctor-signup' || cleanFilename.toLowerCase() === 'patient-signup' || cleanFilename === 'Patient-SignUP') {
         // Enforce signup pages header visibility on guest mode
-        // HIDE: Patient Home, Doctor Home, Clinical Management dropdown
-        document.querySelectorAll('#navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown, #homeLoginButtonsGroup, #btnHomeAdminLogin').forEach(el => {
+        // HIDE: Patient Home, Doctor Home, Clinical Management dropdown, Sign Up
+        document.querySelectorAll('#navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown, #homeLoginButtonsGroup, #btnHomeAdminLogin, #btnHeaderSignup, #navSignup, #navSignupMobile, .shared-btn-signup, .doc-btn-signup, .btn-header-signup').forEach(el => {
           el.style.setProperty('display', 'none', 'important');
           const parentLi = el.closest('li');
           if (parentLi) parentLi.style.setProperty('display', 'none', 'important');
         });
 
-        // SHOW: Home, Patient Login, Doctor Login, Admin Login, Contact, Sign Up
-        document.querySelectorAll('#navHome, #navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderContact, #btnHeaderSignup, .shared-btn-contact, .shared-btn-signup, #publicNavActions, #navContact, #navSignup, #navSignupMobile').forEach(el => {
+        // SHOW: Home, Patient Login, Doctor Login, Admin Login, Contact
+        document.querySelectorAll('#navHome, #navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderContact, .shared-btn-contact, #publicNavActions, #navContact').forEach(el => {
           el.style.removeProperty('display');
           const parentLi = el.closest('li');
           if (parentLi) parentLi.style.removeProperty('display');
