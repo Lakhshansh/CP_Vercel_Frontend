@@ -1,42 +1,169 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/api/send-doctor-otp", "destination": "/api/send-otp" },
-    { "source": "/api/send-patient-otp", "destination": "/api/send-otp" },
-    { "source": "/api/send-therapist-otp", "destination": "/api/send-otp" },
-    { "source": "/api/send-signup-otp", "destination": "/api/send-otp" },
-    { "source": "/api/resend-signup-otp", "destination": "/api/send-otp" },
-    { "source": "/api/send-otp-auth", "destination": "/api/send-otp" },
-    { "source": "/api/auth/send-otp", "destination": "/api/send-otp" },
-    { "source": "/api/upload-profile-photo", "destination": "/api/upload-photo" },
-    { "source": "/api/cloudinary-upload", "destination": "/api/upload-photo" },
-    { "source": "/api/cloudinary-delete", "destination": "/api/remove-profile-photo" },
-    { "source": "/api/admin/login", "destination": "/api/admin-login" },
-    { "source": "/api/patient-login", "destination": "/api/login?portal=patient" },
-    { "source": "/api/doctor-login", "destination": "/api/login?portal=doctor" },
-    { "source": "/api/doctor/home", "destination": "/api/login?action=doctor-home" },
-    { "source": "/api/doctor-home", "destination": "/api/login?action=doctor-home" },
-    { "source": "/api/patient/home", "destination": "/api/login?action=patient-home" },
-    { "source": "/api/patient-home", "destination": "/api/login?action=patient-home" },
-    { "source": "/api/logout", "destination": "/api/login?action=logout" },
-    { "source": "/api/admin/stats", "destination": "/api/admin-stats" },
-    { "source": "/api/admin/analytics", "destination": "/api/admin-stats" },
-    { "source": "/api/appointments/create-order", "destination": "/api/appointments?action=create-order" },
-    { "source": "/api/appointments/verify-payment", "destination": "/api/appointments?action=verify-payment" },
-    { "source": "/api/appointments/accept", "destination": "/api/appointments?action=accept" },
-    { "source": "/api/appointments/reject", "destination": "/api/appointments?action=reject" },
-    { "source": "/api/appointments/refund", "destination": "/api/appointments?action=refund" },
-    { "source": "/appointments", "destination": "/appointments.html" },
-    { "source": "/doctor-appointments", "destination": "/doctor-appointments.html" },
-    { "source": "/patient-appointments", "destination": "/patient-appointments.html" },
-    { "source": "/patient-login", "destination": "/patient-login.html" },
-    { "source": "/doctor-login", "destination": "/doctor-login.html" },
-    { "source": "/admin-login", "destination": "/admin-login.html" },
-    { "source": "/book-appointment", "destination": "/patient-appointments.html#bookAppointmentCard" },
-    { "source": "/my-appointments", "destination": "/patient-appointments.html#myAppointmentsCard" },
-    { "source": "/about", "destination": "/about.html" },
-    { "source": "/services", "destination": "/services.html" },
-    { "source": "/contact", "destination": "/contact.html" },
-    { "source": "/progress-reports", "destination": "/progress-reports.html" }
+    {
+      "source": "/api/send-doctor-otp",
+      "destination": "/api/send-otp"
+    },
+    {
+      "source": "/api/send-patient-otp",
+      "destination": "/api/send-otp"
+    },
+    {
+      "source": "/api/send-therapist-otp",
+      "destination": "/api/send-otp"
+    },
+    {
+      "source": "/api/send-signup-otp",
+      "destination": "/api/send-otp"
+    },
+    {
+      "source": "/api/resend-signup-otp",
+      "destination": "/api/send-otp"
+    },
+    {
+      "source": "/api/send-otp-auth",
+      "destination": "/api/send-otp"
+    },
+    {
+      "source": "/api/auth/send-otp",
+      "destination": "/api/send-otp"
+    },
+    {
+      "source": "/api/upload-profile-photo",
+      "destination": "/api/upload-photo"
+    },
+    {
+      "source": "/api/cloudinary-upload",
+      "destination": "/api/upload-photo"
+    },
+    {
+      "source": "/api/cloudinary-delete",
+      "destination": "/api/remove-profile-photo"
+    },
+    {
+      "source": "/api/admin/login",
+      "destination": "/api/admin-login"
+    },
+    {
+      "source": "/api/patient-login",
+      "destination": "/api/login?portal=patient"
+    },
+    {
+      "source": "/api/doctor-login",
+      "destination": "/api/login?portal=doctor"
+    },
+    {
+      "source": "/api/doctor/home",
+      "destination": "/api/login?action=doctor-home"
+    },
+    {
+      "source": "/api/doctor-home",
+      "destination": "/api/login?action=doctor-home"
+    },
+    {
+      "source": "/api/patient/home",
+      "destination": "/api/login?action=patient-home"
+    },
+    {
+      "source": "/api/patient-home",
+      "destination": "/api/login?action=patient-home"
+    },
+    {
+      "source": "/api/logout",
+      "destination": "/api/login?action=logout"
+    },
+    {
+      "source": "/api/admin/stats",
+      "destination": "/api/admin-stats"
+    },
+    {
+      "source": "/api/admin/analytics",
+      "destination": "/api/admin-stats"
+    },
+    {
+      "source": "/api/appointments/create-order",
+      "destination": "/api/appointments?action=create-order"
+    },
+    {
+      "source": "/api/appointments/verify-payment",
+      "destination": "/api/appointments?action=verify-payment"
+    },
+    {
+      "source": "/api/appointments/accept",
+      "destination": "/api/appointments?action=accept"
+    },
+    {
+      "source": "/api/appointments/reject",
+      "destination": "/api/appointments?action=reject"
+    },
+    {
+      "source": "/api/appointments/refund",
+      "destination": "/api/appointments?action=refund"
+    },
+    {
+      "source": "/appointments",
+      "destination": "/appointments.html"
+    },
+    {
+      "source": "/doctor-appointments",
+      "destination": "/doctor-appointments.html"
+    },
+    {
+      "source": "/patient-appointments",
+      "destination": "/patient-appointments.html"
+    },
+    {
+      "source": "/patient-login",
+      "destination": "/patient-login.html"
+    },
+    {
+      "source": "/doctor-login",
+      "destination": "/doctor-login.html"
+    },
+    {
+      "source": "/admin-login",
+      "destination": "/admin-login.html"
+    },
+    {
+      "source": "/book-appointment",
+      "destination": "/patient-appointments.html#bookAppointmentCard"
+    },
+    {
+      "source": "/my-appointments",
+      "destination": "/patient-appointments.html#myAppointmentsCard"
+    },
+    {
+      "source": "/about",
+      "destination": "/about.html"
+    },
+    {
+      "source": "/services",
+      "destination": "/services.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact.html"
+    },
+    {
+      "source": "/progress-reports",
+      "destination": "/progress-reports.html"
+    },
+    {
+      "source": "/Patient-SignUP.html",
+      "destination": "/signup.html"
+    },
+    {
+      "source": "/patient-signup.html",
+      "destination": "/signup.html"
+    },
+    {
+      "source": "/patient-signup",
+      "destination": "/signup.html"
+    },
+    {
+      "source": "/doctor-signup",
+      "destination": "/doctor-signup.html"
+    }
   ]
 }

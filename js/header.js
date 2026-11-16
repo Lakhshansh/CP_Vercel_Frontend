@@ -106,7 +106,8 @@
     if (clean === 'admin-login') return 'admin-login';
     if (clean === 'doctor-profile') return 'doctor-profile';
     if (clean === 'patient-profile') return 'patient-profile';
-    if (clean === 'signup' || clean === 'doctor-signup') return 'signup';
+    const lowerClean = clean.toLowerCase();
+    if (lowerClean === 'signup' || lowerClean === 'doctor-signup' || lowerClean === 'patient-signup' || clean === 'Patient-SignUP') return 'signup';
     if (clean === 'admin-dashboard' || clean.startsWith('admin-')) return 'admin';
     return '';
   }
@@ -326,6 +327,14 @@
               <li><a href="${base}login.html" class="shared-nav-link mt-nav-link" id="navPatientLogin">Patient Login</a></li>
               <li><a href="${base}doctor-login.html" class="shared-nav-link mt-nav-link" id="navDoctorLogin">Doctor Login</a></li>
               <li class="d-md-none"><a href="${base}index.html#contact" class="shared-nav-link mt-nav-link" id="navContact">Contact</a></li>
+            ` : isSignup ? `
+              <!-- SIGNUP PAGES NAVIGATION ONLY (doctor-signup.html & Patient-SignUP.html) -->
+              <li><a href="${base}index.html" class="shared-nav-link mt-nav-link" id="navHome">Home</a></li>
+              <li><a href="${base}login.html" class="shared-nav-link mt-nav-link" id="navPatientLogin">Patient Login</a></li>
+              <li><a href="${base}doctor-login.html" class="shared-nav-link mt-nav-link" id="navDoctorLogin">Doctor Login</a></li>
+              <li><a href="${base}admin-login.html" class="shared-nav-link mt-nav-link" id="navAdminLogin">Admin Login</a></li>
+              <li class="d-md-none"><a href="${base}index.html#contact" class="shared-nav-link mt-nav-link" id="navContact">Contact</a></li>
+              <li class="d-md-none"><a href="${base}signup.html" class="shared-nav-link mt-nav-link active" id="navSignupMobile">Sign Up</a></li>
             ` : `
               <!-- NON-HOMEPAGE GUEST NAVIGATION (Directory & General Pages) -->
               <li><a href="${base}index.html" class="shared-nav-link mt-nav-link ${isHome ? 'active' : ''}" id="navHome">Home</a></li>
@@ -1086,6 +1095,25 @@
           const parentLi = el.closest('li');
           if (parentLi) parentLi.style.removeProperty('display');
         });
+      } else if (cleanFilename === 'signup' || cleanFilename === 'doctor-signup' || cleanFilename.toLowerCase() === 'patient-signup' || cleanFilename === 'Patient-SignUP') {
+        // Enforce signup pages header visibility on guest mode
+        // HIDE: Patient Home, Doctor Home, Clinical Management dropdown
+        document.querySelectorAll('#navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown, #homeLoginButtonsGroup, #btnHomeAdminLogin').forEach(el => {
+          el.style.setProperty('display', 'none', 'important');
+          const parentLi = el.closest('li');
+          if (parentLi) parentLi.style.setProperty('display', 'none', 'important');
+        });
+
+        // SHOW: Home, Patient Login, Doctor Login, Admin Login, Contact, Sign Up
+        document.querySelectorAll('#navHome, #navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderContact, #btnHeaderSignup, .shared-btn-contact, .shared-btn-signup, #publicNavActions, #navContact, #navSignup, #navSignupMobile').forEach(el => {
+          el.style.removeProperty('display');
+          const parentLi = el.closest('li');
+          if (parentLi) parentLi.style.removeProperty('display');
+        });
+
+        // Ensure Patient Login links to login.html
+        const ptLogin = document.getElementById('navPatientLogin');
+        if (ptLogin) ptLogin.setAttribute('href', './login.html');
       } else {
         const isCurrentLoginPage = ['patient-login', 'login', 'doctor-login'].includes(cleanFilename);
 
@@ -1354,7 +1382,7 @@
       header.className = 'shared-header mt-navbar';
       header.setAttribute('role', 'banner');
 
-      if (activeKey === 'admin-login') {
+      if (activeKey === 'admin-login' || activeKey === 'signup') {
         header.style.setProperty('background', '#0B2B50', 'important');
         header.style.setProperty('border-bottom', '1px solid rgba(255, 255, 255, 0.12)', 'important');
         header.style.setProperty('box-shadow', '0 4px 20px rgba(0, 0, 0, 0.3)', 'important');
