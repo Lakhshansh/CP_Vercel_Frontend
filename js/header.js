@@ -246,6 +246,7 @@
     const isDoctorLogin = activeKey === 'doctor-login';
     const isAdminLogin = activeKey === 'admin-login';
     const isSignup = activeKey === 'signup';
+    const isLoginPage = isPatientLogin || isDoctorLogin || isAdminLogin || ['patient-login', 'login', 'doctor-login', 'admin-login'].includes(activeKey);
 
     const isDoc = activeKey === 'doctors';
     const isPt = activeKey === 'patients';
@@ -359,9 +360,11 @@
                 </div>
               </li>
 
-              <li><a href="${base}patient-login.html" class="shared-nav-link mt-nav-link ${isPatientLogin ? 'active' : ''}" id="navPatientLogin">Patient Login</a></li>
-              <li><a href="${base}doctor-login.html" class="shared-nav-link mt-nav-link ${isDoctorLogin ? 'active' : ''}" id="navDoctorLogin">Doctor Login</a></li>
-              <li><a href="${base}admin-login.html" class="shared-nav-link mt-nav-link ${isAdminLogin ? 'active' : ''}" id="navAdminLogin">Admin Login</a></li>
+              ${!isLoginPage ? `
+                <li><a href="${base}patient-login.html" class="shared-nav-link mt-nav-link ${isPatientLogin ? 'active' : ''}" id="navPatientLogin">Patient Login</a></li>
+                <li><a href="${base}doctor-login.html" class="shared-nav-link mt-nav-link ${isDoctorLogin ? 'active' : ''}" id="navDoctorLogin">Doctor Login</a></li>
+                <li><a href="${base}admin-login.html" class="shared-nav-link mt-nav-link ${isAdminLogin ? 'active' : ''}" id="navAdminLogin">Admin Login</a></li>
+              ` : ''}
             `}
           ` : ''}
 
@@ -633,7 +636,7 @@
               <span>Contact</span>
             </a>
 
-            ${!auth.isLoggedIn && !isDashboard ? `
+            ${!auth.isLoggedIn && !isDashboard && !isLoginPage ? `
               <!-- Sign Up Button (Guest Only on Other Pages) -->
               <a href="${base}signup.html" class="shared-btn-signup doc-btn-signup ${isSignup ? 'active' : ''}" id="btnHeaderSignup" title="Sign Up">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -883,6 +886,21 @@
       if (b2) { b2.style.setProperty('display', 'none', 'important'); if (typeof b2.remove === 'function') b2.remove(); }
     }
 
+    // On all login pages (Patient Login, Doctor Login, Admin Login): unconditionally remove Login and Sign Up navigation buttons
+    const isLoginPage = ['patient-login', 'login', 'doctor-login', 'admin-login'].includes(cleanFilename);
+    if (isLoginPage) {
+      document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderLogin, #btnPatientLogin, #btnDoctorLogin, #btnHeaderSignup, .shared-btn-signup, .doc-btn-signup, .btn-header-signup, .mt-signup-btn, .shared-btn-login, .mt-login-btn, #homeLoginButtonsGroup, .home-login-btn').forEach(el => {
+        const parentLi = el.closest('li');
+        if (parentLi) {
+          parentLi.style.setProperty('display', 'none', 'important');
+          if (typeof parentLi.remove === 'function') parentLi.remove();
+        } else {
+          el.style.setProperty('display', 'none', 'important');
+          if (typeof el.remove === 'function') el.remove();
+        }
+      });
+    }
+
     if (auth.isLoggedIn) {
       // 1. Hide all Sign Up elements
       document.querySelectorAll('#btnHeaderSignup, .shared-btn-signup, .doc-btn-signup, .btn-header-signup, .mt-signup-btn').forEach(el => {
@@ -1020,11 +1038,27 @@
         el.style.setProperty('display', 'none', 'important');
       });
 
-      document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderSignup, #navHome, #navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown').forEach(el => {
+      const isCurrentLoginPage = ['patient-login', 'login', 'doctor-login', 'admin-login'].includes(cleanFilename);
+
+      document.querySelectorAll('#navHome, #navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown').forEach(el => {
         el.style.removeProperty('display');
         const parentLi = el.closest('li');
         if (parentLi) parentLi.style.removeProperty('display');
       });
+
+      if (!isCurrentLoginPage) {
+        document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderSignup').forEach(el => {
+          el.style.removeProperty('display');
+          const parentLi = el.closest('li');
+          if (parentLi) parentLi.style.removeProperty('display');
+        });
+      } else {
+        document.querySelectorAll('#navPatientLogin, #navDoctorLogin, #navAdminLogin, #btnHeaderSignup, .shared-btn-signup, .doc-btn-signup, #homeLoginButtonsGroup, .home-login-btn').forEach(el => {
+          el.style.setProperty('display', 'none', 'important');
+          const parentLi = el.closest('li');
+          if (parentLi) parentLi.style.setProperty('display', 'none', 'important');
+        });
+      }
 
       if (filename === 'index.html' || filename === '') {
         document.querySelectorAll('#homeLoginButtonsGroup, .home-login-btn').forEach(el => {

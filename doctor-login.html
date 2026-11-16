@@ -842,6 +842,17 @@
         margin-top: 6px;
       }
     }
+  
+    /* Hide Login, Admin Login, and Sign Up navigation buttons on Doctor Login page */
+    #navPatientLogin,
+    #navDoctorLogin,
+    #navAdminLogin,
+    #btnHeaderSignup,
+    .shared-btn-signup,
+    .doc-btn-signup,
+    #homeLoginButtonsGroup {
+      display: none !important;
+    }
   </style>
   <link rel="stylesheet" href="./css/clinical-dropdown.css">
   <link rel="stylesheet" href="./css/healthcare-theme.css">
@@ -906,9 +917,7 @@
             </div>
           </li>
 
-          <li><a href="./login.html" class="shared-nav-link mt-nav-link " id="navPatientLogin">Patient Login</a></li>
-          <li><a href="./doctor-login.html" class="shared-nav-link mt-nav-link active" id="navDoctorLogin">Doctor Login</a></li>
-        </ul>
+          </ul>
       </nav>
 
       <!-- Right-Side Controls: Notification -> Profile -> Logout -> Contact -> Sign Up -->
@@ -987,15 +996,7 @@
             <span>Contact</span>
           </a>
 
-          <!-- Sign Up Button -->
-          <a href="./signup.html" class="shared-btn-signup doc-btn-signup " id="btnHeaderSignup" title="Sign Up">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <span>Sign Up</span>
-          </a>
-        </div>
+          </div>
 
         <!-- Mobile Hamburger Toggle -->
         <button type="button" class="shared-nav-toggle doc-nav-toggle" id="navToggle" aria-label="Toggle Navigation Menu">
@@ -1152,18 +1153,12 @@
           <!-- Alert Box for Feedback & Status Messages -->
           <div class="doctor-alert" id="doctorAlert" aria-live="assertive"></div>
 
-          <!-- Quick Demo Credentials Hint -->
-          <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 11px 16px; font-size: 13px; color: #166534; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
-            <div>
-              <strong>Doctor Demo Login:</strong> <code style="background: #dcfce7; padding: 2px 6px; border-radius: 4px; font-weight: 700;">doctor1</code> / <code style="background: #dcfce7; padding: 2px 6px; border-radius: 4px; font-weight: 700;">doctor123</code>
-            </div>
-            <button type="button" id="btnFillDoctorDemo" style="background: #16a34a; color: #ffffff; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; transition: background 0.2s ease;">Auto Fill</button>
-          </div>
+          
 
           <!-- ==============================================================
                FORM 1: PASSWORD LOGIN (DEFAULT)
                ============================================================== -->
-          <form id="doctorPasswordForm" autocomplete="on">
+          <form id="doctorPasswordForm" autocomplete="off">
 
             <!-- Username or Email Field -->
             <div class="doctor-form-group">
@@ -1173,7 +1168,7 @@
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                   <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
-                <input class="doctor-input" type="text" id="doctorUsername" placeholder="e.g. dr.smith or doctor@hospital.com" autocomplete="username" required>
+                <input class="doctor-input" type="text" id="doctorUsername" placeholder="e.g. dr.smith or doctor@hospital.com" autocomplete="off" value="" required>
               </div>
             </div>
 
@@ -1185,7 +1180,7 @@
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                   <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
-                <input class="doctor-input" type="password" id="doctorPassword" placeholder="Enter your password" autocomplete="current-password" required>
+                <input class="doctor-input" type="password" id="doctorPassword" placeholder="Enter your password" autocomplete="new-password" value="" required>
                 <button type="button" id="doctorPasswordToggle" class="doctor-pw-toggle" aria-label="Show or hide password">
                   👁️
                 </button>
@@ -1203,7 +1198,7 @@
                 <button type="button" id="docCaptchaRefresh" class="doctor-captcha-refresh" title="Refresh CAPTCHA code" aria-label="Refresh code">
                   ↻
                 </button>
-                <input id="docCaptchaInput" class="doctor-input doctor-captcha-input" type="text" placeholder="Enter code" autocomplete="off" maxlength="5" required>
+                <input id="docCaptchaInput" class="doctor-input doctor-captcha-input" type="text" placeholder="Enter code" autocomplete="off" maxlength="5" value="" required>
               </div>
             </div>
 
@@ -1229,7 +1224,7 @@
           <!-- ==============================================================
                FORM 2: INSTANT OTP LOGIN
                ============================================================== -->
-          <form id="doctorOtpForm" style="display: none;" autocomplete="on">
+          <form id="doctorOtpForm" style="display: none;" autocomplete="off">
             <!-- Doctor Registered Email -->
             <div class="doctor-form-group">
               <label class="doctor-form-label" for="doctorOtpEmail">Doctor Registered Email Address</label>
@@ -1238,7 +1233,7 @@
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                   <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
-                <input class="doctor-input" type="email" id="doctorOtpEmail" placeholder="e.g. doctor@hospital.com" autocomplete="email">
+                <input class="doctor-input" type="email" id="doctorOtpEmail" placeholder="e.g. doctor@hospital.com" autocomplete="off" value="">
               </div>
             </div>
 
@@ -1250,7 +1245,7 @@
             <!-- 6-Digit OTP Field -->
             <div class="doctor-form-group" id="otpInputGroup" style="display: none;">
               <label class="doctor-form-label" for="doctorEnteredOtp">Enter 6-Digit OTP Code</label>
-              <input class="doctor-input otp-digits-input" type="text" id="doctorEnteredOtp" maxlength="6" placeholder="• • • • • •">
+              <input class="doctor-input otp-digits-input" type="text" id="doctorEnteredOtp" maxlength="6" placeholder="• • • • • •" autocomplete="off" value="">
               <small style="font-size: 12px; color: #64748b; margin-top: 4px; display: block;">
                 Code delivered to your registered email. Valid for 10 minutes.
               </small>
@@ -1555,21 +1550,23 @@
       docCaptchaRefresh.addEventListener("click", generateDocCaptcha);
     }
 
-    // Quick Fill Doctor Demo Credentials
-    const btnFillDoctorDemo = document.getElementById("btnFillDoctorDemo");
-    if (btnFillDoctorDemo) {
-      btnFillDoctorDemo.addEventListener("click", () => {
-        const uInput = document.getElementById("doctorUsername");
-        const pInput = document.getElementById("doctorPassword");
-        const cInput = document.getElementById("docCaptchaInput");
-        if (uInput) uInput.value = "doctor1";
-        if (pInput) pInput.value = "doctor123";
-        if (cInput) {
-          const code = sessionStorage.getItem("doctorCaptcha") || "";
-          cInput.value = code;
-        }
-      });
+    // Ensure all Doctor Login and OTP fields strictly remain empty on load and prevent browser autofill
+    function clearDoctorInputs() {
+      const u = document.getElementById("doctorUsername");
+      const p = document.getElementById("doctorPassword");
+      const c = document.getElementById("docCaptchaInput");
+      const o = document.getElementById("doctorOtpEmail");
+      const e = document.getElementById("doctorEnteredOtp");
+      if (u) u.value = "";
+      if (p) p.value = "";
+      if (c) c.value = "";
+      if (o) o.value = "";
+      if (e) e.value = "";
     }
+    clearDoctorInputs();
+    window.addEventListener("pageshow", clearDoctorInputs);
+    setTimeout(clearDoctorInputs, 60);
+    setTimeout(clearDoctorInputs, 300);
 
     // Toggle Password Visibility
     if (doctorPasswordToggle && doctorPassword) {

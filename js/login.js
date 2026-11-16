@@ -146,21 +146,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const refreshBtn = document.getElementById("refreshCaptcha");
   if (refreshBtn) refreshBtn.addEventListener("click", generateCaptcha);
 
-  // Quick Fill Patient Demo Credentials
-  const btnFillPatientDemo = document.getElementById("btnFillPatientDemo");
-  if (btnFillPatientDemo) {
-    btnFillPatientDemo.addEventListener("click", () => {
-      const uInput = document.getElementById("username");
-      const pInput = document.getElementById("loginPassword");
-      const cInput = document.getElementById("captchaInput");
-      if (uInput) uInput.value = "patient1";
-      if (pInput) pInput.value = "patient123";
-      if (cInput) {
-        const code = sessionStorage.getItem("captcha") || (document.getElementById("captchaText") ? document.getElementById("captchaText").textContent.trim() : "");
-        cInput.value = code;
-      }
-    });
+  // Ensure Patient Email Address, Password, and CAPTCHA strictly remain empty on load and prevent unwanted browser autofill
+  function clearPatientInputs() {
+    const u = document.getElementById("username");
+    const p = document.getElementById("loginPassword");
+    const c = document.getElementById("captchaInput");
+    if (u) u.value = "";
+    if (p) p.value = "";
+    if (c) c.value = "";
   }
+  clearPatientInputs();
+  window.addEventListener("pageshow", clearPatientInputs);
+  setTimeout(clearPatientInputs, 60);
+  setTimeout(clearPatientInputs, 300);
 
 
   // Toggle Password Visibility
