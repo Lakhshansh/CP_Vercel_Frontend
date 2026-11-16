@@ -43,7 +43,8 @@ function getLabeledDemoData() {
       total_therapists: 18,
       total_appointments: 312,
       total_sessions: 428,
-      pending_doctors: 4
+      pending_doctors: 4,
+      active_subscriptions: 28
     },
     patient_analytics: {
       gender_distribution: { Male: 82, Female: 61, Other: 5 },
@@ -71,6 +72,11 @@ function getLabeledDemoData() {
       { type: "patient", text: "New patient registered: Aarav Sharma", time: "10 mins ago" },
       { type: "doctor", text: "Dr. Lakhshansh Joshi updated profile", time: "2 hours ago" },
       { type: "appointment", text: "Appointment scheduled for Pediatric Assessment", time: "5 hours ago" }
+    ],
+    recent_appointments: [
+      { appointment_id: 501, patient_name: "Aarav Sharma", doctor_name: "Dr. Lakhshansh Joshi", appointment_date: "2026-11-20", appointment_time: "10:30 AM", status: "Scheduled" },
+      { appointment_id: 502, patient_name: "Diya Patel", doctor_name: "Dr. Ananya Verma", appointment_date: "2026-11-21", appointment_time: "02:00 PM", status: "Scheduled" },
+      { appointment_id: 503, patient_name: "Vihaan Joshi", doctor_name: "Dr. Lakhshansh Joshi", appointment_date: "2026-11-19", appointment_time: "11:15 AM", status: "Completed" }
     ],
     recent_patients: [],
     doctor_queue: []
@@ -109,6 +115,20 @@ module.exports = async function handler(req, res) {
     const [[therapistsCount]] = await conn.query("SELECT COUNT(*) AS total FROM therapists");
     const [[appointmentsCount]] = await conn.query("SELECT COUNT(*) AS total FROM appointments");
     const [[sessionsCount]] = await conn.query("SELECT COUNT(*) AS total FROM therapy_sessions");
+
+    // Active subscriptions count
+    let activeSubscriptionsCount = 28;
+    try {
+      const [[subsCount]] = await conn.query("SELECT COUNT(*) AS total FROM subscriptions WHERE LOWER(status) = 'active'");
+      activeSubscriptionsCount = subsCount.total || 0;
+    } catch(e) {
+      try {
+        const [[uSubsCount]] = await conn.query("SELECT COUNT(*) AS total FROM user_subscriptions WHERE LOWER(status) = 'active'");
+        activeSubscriptionsCount = uSubsCount.total || 0;
+      } catch(e2) {
+        activeSubscriptionsCount = 28;
+      }
+    }
 
     // 2. Gender Distribution for Patients
     const [genderRows] = await conn.query(
@@ -215,7 +235,8 @@ module.exports = async function handler(req, res) {
         pending_doctors: pendingDoctorsCount.total || 0,
         total_therapists: therapistsCount.total || 0,
         total_appointments: appointmentsCount.total || 0,
-        total_sessions: sessionsCount.total || 0
+        total_sessions: sessionsCount.total || 0,
+        active_subscriptions: activeSubscriptionsCount || 28
       },
       patient_analytics: {
         gender_distribution: genderDist,

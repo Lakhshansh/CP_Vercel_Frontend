@@ -70,7 +70,8 @@ const FALLBACK_DEMO_DATA = {
     total_therapists: 18,
     total_appointments: 312,
     total_sessions: 428,
-    pending_doctors: 4
+    pending_doctors: 4,
+    active_subscriptions: 28
   },
   patient_analytics: {
     gender_distribution: { Male: 82, Female: 61, Other: 5 },
@@ -106,6 +107,12 @@ const FALLBACK_DEMO_DATA = {
   doctor_queue: [
     { doctor_id: 30018, name: "Dr. Lakhshansh Joshi", specialization: "Pediatric Physical Therapist", contact: "+91 98290 12345", email: "dr.joshi@example.com", otp_verified: 0 },
     { doctor_id: 90018, name: "Dr. Ananya Verma", specialization: "Clinical Neurologist", contact: "+91 94140 98765", email: "dr.verma@example.com", otp_verified: 0 }
+  ],
+  recent_appointments: [
+    { appointment_id: 501, patient_name: "Aarav Sharma", doctor_name: "Dr. Lakhshansh Joshi", appointment_date: "2026-11-20", appointment_time: "10:30 AM", status: "Scheduled" },
+    { appointment_id: 502, patient_name: "Diya Patel", doctor_name: "Dr. Ananya Verma", appointment_date: "2026-11-21", appointment_time: "02:00 PM", status: "Scheduled" },
+    { appointment_id: 503, patient_name: "Vihaan Joshi", doctor_name: "Dr. Lakhshansh Joshi", appointment_date: "2026-11-19", appointment_time: "11:15 AM", status: "Completed" },
+    { appointment_id: 504, patient_name: "Ananya Iyer", doctor_name: "Dr. Rohan Mehta", appointment_date: "2026-11-18", appointment_time: "04:30 PM", status: "Completed" }
   ]
 };
 
@@ -168,12 +175,14 @@ function populateDashboardUI(data) {
   const elSessions = document.getElementById("statTotalSessions");
   const elPending = document.getElementById("statPendingDoctors");
   const elPendingBadge = document.getElementById("kpiPendingBadge");
+  const elActiveSubs = document.getElementById("statActiveSubscriptions");
 
   if (elPatients) elPatients.textContent = Number(summary.total_patients || 0).toLocaleString("en-IN");
   if (elDoctors) elDoctors.textContent = Number(summary.total_doctors || 0).toLocaleString("en-IN");
   if (elTherapists) elTherapists.textContent = Number(summary.total_therapists || 0).toLocaleString("en-IN");
   if (elAppts) elAppts.textContent = Number(summary.total_appointments || 0).toLocaleString("en-IN");
   if (elSessions) elSessions.textContent = Number(summary.total_sessions || 0).toLocaleString("en-IN");
+  if (elActiveSubs) elActiveSubs.textContent = Number(summary.active_subscriptions || 0).toLocaleString("en-IN");
   
   const pendingCount = summary.pending_doctors || 0;
   if (elPending) elPending.textContent = Number(pendingCount).toLocaleString("en-IN");
@@ -221,6 +230,7 @@ function populateDashboardUI(data) {
   // Render Tables
   renderDoctorQueueTable(data.doctor_queue || []);
   renderRecentPatientsTable(data.recent_patients || []);
+  renderRecentAppointmentsTable(data.recent_appointments || []);
 
   // Render Activity
   renderActivityList(data.recent_activity || []);
@@ -516,6 +526,46 @@ function renderRecentPatientsTable(patients) {
   }).join("");
 }
 
+function renderRecentAppointmentsTable(appts) {
+  const tbody = document.getElementById("recentAppointmentsBody");
+  if (!tbody) return;
+
+  if (!appts || appts.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-3">No appointments scheduled or recorded.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = appts.map(a => {
+    const statusLower = (a.status || "Scheduled").toLowerCase();
+    let badgeClass = "bg-primary-subtle text-primary border";
+    if (statusLower === "completed") badgeClass = "bg-success-subtle text-success border";
+    else if (statusLower === "cancelled") badgeClass = "bg-danger-subtle text-danger border";
+    else if (statusLower === "pending") badgeClass = "bg-warning-subtle text-warning border";
+
+    const dateStr = a.appointment_date || (a.created_at ? new Date(a.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short" }) : "--");
+    const timeStr = a.appointment_time || "";
+
+    return `
+      <tr>
+        <td class="text-muted fw-bold">#${a.appointment_id || "--"}</td>
+        <td>
+          <div class="fw-bold text-dark">${escapeHtml(a.patient_name || `Patient #${a.patient_id || ""}`)}</div>
+        </td>
+        <td>
+          <div class="fw-semibold text-secondary">${escapeHtml(a.doctor_name || `Dr. #${a.doctor_id || ""}`)}</div>
+        </td>
+        <td>
+          <div class="small fw-semibold">${escapeHtml(dateStr)}</div>
+          <div class="text-muted small">${escapeHtml(timeStr)}</div>
+        </td>
+        <td>
+          <span class="badge ${badgeClass} px-2 py-1">${escapeHtml(a.status || "Scheduled")}</span>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
 function renderActivityList(activities) {
   const list = document.getElementById("recentActivityList");
   if (!list) return;
@@ -629,13 +679,43 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function loadData() {
     if (refreshIcon) refreshIcon.style.animation = "spin 1s linear infinite";
     if (btnRefresh) btnRefresh.disabled = true;
+    const alertBanner = document.getElementById("dashAlertBanner");
 
     try {
       const stats = await fetchAdminStats();
       populateDashboardUI(stats);
+      if (alertBanner) {
+        if (!stats.is_live_data && stats.is_demo_data) {
+          alertBanner.className = "alert alert-warning d-flex align-items-center justify-content-between p-3";
+          alertBanner.innerHTML = `
+            <div class="d-flex align-items-center gap-2">
+              <span style="font-size: 18px;">⚠️</span>
+              <div>
+                <strong>TiDB Cloud Offline / Demo Mode:</strong> Displaying labeled demo dataset. Real-time sync will automatically re-establish once the database cluster is reachable.
+              </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-warning text-dark fw-bold" onclick="document.getElementById('btnRefreshData')?.click()">Retry</button>
+          `;
+        } else {
+          alertBanner.className = "alert d-none";
+          alertBanner.innerHTML = "";
+        }
+      }
     } catch (err) {
       console.error("[Admin Dashboard] Failed to load statistics:", err);
       populateDashboardUI(FALLBACK_DEMO_DATA);
+      if (alertBanner) {
+        alertBanner.className = "alert alert-danger d-flex align-items-center justify-content-between p-3";
+        alertBanner.innerHTML = `
+          <div class="d-flex align-items-center gap-2">
+            <span style="font-size: 18px;">❌</span>
+            <div>
+              <strong>Failed to fetch analytics:</strong> ${escapeHtml(err.message || 'Network error')}. Displaying offline fallback data.
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-danger fw-bold" onclick="document.getElementById('btnRefreshData')?.click()">Retry Now</button>
+        `;
+      }
     } finally {
       if (refreshIcon) refreshIcon.style.animation = "";
       if (btnRefresh) btnRefresh.disabled = false;

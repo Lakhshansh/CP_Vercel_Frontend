@@ -199,6 +199,9 @@
       </div>
     </section>
 
+    <!-- Operational Alert Banner (Shown during API failure or offline mode) -->
+    <div id="dashAlertBanner" class="alert d-none" role="alert" style="border-radius: 12px; margin-bottom: 24px;"></div>
+
     <!-- ====================================================================
          4. 6 CORE KPI METRIC CARDS
          ==================================================================== -->
@@ -275,7 +278,21 @@
           </div>
         </div>
 
-        <!-- KPI 6: Pending Doctor Verification -->
+        <!-- KPI 6: Active Subscriptions -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div>
+              <div class="kpi-label">Active Subscriptions</div>
+              <div class="kpi-value" id="statActiveSubscriptions">--</div>
+            </div>
+            <div class="kpi-icon-box icon-purple" title="Active Subscriptions">💎</div>
+          </div>
+          <div class="kpi-footer-note">
+            <span style="color: #7c3aed; font-weight: 700;">● Active</span> Clinical subscription plans
+          </div>
+        </div>
+
+        <!-- KPI 7: Pending Doctor Verification -->
         <div class="kpi-card" style="border-left: 4px solid #f59e0b;">
           <div class="kpi-card-header">
             <div>
@@ -422,6 +439,34 @@
           </div>
         </div>
 
+        <!-- Table 3: Recent Scheduled Appointments -->
+        <div class="data-table-card">
+          <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+            <h3 class="chart-card-title mb-0" style="font-size: 16px;">
+              <span>📅</span> Recent Scheduled Appointments
+            </h3>
+            <a href="./appointments.html" class="btn btn-sm btn-link text-decoration-none p-0 fw-bold" style="font-size: 12.5px;">View All Appointments &rarr;</a>
+          </div>
+          <div class="table-responsive-wrap">
+            <table class="admin-styled-table">
+              <thead>
+                <tr>
+                  <th>Appt ID</th>
+                  <th>Patient</th>
+                  <th>Doctor / Practitioner</th>
+                  <th>Date &amp; Time</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recentAppointmentsBody">
+                <tr>
+                  <td colspan="5" class="text-center text-muted py-3">Loading appointments...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
 
       <!-- Right Column: Recent Activity & System Health -->
@@ -483,6 +528,7 @@
     </section>
 
   </main>
+  </div> <!-- /.mt-app-wrapper -->
 
   <!-- ======================================================================
        8. ADMIN PROFILE MODAL / DRAWER
