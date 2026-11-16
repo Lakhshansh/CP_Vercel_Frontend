@@ -326,7 +326,6 @@
               <li><a href="${base}login.html" class="shared-nav-link mt-nav-link" id="navPatientLogin">Patient Login</a></li>
               <li><a href="${base}doctor-login.html" class="shared-nav-link mt-nav-link" id="navDoctorLogin">Doctor Login</a></li>
               <li class="d-md-none"><a href="${base}index.html#contact" class="shared-nav-link mt-nav-link" id="navContact">Contact</a></li>
-              <li class="d-md-none"><a href="${base}signup.html" class="shared-nav-link mt-nav-link" id="navSignup">Sign Up</a></li>
             ` : `
               <!-- NON-HOMEPAGE GUEST NAVIGATION (Directory & General Pages) -->
               <li><a href="${base}index.html" class="shared-nav-link mt-nav-link ${isHome ? 'active' : ''}" id="navHome">Home</a></li>
@@ -645,8 +644,8 @@
               <span>Contact</span>
             </a>
 
-            ${!auth.isLoggedIn && !isDashboard && (!isLoginPage || isAdminLogin) ? `
-              <!-- Sign Up Button (Guest Only on Other Pages & Admin Login) -->
+            ${!auth.isLoggedIn && !isDashboard && !isLoginPage ? `
+              <!-- Sign Up Button (Guest Only on Other Pages) -->
               <a href="${base}signup.html" class="shared-btn-signup doc-btn-signup ${isSignup ? 'active' : ''}" id="btnHeaderSignup" title="Sign Up">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -916,10 +915,10 @@
     }
 
     // On Admin Login page (admin-login.html):
-    // HIDE: Patient Home, Doctor Home, Clinical Management dropdown, Admin Login
-    // SHOW: Home, Patient Login (login.html), Doctor Login (doctor-login.html), Contact, Sign Up, Services, About
+    // HIDE: Patient Home, Doctor Home, Clinical Management dropdown, Admin Login, Sign Up
+    // SHOW: Home, Patient Login (login.html), Doctor Login (doctor-login.html), Contact, Services, About
     if (cleanFilename === 'admin-login') {
-      document.querySelectorAll('#navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown, #navAdminLogin, #btnHomeAdminLogin, #homeLoginButtonsGroup').forEach(el => {
+      document.querySelectorAll('#navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown, #navAdminLogin, #btnHomeAdminLogin, #homeLoginButtonsGroup, #btnHeaderSignup, #navSignup, .shared-btn-signup, .doc-btn-signup, .btn-header-signup').forEach(el => {
         const parentLi = el.closest('li');
         if (parentLi) {
           parentLi.style.setProperty('display', 'none', 'important');
@@ -930,7 +929,7 @@
         }
       });
 
-      document.querySelectorAll('#navHome, #navServices, #navAbout, #navPatientLogin, #navDoctorLogin, #btnHeaderContact, #btnHeaderSignup, .shared-btn-contact, .shared-btn-signup, #publicNavActions, #navContact, #navSignup').forEach(el => {
+      document.querySelectorAll('#navHome, #navServices, #navAbout, #navPatientLogin, #navDoctorLogin, #btnHeaderContact, .shared-btn-contact, #publicNavActions, #navContact').forEach(el => {
         el.style.removeProperty('display');
         const parentLi = el.closest('li');
         if (parentLi) parentLi.style.removeProperty('display');
@@ -1076,13 +1075,13 @@
 
       if (cleanFilename === 'admin-login') {
         // Enforce admin-login header visibility on guest mode
-        document.querySelectorAll('#navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown, #navAdminLogin, #btnHomeAdminLogin, #homeLoginButtonsGroup').forEach(el => {
+        document.querySelectorAll('#navPatientHome, #navDoctorHome, #navClinicalDropdown, .nav-item-dropdown, #navAdminLogin, #btnHomeAdminLogin, #homeLoginButtonsGroup, #btnHeaderSignup, #navSignup, .shared-btn-signup, .doc-btn-signup, .btn-header-signup').forEach(el => {
           el.style.setProperty('display', 'none', 'important');
           const parentLi = el.closest('li');
           if (parentLi) parentLi.style.setProperty('display', 'none', 'important');
         });
 
-        document.querySelectorAll('#navHome, #navServices, #navAbout, #navPatientLogin, #navDoctorLogin, #btnHeaderContact, #btnHeaderSignup, .shared-btn-contact, .shared-btn-signup, #publicNavActions, #navContact, #navSignup').forEach(el => {
+        document.querySelectorAll('#navHome, #navServices, #navAbout, #navPatientLogin, #navDoctorLogin, #btnHeaderContact, .shared-btn-contact, #publicNavActions, #navContact').forEach(el => {
           el.style.removeProperty('display');
           const parentLi = el.closest('li');
           if (parentLi) parentLi.style.removeProperty('display');

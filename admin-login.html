@@ -51,8 +51,8 @@
     /* --------------------------------------------------------------------------
        Header Styling & Navigation Visibility for admin-login.html
        - Dark Navy Blue background (#0B2B50)
-       - SHOW: Home, Patient Login (login.html), Doctor Login (doctor-login.html), Contact, Sign Up, Services, About
-       - HIDE: Patient Home, Doctor Home, Clinical Management dropdown, Admin Login
+       - SHOW: Home, Patient Login (login.html), Doctor Login (doctor-login.html), Contact, Services, About
+       - HIDE: Patient Home, Doctor Home, Clinical Management dropdown, Admin Login, Sign Up
        -------------------------------------------------------------------------- */
     header.shared-header.mt-navbar,
     .admin-login-body header.shared-header,
@@ -67,28 +67,31 @@
       z-index: 1050 !important;
     }
 
-    /* SHOW on admin-login.html */
+    /* SHOW on admin-login.html: Home, Services, About, Patient Login, Doctor Login, Contact */
     .admin-login-body #navHome,
     .admin-login-body #navServices,
     .admin-login-body #navAbout,
     .admin-login-body #navPatientLogin,
     .admin-login-body #navDoctorLogin,
     .admin-login-body #btnHeaderContact,
-    .admin-login-body #btnHeaderSignup,
     .admin-login-body .shared-btn-contact,
-    .admin-login-body .shared-btn-signup,
     .admin-login-body #publicNavActions {
       display: inline-flex !important;
     }
 
-    /* HIDE on admin-login.html: Patient Home, Doctor Home, Clinical Management dropdown, Admin Login */
+    /* HIDE on admin-login.html: Patient Home, Doctor Home, Clinical Management dropdown, Admin Login, Sign Up */
     .admin-login-body #navPatientHome,
     .admin-login-body #navDoctorHome,
     .admin-login-body #navClinicalDropdown,
     .admin-login-body .nav-item-dropdown,
     .admin-login-body #navAdminLogin,
     .admin-login-body #btnHomeAdminLogin,
-    .admin-login-body #homeLoginButtonsGroup {
+    .admin-login-body #homeLoginButtonsGroup,
+    .admin-login-body #btnHeaderSignup,
+    .admin-login-body #navSignup,
+    .admin-login-body .shared-btn-signup,
+    .admin-login-body .doc-btn-signup,
+    .admin-login-body .btn-header-signup {
       display: none !important;
       visibility: hidden !important;
       width: 0 !important;
@@ -188,11 +191,10 @@
           <li><a href="./login.html" class="shared-nav-link mt-nav-link" id="navPatientLogin">Patient Login</a></li>
           <li><a href="./doctor-login.html" class="shared-nav-link mt-nav-link" id="navDoctorLogin">Doctor Login</a></li>
           <li class="d-md-none"><a href="./index.html#contact" class="shared-nav-link mt-nav-link" id="navContact">Contact</a></li>
-          <li class="d-md-none"><a href="./signup.html" class="shared-nav-link mt-nav-link" id="navSignup">Sign Up</a></li>
         </ul>
       </nav>
 
-      <!-- Right-Side Controls: Contact & Sign Up -->
+      <!-- Right-Side Controls: Contact -->
       <div class="shared-nav-right mt-nav-right">
         <div id="publicNavActions" class="shared-public-actions">
           <!-- Contact Button -->
@@ -201,15 +203,6 @@
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
             <span>Contact</span>
-          </a>
-
-          <!-- Sign Up Button -->
-          <a href="./signup.html" class="shared-btn-signup doc-btn-signup" id="btnHeaderSignup" title="Sign Up">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <span>Sign Up</span>
           </a>
         </div>
 
