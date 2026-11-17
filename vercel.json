@@ -2,6 +2,14 @@
   "cleanUrls": true,
   "rewrites": [
     {
+      "source": "/api/doctor/send-otp",
+      "destination": "/api/doctor-otp?action=send"
+    },
+    {
+      "source": "/api/doctor/verify-otp",
+      "destination": "/api/doctor-otp?action=verify"
+    },
+    {
       "source": "/api/send-doctor-otp",
       "destination": "/api/send-otp"
     },

@@ -1240,32 +1240,47 @@
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                   <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
-                <input class="doctor-input" type="email" id="doctorOtpEmail" placeholder="e.g. doctor@hospital.com" autocomplete="off" value="">
+                <input class="doctor-input" type="email" id="doctorOtpEmail" placeholder="e.g. doctor@hospital.com" autocomplete="off" value="" required>
               </div>
+              <small class="text-muted" style="font-size: 11.5px; margin-top: 4px; display: block;">
+                Must be the email address linked to your verified Doctor profile.
+              </small>
             </div>
 
             <!-- Send OTP Button -->
             <button type="button" class="btn-send-otp-trigger" id="btnSendDocOtp">
-              <span>📨</span> Send 6-Digit Doctor Verification OTP
+              <span id="btnSendDocOtpIcon">📨</span>
+              <span id="btnSendDocOtpText">Send 6-Digit Doctor Verification OTP</span>
             </button>
 
-            <!-- 6-Digit OTP Field -->
-            <div class="doctor-form-group" id="otpInputGroup" style="display: none;">
-              <label class="doctor-form-label" for="doctorEnteredOtp">Enter 6-Digit OTP Code</label>
-              <input class="doctor-input otp-digits-input" type="text" id="doctorEnteredOtp" maxlength="6" placeholder="• • • • • •" autocomplete="off" value="">
-              <small style="font-size: 12px; color: #64748b; margin-top: 4px; display: block;">
-                Code delivered to your registered email. Valid for 10 minutes.
-              </small>
+            <!-- 6-Digit OTP Verification Section (Revealed upon OTP delivery) -->
+            <div id="otpInputGroup" style="display: none;">
+              <div class="doctor-form-group mb-2">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                  <label class="doctor-form-label mb-0" for="doctorEnteredOtp">Enter 6-Digit OTP Code</label>
+                  <span id="otpExpiryNotice" class="badge bg-primary-subtle text-primary border" style="font-size: 11px;">Expires in 5:00</span>
+                </div>
+                <input class="doctor-input otp-digits-input" type="text" id="doctorEnteredOtp" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" placeholder="• • • • • •" autocomplete="one-time-code">
+                <div class="d-flex align-items-center justify-content-between mt-2">
+                  <small style="font-size: 12px; color: #64748b;">
+                    Code sent to your email. Check inbox/spam.
+                  </small>
+                  <!-- Resend OTP Button with Countdown -->
+                  <button type="button" id="btnResendDocOtp" class="btn btn-link btn-sm text-decoration-none p-0 fw-bold" style="font-size: 12px; color: #0284c7;" disabled>
+                    Resend in <span id="resendCountdown">60</span>s
+                  </button>
+                </div>
+              </div>
+
+              <!-- Submit OTP Button -->
+              <button type="submit" class="doctor-btn-primary mt-3" id="btnVerifyDocOtp">
+                <span id="btnVerifyDocOtpText">Verify OTP &amp; Enter Dashboard</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
             </div>
-
-            <!-- Submit OTP Button -->
-            <button type="submit" class="doctor-btn-primary" id="btnVerifyDocOtp" style="display: none;">
-              <span>Verify OTP &amp; Enter Dashboard</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </button>
           </form>
 
           <!-- OR Divider -->
@@ -1526,23 +1541,25 @@
     }
 
     // If already logged in as Doctor or Therapist, automatically route to appropriate Dashboard
-    try {
-      const rawDoc = localStorage.getItem("currentUser");
-      if (rawDoc) {
-        const u = JSON.parse(rawDoc);
-        const r = (u && u.role ? u.role : "").toLowerCase();
-        const urlParams = new URLSearchParams(window.location.search);
-        if (r === "therapist" || r === "physiotherapist") {
-          const targetUrl = urlParams.get("redirect") || urlParams.get("next") || "./therapist-dashboard.html";
-          window.location.replace(targetUrl);
-          return;
-        } else if (r === "doctor") {
-          const targetUrl = urlParams.get("redirect") || urlParams.get("next") || "./doctor-home.html";
-          window.location.replace(targetUrl);
-          return;
+    (function checkExistingDoctorSession() {
+      try {
+        const rawDoc = localStorage.getItem("currentUser");
+        if (rawDoc) {
+          const u = JSON.parse(rawDoc);
+          const r = (u && u.role ? u.role : "").toLowerCase();
+          const urlParams = new URLSearchParams(window.location.search);
+          if (r === "therapist" || r === "physiotherapist") {
+            const targetUrl = urlParams.get("redirect") || urlParams.get("next") || "./therapist-dashboard.html";
+            window.location.replace(targetUrl);
+            return;
+          } else if (r === "doctor") {
+            const targetUrl = urlParams.get("redirect") || urlParams.get("next") || "./doctor-home.html";
+            window.location.replace(targetUrl);
+            return;
+          }
         }
-      }
-    } catch (e) {}
+      } catch (e) {}
+    })();
 
     // Initialize CAPTCHA & Check redirect query parameter
     generateDocCaptcha();
@@ -1693,86 +1710,229 @@
       });
     }
 
-    // FORM 2: Send OTP
+    // ------------------------------------------------------------------------
+    // FORM 2: DOCTOR INSTANT OTP AUTHENTICATION
+    // ------------------------------------------------------------------------
+    const btnResendDocOtp = document.getElementById("btnResendDocOtp");
+    const resendCountdown = document.getElementById("resendCountdown");
+    const otpExpiryNotice = document.getElementById("otpExpiryNotice");
+    const btnSendDocOtpText = document.getElementById("btnSendDocOtpText");
+    const btnSendDocOtpIcon = document.getElementById("btnSendDocOtpIcon");
+    const btnVerifyDocOtpText = document.getElementById("btnVerifyDocOtpText");
+
+    let resendInterval = null;
+    let resendRemaining = 0;
+    let expiryInterval = null;
+    let expiryRemaining = 300; // 5 minutes in seconds
+
+    function startResendCountdown(seconds = 60) {
+      if (resendInterval) clearInterval(resendInterval);
+      resendRemaining = seconds;
+      if (btnResendDocOtp) {
+        btnResendDocOtp.disabled = true;
+        btnResendDocOtp.innerHTML = `Resend in <span id="resendCountdown">${resendRemaining}</span>s`;
+      }
+
+      resendInterval = setInterval(() => {
+        resendRemaining--;
+        if (resendRemaining <= 0) {
+          clearInterval(resendInterval);
+          resendInterval = null;
+          if (btnResendDocOtp) {
+            btnResendDocOtp.disabled = false;
+            btnResendDocOtp.innerHTML = `<span>↻</span> Resend Code`;
+          }
+        } else {
+          const cdSpan = document.getElementById("resendCountdown");
+          if (cdSpan) cdSpan.textContent = resendRemaining;
+        }
+      }, 1000);
+    }
+
+    function startExpiryCountdown(seconds = 300) {
+      if (expiryInterval) clearInterval(expiryInterval);
+      expiryRemaining = seconds;
+
+      function updateNotice() {
+        if (!otpExpiryNotice) return;
+        const mins = Math.floor(expiryRemaining / 60);
+        const secs = (expiryRemaining % 60).toString().padStart(2, "0");
+        otpExpiryNotice.textContent = `Expires in ${mins}:${secs}`;
+        if (expiryRemaining <= 60) {
+          otpExpiryNotice.className = "badge bg-danger-subtle text-danger border";
+        } else {
+          otpExpiryNotice.className = "badge bg-primary-subtle text-primary border";
+        }
+      }
+
+      updateNotice();
+      expiryInterval = setInterval(() => {
+        expiryRemaining--;
+        if (expiryRemaining <= 0) {
+          clearInterval(expiryInterval);
+          expiryInterval = null;
+          if (otpExpiryNotice) {
+            otpExpiryNotice.textContent = "Code Expired";
+            otpExpiryNotice.className = "badge bg-danger text-white";
+          }
+          showAlert("Verification code has expired. Please request a new OTP.");
+        } else {
+          updateNotice();
+        }
+      }, 1000);
+    }
+
+    function stopOtpTimers() {
+      if (resendInterval) { clearInterval(resendInterval); resendInterval = null; }
+      if (expiryInterval) { clearInterval(expiryInterval); expiryInterval = null; }
+    }
+
+    // Helper: Send OTP Request to Backend
+    async function requestDoctorOtp(email) {
+      clearAlert();
+      const sendBtn = btnSendDocOtp;
+      if (sendBtn) {
+        sendBtn.disabled = true;
+        if (btnSendDocOtpIcon) btnSendDocOtpIcon.textContent = "⏳";
+        if (btnSendDocOtpText) btnSendDocOtpText.textContent = "Sending Verification OTP...";
+      }
+
+      try {
+        const response = await fetch("/api/doctor/send-otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          showAlert(data.message || `Verification code sent successfully to ${email}.`, "success");
+          if (otpInputGroup) otpInputGroup.style.display = "block";
+          if (btnSendDocOtp) btnSendDocOtp.style.display = "none";
+          if (doctorEnteredOtp) {
+            doctorEnteredOtp.value = "";
+            doctorEnteredOtp.focus();
+          }
+          startResendCountdown(data.cooldown || 60);
+          startExpiryCountdown(300);
+        } else {
+          showAlert(data.error || "Failed to send OTP. Please check your email or try again.", "danger");
+          if (sendBtn) {
+            sendBtn.disabled = false;
+            if (btnSendDocOtpIcon) btnSendDocOtpIcon.textContent = "📨";
+            if (btnSendDocOtpText) btnSendDocOtpText.textContent = "Send 6-Digit Doctor Verification OTP";
+          }
+        }
+      } catch (err) {
+        console.error("[Doctor OTP] Send error:", err);
+        showAlert("Network error sending OTP. Please check your connection and try again.", "danger");
+        if (sendBtn) {
+          sendBtn.disabled = false;
+          if (btnSendDocOtpIcon) btnSendDocOtpIcon.textContent = "📨";
+          if (btnSendDocOtpText) btnSendDocOtpText.textContent = "Send 6-Digit Doctor Verification OTP";
+        }
+      }
+    }
+
+    // Initial Send OTP Click
     if (btnSendDocOtp) {
-      btnSendDocOtp.addEventListener("click", async () => {
-        const email = doctorOtpEmail.value.trim();
-        if (!email || !email.includes("@")) {
-          showAlert("Please enter a valid doctor email address.");
+      btnSendDocOtp.addEventListener("click", () => {
+        const email = doctorOtpEmail.value.trim().toLowerCase();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
+          showAlert("Please enter a valid registered doctor email address.");
+          doctorOtpEmail.focus();
           return;
         }
-
-        // Generate 6 digit OTP
-        generatedDoctorOtp = Math.floor(100000 + Math.random() * 900000).toString();
-        sessionStorage.setItem("doctorLoginOtp", generatedDoctorOtp);
-
-        btnSendDocOtp.disabled = true;
-        btnSendDocOtp.innerHTML = "<span>⏳</span> Sending OTP to Doctor Email...";
-
-        try {
-          const res = await fetch("/api/send-doctor-otp", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: email,
-              name: "Doctor",
-              otp: generatedDoctorOtp
-            })
-          });
-
-          const data = await res.json();
-
-          if (res.ok && data.success) {
-            showAlert(`Verification OTP sent successfully to ${email}.`, "success");
-            otpInputGroup.style.display = "block";
-            btnVerifyDocOtp.style.display = "flex";
-            btnSendDocOtp.innerHTML = "<span>↻</span> Resend Doctor OTP";
-            btnSendDocOtp.disabled = false;
-          } else {
-            showAlert(data.error || "Failed to deliver OTP email. For test verification, use OTP: " + generatedDoctorOtp, "danger");
-            otpInputGroup.style.display = "block";
-            btnVerifyDocOtp.style.display = "flex";
-            btnSendDocOtp.innerHTML = "<span>↻</span> Resend Doctor OTP";
-            btnSendDocOtp.disabled = false;
-          }
-        } catch (err) {
-          showAlert("Network error sending OTP. Test Code: " + generatedDoctorOtp, "danger");
-          otpInputGroup.style.display = "block";
-          btnVerifyDocOtp.style.display = "flex";
-          btnSendDocOtp.disabled = false;
-        }
+        requestDoctorOtp(email);
       });
     }
 
-    // FORM 2: Verify OTP
-    if (doctorOtpForm) {
-      doctorOtpForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const enteredOtp = doctorEnteredOtp.value.trim();
-        const storedOtp = sessionStorage.getItem("doctorLoginOtp");
+    // Resend OTP Click
+    if (btnResendDocOtp) {
+      btnResendDocOtp.addEventListener("click", () => {
+        if (resendRemaining > 0 || btnResendDocOtp.disabled) return;
+        const email = doctorOtpEmail.value.trim().toLowerCase();
+        if (!email) {
+          showAlert("Please enter your registered doctor email address.");
+          return;
+        }
+        btnResendDocOtp.disabled = true;
+        btnResendDocOtp.textContent = "Sending...";
+        requestDoctorOtp(email);
+      });
+    }
 
-        if (!enteredOtp || enteredOtp !== storedOtp) {
-          showAlert("Invalid or expired OTP code. Please check your email.");
+    // Submit & Verify OTP
+    if (doctorOtpForm) {
+      doctorOtpForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = doctorOtpEmail.value.trim().toLowerCase();
+        const otp = doctorEnteredOtp.value.trim();
+
+        if (!email) {
+          showAlert("Please enter your registered doctor email address.");
           return;
         }
 
-        showAlert("Doctor OTP verified! Redirecting to Doctor Home...", "success");
+        if (!otp || !/^[0-9]{6}$/.test(otp)) {
+          showAlert("Please enter the complete 6-digit numeric OTP code received in your email.");
+          doctorEnteredOtp.focus();
+          return;
+        }
 
-        const uName = doctorOtpEmail.value.split("@")[0];
-        const cachedPhoto = localStorage.getItem("mt_doc_photo_" + uName);
-        const doctorUser = {
-          username: uName,
-          email: doctorOtpEmail.value,
-          role: "Doctor",
-          doctor_name: "Dr. " + uName,
-          profile_photo: cachedPhoto || null
-        };
-        localStorage.setItem("currentUser", JSON.stringify(doctorUser));
+        clearAlert();
+        if (btnVerifyDocOtp) {
+          btnVerifyDocOtp.disabled = true;
+          if (btnVerifyDocOtpText) btnVerifyDocOtpText.textContent = "Verifying Doctor Credentials...";
+        }
 
-        const safeOtpRedirect = (docRedirectParam && !docRedirectParam.toLowerCase().includes("login")) ? docRedirectParam : "./doctor-home.html";
-        setTimeout(() => {
-          window.location.href = safeOtpRedirect;
-        }, 600);
+        try {
+          const response = await fetch("/api/doctor/verify-otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email, otp: otp })
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            stopOtpTimers();
+            showAlert(data.message || "Doctor verified successfully! Redirecting to Doctor Portal...", "success");
+
+            if (data.user) {
+              const uName = data.user.username || email.split("@")[0];
+              const cachedPhoto = localStorage.getItem("mt_doc_photo_" + uName);
+              localStorage.setItem("currentUser", JSON.stringify({
+                ...data.user,
+                role: "Doctor",
+                doctor_name: data.user.doctor_name || ("Dr. " + uName),
+                profile_photo: data.user.profile_photo || cachedPhoto || null
+              }));
+            }
+
+            const safeOtpRedirect = (docRedirectParam && !docRedirectParam.toLowerCase().includes("login")) ? docRedirectParam : "./doctor-home.html";
+            setTimeout(() => {
+              window.location.href = safeOtpRedirect;
+            }, 600);
+          } else {
+            showAlert(data.error || "Invalid or expired OTP code. Please try again.", "danger");
+            if (btnVerifyDocOtp) {
+              btnVerifyDocOtp.disabled = false;
+              if (btnVerifyDocOtpText) btnVerifyDocOtpText.textContent = "Verify OTP & Enter Dashboard";
+            }
+            doctorEnteredOtp.value = "";
+            doctorEnteredOtp.focus();
+          }
+        } catch (err) {
+          console.error("[Doctor OTP] Verification error:", err);
+          showAlert("Network error during verification. Please check your connection and try again.", "danger");
+          if (btnVerifyDocOtp) {
+            btnVerifyDocOtp.disabled = false;
+            if (btnVerifyDocOtpText) btnVerifyDocOtpText.textContent = "Verify OTP & Enter Dashboard";
+          }
+        }
       });
     }
 
