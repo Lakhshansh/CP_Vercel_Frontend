@@ -213,12 +213,15 @@ body.admin-dashboard-body {
   max-width: 100% !important;
   margin: 0 !important;
   padding: 28px 32px 60px !important;
-  flex: 1 1 auto !important;
-  width: calc(100% - 260px) !important;
+  flex: 1 1 0% !important;
+  width: auto !important;
   min-width: 0 !important;
   box-sizing: border-box !important;
   background-color: var(--mt-gray-bg, #f8fafc) !important;
   overflow-x: hidden !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: block !important;
 }
 
 @media (max-width: 991px) {
@@ -245,6 +248,8 @@ body.admin-dashboard-body {
   justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .admin-banner-title {

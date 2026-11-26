@@ -242,6 +242,12 @@ function populateDashboardUI(data) {
 function renderMonthlyRegistrationsChart(monthlyData) {
   const ctx = document.getElementById("chartMonthlyReg");
   if (!ctx) return;
+  if (typeof Chart === "undefined") {
+    if (ctx.parentElement) {
+      ctx.parentElement.innerHTML = '<div class="d-flex align-items-center justify-content-center h-100 text-muted small py-4"><span>📊 Analytics chart visualizer loading...</span></div>';
+    }
+    return;
+  }
 
   const labels = monthlyData.map(d => d.month);
   const patientCounts = monthlyData.map(d => d.patients);
@@ -309,6 +315,12 @@ function renderMonthlyRegistrationsChart(monthlyData) {
 function renderAppointmentStatusChart(apptAnalytics) {
   const ctx = document.getElementById("chartAppointmentStatus");
   if (!ctx) return;
+  if (typeof Chart === "undefined") {
+    if (ctx.parentElement) {
+      ctx.parentElement.innerHTML = '<div class="d-flex align-items-center justify-content-center h-100 text-muted small py-4"><span>📅 Appointment status visualizer loading...</span></div>';
+    }
+    return;
+  }
 
   const statuses = apptAnalytics.statuses || {
     Completed: apptAnalytics.completed || 0,
@@ -359,6 +371,12 @@ function renderAppointmentStatusChart(apptAnalytics) {
 function renderSessionStatusChart(sessionAnalytics) {
   const ctx = document.getElementById("chartSessionStatus");
   if (!ctx) return;
+  if (typeof Chart === "undefined") {
+    if (ctx.parentElement) {
+      ctx.parentElement.innerHTML = '<div class="d-flex align-items-center justify-content-center h-100 text-muted small py-4"><span>⏱️ Session analytics visualizer loading...</span></div>';
+    }
+    return;
+  }
 
   const statuses = sessionAnalytics.statuses || {
     Completed: sessionAnalytics.completed || 0,
@@ -408,6 +426,12 @@ function renderSessionStatusChart(sessionAnalytics) {
 function renderGenderDemographicsChart(patientAnalytics) {
   const ctx = document.getElementById("chartGenderDemographics");
   if (!ctx) return;
+  if (typeof Chart === "undefined") {
+    if (ctx.parentElement) {
+      ctx.parentElement.innerHTML = '<div class="d-flex align-items-center justify-content-center h-100 text-muted small py-4"><span>👥 Demographics visualizer loading...</span></div>';
+    }
+    return;
+  }
 
   const dist = patientAnalytics.gender_distribution || { Male: 0, Female: 0, Other: 0 };
   const labels = Object.keys(dist);

@@ -78,8 +78,15 @@ function getLabeledDemoData() {
       { appointment_id: 502, patient_name: "Diya Patel", doctor_name: "Dr. Ananya Verma", appointment_date: "2026-11-21", appointment_time: "02:00 PM", status: "Scheduled" },
       { appointment_id: 503, patient_name: "Vihaan Joshi", doctor_name: "Dr. Lakhshansh Joshi", appointment_date: "2026-11-19", appointment_time: "11:15 AM", status: "Completed" }
     ],
-    recent_patients: [],
-    doctor_queue: []
+    recent_patients: [
+      { patient_id: 101, name: "Aarav Sharma", email: "aarav.sharma@example.com", age: 7, gender: "Male", contact: "+91 98765 43210", created_at: new Date().toISOString() },
+      { patient_id: 102, name: "Diya Patel", email: "diya.patel@example.com", age: 5, gender: "Female", contact: "+91 98234 56789", created_at: new Date(Date.now() - 86400000).toISOString() },
+      { patient_id: 103, name: "Vihaan Joshi", email: "vihaan.joshi@example.com", age: 11, gender: "Male", contact: "+91 94123 45678", created_at: new Date(Date.now() - 172800000).toISOString() }
+    ],
+    doctor_queue: [
+      { doctor_id: 30018, name: "Dr. Lakhshansh Joshi", specialization: "Pediatric Physical Therapist", contact: "+91 98290 12345", email: "dr.joshi@example.com", otp_verified: 0 },
+      { doctor_id: 90018, name: "Dr. Ananya Verma", specialization: "Clinical Neurologist", contact: "+91 94140 98765", email: "dr.verma@example.com", otp_verified: 0 }
+    ]
   };
 }
 
