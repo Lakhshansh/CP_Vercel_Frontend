@@ -128,7 +128,21 @@ async function apiRequest(path, options = {}) {
         data = await response.json();
       } else {
         const text = await response.text();
-        data = { message: text };
+        // Sanitize raw Vercel edge / server 404 text and deployment trace IDs
+        let cleanText = text;
+        if (
+          !response.ok &&
+          (cleanText.includes("NOT_FOUND") ||
+           cleanText.includes("The page could not be found") ||
+           cleanText.includes("bom1::") ||
+           cleanText.includes("<!DOCTYPE") ||
+           cleanText.includes("<html"))
+        ) {
+          cleanText = response.status === 404
+            ? "Service endpoint is currently updating. Please try again in a few moments."
+            : "The recovery service encountered a temporary error. Please try again.";
+        }
+        data = { message: cleanText };
       }
 
       // If backend responded with 401 or 403 or 400 (Client Authentication Error)

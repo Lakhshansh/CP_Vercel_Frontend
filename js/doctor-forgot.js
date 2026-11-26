@@ -1,6 +1,5 @@
 /**
  * Multi Therapy - Doctor Password Recovery Client
- * Manages 3-step verification, OTP confirmation, and redirects back to doctor portal login.
  */
 
 function showDoctorForgotMessage(message, type = "danger") {
@@ -8,7 +7,16 @@ function showDoctorForgotMessage(message, type = "danger") {
   if (!el) return;
   el.hidden = false;
   el.className = `alert alert-${type} mb-3`;
-  el.textContent = message;
+  let cleanMsg = typeof message === "string" ? message : (message?.message || "An unexpected error occurred.");
+  if (
+    cleanMsg.includes("NOT_FOUND") ||
+    cleanMsg.includes("bom1::") ||
+    cleanMsg.includes("The page could not be found") ||
+    cleanMsg.includes("<!DOCTYPE")
+  ) {
+    cleanMsg = "Recovery service is currently busy or updating. Please try again shortly or contact support.";
+  }
+  el.textContent = cleanMsg;
 }
 
 function clearDoctorForgotMessage() {
@@ -38,6 +46,29 @@ function setActiveDoctorStep(stepNumber) {
 let savedDoctorIdentifier = "";
 let savedDoctorResetToken = "";
 let savedDoctorVerifiedToken = "";
+let resendTimerInterval = null;
+
+function startDoctorResendCooldown(seconds = 60) {
+  const btnResend = document.getElementById("btnResend");
+  if (!btnResend) return;
+  if (resendTimerInterval) clearInterval(resendTimerInterval);
+
+  btnResend.disabled = true;
+  let remaining = seconds;
+  btnResend.textContent = `Resend Code (${remaining}s)`;
+
+  resendTimerInterval = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(resendTimerInterval);
+      resendTimerInterval = null;
+      btnResend.disabled = false;
+      btnResend.textContent = "Resend Code";
+    } else {
+      btnResend.textContent = `Resend Code (${remaining}s)`;
+    }
+  }, 1000);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const step1Form = document.getElementById("step1Form");
@@ -56,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const identifierInput = document.getElementById("identifier");
       const identifier = identifierInput ? identifierInput.value.trim() : "";
       if (!identifier) {
-        showDoctorForgotMessage("Please enter your doctor username or registered email.");
+        showDoctorForgotMessage("Please enter your registered doctor username or email.");
         return;
       }
 
@@ -66,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.disabled = true;
         btn.innerHTML = `
           <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-          <span>Sending Security Code...</span>
+          <span>Sending Recovery Code...</span>
         `;
       }
 
@@ -74,21 +105,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await apiRequest("/api/forgot-password", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ identifier })
+          body: JSON.stringify({ identifier, portal: "doctor" })
         });
 
         savedDoctorIdentifier = identifier;
         savedDoctorResetToken = res.reset_token || "";
-        showDoctorForgotMessage(res.message || "Security code sent! Please check your doctor email inbox.", "info");
+        showDoctorForgotMessage(res.message || "Recovery code sent! Please check your doctor email inbox.", "info");
 
         step1Form.hidden = true;
         step2Form.hidden = false;
         setActiveDoctorStep(2);
+        startDoctorResendCooldown(60);
 
         const otpInput = document.getElementById("otpInput");
-        if (otpInput) otpInput.focus();
+        if (otpInput) {
+          otpInput.value = "";
+          otpInput.focus();
+        }
       } catch (err) {
-        showDoctorForgotMessage(err.message || "Failed to send security code. Please check your doctor username/email.");
+        showDoctorForgotMessage(err.message || "Failed to send recovery code. Please check your doctor username/email.");
       } finally {
         if (btn) {
           btn.disabled = false;
@@ -107,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const otpInput = document.getElementById("otpInput");
       const otp = otpInput ? otpInput.value.trim() : "";
       if (!/^[0-9]{6}$/.test(otp)) {
-        showDoctorForgotMessage("Please enter a valid 6-digit security code.");
+        showDoctorForgotMessage("Please enter a valid 6-digit verification code.");
         return;
       }
 
@@ -117,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.disabled = true;
         btn.innerHTML = `
           <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-          <span>Verifying Security Code...</span>
+          <span>Verifying Code...</span>
         `;
       }
 
@@ -128,21 +163,25 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify({
             otp,
             identifier: savedDoctorIdentifier,
-            reset_token: savedDoctorResetToken
+            reset_token: savedDoctorResetToken,
+            portal: "doctor"
           })
         });
 
         savedDoctorVerifiedToken = res.verified_token || "";
-        showDoctorForgotMessage(res.message || "Security code confirmed successfully!", "success");
+        showDoctorForgotMessage(res.message || "Verification code confirmed successfully!", "success");
 
         step2Form.hidden = true;
         step3Form.hidden = false;
         setActiveDoctorStep(3);
 
         const newPassInput = document.getElementById("newPassword");
-        if (newPassInput) newPassInput.focus();
+        if (newPassInput) {
+          newPassInput.value = "";
+          newPassInput.focus();
+        }
       } catch (err) {
-        showDoctorForgotMessage(err.message || "Invalid or expired security code. Please try again.");
+        showDoctorForgotMessage(err.message || "Invalid or expired recovery code. Please try again.");
       } finally {
         if (btn) {
           btn.disabled = false;
@@ -164,14 +203,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await apiRequest("/api/forgot-password", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ identifier: savedDoctorIdentifier })
+          body: JSON.stringify({ identifier: savedDoctorIdentifier, portal: "doctor" })
         });
 
         savedDoctorResetToken = res.reset_token || "";
-        showDoctorForgotMessage("A fresh security code has been sent to your doctor email.", "info");
+        showDoctorForgotMessage("A fresh recovery code has been sent to your doctor email.", "info");
+        startDoctorResendCooldown(60);
       } catch (err) {
-        showDoctorForgotMessage(err.message || "Failed to resend security code.");
-      } finally {
+        showDoctorForgotMessage(err.message || "Failed to resend recovery code. Please wait before trying again.");
         btnResend.disabled = false;
         btnResend.textContent = "Resend Code";
       }
@@ -190,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const confirm = confirmPassInput ? confirmPassInput.value : "";
 
       if (password.length < 6) {
-        showDoctorForgotMessage("Password must be at least 6 characters.");
+        showDoctorForgotMessage("Password must be at least 6 characters in length.");
         return;
       }
 
@@ -205,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.disabled = true;
         btn.innerHTML = `
           <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-          <span>Updating Credentials...</span>
+          <span>Updating Password...</span>
         `;
       }
 
@@ -216,13 +255,14 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify({
             password,
             confirm_password: confirm,
-            verified_token: savedDoctorVerifiedToken
+            verified_token: savedDoctorVerifiedToken,
+            portal: "doctor"
           })
         });
 
-        showDoctorForgotMessage(res.message || "Credentials updated successfully! Redirecting to Doctor Portal Login...", "success");
+        showDoctorForgotMessage(res.message || "Password updated successfully! Redirecting to Doctor Login...", "success");
         setTimeout(() => {
-          window.location.href = "./doctor-login.html";
+          window.location.href = res.redirect_url || "./doctor-login.html";
         }, 1200);
       } catch (err) {
         showDoctorForgotMessage(err.message || "Failed to update password. Please try again.");
@@ -234,4 +274,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-

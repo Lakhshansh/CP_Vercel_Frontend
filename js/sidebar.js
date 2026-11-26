@@ -56,17 +56,21 @@
   }
 
   function getAdminSidebarHTML(base, activeFile) {
+    const cleanFile = activeFile.replace(/\.html$/, '');
     const items = [
-      { id: 'sb-admin-dash', label: 'Dashboard', icon: '📊', href: `${base}admin-dashboard.html`, match: ['admin-dashboard.html'] },
-      { id: 'sb-admin-doc', label: 'Manage Doctors', icon: '🩺', href: `${base}doctors.html`, match: ['doctors.html'] },
-      { id: 'sb-admin-pt', label: 'Manage Patients', icon: '👥', href: `${base}patients.html`, match: ['patients.html'] },
-      { id: 'sb-admin-tp', label: 'Manage Therapists', icon: '🧑‍⚕️', href: `${base}therapists.html`, match: ['therapists.html'] },
-      { id: 'sb-admin-apt', label: 'Appointments', icon: '📅', href: `${base}appointments.html`, match: ['appointments.html'] },
-      { id: 'sb-admin-ts', label: 'Therapy Sessions', icon: '⏱️', href: `${base}therapy-sessions.html`, match: ['therapy-sessions.html'] },
-      { id: 'sb-admin-pr', label: 'Progress Reports', icon: '📈', href: `${base}exercises.html`, match: ['exercises.html'] },
-      { id: 'sb-admin-sub', label: 'Subscriptions', icon: '💎', href: `${base}admin-subscriptions.html`, match: ['admin-subscriptions.html', 'admin-plans.html', 'admin-payments.html'] },
-      { id: 'sb-admin-hosp', label: 'Hospitals / Clinics', icon: '🏥', href: `${base}hospital-subscriptions.html`, match: ['hospital-subscriptions.html', 'hospital-pricing.html'] },
-      { id: 'sb-admin-rev', label: 'Reports & Analytics', icon: '📉', href: `${base}admin-revenue-analytics.html`, match: ['admin-revenue-analytics.html'] },
+      { id: 'sb-admin-dash', label: 'Overview & Analytics', icon: '📊', href: `${base}admin-dashboard.html`, match: ['admin-dashboard.html', 'admin-dashboard'] },
+      { id: 'sb-admin-doc', label: 'Manage Doctors', icon: '🩺', href: `${base}doctors.html`, match: ['doctors.html', 'doctors'] },
+      { id: 'sb-admin-pt', label: 'Manage Patients', icon: '👥', href: `${base}patients.html`, match: ['patients.html', 'patients'] },
+      { id: 'sb-admin-tp', label: 'Manage Therapists', icon: '🧑‍⚕️', href: `${base}therapists.html`, match: ['therapists.html', 'therapists'] },
+      { id: 'sb-admin-hosp', label: 'Manage Hospitals & Clinics', icon: '🏥', href: `${base}hospital-subscriptions.html`, match: ['hospital-subscriptions.html', 'hospital-subscriptions', 'hospital-pricing.html', 'hospital-pricing'] },
+      { id: 'sb-admin-apt', label: 'Appointments', icon: '📅', href: `${base}appointments.html`, match: ['appointments.html', 'appointments'] },
+      { id: 'sb-admin-ts', label: 'Therapy Sessions', icon: '⏱️', href: `${base}therapy-sessions.html`, match: ['therapy-sessions.html', 'therapy-sessions'] },
+      { id: 'sb-admin-pr', label: 'Progress Reports', icon: '📈', href: `${base}progress-reports.html`, match: ['progress-reports.html', 'progress-reports', 'exercises.html', 'exercises'] },
+      { id: 'sb-admin-sub', label: 'Subscription Management', icon: '💎', href: `${base}admin-subscriptions.html`, match: ['admin-subscriptions.html', 'admin-subscriptions'] },
+      { id: 'sb-admin-plan', label: 'Membership Plans', icon: '📋', href: `${base}admin-plans.html`, match: ['admin-plans.html', 'admin-plans'] },
+      { id: 'sb-admin-pay', label: 'Payment Transactions', icon: '💳', href: `${base}admin-payments.html`, match: ['admin-payments.html', 'admin-payments'] },
+      { id: 'sb-admin-coup', label: 'Promotional Coupons', icon: '🏷️', href: `${base}admin-coupons.html`, match: ['admin-coupons.html', 'admin-coupons'] },
+      { id: 'sb-admin-rev', label: 'Revenue Analytics', icon: '📉', href: `${base}admin-revenue-analytics.html`, match: ['admin-revenue-analytics.html', 'admin-revenue-analytics'] },
       { id: 'sb-admin-set', label: 'System Settings', icon: '⚙️', href: `${base}admin-dashboard.html#adminSettingsSection`, match: [] }
     ];
 
@@ -85,7 +89,7 @@
       <div class="mt-sidebar-nav">
         <div class="mt-sidebar-section-title">Administration</div>
         ${items.map(it => {
-          const isActive = it.match.includes(activeFile) || (it.match.length === 0 && window.location.hash.includes(it.id));
+          const isActive = it.match.includes(activeFile) || it.match.includes(cleanFile) || (it.match.length === 0 && window.location.hash.includes(it.id));
           return `
             <a href="${it.href}" id="${it.id}" class="mt-sidebar-link ${isActive ? 'active' : ''}">
               <span class="icon">${it.icon}</span>
@@ -109,14 +113,20 @@
   }
 
   function getDoctorSidebarHTML(base, activeFile) {
+    const cleanFile = activeFile.replace(/\.html$/, '');
     const items = [
-      { id: 'sb-doc-dash', label: 'Dashboard', icon: '🩺', href: `${base}doctor-home.html`, match: ['doctor-home.html'] },
-      { id: 'sb-doc-pt', label: 'My Patients', icon: '👥', href: `${base}patients.html`, match: ['patients.html'] },
-      { id: 'sb-doc-apt', label: 'Appointments', icon: '📅', href: `${base}doctor-appointments.html`, match: ['doctor-appointments.html', 'appointments.html'] },
-      { id: 'sb-doc-tm', label: 'Therapy Management', icon: '⏱️', href: `${base}therapy-sessions.html`, match: ['therapy-sessions.html'] },
-      { id: 'sb-doc-pr', label: 'Progress Reports', icon: '📈', href: `${base}exercises.html`, match: ['exercises.html'] },
-      { id: 'sb-doc-prof', label: 'My Profile', icon: '👤', href: `${base}doctor-profile.html`, match: ['doctor-profile.html'] },
-      { id: 'sb-doc-notif', label: 'Notifications', icon: '🔔', href: `${base}doctor-home.html#appointmentRequestsPanel`, match: [] }
+      { id: 'sb-doc-dash', label: 'Doctor Dashboard', icon: '🩺', href: `${base}doctor-home.html`, match: ['doctor-home.html', 'doctor-home'] },
+      { id: 'sb-doc-prof', label: 'My Profile', icon: '👤', href: `${base}doctor-profile.html`, match: ['doctor-profile.html', 'doctor-profile'] },
+      { id: 'sb-doc-pt', label: 'Manage Patients', icon: '👥', href: `${base}patients.html`, match: ['patients.html', 'patients'] },
+      { id: 'sb-doc-aspt', label: 'Assigned Patients', icon: '📋', href: `${base}patients.html#assignedPatientsSection`, match: [] },
+      { id: 'sb-doc-apt', label: 'Appointments', icon: '📅', href: `${base}doctor-appointments.html`, match: ['doctor-appointments.html', 'doctor-appointments', 'appointments.html', 'appointments'] },
+      { id: 'sb-doc-req', label: 'Appointment Requests', icon: '📨', href: `${base}doctor-home.html#appointmentRequestsPanel`, match: [] },
+      { id: 'sb-doc-tm', label: 'Therapy Sessions', icon: '⏱️', href: `${base}therapy-sessions.html`, match: ['therapy-sessions.html', 'therapy-sessions'] },
+      { id: 'sb-doc-pr', label: 'Progress Reports', icon: '📈', href: `${base}progress-reports.html`, match: ['progress-reports.html', 'progress-reports'] },
+      { id: 'sb-doc-ex', label: 'Exercise Management', icon: '🏃', href: `${base}exercises.html`, match: ['exercises.html', 'exercises'] },
+      { id: 'sb-doc-notif', label: 'Notifications', icon: '🔔', href: `${base}doctor-home.html#doctorNotifPanel`, match: [] },
+      { id: 'sb-doc-sub', label: 'My Subscription', icon: '💎', href: `${base}subscription-pricing.html`, match: ['subscription-pricing.html', 'subscription-pricing'] },
+      { id: 'sb-doc-set', label: 'Settings', icon: '⚙️', href: `${base}doctor-profile.html#doctorSettingsSection`, match: [] }
     ];
 
     return `
@@ -134,7 +144,7 @@
       <div class="mt-sidebar-nav">
         <div class="mt-sidebar-section-title">Clinical Practice</div>
         ${items.map(it => {
-          const isActive = it.match.includes(activeFile);
+          const isActive = it.match.includes(activeFile) || it.match.includes(cleanFile);
           return `
             <a href="${it.href}" id="${it.id}" class="mt-sidebar-link ${isActive ? 'active' : ''}">
               <span class="icon">${it.icon}</span>
@@ -158,15 +168,22 @@
   }
 
   function getPatientSidebarHTML(base, activeFile) {
+    const cleanFile = activeFile.replace(/\.html$/, '');
     const items = [
-      { id: 'sb-pt-dash', label: 'Dashboard', icon: '🏠', href: `${base}patient-home.html`, match: ['patient-home.html'] },
-      { id: 'sb-pt-sdoc', label: 'Search Doctor', icon: '🩺', href: `${base}doctors.html`, match: ['doctors.html', 'directory.html'] },
-      { id: 'sb-pt-stp', label: 'Search Therapist', icon: '🧑‍⚕️', href: `${base}therapists.html`, match: ['therapists.html'] },
+      { id: 'sb-pt-dash', label: 'Patient Dashboard', icon: '🏠', href: `${base}patient-home.html`, match: ['patient-home.html', 'patient-home'] },
+      { id: 'sb-pt-prof', label: 'My Profile', icon: '👤', href: `${base}patient-profile.html`, match: ['patient-profile.html', 'patient-profile'] },
+      { id: 'sb-pt-sdoc', label: 'Search Doctors', icon: '🩺', href: `${base}doctors.html`, match: ['doctors.html', 'doctors'] },
+      { id: 'sb-pt-dir', label: 'Doctor Directory', icon: '📖', href: `${base}directory.html`, match: ['directory.html', 'directory'] },
+      { id: 'sb-pt-stp', label: 'Search Therapists', icon: '🧑‍⚕️', href: `${base}therapists.html`, match: ['therapists.html', 'therapists'] },
       { id: 'sb-pt-book', label: 'Book Appointment', icon: '➕', href: `${base}patient-appointments.html#bookAppointmentCard`, match: [] },
-      { id: 'sb-pt-myapt', label: 'My Appointments', icon: '📅', href: `${base}patient-appointments.html#myAppointmentsCard`, match: ['patient-appointments.html'] },
-      { id: 'sb-pt-ts', label: 'My Therapy Sessions', icon: '⏱️', href: `${base}therapy-sessions.html`, match: ['therapy-sessions.html'] },
-      { id: 'sb-pt-pr', label: 'My Progress Reports', icon: '📈', href: `${base}exercises.html`, match: ['exercises.html'] },
-      { id: 'sb-pt-prof', label: 'My Profile', icon: '👤', href: `${base}patient-profile.html`, match: ['patient-profile.html'] }
+      { id: 'sb-pt-myapt', label: 'My Appointments', icon: '📅', href: `${base}patient-appointments.html`, match: ['patient-appointments.html', 'patient-appointments', 'appointments.html', 'appointments'] },
+      { id: 'sb-pt-ts', label: 'My Therapy Sessions', icon: '⏱️', href: `${base}therapy-sessions.html`, match: ['therapy-sessions.html', 'therapy-sessions'] },
+      { id: 'sb-pt-ex', label: 'My Exercises', icon: '🏃', href: `${base}exercises.html`, match: ['exercises.html', 'exercises'] },
+      { id: 'sb-pt-pr', label: 'My Progress Reports', icon: '📈', href: `${base}progress-reports.html`, match: ['progress-reports.html', 'progress-reports'] },
+      { id: 'sb-pt-cg', label: 'My Caregiver', icon: '🤝', href: `${base}patient-profile.html#caregiverSection`, match: [] },
+      { id: 'sb-pt-notif', label: 'Notifications', icon: '🔔', href: `${base}patient-home.html#notificationsPanel`, match: [] },
+      { id: 'sb-pt-sub', label: 'My Subscription', icon: '💎', href: `${base}subscription-pricing.html`, match: ['subscription-pricing.html', 'subscription-pricing'] },
+      { id: 'sb-pt-set', label: 'Settings', icon: '⚙️', href: `${base}patient-profile.html#settingsSection`, match: [] }
     ];
 
     return `
@@ -184,7 +201,7 @@
       <div class="mt-sidebar-nav">
         <div class="mt-sidebar-section-title">Patient Care</div>
         ${items.map(it => {
-          const isActive = it.match.includes(activeFile);
+          const isActive = it.match.includes(activeFile) || it.match.includes(cleanFile);
           return `
             <a href="${it.href}" id="${it.id}" class="mt-sidebar-link ${isActive ? 'active' : ''}">
               <span class="icon">${it.icon}</span>
@@ -239,14 +256,15 @@
 
     // Check if this page should have an active role sidebar
     // Admin sidebar appears ONLY after successful Admin authentication, never to unauthenticated users or on admin-login
+    const cleanActive = activeFile.replace(/\.html$/, '');
     let sidebarTargetRole = null;
-    if (role === 'admin' && activeFile !== 'admin-login.html') {
+    if (role === 'admin' && activeFile !== 'admin-login.html' && cleanActive !== 'admin-login') {
       sidebarTargetRole = 'admin';
     } else if (role === 'doctor') {
-      const isDoctorPage = ['doctor-home.html', 'doctor-profile.html', 'doctor-appointments.html', 'patients.html', 'therapy-sessions.html', 'exercises.html'].includes(activeFile);
+      const isDoctorPage = ['doctor-home', 'doctor-profile', 'doctor-appointments', 'patients', 'therapy-sessions', 'exercises', 'progress-reports'].includes(cleanActive);
       if (isDoctorPage) sidebarTargetRole = 'doctor';
     } else if (role === 'patient') {
-      const isPatientPage = ['patient-home.html', 'patient-profile.html', 'patient-appointments.html', 'exercises.html', 'therapy-sessions.html', 'doctors.html', 'therapists.html'].includes(activeFile);
+      const isPatientPage = ['patient-home', 'patient-profile', 'patient-appointments', 'exercises', 'therapy-sessions', 'doctors', 'therapists', 'progress-reports'].includes(cleanActive);
       if (isPatientPage) sidebarTargetRole = 'patient';
     }
 

@@ -8,7 +8,17 @@ function showPatientForgotMessage(message, type = "danger") {
   if (!el) return;
   el.hidden = false;
   el.className = `alert alert-${type} mb-3`;
-  el.textContent = message;
+  // Sanitize message: never expose internal Vercel IDs or HTML error stacks
+  let cleanMsg = typeof message === "string" ? message : (message?.message || "An unexpected error occurred.");
+  if (
+    cleanMsg.includes("NOT_FOUND") ||
+    cleanMsg.includes("bom1::") ||
+    cleanMsg.includes("The page could not be found") ||
+    cleanMsg.includes("<!DOCTYPE")
+  ) {
+    cleanMsg = "Recovery service is currently busy or updating. Please try again shortly or contact support.";
+  }
+  el.textContent = cleanMsg;
 }
 
 function clearPatientForgotMessage() {
@@ -38,6 +48,29 @@ function setActivePatientStep(stepNumber) {
 let savedPatientIdentifier = "";
 let savedPatientResetToken = "";
 let savedPatientVerifiedToken = "";
+let resendTimerInterval = null;
+
+function startResendCooldown(seconds = 60) {
+  const btnResend = document.getElementById("btnResend");
+  if (!btnResend) return;
+  if (resendTimerInterval) clearInterval(resendTimerInterval);
+
+  btnResend.disabled = true;
+  let remaining = seconds;
+  btnResend.textContent = `Resend Code (${remaining}s)`;
+
+  resendTimerInterval = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(resendTimerInterval);
+      resendTimerInterval = null;
+      btnResend.disabled = false;
+      btnResend.textContent = "Resend Code";
+    } else {
+      btnResend.textContent = `Resend Code (${remaining}s)`;
+    }
+  }, 1000);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const step1Form = document.getElementById("step1Form");
@@ -74,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await apiRequest("/api/forgot-password", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ identifier })
+          body: JSON.stringify({ identifier, portal: "patient" })
         });
 
         savedPatientIdentifier = identifier;
@@ -84,9 +117,13 @@ document.addEventListener("DOMContentLoaded", () => {
         step1Form.hidden = true;
         step2Form.hidden = false;
         setActivePatientStep(2);
+        startResendCooldown(60);
 
         const otpInput = document.getElementById("otpInput");
-        if (otpInput) otpInput.focus();
+        if (otpInput) {
+          otpInput.value = "";
+          otpInput.focus();
+        }
       } catch (err) {
         showPatientForgotMessage(err.message || "Failed to send recovery code. Please check your patient username/email.");
       } finally {
@@ -128,7 +165,8 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify({
             otp,
             identifier: savedPatientIdentifier,
-            reset_token: savedPatientResetToken
+            reset_token: savedPatientResetToken,
+            portal: "patient"
           })
         });
 
@@ -140,7 +178,10 @@ document.addEventListener("DOMContentLoaded", () => {
         setActivePatientStep(3);
 
         const newPassInput = document.getElementById("newPassword");
-        if (newPassInput) newPassInput.focus();
+        if (newPassInput) {
+          newPassInput.value = "";
+          newPassInput.focus();
+        }
       } catch (err) {
         showPatientForgotMessage(err.message || "Invalid or expired recovery code. Please try again.");
       } finally {
@@ -164,14 +205,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await apiRequest("/api/forgot-password", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ identifier: savedPatientIdentifier })
+          body: JSON.stringify({ identifier: savedPatientIdentifier, portal: "patient" })
         });
 
         savedPatientResetToken = res.reset_token || "";
-        showPatientForgotMessage("A fresh recovery code has been sent to your email.", "info");
+        showPatientForgotMessage("A fresh recovery code has been sent to your registered email.", "info");
+        startResendCooldown(60);
       } catch (err) {
-        showPatientForgotMessage(err.message || "Failed to resend code.");
-      } finally {
+        showPatientForgotMessage(err.message || "Failed to resend recovery code. Please wait before trying again.");
         btnResend.disabled = false;
         btnResend.textContent = "Resend Code";
       }
@@ -190,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const confirm = confirmPassInput ? confirmPassInput.value : "";
 
       if (password.length < 6) {
-        showPatientForgotMessage("Password must be at least 6 characters.");
+        showPatientForgotMessage("Password must be at least 6 characters in length.");
         return;
       }
 
@@ -216,13 +257,14 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify({
             password,
             confirm_password: confirm,
-            verified_token: savedPatientVerifiedToken
+            verified_token: savedPatientVerifiedToken,
+            portal: "patient"
           })
         });
 
         showPatientForgotMessage(res.message || "Password updated successfully! Redirecting to Patient Login...", "success");
         setTimeout(() => {
-          window.location.href = "./login.html";
+          window.location.href = res.redirect_url || "./login.html";
         }, 1200);
       } catch (err) {
         showPatientForgotMessage(err.message || "Failed to update password. Please try again.");
@@ -234,4 +276,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-

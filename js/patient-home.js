@@ -154,6 +154,8 @@ function initPatientSession() {
         // Non-blocking logout fallback
       }
       localStorage.removeItem("currentUser");
+      localStorage.removeItem("token");
+      sessionStorage.clear();
       window.location.href = "./login.html";
     });
   }

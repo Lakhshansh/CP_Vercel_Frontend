@@ -174,6 +174,7 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({
       success: true,
       message: "Authentication successful! Redirecting to Administration Dashboard...",
+      redirect_url: "admin-dashboard.html",
       user: {
         user_id: user.user_id,
         username: user.username,

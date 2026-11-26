@@ -1,9 +1,22 @@
+/**
+ * Multi Therapy - Unified Password Recovery Client
+ */
+
 function showForgotMessage(message, type = "danger") {
   const el = document.getElementById("forgotMessage");
   if (!el) return;
   el.hidden = false;
   el.className = `alert alert-${type} mb-3`;
-  el.textContent = message;
+  let cleanMsg = typeof message === "string" ? message : (message?.message || "An unexpected error occurred.");
+  if (
+    cleanMsg.includes("NOT_FOUND") ||
+    cleanMsg.includes("bom1::") ||
+    cleanMsg.includes("The page could not be found") ||
+    cleanMsg.includes("<!DOCTYPE")
+  ) {
+    cleanMsg = "Recovery service is currently busy or updating. Please try again shortly or contact support.";
+  }
+  el.textContent = cleanMsg;
 }
 
 function clearForgotMessage() {
@@ -33,6 +46,29 @@ function setActiveStep(stepNumber) {
 let savedIdentifier = "";
 let savedResetToken = "";
 let savedVerifiedToken = "";
+let resendTimerInterval = null;
+
+function startResendCooldown(seconds = 60) {
+  const btnResend = document.getElementById("btnResend");
+  if (!btnResend) return;
+  if (resendTimerInterval) clearInterval(resendTimerInterval);
+
+  btnResend.disabled = true;
+  let remaining = seconds;
+  btnResend.textContent = `Resend Code (${remaining}s)`;
+
+  resendTimerInterval = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(resendTimerInterval);
+      resendTimerInterval = null;
+      btnResend.disabled = false;
+      btnResend.textContent = "Resend Code";
+    } else {
+      btnResend.textContent = `Resend Code (${remaining}s)`;
+    }
+  }, 1000);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const step1Form = document.getElementById("step1Form");
@@ -70,23 +106,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await apiRequest("/api/forgot-password", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ identifier })
+          body: JSON.stringify({ identifier, portal: "patient" })
         });
 
         savedIdentifier = identifier;
         savedResetToken = res.reset_token || "";
         showForgotMessage(res.message || "Recovery code sent successfully!", "info");
 
-        if (demoOtpBox) {
-          demoOtpBox.hidden = true;
-        }
+        if (demoOtpBox) demoOtpBox.hidden = true;
 
         step1Form.hidden = true;
         step2Form.hidden = false;
         setActiveStep(2);
+        startResendCooldown(60);
 
         const otpInput = document.getElementById("otpInput");
-        if (otpInput) otpInput.focus();
+        if (otpInput) {
+          otpInput.value = "";
+          otpInput.focus();
+        }
       } catch (err) {
         showForgotMessage(err.message || "Failed to send recovery code. Please check your username/email.");
       } finally {
@@ -128,7 +166,8 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify({
             otp,
             identifier: savedIdentifier,
-            reset_token: savedResetToken
+            reset_token: savedResetToken,
+            portal: "patient"
           })
         });
 
@@ -141,7 +180,10 @@ document.addEventListener("DOMContentLoaded", () => {
         setActiveStep(3);
 
         const newPassInput = document.getElementById("newPassword");
-        if (newPassInput) newPassInput.focus();
+        if (newPassInput) {
+          newPassInput.value = "";
+          newPassInput.focus();
+        }
       } catch (err) {
         showForgotMessage(err.message || "Invalid or expired recovery code.");
       } finally {
@@ -165,15 +207,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await apiRequest("/api/forgot-password", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ identifier: savedIdentifier })
+          body: JSON.stringify({ identifier: savedIdentifier, portal: "patient" })
         });
 
         savedResetToken = res.reset_token || "";
         showForgotMessage("A fresh recovery code has been sent to your email.", "info");
-        if (demoOtpBox) demoOtpBox.hidden = true;
+        startResendCooldown(60);
       } catch (err) {
-        showForgotMessage(err.message || "Failed to resend code.");
-      } finally {
+        showForgotMessage(err.message || "Failed to resend code. Please try again.");
         btnResend.disabled = false;
         btnResend.textContent = "Resend Code";
       }
@@ -192,7 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const confirm = confirmPassInput ? confirmPassInput.value : "";
 
       if (password.length < 6) {
-        showForgotMessage("Password must be at least 6 characters.");
+        showForgotMessage("Password must be at least 6 characters in length.");
         return;
       }
 
@@ -218,16 +259,17 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify({
             password,
             confirm_password: confirm,
-            verified_token: savedVerifiedToken
+            verified_token: savedVerifiedToken,
+            portal: "patient"
           })
         });
 
         showForgotMessage(res.message || "Password updated successfully! Redirecting to login...", "success");
         setTimeout(() => {
-          window.location.href = "./login.html";
+          window.location.href = res.redirect_url || "./login.html";
         }, 1200);
       } catch (err) {
-        showForgotMessage(err.message || "Failed to update password.");
+        showForgotMessage(err.message || "Failed to update password. Please try again.");
         if (btn) {
           btn.disabled = false;
           btn.innerHTML = originalText;

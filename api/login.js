@@ -516,21 +516,21 @@ module.exports = async function handler(req, res) {
     const isDoctorPortal = portal === "doctor" || reqUrl.includes("doctor-login");
     const isAdminPortal = portal === "admin" || reqUrl.includes("admin-login");
 
-    // Strict Role Validation with admin cross-portal support
+    // Strict Role Validation: Strict role boundary per login portal
     if (isPatientPortal) {
-      if (!isPatient && !user.is_patient_profile && !isAdmin) {
+      if (!isPatient && !user.is_patient_profile) {
         return res.status(403).json({
           success: false,
           error: "unauthorized_role",
-          message: "Unauthorized: Please use the correct login portal."
+          message: "Unauthorized: Access restricted to registered Patients only. Doctors and Administrators must use their dedicated login portals."
         });
       }
     } else if (isDoctorPortal) {
-      if (!isDoctor && !user.is_doctor_profile && !isAdmin) {
+      if (!isDoctor && !user.is_doctor_profile) {
         return res.status(403).json({
           success: false,
           error: "unauthorized_role",
-          message: "Unauthorized: Access restricted to authorized Doctors only. Please use the correct login portal."
+          message: "Unauthorized: Access restricted to authorized Doctors only. Patients and Administrators must use their dedicated login portals."
         });
       }
     } else if (isAdminPortal) {
@@ -546,29 +546,30 @@ module.exports = async function handler(req, res) {
     // Assign final normalized role and display attributes
     let normalizedRole = "Patient";
     let displayName = user.username || "Patient";
+    let redirectUrl = "patient-home.html";
+
     if (isAdmin && isAdminPortal) {
       normalizedRole = "Admin";
       displayName = user.name || "Administrator";
-    } else if (isDoctorPortal) {
+      redirectUrl = "admin-dashboard.html";
+    } else if (isDoctorPortal || isDoctor) {
       normalizedRole = "Doctor";
       displayName = user.doctor_name || (user.name ? (user.name.startsWith("Dr.") ? user.name : "Dr. " + user.name) : "Dr. " + user.username);
-    } else if (isPatientPortal) {
-      normalizedRole = "Patient";
-      displayName = user.patient_name || user.name || user.username || "Patient";
-    } else if (isDoctor) {
-      normalizedRole = "Doctor";
-      displayName = user.doctor_name || (user.name ? (user.name.startsWith("Dr.") ? user.name : "Dr. " + user.name) : "Dr. " + user.username);
+      redirectUrl = "doctor-home.html";
     } else if (isTherapist) {
       normalizedRole = "Therapist";
       displayName = user.therapist_name || user.name || user.username || "Therapist";
+      redirectUrl = "therapist-dashboard.html";
     } else {
       normalizedRole = "Patient";
       displayName = user.patient_name || user.name || user.username || "Patient";
+      redirectUrl = "patient-home.html";
     }
 
     return res.status(200).json({
       success: true,
       message: "Login successful.",
+      redirect_url: redirectUrl,
       user: {
         user_id: user.user_id,
         username: user.username,

@@ -82,6 +82,18 @@
       "destination": "/api/login?action=logout"
     },
     {
+      "source": "/api/forgot-password",
+      "destination": "/api/forgot-password"
+    },
+    {
+      "source": "/api/verify-reset-otp",
+      "destination": "/api/verify-reset-otp"
+    },
+    {
+      "source": "/api/reset-password",
+      "destination": "/api/reset-password"
+    },
+    {
       "source": "/api/admin/stats",
       "destination": "/api/admin-stats"
     },
@@ -172,6 +184,18 @@
     {
       "source": "/doctor-signup",
       "destination": "/doctor-signup.html"
+    },
+    {
+      "source": "/patient-forgot",
+      "destination": "/patient-forgot.html"
+    },
+    {
+      "source": "/forgot",
+      "destination": "/patient-forgot.html"
+    },
+    {
+      "source": "/doctor-forgot",
+      "destination": "/doctor-forgot.html"
     }
   ]
 }

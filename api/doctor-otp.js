@@ -458,6 +458,7 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({
         success: true,
         message: "Doctor verified successfully! Redirecting to Doctor Portal...",
+        redirect_url: "doctor-home.html",
         user: userPayload
       });
     }
