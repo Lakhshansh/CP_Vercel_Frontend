@@ -725,9 +725,8 @@ async function handler(req, res) {
   return handleForgotPasswordRequest(req, res);
 }
 
-module.exports = {
-  handler,
-  handleForgotPasswordRequest,
-  handleVerifyResetOtp,
-  handleResetPassword
-};
+module.exports = handler;
+handler.handler = handler;
+handler.handleForgotPasswordRequest = handleForgotPasswordRequest;
+handler.handleVerifyResetOtp = handleVerifyResetOtp;
+handler.handleResetPassword = handleResetPassword;
