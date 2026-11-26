@@ -288,6 +288,12 @@ async function handlePatientHome(req, res) {
 // ---------------------------------------------------------------------------
 // 4. MAIN DISPATCHER
 // ---------------------------------------------------------------------------
+const {
+  handleForgotPasswordRequest,
+  handleVerifyResetOtp,
+  handleResetPassword
+} = require("./password-recovery");
+
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -303,6 +309,17 @@ module.exports = async function handler(req, res) {
 
   const action = (req.query && req.query.action ? req.query.action : "").toString().toLowerCase();
   const reqUrl = (req.url || "").toLowerCase();
+
+  // Route to Password Recovery Actions
+  if (action === "forgot-password" || reqUrl.includes("forgot-password")) {
+    return handleForgotPasswordRequest(req, res);
+  }
+  if (action === "verify-reset-otp" || reqUrl.includes("verify-reset-otp")) {
+    return handleVerifyResetOtp(req, res);
+  }
+  if (action === "reset-password" || reqUrl.includes("reset-password")) {
+    return handleResetPassword(req, res);
+  }
 
   // Route to Logout
   if (action === "logout" || reqUrl.includes("/logout")) {

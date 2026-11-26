@@ -83,15 +83,15 @@
     },
     {
       "source": "/api/forgot-password",
-      "destination": "/api/forgot-password"
+      "destination": "/api/login?action=forgot-password"
     },
     {
       "source": "/api/verify-reset-otp",
-      "destination": "/api/verify-reset-otp"
+      "destination": "/api/login?action=verify-reset-otp"
     },
     {
       "source": "/api/reset-password",
-      "destination": "/api/reset-password"
+      "destination": "/api/login?action=reset-password"
     },
     {
       "source": "/api/admin/stats",
