@@ -1450,9 +1450,16 @@
         return;
       }
 
-      if (cleanFilename.startsWith('admin-') && cleanFilename !== 'admin-login' && auth.role !== 'admin') {
-        window.location.replace(getBasePath() + 'admin-login.html');
-        return;
+      if (cleanFilename.startsWith('admin-') && cleanFilename !== 'admin-login') {
+        const isAdmin = auth.role === 'admin' || auth.role === 'superadmin' ||
+                        (auth.user && (auth.user.role === 'admin' || String(auth.user.role).toLowerCase() === 'administrator')) ||
+                        sessionStorage.getItem('admin_logged_in') === 'true' ||
+                        localStorage.getItem('adminRole') === 'admin' ||
+                        localStorage.getItem('adminRole') === 'superadmin';
+        if (!isAdmin) {
+          window.location.replace(getBasePath() + 'admin-login.html');
+          return;
+        }
       }
 
       initHeader();

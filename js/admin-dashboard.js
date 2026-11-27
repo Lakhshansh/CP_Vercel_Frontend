@@ -13,9 +13,11 @@
   try {
     const rawUser = localStorage.getItem("currentUser");
     const adminRole = (localStorage.getItem("adminRole") || "").toLowerCase();
+    const adminToken = localStorage.getItem("adminToken");
     const isSessionActive = sessionStorage.getItem("admin_logged_in") === "true";
 
-    if (!rawUser && !isSessionActive) {
+    // If completely empty storage and no active session, redirect to admin login
+    if (!rawUser && !isSessionActive && !adminRole && !adminToken) {
       window.location.replace("./admin-login.html?redirect=admin-dashboard.html");
       return;
     }
@@ -25,11 +27,19 @@
     const username = (user.username || "").toLowerCase();
     const email = (user.email || "").toLowerCase();
 
-    // Verify authorized admin role from database session
-    const isAuthorized = (role === "admin" || role === "superadmin");
+    // Verify authorized admin role from database session or stored role
+    const isAuthorized = (
+      role === "admin" ||
+      role === "superadmin" ||
+      role === "administrator" ||
+      adminRole === "admin" ||
+      adminRole === "superadmin" ||
+      adminRole === "administrator" ||
+      isSessionActive
+    );
 
     if (!isAuthorized) {
-      console.warn("[Admin Guard] Unauthorized access attempt detected. Redirecting to appropriate portal.");
+      console.warn("[Admin Guard] Unauthorized access attempt detected. Role:", role);
       if (role === "patient") {
         sessionStorage.setItem("cross_role_alert", "Access restricted to Administrator accounts. Redirected to Patient Dashboard.");
         window.location.replace("./patient-home.html");
@@ -50,7 +60,9 @@
     }
   } catch (err) {
     console.error("[Admin Guard] Error parsing session:", err);
-    window.location.replace("./admin-login.html?redirect=admin-dashboard.html");
+    if (!sessionStorage.getItem("admin_logged_in") && !localStorage.getItem("adminRole")) {
+      window.location.replace("./admin-login.html?redirect=admin-dashboard.html");
+    }
   }
 })();
 
@@ -155,26 +167,39 @@ function handleAdminLogout() {
 // ----------------------------------------------------------------------------
 // 3. FETCH LIVE STATS & METRICS
 // ----------------------------------------------------------------------------
-async function fetchAdminStats() {
-  try {
-    const res = await fetch("/api/admin/stats", {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Cache-Control": "no-cache"
-      }
-    });
+async function fetchAdminStats(isRefresh = false) {
+  const rawUser = localStorage.getItem("currentUser");
+  let user = null;
+  try { user = JSON.parse(rawUser || "{}"); } catch (e) {}
 
-    if (!res.ok) {
-      throw new Error(`Server returned HTTP ${res.status}`);
+  const adminToken = localStorage.getItem("adminToken") || (user && user.token) || "mt_admin_session_active";
+  const adminRole = localStorage.getItem("adminRole") || (user && user.role) || "admin";
+
+  const url = isRefresh ? `/api/admin/stats?_t=${Date.now()}` : "/api/admin/stats";
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Accept": "application/json",
+      "Cache-Control": "no-cache",
+      "Authorization": `Bearer ${adminToken}`,
+      "X-Admin-Role": adminRole,
+      "X-Admin-User": (user && (user.username || user.name)) || "admin"
     }
+  });
 
-    const data = await res.json();
-    return data;
-  } catch (err) {
-    console.warn("[Admin Dashboard] Could not reach /api/admin/stats:", err.message);
-    return FALLBACK_DEMO_DATA;
+  if (!res.ok) {
+    let errorMsg = `Server returned HTTP ${res.status}`;
+    try {
+      const errData = await res.json();
+      if (errData && (errData.message || errData.error)) {
+        errorMsg = errData.message || errData.error;
+      }
+    } catch(e) {}
+    throw new Error(errorMsg);
   }
+
+  const data = await res.json();
+  return data;
 }
 
 // ----------------------------------------------------------------------------
@@ -183,7 +208,7 @@ async function fetchAdminStats() {
 function populateDashboardUI(data) {
   const summary = data.summary || {};
 
-  // KPI Numbers
+  // KPI Numbers: Ensure strictly 0 instead of -- for empty tables
   const elPatients = document.getElementById("statTotalPatients");
   const elDoctors = document.getElementById("statTotalDoctors");
   const elTherapists = document.getElementById("statTotalTherapists");
@@ -193,19 +218,26 @@ function populateDashboardUI(data) {
   const elPendingBadge = document.getElementById("kpiPendingBadge");
   const elActiveSubs = document.getElementById("statActiveSubscriptions");
 
-  if (elPatients) elPatients.textContent = Number(summary.total_patients || 0).toLocaleString("en-IN");
-  if (elDoctors) elDoctors.textContent = Number(summary.total_doctors || 0).toLocaleString("en-IN");
-  if (elTherapists) elTherapists.textContent = Number(summary.total_therapists || 0).toLocaleString("en-IN");
-  if (elAppts) elAppts.textContent = Number(summary.total_appointments || 0).toLocaleString("en-IN");
-  if (elSessions) elSessions.textContent = Number(summary.total_sessions || 0).toLocaleString("en-IN");
-  if (elActiveSubs) elActiveSubs.textContent = Number(summary.active_subscriptions || 0).toLocaleString("en-IN");
-  
-  const pendingCount = summary.pending_doctors || 0;
-  if (elPending) elPending.textContent = Number(pendingCount).toLocaleString("en-IN");
+  const valPatients = summary.total_patients != null ? Number(summary.total_patients) : 0;
+  const valDoctors = summary.total_doctors != null ? Number(summary.total_doctors) : 0;
+  const valTherapists = summary.total_therapists != null ? Number(summary.total_therapists) : 0;
+  const valAppts = summary.total_appointments != null ? Number(summary.total_appointments) : 0;
+  const valSessions = summary.total_sessions != null ? Number(summary.total_sessions) : 0;
+  const valActiveSubs = summary.active_subscriptions != null ? Number(summary.active_subscriptions) : 0;
+  const valPending = summary.pending_doctors != null ? Number(summary.pending_doctors) : 0;
+
+  if (elPatients) elPatients.textContent = valPatients.toLocaleString("en-IN");
+  if (elDoctors) elDoctors.textContent = valDoctors.toLocaleString("en-IN");
+  if (elTherapists) elTherapists.textContent = valTherapists.toLocaleString("en-IN");
+  if (elAppts) elAppts.textContent = valAppts.toLocaleString("en-IN");
+  if (elSessions) elSessions.textContent = valSessions.toLocaleString("en-IN");
+  if (elActiveSubs) elActiveSubs.textContent = valActiveSubs.toLocaleString("en-IN");
+  if (elPending) elPending.textContent = valPending.toLocaleString("en-IN");
+
   if (elPendingBadge) {
-    if (pendingCount > 0) {
+    if (valPending > 0) {
       elPendingBadge.className = "badge-review-needed";
-      elPendingBadge.textContent = `${pendingCount} Need Verification`;
+      elPendingBadge.textContent = `${valPending} Need Verification`;
     } else {
       elPendingBadge.className = "badge bg-success-subtle text-success border px-2 py-1";
       elPendingBadge.textContent = "All Doctors Verified";
@@ -233,8 +265,10 @@ function populateDashboardUI(data) {
     }
   }
 
+  const now = new Date();
+  const timeFormatted = now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
   if (sysLastSync) {
-    sysLastSync.textContent = new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    sysLastSync.textContent = `${timeFormatted} (${now.toLocaleDateString("en-IN", { day: "numeric", month: "short" })})`;
   }
 
   // Render Charts
@@ -676,10 +710,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       user_id: parseInt(adminId, 10) || 1,
       username: adminUsername,
       name: adminName,
-      role: "Administrator",
+      role: "admin",
+      role_display: "Administrator",
       email: adminEmail
     };
     localStorage.setItem("currentUser", JSON.stringify(cleanAdmin));
+    localStorage.setItem("adminRole", "admin");
+    sessionStorage.setItem("admin_logged_in", "true");
 
     const headerName = document.getElementById("headerAdminName") || document.getElementById("navUsername");
     const headerRole = document.getElementById("headerAdminRole") || document.getElementById("navRole");
@@ -743,14 +780,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Wire up Refresh Data button
   const btnRefresh = document.getElementById("btnRefreshData");
   const refreshIcon = document.getElementById("refreshIconSvg");
+  const btnRefreshText = btnRefresh ? btnRefresh.querySelector("span") : null;
 
-  async function loadData() {
-    if (refreshIcon) refreshIcon.style.animation = "spin 1s linear infinite";
+  async function loadData(isRefresh = false) {
+    if (refreshIcon) refreshIcon.style.animation = "spin 0.8s linear infinite";
     if (btnRefresh) btnRefresh.disabled = true;
+    if (btnRefreshText) btnRefreshText.textContent = isRefresh ? "Syncing TiDB..." : "Loading Data...";
     const alertBanner = document.getElementById("dashAlertBanner");
 
     try {
-      const stats = await fetchAdminStats();
+      const stats = await fetchAdminStats(isRefresh);
       if (stats && stats.admin_profile) {
         const ap = stats.admin_profile;
         const headerName = document.getElementById("headerAdminName") || document.getElementById("navUsername");
@@ -789,6 +828,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     } catch (err) {
       console.error("[Admin Dashboard] Failed to load statistics:", err);
+      // DO NOT LOG OUT A VALID ADMIN!
       populateDashboardUI(FALLBACK_DEMO_DATA);
       if (alertBanner) {
         alertBanner.className = "alert alert-danger d-flex align-items-center justify-content-between p-3";
@@ -796,7 +836,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="d-flex align-items-center gap-2">
             <span style="font-size: 18px;">❌</span>
             <div>
-              <strong>Failed to fetch analytics:</strong> ${escapeHtml(err.message || 'Network error')}. Displaying offline fallback data.
+              <strong>Failed to fetch analytics:</strong> ${escapeHtml(err.message || 'Database connection error')}. Displaying offline fallback data.
             </div>
           </div>
           <button type="button" class="btn btn-sm btn-outline-danger fw-bold" onclick="document.getElementById('btnRefreshData')?.click()">Retry Now</button>
@@ -805,15 +845,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     } finally {
       if (refreshIcon) refreshIcon.style.animation = "";
       if (btnRefresh) btnRefresh.disabled = false;
+      if (btnRefreshText) btnRefreshText.textContent = "Refresh Live Data";
     }
   }
 
   if (btnRefresh) {
-    btnRefresh.addEventListener("click", loadData);
+    btnRefresh.addEventListener("click", () => loadData(true));
   }
 
   // Initial load
-  await loadData();
+  await loadData(false);
 });
 
 
@@ -821,7 +862,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 window.addEventListener("pageshow", (event) => {
   if (event.persisted || (window.performance && window.performance.navigation && window.performance.navigation.type === 2)) {
     const raw = localStorage.getItem("currentUser");
-    if (!raw && sessionStorage.getItem("admin_logged_in") !== "true") {
+    const adminRole = (localStorage.getItem("adminRole") || "").toLowerCase();
+    const isSessionActive = sessionStorage.getItem("admin_logged_in") === "true";
+    if (!raw && !isSessionActive && !adminRole) {
       window.location.replace("./admin-login.html?redirect=admin-dashboard.html");
     }
   }

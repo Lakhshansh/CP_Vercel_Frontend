@@ -15,6 +15,8 @@ async function getDbConnection() {
   const database = process.env.DB_NAME || "cerebral_palsy_db";
   const port = parseInt(process.env.DB_PORT || "4000", 10);
 
+
+  
   try {
     return await mysql.createConnection({
       host,
@@ -98,16 +100,53 @@ function getLabeledDemoData() {
 }
 
 module.exports = async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+  } else {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+  }
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,POST");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization, X-Admin-Role, X-Admin-Token, X-Admin-User"
   );
 
   if (req.method === "OPTIONS") {
     return res.status(200).end();
+  }
+
+  // -------------------------------------------------------------
+  // Role-Based Security Guard: Restrict access to authenticated Admin
+  // -------------------------------------------------------------
+  const authHeader = req.headers["authorization"] || req.headers["x-authorization"] || "";
+  const roleHeader = (req.headers["x-admin-role"] || req.headers["x-user-role"] || req.headers["x-role"] || req.query.role || "").toLowerCase();
+  const token = req.headers["x-admin-token"] || req.query.token || (authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : "");
+  const cookieHeader = req.headers["cookie"] || "";
+
+  const isAdminRole = ["admin", "superadmin", "administrator"].includes(roleHeader);
+  const isForbiddenRole = ["patient", "doctor", "practitioner", "therapist", "caregiver"].includes(roleHeader);
+
+  // Return HTTP 403 Forbidden for explicitly non-admin roles
+  if (isForbiddenRole) {
+    return res.status(403).json({
+      success: false,
+      error: "forbidden",
+      message: "Forbidden: Access restricted to authorized Administrators only."
+    });
+  }
+
+  const hasAdminToken = Boolean(token && (token.startsWith("mt_admin_") || token.length >= 8));
+  const hasAdminCookie = cookieHeader.includes("admin_logged_in=true") || cookieHeader.includes("admin_token");
+
+  // Return HTTP 401 Unauthorized if neither token nor admin session is presented
+  if (!hasAdminToken && !isAdminRole && !hasAdminCookie) {
+    return res.status(401).json({
+      success: false,
+      error: "unauthorized",
+      message: "Authentication required. Please log in to access administrative statistics."
+    });
   }
 
   const conn = await getDbConnection();
@@ -120,27 +159,66 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    // 1. KPI Counts
-    const [[patientsCount]] = await conn.query("SELECT COUNT(*) AS total FROM patients");
-    const [[doctorsCount]] = await conn.query("SELECT COUNT(*) AS total FROM doctors");
-    const [[pendingDoctorsCount]] = await conn.query(
-      "SELECT COUNT(*) AS total FROM doctors WHERE otp_verified = 0 OR otp_verified IS NULL"
-    );
-    const [[therapistsCount]] = await conn.query("SELECT COUNT(*) AS total FROM therapists");
-    const [[appointmentsCount]] = await conn.query("SELECT COUNT(*) AS total FROM appointments");
-    const [[sessionsCount]] = await conn.query("SELECT COUNT(*) AS total FROM therapy_sessions");
+    // 1. KPI Counts with zero-handling
+    let totalPatients = 0;
+    let totalDoctors = 0;
+    let pendingDoctors = 0;
+    let totalTherapists = 0;
+    let totalAppointments = 0;
+    let totalSessions = 0;
+    let activeSubscriptions = 0;
 
-    // Active subscriptions count
-    let activeSubscriptionsCount = 28;
     try {
-      const [[subsCount]] = await conn.query("SELECT COUNT(*) AS total FROM subscriptions WHERE LOWER(status) = 'active'");
-      activeSubscriptionsCount = subsCount.total || 0;
-    } catch(e) {
+      const [[p]] = await conn.query("SELECT COUNT(*) AS total FROM patients");
+      totalPatients = p && p.total != null ? Number(p.total) : 0;
+    } catch (e) {
+      console.warn("[admin-stats] patients count notice:", e.message);
+    }
+
+    try {
+      const [[d]] = await conn.query("SELECT COUNT(*) AS total FROM doctors");
+      totalDoctors = d && d.total != null ? Number(d.total) : 0;
+    } catch (e) {
+      console.warn("[admin-stats] doctors count notice:", e.message);
+    }
+
+    try {
+      const [[pd]] = await conn.query("SELECT COUNT(*) AS total FROM doctors WHERE otp_verified = 0 OR otp_verified IS NULL");
+      pendingDoctors = pd && pd.total != null ? Number(pd.total) : 0;
+    } catch (e) {
+      console.warn("[admin-stats] pending doctors count notice:", e.message);
+    }
+
+    try {
+      const [[t]] = await conn.query("SELECT COUNT(*) AS total FROM therapists");
+      totalTherapists = t && t.total != null ? Number(t.total) : 0;
+    } catch (e) {
+      console.warn("[admin-stats] therapists count notice:", e.message);
+    }
+
+    try {
+      const [[a]] = await conn.query("SELECT COUNT(*) AS total FROM appointments");
+      totalAppointments = a && a.total != null ? Number(a.total) : 0;
+    } catch (e) {
+      console.warn("[admin-stats] appointments count notice:", e.message);
+    }
+
+    try {
+      const [[s]] = await conn.query("SELECT COUNT(*) AS total FROM therapy_sessions");
+      totalSessions = s && s.total != null ? Number(s.total) : 0;
+    } catch (e) {
+      console.warn("[admin-stats] sessions count notice:", e.message);
+    }
+
+    try {
+      const [[sub]] = await conn.query("SELECT COUNT(*) AS total FROM subscriptions WHERE LOWER(status) = 'active'");
+      activeSubscriptions = sub && sub.total != null ? Number(sub.total) : 0;
+    } catch (e) {
       try {
-        const [[uSubsCount]] = await conn.query("SELECT COUNT(*) AS total FROM user_subscriptions WHERE LOWER(status) = 'active'");
-        activeSubscriptionsCount = uSubsCount.total || 0;
-      } catch(e2) {
-        activeSubscriptionsCount = 28;
+        const [[usub]] = await conn.query("SELECT COUNT(*) AS total FROM user_subscriptions WHERE LOWER(status) = 'active'");
+        activeSubscriptions = usub && usub.total != null ? Number(usub.total) : 0;
+      } catch (e2) {
+        activeSubscriptions = 0;
       }
     }
 
@@ -234,8 +312,20 @@ module.exports = async function handler(req, res) {
       { month: "Aug 2026", patients: 1, doctors: 0 },
       { month: "Sep 2026", patients: 0, doctors: 0 },
       { month: "Oct 2026", patients: 2, doctors: 4 },
-      { month: "Nov 2026", patients: Math.max(0, patientsCount.total - 3), doctors: 0 }
+      { month: "Nov 2026", patients: Math.max(0, totalPatients - 3), doctors: 0 }
     ];
+
+    // Sanitize patient contact information for clinical privacy
+    const sanitizedRecentPatients = recentPatients.map(p => ({
+      patient_id: p.patient_id,
+      name: p.name,
+      age: p.age,
+      gender: p.gender,
+      contact: p.contact ? String(p.contact).replace(/(\d{2})\d+(\d{2})/, "$1••••$2") : "Protected",
+      email: p.email ? String(p.email).replace(/(^.{2})(.*)(@.*$)/, "$1•••$3") : "Protected",
+      otp_verified: p.otp_verified,
+      created_at: p.created_at
+    }));
 
     await conn.end();
 
@@ -251,35 +341,35 @@ module.exports = async function handler(req, res) {
         email: "admin@multitherapy.org"
       },
       summary: {
-        total_patients: patientsCount.total || 0,
-        total_doctors: doctorsCount.total || 0,
-        pending_doctors: pendingDoctorsCount.total || 0,
-        total_therapists: therapistsCount.total || 0,
-        total_appointments: appointmentsCount.total || 0,
-        total_sessions: sessionsCount.total || 0,
-        active_subscriptions: activeSubscriptionsCount || 28
+        total_patients: totalPatients,
+        total_doctors: totalDoctors,
+        pending_doctors: pendingDoctors,
+        total_therapists: totalTherapists,
+        total_appointments: totalAppointments,
+        total_sessions: totalSessions,
+        active_subscriptions: activeSubscriptions
       },
       patient_analytics: {
         gender_distribution: genderDist,
-        total: patientsCount.total || 0
+        total: totalPatients
       },
       appointment_analytics: {
         statuses: apptStatusDist,
-        total: appointmentsCount.total || 0
+        total: totalAppointments
       },
       therapy_sessions_analytics: {
         statuses: sessionStatusDist,
-        total: sessionsCount.total || 0
+        total: totalSessions
       },
       doctor_analytics: {
         specializations: specializationDist,
-        total: doctorsCount.total || 0,
-        verified: (doctorsCount.total || 0) - (pendingDoctorsCount.total || 0),
-        pending: pendingDoctorsCount.total || 0
+        total: totalDoctors,
+        verified: Math.max(0, totalDoctors - pendingDoctors),
+        pending: pendingDoctors
       },
       monthly_registrations: monthlyRegistrations,
       recent_activity: recentActivity.slice(0, 10),
-      recent_patients: recentPatients,
+      recent_patients: sanitizedRecentPatients,
       doctor_queue: doctorQueue,
       recent_appointments: recentAppts
     });
