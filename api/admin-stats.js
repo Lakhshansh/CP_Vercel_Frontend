@@ -37,6 +37,13 @@ function getLabeledDemoData() {
     is_live_data: false,
     is_demo_data: true,
     data_source_label: "Demo Analytics (Database Offline)",
+    admin_profile: {
+      user_id: 1,
+      name: "Multi Therapy Administrator",
+      username: "admin",
+      role: "Administrator",
+      email: "admin@multitherapy.org"
+    },
     summary: {
       total_patients: 148,
       total_doctors: 24,
@@ -236,6 +243,13 @@ module.exports = async function handler(req, res) {
       success: true,
       is_live_data: true,
       data_source_label: "Live TiDB Cloud Database",
+      admin_profile: {
+        user_id: 1,
+        name: "Multi Therapy Administrator",
+        username: "admin",
+        role: "Administrator",
+        email: "admin@multitherapy.org"
+      },
       summary: {
         total_patients: patientsCount.total || 0,
         total_doctors: doctorsCount.total || 0,

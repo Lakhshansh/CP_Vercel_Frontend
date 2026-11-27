@@ -155,10 +155,17 @@
       isLoggedIn = true;
       normalizedRole = 'admin';
       user = {
-        name: 'Administrator',
+        name: 'Multi Therapy Administrator',
         username: 'admin',
-        role: 'admin'
+        role: 'Administrator'
       };
+    }
+
+    // Strict page-level override: on Admin Dashboard, role is always admin
+    const currentPath = (typeof window !== 'undefined' && window.location.pathname) ? window.location.pathname.toLowerCase() : '';
+    const isAdminDashboardPage = currentPath.includes('admin-dashboard') || currentPath.includes('admin-');
+    if (isAdminDashboardPage) {
+      normalizedRole = 'admin';
     }
 
     let displayName = 'User';
@@ -187,13 +194,13 @@
         dashboardName = 'Therapist Dashboard';
         dashboardHint = 'Therapist Dashboard';
       } else if (normalizedRole === 'admin') {
-        displayName = (user.name && !user.name.toLowerCase().startsWith('dr.')) ? user.name : (user.username || 'admin');
-        displayRole = 'Admin';
+        displayName = (user.name && !user.name.toLowerCase().startsWith('dr.') && !user.name.toLowerCase().includes('lakhshansh')) ? user.name : 'Multi Therapy Administrator';
+        displayRole = 'Administrator';
         profileUrl = 'admin-dashboard.html';
         settingsUrl = 'admin-dashboard.html#settings';
         dashboardUrl = 'admin-dashboard.html';
         dashboardName = 'Admin Dashboard';
-        dashboardHint = 'Admin Dashboard';
+        dashboardHint = 'Admin Portal';
       } else {
         displayName = user.patient_name || user.first_name || user.name || user.username || 'Patient';
         displayRole = 'Patient';
@@ -206,9 +213,10 @@
     }
 
     const cleanName = displayName.replace(/^Dr\.?\s*/i, '').trim();
-    const initial = (cleanName.charAt(0) || displayName.charAt(0) || 'U').toUpperCase();
+    const initial = (normalizedRole === 'admin' ? 'A' : (cleanName.charAt(0) || displayName.charAt(0) || 'U')).toUpperCase();
 
-    const rawPhoto = user && (user.profile_photo || user.photo || user.profile_photo_url || (storage ? storage.getItem('mt_doc_photo_' + (user.username || 'doctor')) : null));
+    // Admin accounts NEVER display doctor profile photos
+    const rawPhoto = (normalizedRole === 'admin') ? null : (user && (user.profile_photo || user.photo || user.profile_photo_url || (storage ? storage.getItem('mt_doc_photo_' + (user.username || 'doctor')) : null)));
     const hasPhoto = !!(rawPhoto && typeof rawPhoto === 'string' && rawPhoto.trim() !== '' &&
       !rawPhoto.includes('doctor-avatar.svg') && !rawPhoto.includes('patient-avatar.svg') &&
       !rawPhoto.includes('undefined') && !rawPhoto.includes('null'));
@@ -1191,13 +1199,29 @@
         storage.removeItem('adminRole');
         storage.removeItem('adminToken');
         storage.removeItem('token');
+        storage.removeItem('doctorProfile');
+        storage.removeItem('patientProfile');
+        storage.removeItem('userRole');
+        storage.removeItem('user');
+        // Clear all cached doctor photo keys: mt_doc_photo_*
+        try {
+          Object.keys(storage).forEach(k => {
+            if (k.startsWith('mt_doc_photo_') || k.startsWith('doc_') || k.startsWith('patient_')) {
+              storage.removeItem(k);
+            }
+          });
+        } catch (e) {}
       }
       if (sStorage) {
-        sStorage.removeItem('currentUser');
-        sStorage.removeItem('admin_logged_in');
-        sStorage.removeItem('doctorLoginOtp');
-        sStorage.removeItem('captcha');
-        sStorage.removeItem('doctorCaptcha');
+        try {
+          sStorage.clear();
+        } catch (e) {
+          sStorage.removeItem('currentUser');
+          sStorage.removeItem('admin_logged_in');
+          sStorage.removeItem('doctorLoginOtp');
+          sStorage.removeItem('captcha');
+          sStorage.removeItem('doctorCaptcha');
+        }
       }
     } catch (err) {
       console.warn('Logout storage cleanup error:', err);

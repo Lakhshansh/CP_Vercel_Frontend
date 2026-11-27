@@ -124,8 +124,24 @@ function handleAdminLogout() {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("adminRole");
     localStorage.removeItem("adminToken");
-    sessionStorage.removeItem("admin_logged_in");
-    sessionStorage.removeItem("admin_captcha");
+    localStorage.removeItem("token");
+    localStorage.removeItem("doctorProfile");
+    localStorage.removeItem("patientProfile");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("user");
+    try {
+      Object.keys(localStorage).forEach(k => {
+        if (k.startsWith("mt_doc_photo_") || k.startsWith("doc_") || k.startsWith("patient_")) {
+          localStorage.removeItem(k);
+        }
+      });
+    } catch (e) {}
+    try {
+      sessionStorage.clear();
+    } catch (e) {
+      sessionStorage.removeItem("admin_logged_in");
+      sessionStorage.removeItem("admin_captcha");
+    }
     
     // Optional API call to log out on server if endpoint exists
     try {
@@ -634,24 +650,52 @@ function escapeHtml(str) {
 // 7. INITIALIZATION & EVENT LISTENERS
 // ----------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", async () => {
-  // Populate Admin Name & Avatar in Header
+  // Populate Admin Name & Avatar in Header & Modal
   try {
     const rawUser = localStorage.getItem("currentUser");
-    if (rawUser) {
-      const user = JSON.parse(rawUser);
-      const name = user.name || user.username || "Administrator";
-      const headerName = document.getElementById("headerAdminName") || document.getElementById("navUsername");
-      const headerAvatar = document.getElementById("headerAdminAvatar") || document.getElementById("navAvatar");
-      const modalName = document.getElementById("modalAdminName");
-      const modalEmail = document.getElementById("modalAdminEmail");
-      const modalId = document.getElementById("modalAdminId");
+    let adminName = "Multi Therapy Administrator";
+    let adminRole = "Administrator";
+    let adminEmail = "admin@multitherapy.org";
+    let adminUsername = "admin";
+    let adminId = "1";
 
-      if (headerName) headerName.textContent = name;
-      if (headerAvatar) headerAvatar.textContent = (name[0] || "A").toUpperCase();
-      if (modalName) modalName.textContent = name;
-      if (modalEmail) modalEmail.textContent = user.email || "admin@multitherapy.org";
-      if (modalId && user.user_id) modalId.textContent = `#${user.user_id}`;
+    if (rawUser) {
+      try {
+        const user = JSON.parse(rawUser);
+        if (user.username) adminUsername = user.username;
+        if (user.user_id) adminId = String(user.user_id);
+        if (user.email && !user.email.includes("doctor")) adminEmail = user.email;
+        if (user.name && !user.name.toLowerCase().startsWith("dr.") && !user.name.toLowerCase().includes("lakhshansh")) {
+          adminName = user.name;
+        }
+      } catch (e) {}
     }
+
+    // Sanitize localStorage.currentUser to prevent doctor profile contamination
+    const cleanAdmin = {
+      user_id: parseInt(adminId, 10) || 1,
+      username: adminUsername,
+      name: adminName,
+      role: "Administrator",
+      email: adminEmail
+    };
+    localStorage.setItem("currentUser", JSON.stringify(cleanAdmin));
+
+    const headerName = document.getElementById("headerAdminName") || document.getElementById("navUsername");
+    const headerRole = document.getElementById("headerAdminRole") || document.getElementById("navRole");
+    const headerAvatar = document.getElementById("headerAdminAvatar") || document.getElementById("navAvatar");
+    const modalName = document.getElementById("modalAdminName");
+    const modalEmail = document.getElementById("modalAdminEmail");
+    const modalRole = document.getElementById("modalAdminRole");
+    const modalId = document.getElementById("modalAdminId");
+
+    if (headerName) headerName.textContent = adminName;
+    if (headerRole) headerRole.textContent = adminRole;
+    if (headerAvatar) headerAvatar.textContent = "A";
+    if (modalName) modalName.textContent = adminName;
+    if (modalEmail) modalEmail.textContent = adminEmail;
+    if (modalRole) modalRole.textContent = adminRole;
+    if (modalId) modalId.textContent = `#${adminId}`;
   } catch (e) {}
 
   // Wire up Logout buttons
@@ -707,6 +751,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const stats = await fetchAdminStats();
+      if (stats && stats.admin_profile) {
+        const ap = stats.admin_profile;
+        const headerName = document.getElementById("headerAdminName") || document.getElementById("navUsername");
+        const headerRole = document.getElementById("headerAdminRole") || document.getElementById("navRole");
+        const headerAvatar = document.getElementById("headerAdminAvatar") || document.getElementById("navAvatar");
+        const modalName = document.getElementById("modalAdminName");
+        const modalEmail = document.getElementById("modalAdminEmail");
+        const modalRole = document.getElementById("modalAdminRole");
+        const modalId = document.getElementById("modalAdminId");
+
+        if (headerName) headerName.textContent = ap.name || "Multi Therapy Administrator";
+        if (headerRole) headerRole.textContent = ap.role || "Administrator";
+        if (headerAvatar) headerAvatar.textContent = "A";
+        if (modalName) modalName.textContent = ap.name || "Multi Therapy Administrator";
+        if (modalEmail) modalEmail.textContent = ap.email || "admin@multitherapy.org";
+        if (modalRole) modalRole.textContent = ap.role || "Administrator";
+        if (modalId && ap.user_id) modalId.textContent = `#${ap.user_id}`;
+      }
       populateDashboardUI(stats);
       if (alertBanner) {
         if (!stats.is_live_data && stats.is_demo_data) {

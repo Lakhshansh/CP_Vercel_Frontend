@@ -86,56 +86,87 @@ module.exports = async function handler(req, res) {
           const userRecord = { ...users[0] };
           const targetUid = userRecord.user_id;
 
-          // Check if doctor record exists
-          const [docRows] = await db.execute(
-            `SELECT doctor_id, name, specialization, contact, email, gender, profile_photo, cloudinary_public_id, experience_years 
-             FROM doctors WHERE user_id = ? LIMIT 1`,
-            [targetUid]
-          );
+          const userRole = (userRecord.role || "").toLowerCase();
 
-          if (docRows && docRows.length > 0) {
-            const doc = docRows[0];
-            userRecord.doctor_id = doc.doctor_id;
-            userRecord.doctor_name = doc.name || userRecord.doctor_name;
-            userRecord.name = doc.name || userRecord.doctor_name;
-            userRecord.specialization = doc.specialization || userRecord.doctor_specialization;
-            userRecord.specialty = userRecord.specialization;
-            userRecord.phone = doc.contact || userRecord.phone;
-            userRecord.email = doc.email || userRecord.email;
-            if (doc.experience_years !== undefined && doc.experience_years !== null) {
-              userRecord.experience_years = parseFloat(doc.experience_years) || 0;
-              userRecord.experience = `${userRecord.experience_years} Years`;
-            }
-            if (doc.profile_photo) {
-              userRecord.profile_photo = doc.profile_photo;
-            }
-            if (doc.cloudinary_public_id) {
-              userRecord.cloudinary_public_id = doc.cloudinary_public_id;
+          // STRICT ADMIN ROLE ISOLATION:
+          // Admin must never load doctor or patient attributes, even if user_id collisions exist in legacy tables.
+          if (userRole === "admin" || userRole === "superadmin") {
+            userRecord.role = "Administrator";
+            userRecord.name = "Multi Therapy Administrator";
+            userRecord.username = userRecord.username || "admin";
+            userRecord.email = userRecord.email || "admin@multitherapy.org";
+            delete userRecord.doctor_id;
+            delete userRecord.doctor_name;
+            delete userRecord.doctor_specialization;
+            delete userRecord.specialization;
+            delete userRecord.specialty;
+            delete userRecord.patient_id;
+            delete userRecord.patient_name;
+            delete userRecord.hospital_name;
+            delete userRecord.hospital_address;
+            delete userRecord.registration_number;
+
+            await db.end();
+            return res.status(200).json({
+              success: true,
+              user: userRecord
+            });
+          }
+
+          // Check if doctor record exists (Doctor / Therapist roles only)
+          if (userRole === "doctor" || userRole === "practitioner" || userRole === "therapist" || userRole === "physiotherapist") {
+            const [docRows] = await db.execute(
+              `SELECT doctor_id, name, specialization, contact, email, gender, profile_photo, cloudinary_public_id, experience_years 
+               FROM doctors WHERE user_id = ? LIMIT 1`,
+              [targetUid]
+            );
+
+            if (docRows && docRows.length > 0) {
+              const doc = docRows[0];
+              userRecord.doctor_id = doc.doctor_id;
+              userRecord.doctor_name = doc.name || userRecord.doctor_name;
+              userRecord.name = doc.name || userRecord.doctor_name;
+              userRecord.specialization = doc.specialization || userRecord.doctor_specialization;
+              userRecord.specialty = userRecord.specialization;
+              userRecord.phone = doc.contact || userRecord.phone;
+              userRecord.email = doc.email || userRecord.email;
+              if (doc.experience_years !== undefined && doc.experience_years !== null) {
+                userRecord.experience_years = parseFloat(doc.experience_years) || 0;
+                userRecord.experience = `${userRecord.experience_years} Years`;
+              }
+              if (doc.profile_photo) {
+                userRecord.profile_photo = doc.profile_photo;
+              }
+              if (doc.cloudinary_public_id) {
+                userRecord.cloudinary_public_id = doc.cloudinary_public_id;
+              }
             }
           }
 
-          // Check if patient record exists
-          const [patRows] = await db.execute(
-            `SELECT patient_id, name, contact, email, address, age, gender, profile_photo, cloudinary_public_id 
-             FROM patients WHERE user_id = ? LIMIT 1`,
-            [targetUid]
-          );
+          // Check if patient record exists (Patient role only)
+          if (userRole === "patient") {
+            const [patRows] = await db.execute(
+              `SELECT patient_id, name, contact, email, address, age, gender, profile_photo, cloudinary_public_id 
+               FROM patients WHERE user_id = ? LIMIT 1`,
+              [targetUid]
+            );
 
-          if (patRows && patRows.length > 0) {
-            const pat = patRows[0];
-            userRecord.patient_id = pat.patient_id;
-            userRecord.patient_name = pat.name;
-            userRecord.name = pat.name || userRecord.name;
-            userRecord.phone = pat.contact || userRecord.phone;
-            userRecord.email = pat.email || userRecord.email;
-            userRecord.address = pat.address || userRecord.hospital_address;
-            userRecord.age = pat.age;
-            userRecord.gender = pat.gender;
-            if (pat.profile_photo) {
-              userRecord.profile_photo = pat.profile_photo;
-            }
-            if (pat.cloudinary_public_id) {
-              userRecord.cloudinary_public_id = pat.cloudinary_public_id;
+            if (patRows && patRows.length > 0) {
+              const pat = patRows[0];
+              userRecord.patient_id = pat.patient_id;
+              userRecord.patient_name = pat.name;
+              userRecord.name = pat.name || userRecord.name;
+              userRecord.phone = pat.contact || userRecord.phone;
+              userRecord.email = pat.email || userRecord.email;
+              userRecord.address = pat.address || userRecord.hospital_address;
+              userRecord.age = pat.age;
+              userRecord.gender = pat.gender;
+              if (pat.profile_photo) {
+                userRecord.profile_photo = pat.profile_photo;
+              }
+              if (pat.cloudinary_public_id) {
+                userRecord.cloudinary_public_id = pat.cloudinary_public_id;
+              }
             }
           }
 
@@ -322,6 +353,20 @@ function proxyOrFallback(req, res, body) {
           success: true,
           message: "Doctor profile saved successfully.",
           user: body
+        });
+      }
+      const isReqAdmin = (body.role || req.query.role || "").toLowerCase().includes("admin") ||
+                         (body.username || req.query.username || "").toLowerCase() === "admin";
+      if (isReqAdmin) {
+        return res.status(200).json({
+          success: true,
+          user: {
+            user_id: 1,
+            username: "admin",
+            name: "Multi Therapy Administrator",
+            email: "admin@multitherapy.org",
+            role: "Administrator"
+          }
         });
       }
       return res.status(200).json({

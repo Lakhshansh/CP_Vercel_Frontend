@@ -241,8 +241,26 @@ function renderNavbarUser(user) {
   }
   if (!user) return;
 
-  const displayName = user.doctor_name || user.name || user.username || "User";
-  const displayRole = user.doctor_specialization || user.specialization || user.role || "Admin";
+  const rawRole = (user.role || (localStorage.getItem("adminRole") ? "admin" : "")).toLowerCase();
+  const isAdminPage = typeof window !== "undefined" && (window.location.pathname.includes("admin-dashboard") || window.location.pathname.includes("admin-"));
+  const isAdminUser = rawRole === "admin" || rawRole === "superadmin" || isAdminPage;
+
+  let displayName = "User";
+  let displayRole = "User";
+
+  if (isAdminUser) {
+    displayName = (user.name && !user.name.toLowerCase().startsWith("dr.") && !user.name.toLowerCase().includes("lakhshansh")) ? user.name : "Multi Therapy Administrator";
+    displayRole = "Administrator";
+  } else if (rawRole === "doctor" || rawRole === "practitioner") {
+    displayName = user.doctor_name || (user.name ? (user.name.startsWith("Dr.") ? user.name : "Dr. " + user.name) : (user.username ? "Dr. " + user.username : "Doctor"));
+    displayRole = user.doctor_specialization || user.specialization || "Clinical Specialist";
+  } else if (rawRole === "therapist" || rawRole === "physiotherapist") {
+    displayName = user.therapist_name || user.name || user.username || "Therapist";
+    displayRole = user.therapist_specialization || user.specialization || "Therapist";
+  } else {
+    displayName = user.patient_name || user.name || user.username || "Patient";
+    displayRole = "Patient";
+  }
 
   const navUsernameEl = document.getElementById("navUsername") || document.getElementById("navPatientName") || document.getElementById("docNavName");
   const navRoleEl = document.getElementById("navRole") || document.getElementById("navPatientRole") || document.getElementById("docNavRole");
@@ -258,11 +276,7 @@ function renderNavbarUser(user) {
 
   // Clean initial: ignore "Dr. " prefix to get real first letter
   const cleanName = displayName.replace(/^Dr\.?\s*/i, "").trim();
-  const initial = (cleanName.charAt(0) || displayName.charAt(0) || "U").toUpperCase();
-
-  const rawPhoto = user.profile_photo || user.photo || user.profile_photo_url || localStorage.getItem("mt_doc_photo_" + (user.username || "doctor"));
-  const hasValidPhoto = rawPhoto && typeof rawPhoto === "string" && rawPhoto.trim() !== "" &&
-    !rawPhoto.includes("doctor-avatar.svg") && !rawPhoto.includes("patient-avatar.svg") && !rawPhoto.includes("undefined") && !rawPhoto.includes("null");
+  const initial = (isAdminUser ? "A" : (cleanName.charAt(0) || displayName.charAt(0) || "U")).toUpperCase();
 
   // Helper to strictly show fallback circle and hide image
   function showFallbackOnly() {
@@ -282,6 +296,12 @@ function renderNavbarUser(user) {
     }
     if (navPatientAvatar) navPatientAvatar.src = "./images/patient-avatar.svg";
     if (docNavAvatar) docNavAvatar.src = "./images/doctor-avatar.svg";
+  }
+
+  // Admin users never display doctor profile photos
+  if (isAdminUser) {
+    showFallbackOnly();
+    return;
   }
 
   // Helper to strictly show photo and hide fallback circle
@@ -351,6 +371,12 @@ async function syncUserProfile() {
   let user = null;
   try { user = JSON.parse(raw); } catch (e) { return; }
   if (!user || (!user.user_id && !user.username)) return;
+
+  const rawRole = (user.role || (localStorage.getItem("adminRole") ? "admin" : "")).toLowerCase();
+  const isAdminPage = typeof window !== "undefined" && (window.location.pathname.includes("admin-dashboard") || window.location.pathname.includes("admin-"));
+  if (rawRole === "admin" || rawRole === "superadmin" || isAdminPage) {
+    return; // Admin identity is strictly governed by admin session and admin-stats API
+  }
 
   try {
     const res = await apiRequest(`/api/profile?user_id=${encodeURIComponent(user.user_id || '')}&username=${encodeURIComponent(user.username || '')}`);
