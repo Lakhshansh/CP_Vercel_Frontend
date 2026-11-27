@@ -313,59 +313,101 @@ body.admin-login-body {
 }
 
 /* --------------------------------------------------------------------------
-   5. LOGIN FORM ELEMENTS
+   5. LOGIN FORM ELEMENTS - PERFECT ICON ALIGNMENT & PADDING
    -------------------------------------------------------------------------- */
 .admin-form-group {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .admin-form-label {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 700;
   color: #334155;
-  margin-bottom: 7px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
 }
 
 .admin-form-label svg {
-  color: var(--mt-primary);
+  color: var(--mt-primary, #0866f5);
+  flex-shrink: 0;
 }
 
 .admin-input-wrap {
   position: relative;
-}
-
-.admin-input-icon {
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #94a3b8;
-  pointer-events: none;
-  font-size: 16px;
   display: flex;
   align-items: center;
-}
-
-.admin-form-control {
-  height: 50px;
-  border-radius: var(--mt-radius-md);
-  border: 1.5px solid #cbd5e1;
-  font-size: 14.5px;
-  padding: 10px 14px 10px 42px;
-  transition: all 0.2s ease;
   width: 100%;
-  background-color: #ffffff;
-  color: #1e293b;
 }
 
-.admin-form-control:focus {
-  border-color: var(--mt-primary);
-  background-color: #ffffff;
-  box-shadow: 0 0 0 4px rgba(8, 102, 245, 0.12);
-  outline: none;
+.admin-input-wrap .admin-input-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: #94a3b8;
+  pointer-events: none;
+  z-index: 2;
+  transition: color 0.2s ease;
+}
+
+.admin-input-wrap .admin-input-icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  color: inherit;
+}
+
+.admin-login-body .admin-input-wrap .admin-form-control,
+.admin-login-body .admin-input-wrap input.form-control,
+.admin-input-wrap .admin-form-control {
+  height: 50px !important;
+  min-height: 50px !important;
+  border-radius: var(--mt-radius-md, 14px) !important;
+  border: 1.5px solid #cbd5e1 !important;
+  font-size: 14.5px !important;
+  font-family: inherit !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  padding-left: 48px !important; /* Ample clearance after icon: 16px left + 20px width + 12px gap */
+  padding-right: 18px !important;
+  transition: all 0.2s ease !important;
+  width: 100% !important;
+  background-color: #ffffff !important;
+  color: #1e293b !important;
+  box-sizing: border-box !important;
+}
+
+.admin-login-body .admin-input-wrap .admin-form-control::placeholder,
+.admin-login-body .admin-input-wrap input.form-control::placeholder {
+  color: #94a3b8 !important;
+  font-size: 14px !important;
+  opacity: 1 !important;
+}
+
+/* Password field specific right padding for toggle button */
+.admin-login-body .admin-input-wrap #loginPassword,
+.admin-login-body .admin-input-wrap input[type="password"] {
+  padding-left: 48px !important;
+  padding-right: 56px !important; /* Clearance for toggle button: 12px right + 32px toggle width + 12px gap */
+}
+
+.admin-login-body .admin-input-wrap .admin-form-control:focus,
+.admin-login-body .admin-input-wrap input.form-control:focus {
+  border-color: var(--mt-primary, #0866f5) !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 0 0 4px rgba(8, 102, 245, 0.12) !important;
+  outline: none !important;
+}
+
+.admin-input-wrap:focus-within .admin-input-icon {
+  color: var(--mt-primary, #0866f5) !important;
 }
 
 .admin-password-toggle {
@@ -373,21 +415,26 @@ body.admin-login-body {
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  background: none;
+  background: transparent;
   border: none;
   font-size: 17px;
   cursor: pointer;
   color: #64748b;
-  padding: 6px;
-  display: flex;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
   align-items: center;
-  border-radius: 6px;
-  transition: background 0.15s ease;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  z-index: 3;
+  line-height: 1;
 }
 
 .admin-password-toggle:hover {
   background: #f1f5f9;
-  color: var(--mt-primary);
+  color: var(--mt-primary, #0866f5);
 }
 
 /* Security CAPTCHA Section */

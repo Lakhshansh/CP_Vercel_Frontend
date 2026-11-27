@@ -292,7 +292,7 @@ const {
   handleForgotPasswordRequest,
   handleVerifyResetOtp,
   handleResetPassword
-} = require("./password-recovery");
+} = require("../lib/password-recovery");
 
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Credentials", "true");
