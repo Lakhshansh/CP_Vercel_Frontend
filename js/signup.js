@@ -77,17 +77,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const form = event.currentTarget;
       const data = new FormData(form);
+      // Also use form.elements as a reliable third-source fallback
+      const els = form.elements;
 
-      // Extract and trim values from DOM elements, falling back to FormData
-      const fullName = (fullNameInput ? fullNameInput.value : data.get("full_name") || "").toString().trim();
-      const email = (emailInput ? emailInput.value : data.get("email") || "").toString().trim();
-      const phone = (phoneInput ? phoneInput.value : data.get("phone") || "").toString().trim();
-      const dob = (dobInput ? dobInput.value : data.get("dob") || "").toString().trim();
-      const gender = (genderSelect ? genderSelect.value : data.get("gender") || "").toString().trim();
-      const address = (addressInput ? addressInput.value : data.get("address") || "").toString().trim();
-      const password = (passwordInput ? passwordInput.value : data.get("password") || "").toString();
-      const confirm = (confirmInput ? confirmInput.value : data.get("confirm_password") || "").toString();
-      const captchaVal = (captchaInput ? captchaInput.value : data.get("captcha_code") || data.get("captcha") || "").toString().trim();
+      // Robust value extraction: element.value → FormData → form.elements → ""
+      const fullName = (
+        (fullNameInput && fullNameInput.value) ||
+        data.get("full_name") ||
+        (els["full_name"] && els["full_name"].value) || ""
+      ).toString().trim();
+
+      const email = (
+        (emailInput && emailInput.value) ||
+        data.get("email") ||
+        (els["email"] && els["email"].value) || ""
+      ).toString().trim();
+
+      const phone = (
+        (phoneInput && phoneInput.value) ||
+        data.get("phone") ||
+        (els["phone"] && els["phone"].value) || ""
+      ).toString().trim();
+
+      const dob = (
+        (dobInput && dobInput.value) ||
+        data.get("dob") ||
+        (els["dob"] && els["dob"].value) || ""
+      ).toString().trim();
+
+      const gender = (
+        (genderSelect && genderSelect.value) ||
+        data.get("gender") ||
+        (els["gender"] && els["gender"].value) || ""
+      ).toString().trim();
+
+      const address = (
+        (addressInput && addressInput.value) ||
+        data.get("address") ||
+        (els["address"] && els["address"].value) || ""
+      ).toString().trim();
+
+      const password = (
+        (passwordInput && passwordInput.value) ||
+        data.get("password") ||
+        (els["password"] && els["password"].value) || ""
+      ).toString();
+
+      const confirm = (
+        (confirmInput && confirmInput.value) ||
+        data.get("confirm_password") ||
+        (els["confirm_password"] && els["confirm_password"].value) || ""
+      ).toString();
+
+      const captchaVal = (
+        (captchaInput && captchaInput.value) ||
+        data.get("captcha_code") ||
+        data.get("captcha") ||
+        (els["captcha_code"] && els["captcha_code"].value) || ""
+      ).toString().trim();
 
       // Field-by-Field Specific Validation (Requirement 10: Display specific missing field name instead of a generic message)
       if (!fullName) {
@@ -200,29 +247,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Set Patient Identity & Compatibility fields for Backend
-      data.set("role", "patient");
-      data.set("account_type", "Patient");
-      data.set("full_name", fullName);
-      data.set("patient_name", fullName);
-      data.set("name", fullName);
-      data.set("phone", phone);
-      data.set("mobile", phone);
-      data.set("dob", dob);
-      data.set("date_of_birth", dob);
-      data.set("gender", gender);
-      data.set("address", address);
-      data.set("password", password);
-      data.set("confirm_password", confirm);
-
-      // Backend route compatibility: /api/signup historically checked doctor fields
-      data.set("doctor_name", fullName);
-      data.set("hospital_name", "Multi Therapy Rehabilitation");
-      data.set("doctor_specialization", "Patient Care");
-
       // Auto-generate fallback username if backend requires it
       const defaultUsername = email.split("@")[0] || fullName.toLowerCase().replace(/[^a-z0-9]/g, "_");
-      data.set("username", defaultUsername);
 
       const submitBtn = document.getElementById("signupSubmitBtn");
       if (submitBtn) {
@@ -230,10 +256,33 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.innerHTML = `<span>⏳</span> Registering Patient Account...`;
       }
 
+      // Build a plain JSON payload — Vercel serverless handles JSON more reliably than FormData
+      const signupPayload = {
+        full_name:        fullName,
+        name:             fullName,
+        patient_name:     fullName,
+        email:            email,
+        phone:            phone,
+        mobile:           phone,
+        dob:              dob,
+        date_of_birth:    dob,
+        gender:           gender,
+        address:          address,
+        password:         password,
+        confirm_password: confirm,
+        role:             "patient",
+        account_type:     "Patient",
+        username:         defaultUsername,
+        hospital_name:    "Multi Therapy Rehabilitation",
+        doctor_name:      fullName,
+        doctor_specialization: "Patient Care"
+      };
+
       try {
         const result = await apiRequest("/api/signup", {
           method: "POST",
-          body: data
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(signupPayload)
         });
 
         // Backend requires OTP verification

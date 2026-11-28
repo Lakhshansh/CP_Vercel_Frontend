@@ -53,14 +53,55 @@ function generateOtp() {
   return (Math.floor(100000 + Math.random() * 900000)).toString();
 }
 
-// Parse FormData or JSON body
+// Parse FormData (multipart/form-data), URL-encoded, or JSON body
+function parseMultipart(rawStr, contentType) {
+  const match = /boundary=([^;\s]+)/i.exec(contentType || "");
+  if (!match) return {};
+  const boundary = match[1].replace(/^"|"$/g, "");
+  const parts = rawStr.split("--" + boundary);
+  const result = {};
+  for (const part of parts) {
+    if (!part || part === "--\r\n" || part === "--") continue;
+    const sepIdx = part.indexOf("\r\n\r\n");
+    if (sepIdx === -1) continue;
+    const headers = part.slice(0, sepIdx);
+    // Skip file uploads with filename=
+    if (/filename="/i.test(headers)) continue;
+    const nameMatch = /name="([^"]+)"/i.exec(headers);
+    if (!nameMatch) continue;
+    let val = part.slice(sepIdx + 4);
+    if (val.endsWith("\r\n")) val = val.slice(0, -2);
+    result[nameMatch[1]] = val;
+  }
+  return result;
+}
+
 async function parseBody(req) {
+  const contentType = (req.headers && req.headers["content-type"]) || "";
   let body = req.body;
+
+  if (Buffer.isBuffer(body)) {
+    body = body.toString("utf8");
+  }
+
+  if (body === undefined && typeof req.on === "function") {
+    body = await new Promise((resolve) => {
+      const chunks = [];
+      req.on("data", (chunk) => chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)));
+      req.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+      req.on("error", () => resolve(""));
+    });
+  }
+
   if (typeof body === "string") {
-    // try JSON first
-    try { return JSON.parse(body); } catch (_) {}
-    // try URL-encoded
-    const params = new URLSearchParams(body);
+    const trimmed = body.trim();
+    if (!trimmed) return {};
+    if (contentType.includes("multipart/form-data") || trimmed.startsWith("--")) {
+      const parsed = parseMultipart(body, contentType);
+      if (Object.keys(parsed).length) return parsed;
+    }
+    try { return JSON.parse(trimmed); } catch (_) {}
+    const params = new URLSearchParams(trimmed);
     const obj = {};
     for (const [k, v] of params.entries()) obj[k] = v;
     return Object.keys(obj).length ? obj : {};
