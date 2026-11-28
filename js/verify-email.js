@@ -76,9 +76,9 @@
       }
     }
 
-    // Pre-fill OTP if present in session
-    if (pendingOtp && otpCodeInput && !otpCodeInput.value) {
-      otpCodeInput.value = pendingOtp;
+    // Focus OTP input cleanly (do not auto-fill from sessionStorage so user verifies real email OTP)
+    if (otpCodeInput) {
+      otpCodeInput.focus();
     }
 
     // 2. Setup Back to Login Link depending on user role
@@ -224,15 +224,16 @@
         }
 
         btnResendEmail.disabled = true;
-        btnResendEmail.textContent = "Sending verification email...";
+        btnResendEmail.textContent = "Sending OTP...";
 
         try {
           let dispatchSuccess = false;
           let message = "";
           let lastErrorMessage = "";
           let receivedTestOtp = "";
+          const freshOtp = Math.floor(100000 + Math.random() * 900000).toString();
 
-          // 1. Direct Serverless Route: /api/send-otp
+          // 1. Direct Serverless Route: /api/send-otp (persists fresh OTP in TiDB and emails via Resend)
           try {
             const apiRes = await fetch("/api/send-otp", {
               method: "POST",
@@ -240,7 +241,7 @@
               body: JSON.stringify({
                 email: targetEmail,
                 role: targetRole,
-                otp: pendingOtp,
+                otp: freshOtp,
                 name: sessionName || (isDoctor ? "Doctor" : "Patient")
               })
             });
@@ -250,7 +251,8 @@
 
             if (apiRes.ok && data && data.success) {
               dispatchSuccess = true;
-              message = data.message || `Verification code successfully sent to ${targetEmail}.`;
+              sessionStorage.setItem("signup_pending_otp", freshOtp);
+              message = data.message || `Verification OTP successfully sent to ${targetEmail}.`;
             } else if (data && !data.success) {
               lastErrorMessage = data.error || data.message || "Resend API rejected the email request.";
               if (data.test_otp || data.otp) {
@@ -266,16 +268,16 @@
           // 2. Try OTP Auth helper if first route wasn't dispatched
           if (!dispatchSuccess && typeof sendOtpAuthEmail === "function") {
             try {
-              const directOtp = pendingOtp || Math.floor(100000 + Math.random() * 900000).toString();
               const sendRes = await sendOtpAuthEmail({
                 email: targetEmail,
                 name: sessionName || (isDoctor ? "Doctor" : "Patient"),
-                otp: directOtp,
+                otp: freshOtp,
                 role: targetRole
               });
               if (sendRes && sendRes.success) {
                 dispatchSuccess = true;
-                message = sendRes.message || `Verification email successfully resent to ${targetEmail}.`;
+                sessionStorage.setItem("signup_pending_otp", freshOtp);
+                message = sendRes.message || `Verification OTP successfully resent to ${targetEmail}.`;
               } else if (sendRes && !sendRes.success) {
                 lastErrorMessage = sendRes.error || lastErrorMessage;
                 if (sendRes.test_otp || sendRes.otp) {
@@ -287,9 +289,9 @@
             }
           }
 
-          // 3. Strict check: only show success if delivery is confirmed (Requirement 10)
+          // 3. Strict check: only show success if delivery is confirmed
           if (dispatchSuccess) {
-            showAlert(message || `Verification email successfully sent to ${targetEmail}. Please check your inbox and spam folder.`, "success");
+            showAlert(message || `Verification OTP successfully sent to ${targetEmail}. Please check your inbox and spam folder.`, "success");
             startCooldownTimer(COOLDOWN_SECONDS);
           } else {
             const formatted = formatResendError(lastErrorMessage || "Failed to deliver email through Resend API. Please check your domain configuration.");
@@ -297,15 +299,15 @@
             showAlert(formatted, "warning", isHtml);
             revealOtpFallback(receivedTestOtp || pendingOtp);
             btnResendEmail.disabled = false;
-            btnResendEmail.textContent = "Resend Verification Email";
+            btnResendEmail.textContent = "Resend Verification OTP";
           }
         } catch (err) {
-          const formatted = formatResendError(err.message || "Failed to resend verification email. Please try again.");
+          const formatted = formatResendError(err.message || "Failed to resend verification OTP. Please try again.");
           const isHtml = formatted.includes("<a href");
           showAlert(formatted, "warning", isHtml);
           revealOtpFallback(pendingOtp);
           btnResendEmail.disabled = false;
-          btnResendEmail.textContent = "Resend Verification Email";
+          btnResendEmail.textContent = "Resend Verification OTP";
         }
       });
     }
@@ -350,10 +352,16 @@
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ email: targetEmail, email_otp: codeVal, otp: codeVal })
             });
-            if (localApiRes.ok) {
-              verifyRes = await localApiRes.json();
+            const localData = await localApiRes.json().catch(() => null);
+            if (localApiRes.ok && localData && localData.success) {
+              verifyRes = localData;
+            } else if (localData && !localData.success && localApiRes.status === 400) {
+              throw new Error(localData.error || localData.message || "Invalid verification OTP.");
             }
           } catch (localErr) {
+            if (localErr && localErr.message && localErr.message.toLowerCase().includes("invalid")) {
+              throw localErr;
+            }
             console.warn("Direct serverless verify attempt failed:", localErr);
           }
 
@@ -408,7 +416,7 @@
           showAlert(err.message || "Invalid or expired verification code. Please check your email or request a new code.", "danger");
           if (btnSubmitCode) {
             btnSubmitCode.disabled = false;
-            btnSubmitCode.textContent = "Verify & Continue →";
+            btnSubmitCode.textContent = "Verify OTP →";
           }
         }
       });
@@ -496,7 +504,7 @@
           sessionStorage.removeItem("signup_resend_cooldown");
           if (btnResendEmail) {
             btnResendEmail.disabled = false;
-            btnResendEmail.textContent = "Resend Verification Email";
+            btnResendEmail.textContent = "Resend Verification OTP";
           }
           if (resendCountdown) {
             resendCountdown.style.display = "none";

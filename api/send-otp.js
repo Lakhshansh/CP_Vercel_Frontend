@@ -2,6 +2,43 @@
 // Consolidated production OTP mailer using Resend API
 // Handles Doctor, Patient, Therapist, and Signup email verifications securely on the server
 const https = require("https");
+let mysql = null;
+try { mysql = require("mysql2/promise"); } catch (e) { mysql = null; }
+
+async function saveSignupOtpToDb(email, otpCode) {
+  if (!mysql || !email || !otpCode) return;
+  let db = null;
+  try {
+    db = await mysql.createConnection({
+      host:     process.env.DB_HOST     || "gateway01.ap-northeast-1.prod.aws.tidbcloud.com",
+      user:     process.env.DB_USER     || "4EUekCnG6wabVPE.root",
+      password: process.env.DB_PASSWORD || "HA8jMiinRaOyEdgP",
+      database: process.env.DB_NAME     || "cerebral_palsy_db",
+      port:     parseInt(process.env.DB_PORT || "4000", 10),
+      ssl:      { rejectUnauthorized: false },
+      connectTimeout: 6000
+    });
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS signup_otps (
+        email VARCHAR(255) PRIMARY KEY,
+        user_id INT NULL,
+        otp_code VARCHAR(16) NOT NULL,
+        expires_at DATETIME NOT NULL,
+        verified TINYINT(1) DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    await db.execute(
+      `REPLACE INTO signup_otps (email, user_id, otp_code, expires_at, verified)
+       VALUES (?, NULL, ?, DATE_ADD(NOW(), INTERVAL 10 MINUTE), 0)`,
+      [email.toLowerCase(), otpCode]
+    );
+  } catch (err) {
+    console.warn("[send-otp] saveSignupOtpToDb warning:", err.message);
+  } finally {
+    if (db) try { await db.end(); } catch (_) {}
+  }
+}
 
 module.exports = async function handler(req, res) {
   // CORS headers
@@ -46,6 +83,9 @@ module.exports = async function handler(req, res) {
     }
 
     const otpCode = otp || Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Persist latest OTP in TiDB signup_otps for server-side verification
+    await saveSignupOtpToDb(email, otpCode);
 
     // 2. Determine role & greeting
     const url = req.url || "";

@@ -385,7 +385,7 @@
           <!-- Main Heading & Subtitle -->
           <h1 class="ve-title">Verify Your Email</h1>
           <p class="ve-subtitle">
-            We've sent a verification link to your email address. Please check your inbox and click the link to verify your account.
+            We've sent a 6-digit verification OTP to your email address. Please enter the code below to verify and activate your account.
           </p>
 
           <!-- Alert Notification Container -->
@@ -400,26 +400,59 @@
               </svg>
             </div>
             <div class="ve-email-details">
-              <span class="ve-email-label">Registered Email</span>
+              <span class="ve-email-label">OTP Sent To</span>
               <span class="ve-email-value" id="userEmailDisplay">Loading email...</span>
             </div>
           </div>
 
-          <!-- Blue Button: Check Your Email -->
-          <button type="button" id="btnCheckEmail" class="ve-btn-check-email">
+          <!-- Primary 6-Digit OTP Verification Box -->
+          <div class="ve-code-card" style="margin-top: 18px; border: 1.5px solid #bfdbfe; background: #f8fbff;">
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 700; color: var(--ve-navy-primary); margin-bottom: 10px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span>Enter 6-Digit Verification OTP</span>
+            </div>
+            <form id="verifyCodeForm" class="ve-code-form" style="margin-top: 0;">
+              <div class="ve-code-input-row">
+                <input
+                  type="text"
+                  id="otpCodeInput"
+                  name="otp_code"
+                  class="ve-otp-input"
+                  inputmode="numeric"
+                  maxlength="6"
+                  placeholder="• • • • • •"
+                  pattern="[0-9]{6}"
+                  autocomplete="one-time-code"
+                  required
+                >
+                <button type="submit" id="btnSubmitCode" class="ve-btn-verify-code">
+                  Verify OTP →
+                </button>
+              </div>
+              <small style="display: block; margin-top: 8px; font-size: 11.5px; color: #64748b;">
+                Enter the 6-digit OTP sent to your email address (valid for 10 minutes).
+              </small>
+            </form>
+          </div>
+
+          <!-- Blue Button: Open Email Inbox -->
+          <button type="button" id="btnCheckEmail" class="ve-btn-check-email" style="margin-top: 16px;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
               <polyline points="15 3 21 3 21 9"></polyline>
               <line x1="10" y1="14" x2="21" y2="3"></line>
             </svg>
-            <span>Check Your Email</span>
+            <span>Open Email Inbox</span>
           </button>
 
-          <!-- Resend Verification Email Link with Countdown Timer -->
+          <!-- Resend Verification OTP Link with Countdown Timer -->
           <div class="ve-resend-row">
-            <span>Didn't receive an email?</span>
+            <span>Didn't receive the OTP?</span>
             <button type="button" id="btnResendEmail" class="ve-btn-resend">
-              Resend Verification Email
+              Resend Verification OTP
             </button>
             <span id="resendCountdown" class="ve-countdown-text" style="display: none;"></span>
           </div>
@@ -432,41 +465,9 @@
               <line x1="12" y1="8" x2="12.01" y2="8"></line>
             </svg>
             <div>
-              <strong>Pro Tip:</strong> Check your Spam or Junk folder if you don't see the email within a couple of minutes.
+              <strong>Pro Tip:</strong> Check your Spam or Junk folder if you don't see the OTP email within a couple of minutes.
             </div>
           </div>
-
-          <!-- Direct Code Verification Accordion (For OTP / Code Entry Fallback) -->
-          <details class="ve-code-card">
-            <summary>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-              </svg>
-              <span>Received a 6-digit verification code? Enter it here</span>
-            </summary>
-            <form id="verifyCodeForm" class="ve-code-form">
-              <div class="ve-code-input-row">
-                <input
-                  type="text"
-                  id="otpCodeInput"
-                  name="otp_code"
-                  class="ve-otp-input"
-                  inputmode="numeric"
-                  maxlength="6"
-                  placeholder="• • • • • •"
-                  pattern="[0-9]{6}"
-                  autocomplete="one-time-code"
-                >
-                <button type="submit" id="btnSubmitCode" class="ve-btn-verify-code">
-                  Verify &amp; Continue →
-                </button>
-              </div>
-              <small style="display: block; margin-top: 6px; font-size: 11.5px; color: #64748b;">
-                Enter the code sent to your email to verify instantly without leaving this tab.
-              </small>
-            </form>
-          </details>
 
           <!-- Secondary Navigation / Support Link -->
           <div class="ve-footer-links">

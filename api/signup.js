@@ -223,15 +223,34 @@ module.exports = async function handler(req, res) {
           console.warn("[signup] patients table insert warning:", patErr.message);
         }
 
-        // Store OTP for email verification (otp_code, otp_expiry columns may not exist — safe try)
+        // Store OTP in dedicated signup_otps table for reliable server-side verification
+        try {
+          await db.execute(`
+            CREATE TABLE IF NOT EXISTS signup_otps (
+              email VARCHAR(255) PRIMARY KEY,
+              user_id INT NULL,
+              otp_code VARCHAR(16) NOT NULL,
+              expires_at DATETIME NOT NULL,
+              verified TINYINT(1) DEFAULT 0,
+              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+          `);
+          await db.execute(
+            `REPLACE INTO signup_otps (email, user_id, otp_code, expires_at, verified)
+             VALUES (?, ?, ?, DATE_ADD(NOW(), INTERVAL 10 MINUTE), 0)`,
+            [email, newUserId, otp]
+          );
+        } catch (otpTblErr) {
+          console.warn("[signup] signup_otps store warning:", otpTblErr.message);
+        }
+
+        // Also store on users table if otp_code column exists
         try {
           await db.execute(
             "UPDATE users SET otp_code=?, otp_expiry=? WHERE user_id=?",
             [otp, otpExpiry, newUserId]
           );
-        } catch (_) {
-          // otp columns may not exist in this schema — ignore, OTP handled client-side
-        }
+        } catch (_) {}
 
         await db.end();
 
